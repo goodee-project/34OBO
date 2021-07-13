@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.manager.ManagerMapper">
+	<!-- 매니저 로그인 -->
 	<select id="selectManagerByLogin" parameterType="com.gd.obo.vo.manager.Manager" resultType="com.gd.obo.vo.manager.Manager">
 		SELECT manager_id managerId, manager_pw managerPw, manager_name managerName FROM manager WHERE manager_id=#{managerId} AND manager_pw=PASSWORD(#{managerPw})
+	</select>
+	
+	<!-- 자격 승인 내역 -->
+	<select id="selectQualificationApprovalList" resultType="String">
+		SELECT qualification_volunteer_application_id qvaId, manager_id managerId, approval_check approvalCheck, approval_date approvalDate FROM qualification_approval LIMIT 0,10
 	</select>
 </mapper>

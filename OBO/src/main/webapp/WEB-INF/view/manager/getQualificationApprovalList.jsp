@@ -1,8 +1,6 @@
-<!-- 작성자 : 남궁혜영 -->
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!doctype html>
-<html class="no-js">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
 
 <head>
     <meta charset="utf-8">
@@ -31,18 +29,6 @@
     
     <!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-	$('#loginBtn').click(function(){
-		console.log('login!');
-		$('#loginForm').submit();
-	});
-	$('#logoutBtn').click(function(){
-		console.log('logout!');
-		$('#logout').submit();
-	});
-});
-</script>
 </head>
 
 <body>
@@ -50,6 +36,7 @@ $(document).ready(function(){
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
 
+    <!-- header_start  -->
     <header>
         <div class="header-area ">
             <div class="header-top_area">
@@ -70,31 +57,50 @@ $(document).ready(function(){
             </div>
         </div>
     </header>
+    <!-- header_start  -->
 
-    <!-- slider_area_start -->
-    <div class="slider_area">
-        <div class="single_slider slider_bg_1 d-flex align-items-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5 col-md-6">
-                        <div class="slider_text">
-                            <h3>We Care <br> <span>Your Pets</span></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur <br> adipiscing elit, sed do eiusmod.</p>
+    <!-- bradcam_area_start -->
+    <div class="bradcam_area breadcam_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bradcam_text text-center">
+                        <h3>자격 승인 목록</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- bradcam_area_end -->
+
+    <!-- pet_care_area_start  -->
+    <div class="pet_care_area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 col-md-6">
+                    <div class="pet_thumb">
+                        <img src="img/about/pet_care.png" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6 offset-lg-1 col-md-6">
+                    <div class="pet_info">
+                        <div class="section_title">
+                            <h3><span>We care your pet </span> <br>
+                                As you care</h3>
+                            <p>Lorem ipsum dolor sit , consectetur adipiscing elit, sed do <br> iusmod tempor incididunt ut labore et dolore magna aliqua. <br> Quis ipsum suspendisse ultrices gravida. Risus commodo <br>
+                                viverra maecenas accumsan.</p>
+                            <a href="about.html" class="boxed-btn3">About Us</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="dog_thumb d-none d-lg-block">
-                <img src="../static/img/banner/animal.png" alt="">
-            </div>
         </div>
     </div>
-    <!-- slider_area_end -->
-
+    <!-- pet_care_area_end  -->
+    
     <!-- footer_start  -->
 		<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
     <!-- footer_end  -->
-
 
     <!-- JS here -->
     <script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>

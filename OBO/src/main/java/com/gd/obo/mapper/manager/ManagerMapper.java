@@ -10,4 +10,5 @@ import com.gd.obo.vo.manager.Manager;
 @Mapper
 public interface ManagerMapper {
 	Manager selectManagerByLogin(Manager manager);
+	List<String> selectQualificationApprovalList();
 }

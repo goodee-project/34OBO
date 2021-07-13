@@ -1,6 +1,8 @@
 //작성자 : 남궁혜영
 package com.gd.obo.service.manager;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -23,5 +25,12 @@ public class ManagerService {
 	public Manager login(Manager manager) {
 		log.debug("======매니저 로그인");
 		return managerMapper.selectManagerByLogin(manager);
+	}
+	
+	//자격 승인 내역
+	public List<String> getQualificationApprovalList(){
+		List<String> list = managerMapper.selectQualificationApprovalList();
+		log.debug("======자격 승인 리스트 : "+list);
+		return list;
 	}
 }

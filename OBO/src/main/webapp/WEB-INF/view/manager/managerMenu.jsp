@@ -1,3 +1,4 @@
+<!-- 작성자 : 남궁혜영 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -22,7 +23,7 @@
                   <li><a href="#">봉사자격 <i class="ti-angle-down"></i></a>
                       <ul class="submenu">
                           <li><a href="">신청목록</a></li>
-                          <li><a href="">승인목록</a></li>
+                          <li><a href="${pageContext.request.contextPath}/manager/getQualificationApprovalList">승인목록</a></li>
                       </ul>
                   </li>
                   <li><a href="">보호소등록</a></li>
