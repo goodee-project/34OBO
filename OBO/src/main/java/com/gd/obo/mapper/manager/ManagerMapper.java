@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gd.obo.vo.manager.Manager;
+
 @Mapper
 public interface ManagerMapper {
-	List<String> selectManagerByLogin(Map<String, Object> map);
+	Manager selectManagerByLogin(Manager manager);
 }
