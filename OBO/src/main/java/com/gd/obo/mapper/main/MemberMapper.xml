@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.obo.mapper.main.MemberMapper">
+	<!-- 로그인용 회원 조회 -->
+	<select id="selectMemberByLogin" resultType="com.gd.obo.vo.Member" parameterType="com.gd.obo.vo.Member">
+		SELECT 
+			member_id memeberId, 
+			member_nickname memberNickName 
+		FROM member 
+		WHERE 
+			member_id = #{memberId}
+			AND member_pw = PASSWORD(#{memberPw})
+	</select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.obo.mapper.staff.StaffMapper">
+	<select id="selectStaffByLogin" parameterType="com.gd.obo.vo.Staff" resultType="com.gd.obo.vo.Staff">
+		SELECT
+			staff_id staffId,
+			staff_name staffName,
+			shelter_id shelterId
+		FROM staff
+		WHERE staff_id = #{staffId} AND staff_pw = PASSWORD(#{staffPw})
+	</select>
+	
+	<insert id="insertStaff" parameterType="com.gd.obo.vo.Staff">
+		INSERT INTO staff(
+			staff_id,
+			staff_email,
+			shelter_id,
+			staff_name,
+			staff_phone,
+			staff_active,
+			staff_level,
+			staff_pw,
+			update_date
+		) VALUE(
+			#{staffId},
+			#{staffEmail},
+			#{shelterId},
+			#{staffName},
+			#{staffPhone},
+			1,
+			0,
+			#{staffPw},
+			NOW()
+		)
+	</insert>
+</mapper>
