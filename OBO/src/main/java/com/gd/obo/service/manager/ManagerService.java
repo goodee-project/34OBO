@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gd.obo.controller.manager.HomeController;
+import com.gd.obo.controller.manager.ManagerHomeController;
 import com.gd.obo.mapper.manager.ManagerMapper;
 import com.gd.obo.vo.manager.Manager;
 

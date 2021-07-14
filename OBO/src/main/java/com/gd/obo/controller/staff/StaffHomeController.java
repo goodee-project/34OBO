@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/staff")	// staff 전용 페이지
-public class HomeController {
+public class StaffHomeController {
 	@Autowired StaffService staffService;
 	
 	// staff 로그인 페이지

@@ -41,7 +41,35 @@ public class StaffController {
 	public String addStaff(Staff staff) {
 		log.debug("●●●●▶회원가입 staff: "+staff);
 		
+		//서비스 실행
+		int addCnt = staffService.addStaff(staff);
+		log.debug("●●●●▶addCnt(완료1, 실패0): " + addCnt);
+		
 		return "redirect:/staff/";
+	}
+	
+	// staff 정보수정 창 이동
+	@GetMapping("/modifyStaff")
+	public String modifyStaff() {
+		return "modifyStaff";
+	}
+	
+	// staff 정보수정 action
+	@PostMapping("/modifyStaff")
+	public String modifyStaff(Staff staff) {
+		log.debug("●●●●▶staff 정보수정: "+staff);
+		
+		//서비스 실행
+		int modifyCnt = staffService.modifyStaff(staff);
+		log.debug("●●●●▶modifyCnt(완료1, 실패0): " + modifyCnt);
+		
+		return "redirect:/staff/getStaffAccount";
+	}
+	
+	// staff account 창 이동
+	@GetMapping("/getStaffAccount")
+	public String getStaffAccount() {
+		return "/staff/getStaffAccount";
 	}
 
 }

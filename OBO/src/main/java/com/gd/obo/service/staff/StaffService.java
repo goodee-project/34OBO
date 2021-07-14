@@ -22,10 +22,18 @@ public class StaffService {
 		log.debug("●●●●▶loginStaff param: " + staff);
 		return staffMapper.selectStaffByLogin(staff);
 	}
-	
-	// staff 상세보기
-	
+
 	// staff 추가
+	public int addStaff(Staff staff) {
+		return staffMapper.insertStaff(staff);
+	}
 	
-	// staff 리스트
+	// staff 정보 수정
+	public int modifyStaff(Staff staff) {
+		return staffMapper.updateStaff(staff);
+	}
+	
+	
+	// staff level 수정 -> 마스터 계정이 사이드 계정 접근 권한 준다.
+	
 }

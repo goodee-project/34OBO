@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>addStaff</title>
+<title>modifyStaff</title>
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -36,43 +36,11 @@ $(document).ready(function(){
 	let idBtn = false;
 	let pwCheck = false;
 	
-	// id 중복확인
-	$('#idBtn').click(function(){
-		console.log('idBtn 버튼 클릭!');
-		$.ajax({
-			type:'get',
-			url:'/obo/staffIdCheck',
-			data: {staffId : $('#staffId').val()},
-			success: function(jsonData){
-				console.log('id 중복확인 ajax 성공');
-				if(jsonData != 0){
-					$('#idCheck').text('중복된 id 입니다.');
-				} else{
-					$('#idCheck').text('사용가능 합니다.');
-					idBtn = true;
-				}
-			}
-		});
-	});
-	
-	// pw 일치확인 -> 자세한 수정 필요
-	$('#staffPwCheck').keyup(function(){
-		let pwLength = $('#staffPwCheck').val().length;
-		
-		if(pwLength > 5){
-			if($('#staffPw').val() != $('#staffPwCheck').val()){
-				$('#pwCheck').text('패스워드가 일치하지 않습니다.');
-			} else{
-				$('#pwCheck').text('패스워드가 일치합니다.');
-				pwCheck = true;
-			}
-		}
-	});
 	
 	// 가입 버튼 클릭 시 -> 유효성 검사 필요
-	$('#addBtn').click(function(){
-		console.log('addBtn 버튼 클릭!');
-		$('#addForm').submit();
+	$('#modifyBtn').click(function(){
+		console.log('modifyBtn 버튼 클릭!');
+		$('#modifyForm').submit();
 		
 		//보호소 -> 이름 -> 아이디 -> 패스워드 -> 연락처 -> 이메일
 		/*
@@ -96,75 +64,41 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-	<h1>addStaff</h1>
+	<h1>modifyStaff</h1>
 	
-	<form id="addFormEx" class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/login" method="post">
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<input class="form-control valid" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name">
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="form-group">
-					<input class="form-control valid" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Email">
-				</div>
-			</div>
-			<div>
-				<div class="form-group">
-					<input class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
-				</div>
-			</div>
-		</div>
-		<div class="form-group mt-3">
-			<button type="submit" class="button button-contactForm boxed-btn">Send</button>
-		</div>
-	</form>
-	<span>↑ css testing용</span>
-	<br><br>
-	
-	<form id="addForm" action="${pageContext.request.contextPath}/staff/login" method="post">
+	<form id="modifyForm" action="${pageContext.request.contextPath}/staff/staffAccount" method="post">
 		<table>
 			<tr>
 				<td>보호소</td>
 				<td>
-					<select id="shelterId" name="shelterId">
-						<option value="">==선택==</option>
-						<c:forEach var="s" items="${shelterList}">
-							<option value="${s.shelterId}">${s.shelterName}</option>
-						</c:forEach>
-					</select>
+					<input id="shelterName" type="text" name="shelterName" value="${s}" disabled>
 				</td>
 			</tr>
 			<tr>
 				<td>이름</td>
 				<td>
-					<input id="staffName" type="text" name="staffName">
+					<input id="staffName" type="text" name="staffName" value="${s}">
 				</td>
 			</tr>
 			<tr>
 				<td>ID</td>
 				<td>
 					<div>
-						<input id="staffId" type="text" name="staffId">
-					</div>
-					<div>
-						<button id="idBtn" type="button">확인</button>
-						<span id="idCheck"></span>
+						<input id="staffId" type="text" name="staffId" value="${s}" disabled>
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td>PW</td>
 				<td>
-					<input id="staffPw" type="password" name="staffPw">
+					<input id="staffPw" type="password" name="staffPw" value="${s}">
 				</td>
 			</tr>
 			<tr>
 				<td>PW 확인</td>
 				<td>
 					<div>
-						<input id="staffPwCheck" type="password" name="">
+						<input id="staffPwCheck" type="password" name="" value="${s}">
 					</div>
 					<div>
 						<span id="pwCheck"></span>
@@ -174,22 +108,21 @@ $(document).ready(function(){
 			<tr>
 				<td>연락처</td>
 				<td>
-					<input id="staffPhone" type="text" name="staffPhone">
+					<input id="staffPhone" type="text" name="staffPhone" value="${s}">
 				</td>
 			</tr>
 			<tr>
 				<td>이메일</td>
 				<td>
-					<input id="staffEmail" type="text" name="staffEmail" placeholder="example@gmail.coom">
+					<input id="staffEmail" type="text" name="staffEmail" placeholder="example@gmail.coom" value="${s}">
 				</td>
 			</tr>
 			
 		</table>
 		
-		<button id="addBtn" type="button">가입</button>
-		<a href="${pageContext.request.contextPath}/staff/home"><button type="button">취소</button></a>
+		<button id="modifyBtn" type="button">수정</button>
+		<a href="${pageContext.request.contextPath}/staff/staffAccount"><button type="button">취소</button></a>
 	</form>
-
 
 	<!-- JS here -->
 	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>

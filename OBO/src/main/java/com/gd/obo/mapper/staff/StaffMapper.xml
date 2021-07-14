@@ -29,8 +29,17 @@
 			#{staffPhone},
 			1,
 			0,
-			#{staffPw},
+			PASSWORD(#{staffPw}),
 			NOW()
 		)
 	</insert>
+	
+	<update id="updateStaff" parameterType="com.gd.obo.vo.Staff">
+		UPDATE staff SET
+			staff_email = #{staffEmail},
+			staff_name = #{staffName},
+			staff_phone = #{staffPhone},
+			staff_pw = PASSWORD(#{staffPw})
+		WHERE staff_id = #{staffId} AND staff_pw = PASSWORD(#{staffPw})
+	</update>
 </mapper>
