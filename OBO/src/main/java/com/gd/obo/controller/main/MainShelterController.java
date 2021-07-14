@@ -10,33 +10,34 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gd.obo.restapi.main.ShelterService;
+import com.gd.obo.service.main.MainShelterService;
 import com.gd.obo.vo.Shelter;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-public class ShelterController {
-	@Autowired ShelterService shelterService;
+public class MainShelterController {
+	@Autowired MainShelterService mainShelterService;
 	
 	// shelter 리스트
-	@GetMapping("/getShelterList")
+	@GetMapping("/getMainShelterList")
 	public String getShelterlist(Model model) {
-		List<Shelter> shelterList = shelterService.getShelterList();
-		log.debug("@@@@@ shelterList: "+shelterList);
-		return "getShelterList";
+		List<Shelter> mainShelterList = mainShelterService.getShelterList();
+		model.addAttribute("mainShelterList",mainShelterList);
+		log.debug("@@@@@ mainShelterList: "+mainShelterList);
 		
+		return "main/getMainShelterList";
 	}
 	
 	// shelter 상세보기
-	@GetMapping("/getShelterOne")
+	@GetMapping("/getMainShelterOne")
 	public String getShelterOne(Model model,
 									@RequestParam(value="shelterId",required= true) int shelterId) {
-		Map<String, Object> map = shelterService.getShelterOne(shelterId);
+		Map<String, Object> map = mainShelterService.getShelterOne(shelterId);
 		log.debug("@@@@@ map: "+map);
 		model.addAttribute("shelterMap", map.get("shelterMap"));
-		return "getShelterOne";
+		return "main/getMainShelterOne";
 	}
 }
 

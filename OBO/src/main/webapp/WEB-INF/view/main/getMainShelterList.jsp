@@ -19,7 +19,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="s" items="${shelterList}">
+			<c:forEach var="s" items="${mainShelterList}">
 				<tr>
 					<td>${s.shelterId}</td>
 					<td>${s.shelterName}</td>
