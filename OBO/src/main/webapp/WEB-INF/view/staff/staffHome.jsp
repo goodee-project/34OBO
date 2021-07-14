@@ -43,54 +43,106 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-	<h1>staffHome</h1>
-	
-	<!-- 로그인 전 -->
-	<c:if test="${loginStaff == null}">
-		<form id="loginForm" action="${pageContext.request.contextPath}/staff/login" method="post">
-			<ul>
-			<span class="text-white font-weight-bolder">ID &emsp;</span> <li><input style="height:30px" class="form-control" type="text" id="staffId" name="staffId"></li>
-			<span class="text-white font-weight-bolder">&emsp;&emsp; PW &emsp;</span> <li>&emsp;<input style="height:30px" class="form-control" type="password" id="staffPw" name="staffPw"></li>
-			<li>&emsp;<button type="button" id="loginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>
-			</ul>
-		</form>
+	<header>
+		<div class="header-area ">
 		
-		<a href="${pageContext.request.contextPath}/staff/addStaff">회원가입</a>
-	</c:if>
+			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
+			<div class="header-top_area">
+				<div class="container">
+					<div class="row">
+						<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 흰색 바탕 : 메인 메뉴 -->
+			<div id="sticky-header" class="main-header-area">
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col-xl-3 col-lg-3">
+							<div class="logo">
+								<a href="${pageContext.request.contextPath}/staff/">
+									<img src="../static/img/logo.png" alt="">
+								</a>
+							</div>
+						</div>
+						
+						<div class="col-xl-9 col-lg-9">
+							<div class="main-menu  d-none d-lg-block">
+								<nav>
+									<ul id="navigation">
+										<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
+									</ul>
+								</nav>
+							</div>
+						</div>
+						
+						<div class="col-12">
+							<div class="mobile_menu d-block d-lg-none"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- slider_area_start -->
+	<div class="slider_area">
+		<div class="single_slider slider_bg_1 d-flex align-items-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-5 col-md-6">
+						<div class="slider_text">
+							<h3>
+								We Care <br> <span>한글테스트</span>
+							</h3>
+							<p>
+								Lorem ipsum dolor sit amet, consectetur <br>
+								한글 테스트
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="dog_thumb d-none d-lg-block">
+				<img src="../static/img/banner/animal.png" alt="">
+			</div>
+		</div>
+	</div>
+	<!-- slider_area_end -->
+
+	<!-- footer_start  -->
+	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
+	<!-- footer_end  -->
+
+
+	<!-- JS here -->
+	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="../static/js/popper.min.js"></script>
+	<script src="../static/js/bootstrap.min.js"></script>
+	<script src="../static/js/owl.carousel.min.js"></script>
+	<script src="../static/js/isotope.pkgd.min.js"></script>
+	<script src="../static/js/ajax-form.js"></script>
+	<script src="../static/js/waypoints.min.js"></script>
+	<script src="../static/js/jquery.counterup.min.js"></script>
+	<script src="../static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="../static/js/scrollIt.js"></script>
+	<script src="../static/js/jquery.scrollUp.min.js"></script>
+	<script src="../static/js/wow.min.js"></script>
+	<script src="../static/js/nice-select.min.js"></script>
+	<script src="../static/js/jquery.slicknav.min.js"></script>
+	<script src="../static/js/jquery.magnific-popup.min.js"></script>
+	<script src="../static/js/plugins.js"></script>
+	<script src="../static/js/gijgo.min.js"></script>
 	
-	<!-- 로그인 후 -->
-	<c:if test="${loginStaff != null}">
-		<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
-	</c:if>
-
-
-<!-- JS here -->
-<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
-<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
-<script src="../static/js/popper.min.js"></script>
-<script src="../static/js/bootstrap.min.js"></script>
-<script src="../static/js/owl.carousel.min.js"></script>
-<script src="../static/js/isotope.pkgd.min.js"></script>
-<script src="../static/js/ajax-form.js"></script>
-<script src="../static/js/waypoints.min.js"></script>
-<script src="../static/js/jquery.counterup.min.js"></script>
-<script src="../static/js/imagesloaded.pkgd.min.js"></script>
-<script src="../static/js/scrollIt.js"></script>
-<script src="../static/js/jquery.scrollUp.min.js"></script>
-<script src="../static/js/wow.min.js"></script>
-<script src="../static/js/nice-select.min.js"></script>
-<script src="../static/js/jquery.slicknav.min.js"></script>
-<script src="../static/js/jquery.magnific-popup.min.js"></script>
-<script src="../static/js/plugins.js"></script>
-<script src="../static/js/gijgo.min.js"></script>
-
-<!--contact js-->
-<script src="../static/js/contact.js"></script>
-<script src="../static/js/jquery.ajaxchimp.min.js"></script>
-<script src="../static/js/jquery.form.js"></script>
-<script src="../static/js/jquery.validate.min.js"></script>
-<script src="../static/js/mail-script.js"></script>
-<script src="../static/js/main.js"></script>
+	<!--contact js-->
+	<script src="../static/js/contact.js"></script>
+	<script src="../static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="../static/js/jquery.form.js"></script>
+	<script src="../static/js/jquery.validate.min.js"></script>
+	<script src="../static/js/mail-script.js"></script>
+	<script src="../static/js/main.js"></script>
 
 <script>
 	$('#datepicker').datepicker({
