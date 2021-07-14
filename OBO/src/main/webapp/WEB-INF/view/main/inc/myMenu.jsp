@@ -2,22 +2,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<h3>검은색 네비바</h3>
-
 <c:if test="${loginMember == null}"><!-- 로그인 전 -->
-	<form id="memberLoginForm" method="post">
-		<input id="memberId" name="memberId" type="text" placeholder="아이디">
-		<input id="memberPw" name="memberPw" type="password" placeholder="비밀번호">
-		
-		<button id="memberLoginBtn" type="button">로그인</button>
-	</form>
-	
-	<a href="${pageContext.request.contextPath}/addMember">회원가입</a>
+	<div class="col-lg-10 col-md-8">
+		<div class="short_contact_list">
+			<form id="memberLoginForm" method="post">
+				<ul>
+					<li><span style="color:white">ID</span>&nbsp;</li>
+					<li><input id="memberId" name="memberId" type="text" placeholder="아이디"  class="form-control" style="width:150px; height:30px"></li>&emsp;
+					<li><span style="color:white">PW</span>&nbsp;</li>
+					<li><input id="memberPw" name="memberPw" type="password" placeholder="비밀번호" class="form-control" style="width:150px; height:30px"></li>&emsp;
+					<li><button type="button" id="memberLoginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
+					<li><a href="${pageContext.request.contextPath}/addMember">가입</a></li>
+				</ul>
+			</form>
+		</div>
+	</div>
 	
 </c:if>
+
+
+
 <c:if test="${loginMember != null}"><!-- 로그인 후 -->
-	<h4>${loginMember.memberNickname}님 로그인 축하</h4>
-	<a href="${pageContext.request.contextPath}/memberLogout">로그아웃</a>
+	<div class="col-lg-12 col-md-4 ">
+		<div class="social_media_links">
+			<span class="text-white font-weight-bolder">${loginMember.memberNickname}님, 반갑습니다!</span>
+			<a href="${pageContext.request.contextPath}/memberLogout"><button type="button" class="genric-btn primary-border circle arrow medium">LOGOUT</button></a>
+		</div>
+	</div>
+	
 </c:if>
 
 <script>
