@@ -13,9 +13,5 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/manager")
 public class ManagerController {
-	@GetMapping("/getQualificationApprovalList")
-	public String getQvaList() {
-		
-		return "/manager/getQualificationApprovalList";
-	}
+
 }

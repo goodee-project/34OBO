@@ -7,24 +7,40 @@
 <meta charset="UTF-8">
 </head>
 <body>
-    <div class="short_contact_list">
-     <c:if test="${loginManager == null}">
-     <form id="loginForm" action="${pageContext.request.contextPath}/manager/login" method="post">
-         <ul>
-             <span class="text-white font-weight-bolder">ID &emsp;</span> <li><input style="height:30px" class="form-control" type="text" id="managerId" name="managerId"></li>
-             <span class="text-white font-weight-bolder">&emsp;&emsp; PW &emsp;</span> <li>&emsp;<input style="height:30px" class="form-control" type="password" id="managerPw" name="managerPw"></li>
-             <li>&emsp;<button type="button" id="loginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>
-         </ul>
-     </form>
-     </c:if>
-     <c:if test="${loginManager != null}">
-     <form id="logout" action="${pageContext.request.contextPath}/manager/logout">
-         <ul>
-             <li><span class="text-white font-weight-bolder">${loginManager.managerName} 님, 반갑습니다!</span></li>
-             <li>&emsp;<button type="button" id="logoutBtn" class="genric-btn primary-border circle arrow medium">LOGOUT</button></li>
-         </ul>
-     </form>
-     </c:if>
-    </div>
+	<!-- 로그인 전 -->
+	<c:if test="${loginManager == null}">
+		<div class="col-lg-8 col-md-8">
+			<div class="short_contact_list">
+				<form id="loginForm" action="${pageContext.request.contextPath}/manager/login" method="post">
+					<ul>
+						<li><span style="color:white">ID</span>&nbsp;</li>
+						<li><input class="form-control" type="text" id="managerId" name="managerId" style="width:150px; height:30px"></li>&emsp;
+						<li><span style="color:white">PW</span>&nbsp;</li>
+						<li><input class="form-control" type="password" id="managerPw" name="managerPw" style="width:150px; height:30px"></li>&emsp;
+						<li><button type="button" id="loginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
+					</ul>
+				</form>
+			</div>
+		</div>
+		
+		<div class="col-lg-4 col-md-4">
+			<div class="social_media_links">
+				<a href="${pageContext.request.contextPath}/home">회원페이지</a>
+				<a href="${pageContext.request.contextPath}/staff/home">직원페이지</a>
+			</div>
+		</div>
+	</c:if>
+		
+	<!-- 로그인 후 -->
+	<c:if test="${loginManager != null}">
+		<div class="col-lg-12 col-md-4 ">
+			<div class="social_media_links">
+				<form id="logout" action="${pageContext.request.contextPath}/manager/logout">
+					<span class="text-white font-weight-bolder">${loginManager.managerName} 님, 반갑습니다!</span>
+					<a href="${pageContext.request.contextPath}/manager/logout"><button type="button" class="genric-btn primary-border circle arrow medium">LOGOUT</button></a>
+				</form>
+			</div>
+		</div>
+	</c:if>
 </body>
 </html>

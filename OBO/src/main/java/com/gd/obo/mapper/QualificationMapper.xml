@@ -1,3 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gd.obo.mapper.QualificationMapper"></mapper>
+<mapper namespace="com.gd.obo.mapper.QualificationMapper">
+
+<!-- 자격 승인 목록 -->
+<select id="selectQualificationApprovalList" resultType="java.util.Map">
+	SELECT a.qualification_volunteer_application_id qvaId, qv.member_id memberId, vc.volunteer_category_name volunteerCategory, 
+		qt.qualification_type_name qualificationType, qf.qualification_file_id fileId, qf.qualification_file_name qualificationFile, a.approval_check ck,
+		a.manager_id managerId, a.approval_date approvalDate
+		FROM qualification_approval a 
+	JOIN qualification_volunteer_application qv 
+		ON a.qualification_volunteer_application_id = qv.qualification_volunteer_application_id
+	JOIN qualification_file qf
+		ON qf.qualification_file_id = qv.qualification_file_id
+	JOIN volunteer_category vc 
+		ON qv.volunteer_category_id = vc.volunteer_category_id
+	JOIN qualification_type qt
+		ON qv.qualification_type_id = qt.qualification_type_id
+	LIMIT 0,10
+</select>
+
+<!-- 자격 신청 목록 -->
+<select id="selectQualificationApplicationList" resultType="java.util.Map">
+	SELECT a.qualification_volunteer_application_id applicationId, a.member_id memberId, vc.volunteer_category_name category,a.applicate_date date,
+		qt.qualification_type_name qualificationType, qf.qualification_file_id fileId, qf.qualification_file_name qualificationFile, qa.approval_check ck
+		FROM qualification_volunteer_application a
+	left JOIN qualification_approval qa
+		ON qa.qualification_volunteer_application_id = a.qualification_volunteer_application_id
+	JOIN volunteer_category vc 
+		ON a.volunteer_category_id = vc.volunteer_category_id
+	JOIN qualification_file qf
+		ON a.qualification_file_id = qf.qualification_file_id
+	JOIN qualification_type qt
+		ON a.qualification_type_id = qt.qualification_type_id
+	WHERE qa.approval_check IS NULL
+</select>
+
+<!-- 자격 신청 승인 -->
+<insert id="InsertApproveQualificationApplication" parameterType="java.util.Map">
+	INSERT INTO qualification_approval(qualification_volunteer_application_id, manager_id, approval_check, approval_date) VALUES (#{applicationId}, #{managerId}, 'Y', NOW());
+</insert>
+
+<!-- 자격 신청 거절 -->
+<insert id="InsertRejectQualificationApplication" parameterType="java.util.Map">
+	INSERT INTO qualification_approval(qualification_volunteer_application_id, manager_id, approval_check, approval_date) VALUES (#{applicationId}, #{managerId}, 'N', NOW());
+</insert>
+	
+</mapper>
