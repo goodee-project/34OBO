@@ -1,4 +1,6 @@
-// 작성자: 김선유
+// 작성자 : 김선유
+// 수정자 : 이윤정
+
 package com.gd.obo.controller;
 
 import java.util.List;
@@ -48,6 +50,24 @@ public class ShelterController {
 		log.debug("@@@@@ shelterMap: "+shelterMap);
 		model.addAttribute("shelterMap", shelterMap);
 		return "main/getShelterOne";
+	}
+	
+	// staff 보호소
+	@GetMapping("/staff/getShelter")
+	public String getShelter() {
+		return "staff/getShelter";
+	}
+	
+	// staff 보호소 소개
+	@GetMapping("/staff/shelterIntro")
+	public String shelterIntro() {
+		return "staff/shelterIntro";
+	}
+	
+	// staff 보호소 내용 수정
+	@GetMapping("/staff/modifyShelter")
+	public String modifyShelter() {
+		return "staff/modifyShelter";
 	}
 }
 

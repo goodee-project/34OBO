@@ -1870,9 +1870,9 @@ h3 {
 }
 
 /* line 4, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_service.scss */
-.service_area { /*수정 : 241,106->50*/
+.service_area { /*수정 : 241,106->50/106*/
   padding-top: 50px;
-  padding-bottom: 50px;
+  padding-bottom: 106px;
 }
 
 @media (max-width: 767px) {
@@ -1885,8 +1885,8 @@ h3 {
 
 @media (min-width: 768px) and (max-width: 991px) {
   /* line 4, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_service.scss */
-  .service_area { /*수정 : 100,40->40*/
-    padding-top: 40px;
+  .service_area {
+    padding-top: 100px;
     padding-bottom: 40px;
   }
 }
@@ -1906,10 +1906,14 @@ h3 {
   
 }
 
-/*추가 */
+/*수정&추가 */
 .staff_account {
   height: 450px;
-}	
+}
+
+.volunteer_option {
+  height: 350px;
+}
 
 /* line 21, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_service.scss */
 .service_area .single_service .service_thumb {
@@ -3008,10 +3012,10 @@ h3 {
 }
 
 /* line 22, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_bradcam.scss */
-.bradcam_area h3 { /*수정 폰트사이즈 50 -> 30, 웨이트 900 -> 600*/
+.bradcam_area h3 { /*수정 폰트사이즈 50 -> 30, 웨이트 900 -> 500*/
   font-size: 30px;
   color: #fff;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 0;
   font-family: "Noto Sans KR", "Poppins", sans-serif;
   text-transform: capitalize;
@@ -5556,6 +5560,11 @@ h6 {
   background: #fbf9ff;
   padding: 30px;
   margin-bottom: 30px;
+}
+
+/*수정&추가 : 배경컬러 조정*/
+.blog_right_sidebar .category_setting{
+	background: #fff;
 }
 
 /* line 664, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_blog.scss */

@@ -20,17 +20,23 @@
 		<!--staffMenu(inc) 홈, 동물, 보호소, 후원, 봉사, 입양&케어-->
 		<li><a href="${pageContext.request.contextPath}/staff/home">홈</a></li>
 		<li><a href="${pageContext.request.contextPath}/staff/getAnimalList">동물</a></li>
-		<li><a href="${pageContext.request.contextPath}/staff/#">보호소</a></li>
-		<li><a href="${pageContext.request.contextPath}/staff/#">후원<i class="ti-angle-down"></i></a>
+		<li><a href="${pageContext.request.contextPath}/staff/getShelter">보호소<i class="ti-angle-down"></i></a>
 			<ul class="submenu">
-				<li><a href="${pageContext.request.contextPath}/staff/#">후원1</a></li>
-				<li><a href="${pageContext.request.contextPath}/staff/#">후원2</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/shelterIntro">보호소 소개</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/modifyShelter">내용 수정</a></li>
 			</ul>
 		</li>
-		<li><a href="${pageContext.request.contextPath}/staff/#">봉사<i class="ti-angle-down"></i></a>
+		<li><a href="${pageContext.request.contextPath}/staff/getDonation">후원<i class="ti-angle-down"></i></a>
 			<ul class="submenu">
-				<li><a href="${pageContext.request.contextPath}/staff/#">정기봉사</a></li>
-				<li><a href="${pageContext.request.contextPath}/staff/#">일반봉사</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getDonationMoneyN">일반후원</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getDonationMoneyP">정기후원</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getDonationItemN">물품후원</a></li>
+			</ul>
+		</li>
+		<li><a href="${pageContext.request.contextPath}/staff/getVolunteer">봉사<i class="ti-angle-down"></i></a>
+			<ul class="submenu">
+				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerN">일반봉사</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerP">정기봉사</a></li>
 			</ul>
 		</li>
 		<li><a href="${pageContext.request.contextPath}/staff/#">입양&케어<i class="ti-angle-down"></i></a>
