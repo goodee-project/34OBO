@@ -4,7 +4,7 @@
 
 <h3>검은색 네비바</h3>
 
-<c:if test="${loginMember == null}">
+<c:if test="${loginMember == null}"><!-- 로그인 전 -->
 	<form id="memberLoginForm" method="post">
 		<input id="memberId" name="memberId" type="text" placeholder="아이디">
 		<input id="memberPw" name="memberPw" type="password" placeholder="비밀번호">
@@ -15,12 +15,13 @@
 	<a href="${pageContext.request.contextPath}/addMember">회원가입</a>
 	
 </c:if>
-<c:if test="${loginMember != null}">
+<c:if test="${loginMember != null}"><!-- 로그인 후 -->
 	<h4>${loginMember.memberNickname}님 로그인 축하</h4>
 	<a href="${pageContext.request.contextPath}/memberLogout">로그아웃</a>
 </c:if>
 
 <script>
+	//로그인 버튼 클릭
 	$('#memberLoginBtn').click(function(){
 		console.log('click');
 		

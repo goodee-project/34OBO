@@ -1,3 +1,4 @@
+//작성자: 손영현
 package com.gd.obo.restapi.main;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ public class MemberRestapi {
 	@Autowired
 	MemberService memberService;
 	
+	//회원 로그인
 	@PostMapping("/getMemberByLogin")
 	public boolean getMemberByLogin(HttpSession session, Member member) {
 		boolean result = false; //로그인 성공 true, 실패 false

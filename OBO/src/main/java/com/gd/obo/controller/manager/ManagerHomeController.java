@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequestMapping("/manager")
-public class HomeController {
+public class ManagerHomeController {
 	@Autowired ManagerService managerService;
 	
 	@GetMapping("/home")

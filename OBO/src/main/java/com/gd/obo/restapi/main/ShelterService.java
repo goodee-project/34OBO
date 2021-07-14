@@ -1,7 +1,6 @@
 // 작성자: 김선유
 package com.gd.obo.restapi.main;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.obo.mapper.main.ShelterMapper;
-import com.gd.obo.vo.main.Shelter;
+import com.gd.obo.vo.Shelter;
 
 import lombok.extern.slf4j.Slf4j;
 

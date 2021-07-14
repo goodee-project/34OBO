@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.gd.obo.vo.main.Shelter;
+import com.gd.obo.vo.Shelter;
 
 @Mapper
 public interface ShelterMapper {
