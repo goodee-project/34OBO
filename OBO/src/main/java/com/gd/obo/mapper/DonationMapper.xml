@@ -1,3 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gd.obo.mapper.DonationMapper"></mapper>
+<mapper namespace="com.gd.obo.mapper.DonationMapper">
+	<select id="selectDonationItemList" parameterType="int" resultType="com.gd.obo.vo.DonationItemList">
+		SELECT
+			donation_item_list_id donationItemListId,
+			member_id memberId,
+			shelter_id shelterId,
+			item_category_id itemCategoryId,
+			donation_date donationDate,
+			item_name itemName,
+			item_quantity itemQuantity,
+			item_description itemDescription
+		FROM donation_item_list
+		WHERE shelter_id = #{shelterId};
+	</select>
+	
+	<select id="selectDonationMoneyList" parameterType="int" resultType="com.gd.obo.vo.DonationMoneyList">
+		SELECT
+			donation_money_list_id donationMoneyListId,
+			member_id memberId,
+			shelter_id shelterId,
+			donation_date donationDate,
+			amount amount
+		FROM donation_money_list
+		WHERE shelter_id = #{shelterId};
+	</select>
+
+</mapper>

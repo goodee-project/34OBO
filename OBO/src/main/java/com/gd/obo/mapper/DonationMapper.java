@@ -1,5 +1,14 @@
 package com.gd.obo.mapper;
 
-public interface DonationMapper {
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.gd.obo.vo.DonationItemList;
+import com.gd.obo.vo.DonationMoneyList;
+
+@Mapper
+public interface DonationMapper {
+	List<DonationItemList> selectDonationItemList(int shelterId);
+	List<DonationMoneyList> selectDonationMoneyList(int shelterId);
 }
