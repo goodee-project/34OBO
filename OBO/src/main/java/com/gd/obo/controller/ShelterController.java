@@ -22,10 +22,20 @@ public class ShelterController {
 	
 	// shelter 리스트
 	@GetMapping("/getShelterList")
-	public String getShelterlist(Model model) {
-		List<Shelter> mainShelterList = shelterService.getShelterList();
-		model.addAttribute("mainShelterList",mainShelterList);
-		log.debug("@@@@@ mainShelterList: "+mainShelterList);
+	public String getShelterlist(Model model,
+									@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+									@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
+									@RequestParam(value="shelterName", required = false) String shelterName) {
+		log.debug("@@@@@ shelterName: "+shelterName);
+		if(shelterName != null && shelterName.equals("")) {
+			shelterName=null;
+		}		
+		Map<String, Object> map = shelterService.getShelterList(currentPage, rowPerPage, shelterName);
+		model.addAttribute("shelterList",map.get("shelterList"));
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("shelterName", shelterName);
+		log.debug("@@@@@ map: "+map);
 		
 		return "main/getShelterList";
 	}
@@ -34,9 +44,9 @@ public class ShelterController {
 	@GetMapping("/getShelterOne")
 	public String getShelterOne(Model model,
 									@RequestParam(value="shelterId",required= true) int shelterId) {
-		Map<String, Object> map = shelterService.getShelterOne(shelterId);
-		log.debug("@@@@@ map: "+map);
-		model.addAttribute("shelterMap", map.get("shelterMap"));
+		Map<String, Object> shelterMap = shelterService.getShelterOne(shelterId);
+		log.debug("@@@@@ shelterMap: "+shelterMap);
+		model.addAttribute("shelterMap", shelterMap);
 		return "main/getShelterOne";
 	}
 }

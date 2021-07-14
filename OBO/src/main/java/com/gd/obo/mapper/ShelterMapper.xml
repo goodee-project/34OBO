@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.ShelterMapper">
-	<select id="selectShelterList" resultType="com.gd.obo.vo.Shelter">
+	<select id="selectShelterList" resultType="com.gd.obo.vo.Shelter" parameterType="java.util.Map">
 		SELECT 
-			shelter_id shelterId, 
-			shelter_name shelterName, 
-			create_date createDate, 
-			shelter_phone shelterPhone
-		FROM shelter		
-		ORDER BY shelter_id ASC		
+			s.shelter_id shelterId,
+			sf.shelter_file_id shelterFileId,
+			s.shelter_name shelterName, 
+			s.create_date createDate, 
+			s.shelter_phone shelterPhone
+		FROM shelter s
+		INNER JOIN shelter_file sf
+		ON s.shelter_id = sf.shelter_id
+		<where>
+			<if test="shelterName != null">
+				AND s.shelter_name LIKE CONCAT('%',#{shelterName},'%')
+			</if>
+		</where>	
+		ORDER BY s.shelter_id ASC		
+		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
 	<select id="selectTotal" resultType="Integer">
 		SELECT COUNT(*) 
-		FROM shelter		
+		FROM shelter	
+		<where>
+			<if test="shelterName != null">
+				AND shelter_name LIKE CONCAT('%',#{shelterName},'%')
+			</if>
+		</where>
 	</select>
 	
-	<select id="selectShelterOne" parameterType="Integer">
+	<select id="selectShelterOne" parameterType="Integer" resultType="java.util.Map">
 		SELECT
 			shelter_id shelterId,
 			address_id addressId,

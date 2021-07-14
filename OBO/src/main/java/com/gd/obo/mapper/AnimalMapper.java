@@ -14,4 +14,7 @@ public interface AnimalMapper {
 	
 	// selectAnimalTotal 
 	int selectAnimalTotal(Map<String, Object> map);
+	
+	//selectCategoryList
+	List<Map<String, Object>> selectAnimalCategoryList();
 }
