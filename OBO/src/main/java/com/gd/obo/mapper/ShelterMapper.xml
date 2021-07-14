@@ -19,6 +19,7 @@
 	<select id="selectShelterOne" parameterType="Integer">
 		SELECT
 			shelter_id shelterId,
+			address_id addressId,
 			shelter_name shelterName,
 			create_date createDate,
 			introduction,
