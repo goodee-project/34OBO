@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>staffHome</title>
+<title>modifyStaff</title>
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -33,88 +33,96 @@
 
 <script>
 $(document).ready(function(){	
-	// 로그인 버튼 클릭 시
-	$('#loginBtn').click(function(){
-		console.log('loginBtn 버튼 클릭!');
-		$('#loginForm').submit();
-	});
+	let idBtn = false;
+	let pwCheck = false;
 	
+	
+	// 가입 버튼 클릭 시 -> 유효성 검사 필요
+	$('#modifyBtn').click(function(){
+		console.log('modifyBtn 버튼 클릭!');
+		$('#modifyForm').submit();
+		
+		//보호소 -> 이름 -> 아이디 -> 패스워드 -> 연락처 -> 이메일
+		/*
+		if($('#staffName').val() != 0){
+			alert('보호소를 선택하세요.');
+		} else if($('#staffName').val() == null){
+			alert('이름을 입력하세요.');
+		} else if(idBtn == false){
+			alert('ID 중복확인은 필수입니다.');
+		} else if(pwCheck == false){
+			alert('PW를 정확하게 입력하세요.');
+		} else if($('#staffPhone').val().length != 11){
+			alert('연락처는 13자리입니다.');
+		} else if($('#staffEmail').val() == null){
+			alert('email을 입력하세요.');
+		} else{
+			$('#addForm').submit();
+		}*/
+	});
 });
 </script>
 </head>
 <body>
-	<header>
-		<div class="header-area ">
-		
-			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
-			<div class="header-top_area">
-				<div class="container">
-					<div class="row">
-						<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
+	<h1>modifyStaff</h1>
+	
+	<form id="modifyForm" action="${pageContext.request.contextPath}/staff/staffAccount" method="post">
+		<table>
+			<tr>
+				<td>보호소</td>
+				<td>
+					<input id="shelterName" type="text" name="shelterName" value="${s}" disabled>
+				</td>
+			</tr>
+			<tr>
+				<td>이름</td>
+				<td>
+					<input id="staffName" type="text" name="staffName" value="${s}">
+				</td>
+			</tr>
+			<tr>
+				<td>ID</td>
+				<td>
+					<div>
+						<input id="staffId" type="text" name="staffId" value="${s}" disabled>
 					</div>
-				</div>
-			</div>
+				</td>
+			</tr>
+			<tr>
+				<td>PW</td>
+				<td>
+					<input id="staffPw" type="password" name="staffPw" value="${s}">
+				</td>
+			</tr>
+			<tr>
+				<td>PW 확인</td>
+				<td>
+					<div>
+						<input id="staffPwCheck" type="password" name="" value="${s}">
+					</div>
+					<div>
+						<span id="pwCheck"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>연락처</td>
+				<td>
+					<input id="staffPhone" type="text" name="staffPhone" value="${s}">
+				</td>
+			</tr>
+			<tr>
+				<td>이메일</td>
+				<td>
+					<input id="staffEmail" type="text" name="staffEmail" placeholder="example@gmail.coom" value="${s}">
+				</td>
+			</tr>
 			
-			<!-- 흰색 바탕 : 메인 메뉴 -->
-			<div id="sticky-header" class="main-header-area">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-xl-3 col-lg-3">
-							<div class="logo">
-								<a href="${pageContext.request.contextPath}/staff/">
-									<img src="../static/img/logo.png" alt="">
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-9 col-lg-9">
-							<div class="main-menu  d-none d-lg-block">
-								<nav>
-									<ul id="navigation">
-										<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
-									</ul>
-								</nav>
-							</div>
-						</div>
-						
-						<div class="col-12">
-							<div class="mobile_menu d-block d-lg-none"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
-
-	<!-- slider_area_start -->
-	<div class="slider_area">
-		<div class="single_slider slider_bg_1 d-flex align-items-center">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-5 col-md-6">
-						<div class="slider_text">
-							<h3>
-								We Care <br> <span>한글테스트</span>
-							</h3>
-							<p>
-								Lorem ipsum dolor sit amet, consectetur <br>
-								한글 테스트
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="dog_thumb d-none d-lg-block">
-				<img src="../static/img/banner/animal.png" alt="">
-			</div>
-		</div>
-	</div>
-	<!-- slider_area_end -->
-
-	<!-- footer_start  -->
-	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
-	<!-- footer_end  -->
-
+		</table>
+		
+		<button id="modifyBtn" type="button">수정</button>
+		<a href="${pageContext.request.contextPath}/staff/staffAccount"><button type="button">취소</button></a>
+	</form>
 
 	<!-- JS here -->
 	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
@@ -143,26 +151,26 @@ $(document).ready(function(){
 	<script src="../static/js/jquery.validate.min.js"></script>
 	<script src="../static/js/mail-script.js"></script>
 	<script src="../static/js/main.js"></script>
-
-<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
 	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>
+	<script>
+		$('#datepicker').datepicker({
+			iconsLibrary: 'fontawesome',
+			disableDaysOfWeek: [0, 0],
+			//icons: {
+			//rightIcon: '<span class="fa fa-caret-down"></span>'
+			//}
+		});
+		
+		$('#datepicker2').datepicker({
+			iconsLibrary: 'fontawesome',
+			icons: {
+				rightIcon: '<span class="fa fa-caret-down"></span>'
+			}
+		});
+		
+		var timepicker = $('#timepicker').timepicker({
+			format: 'HH.MM'
+		});
+	</script>
 </body>
 </html>
