@@ -19,7 +19,7 @@
 	<c:if test="${loginStaff != null}">
 		<!--staffMenu(inc) 홈, 동물, 보호소, 후원, 봉사, 입양&케어-->
 		<li><a href="${pageContext.request.contextPath}/staff/home">홈</a></li>
-		<li><a href="${pageContext.request.contextPath}/staff/#">동물</a></li>
+		<li><a href="${pageContext.request.contextPath}/staff/getAnimalList">동물</a></li>
 		<li><a href="${pageContext.request.contextPath}/staff/#">보호소</a></li>
 		<li><a href="${pageContext.request.contextPath}/staff/#">후원<i class="ti-angle-down"></i></a>
 			<ul class="submenu">
@@ -29,9 +29,8 @@
 		</li>
 		<li><a href="${pageContext.request.contextPath}/staff/#">봉사<i class="ti-angle-down"></i></a>
 			<ul class="submenu">
-				<li><a href="${pageContext.request.contextPath}/staff/#">봉사1</a></li>
-				<li><a href="${pageContext.request.contextPath}/staff/#">봉사2</a></li>
-				<li><a href="blog.html">dd</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/#">정기봉사</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/#">일반봉사</a></li>
 			</ul>
 		</li>
 		<li><a href="${pageContext.request.contextPath}/staff/#">입양&케어<i class="ti-angle-down"></i></a>

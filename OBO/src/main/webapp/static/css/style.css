@@ -1870,30 +1870,30 @@ h3 {
 }
 
 /* line 4, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_service.scss */
-.service_area {
-  padding-top: 241px;
-  padding-bottom: 106px;
+.service_area { /*수정 : 241,106->50*/
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 @media (max-width: 767px) {
   /* line 4, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_service.scss */
-  .service_area {
-    padding-top: 60px;
-    padding-bottom: 60px;
+  .service_area { /*수정 : 60,60->50*/
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
   /* line 4, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_service.scss */
-  .service_area {
-    padding-top: 100px;
+  .service_area { /*수정 : 100,40->40*/
+    padding-top: 40px;
     padding-bottom: 40px;
   }
 }
 
 /* line 15, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_service.scss */
-.service_area .single_service {
-  padding: 70px 25px 65px 25px;
+.service_area .single_service { /*수정 : 패딩 70 25 65 25 -> 25 25 65 25*/
+  padding: 25px 25px 65px 25px;
   border: 1px solid #ffc5c2;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -1903,7 +1903,13 @@ h3 {
   -moz-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
+  
 }
+
+/*추가 */
+.staff_account {
+  height: 450px;
+}	
 
 /* line 21, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_service.scss */
 .service_area .single_service .service_thumb {

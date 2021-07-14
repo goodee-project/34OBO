@@ -44,9 +44,7 @@ $(document).ready(function(){
 		
 		//보호소 -> 이름 -> 아이디 -> 패스워드 -> 연락처 -> 이메일
 		/*
-		if($('#staffName').val() != 0){
-			alert('보호소를 선택하세요.');
-		} else if($('#staffName').val() == null){
+		if($('#staffName').val() == null){
 			alert('이름을 입력하세요.');
 		} else if(idBtn == false){
 			alert('ID 중복확인은 필수입니다.');
@@ -66,39 +64,34 @@ $(document).ready(function(){
 <body>
 	<h1>modifyStaff</h1>
 	
-	<form id="modifyForm" action="${pageContext.request.contextPath}/staff/staffAccount" method="post">
-		<table>
-			<tr>
-				<td>보호소</td>
-				<td>
-					<input id="shelterName" type="text" name="shelterName" value="${s}" disabled>
-				</td>
-			</tr>
+	<form id="modifyForm" action="${pageContext.request.contextPath}/staff/modifyStaff" method="post">
+		<table class="table">
 			<tr>
 				<td>이름</td>
 				<td>
-					<input id="staffName" type="text" name="staffName" value="${s}">
+					<input id="staffName" type="text" name="staffName" value="${staffOne.staffName}">
 				</td>
 			</tr>
 			<tr>
 				<td>ID</td>
 				<td>
 					<div>
-						<input id="staffId" type="text" name="staffId" value="${s}" disabled>
+						${staffOne.staffId}
+						<input id="staffId" type="hidden" name="staffId" value="${staffOne.staffId}">
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td>PW</td>
 				<td>
-					<input id="staffPw" type="password" name="staffPw" value="${s}">
+					<input id="staffPw" type="password" name="staffPw" placeholder="변경 시 입력해주세요">
 				</td>
 			</tr>
 			<tr>
 				<td>PW 확인</td>
 				<td>
 					<div>
-						<input id="staffPwCheck" type="password" name="" value="${s}">
+						<input id="staffPwCheck" type="password" name="" placeholder="변경 시 입력해주세요">
 					</div>
 					<div>
 						<span id="pwCheck"></span>
@@ -108,20 +101,20 @@ $(document).ready(function(){
 			<tr>
 				<td>연락처</td>
 				<td>
-					<input id="staffPhone" type="text" name="staffPhone" value="${s}">
+					<input id="staffPhone" type="text" name="staffPhone" value="${staffOne.staffPhone}">
 				</td>
 			</tr>
 			<tr>
 				<td>이메일</td>
 				<td>
-					<input id="staffEmail" type="text" name="staffEmail" placeholder="example@gmail.coom" value="${s}">
+					<input id="staffEmail" type="text" name="staffEmail" placeholder="example@gmail.coom" value="${staffOne.staffEmail}">
 				</td>
 			</tr>
 			
 		</table>
 		
 		<button id="modifyBtn" type="button">수정</button>
-		<a href="${pageContext.request.contextPath}/staff/staffAccount"><button type="button">취소</button></a>
+		<a href="${pageContext.request.contextPath}/staff/getStaffAccount"><button type="button">취소</button></a>
 	</form>
 
 	<!-- JS here -->

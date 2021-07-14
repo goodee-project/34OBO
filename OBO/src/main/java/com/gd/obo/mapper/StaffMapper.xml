@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.StaffMapper">
+	<!-- staff 로그인 -->
 	<select id="selectStaffByLogin" parameterType="com.gd.obo.vo.Staff" resultType="com.gd.obo.vo.Staff">
 		SELECT
 			staff_id staffId,
 			staff_name staffName,
-			shelter_id shelterId
+			shelter_id shelterId,
+			staff_level staffLevel
 		FROM staff
-		WHERE staff_id = #{staffId} AND staff_pw = PASSWORD(#{staffPw})
+		WHERE staff_id = #{staffId} AND staff_pw = PASSWORD(#{staffPw});
 	</select>
 	
+	<!-- staff 상세보기 -->
+	<select id="selectStaffOne" parameterType="String" resultType="com.gd.obo.vo.Staff">
+		SELECT
+			staff_id staffId,
+			staff_email staffEmail,
+			shelter_id shelterId,
+			staff_name staffName,
+			staff_phone staffPhone,
+			staff_level staffLevel
+		FROM staff
+		WHERE staff_id = #{staffId};
+	</select>
+	
+	<select id="selectStaffLevel0" parameterType="int" resultType="com.gd.obo.vo.Staff">
+		SELECT
+			staff_id staffId,
+			staff_name staffName
+		FROM staff
+		WHERE shelter_id = #{shelterId} AND staff_level = 0;
+	</select>
+	
+	<!-- staff 추가 -->
 	<insert id="insertStaff" parameterType="com.gd.obo.vo.Staff">
 		INSERT INTO staff(
 			staff_id,
@@ -31,15 +55,25 @@
 			0,
 			PASSWORD(#{staffPw}),
 			NOW()
-		)
+		);
 	</insert>
 	
+	<!-- staff 정보수정 -->
 	<update id="updateStaff" parameterType="com.gd.obo.vo.Staff">
 		UPDATE staff SET
 			staff_email = #{staffEmail},
 			staff_name = #{staffName},
-			staff_phone = #{staffPhone},
-			staff_pw = PASSWORD(#{staffPw})
-		WHERE staff_id = #{staffId} AND staff_pw = PASSWORD(#{staffPw})
+			<if test="staffPw != null">
+				staff_pw = PASSWORD(#{staffPw}),
+			</if>
+			staff_phone = #{staffPhone}
+		WHERE staff_id = #{staffId};
+	</update>
+	
+	<!-- staff level 수정 -->
+	<update id="updateStaffLevel" parameterType="String">
+		UPDATE staff SET
+			staff_level = 1
+		WHERE staff_id = #{staffId};
 	</update>
 </mapper>

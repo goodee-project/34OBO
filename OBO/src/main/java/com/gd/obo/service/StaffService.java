@@ -2,6 +2,9 @@
 
 package com.gd.obo.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,29 @@ public class StaffService {
 		log.debug("●●●●▶loginStaff param: " + staff);
 		return staffMapper.selectStaffByLogin(staff);
 	}
+	
+	// staff account
+	public Map<String, Object> getStaffAccount(String staffId, int shelterId){
+		log.debug("●●●●▶staffId: " + staffId);
+		log.debug("●●●●▶shelterId: " + shelterId);
+		
+		//상세보기 정보, 승인 대기 staff 정보 가져오기
+		Staff staffOne = staffMapper.selectStaffOne(staffId);
+		Staff staffLevel0 = staffMapper.selectStaffLevel0(shelterId);
+		log.debug("●●●●▶staffOne: " + staffOne);
+		log.debug("●●●●▶staffLevel0: " + staffLevel0);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("staffOne", staffOne);
+		map.put("staffLevel0", staffLevel0);
+		
+		return map;
+	}
+	
+	// staff 상세보기
+	public Staff getStaffOne(String staffId) {
+		return staffMapper.selectStaffOne(staffId);
+	}
 
 	// staff 추가
 	public int addStaff(Staff staff) {
@@ -33,7 +59,8 @@ public class StaffService {
 		return staffMapper.updateStaff(staff);
 	}
 	
-	
 	// staff level 수정 -> 마스터 계정이 사이드 계정 접근 권한 준다.
-	
+	public int modifyStaffLevel(String staffId) {
+		return staffMapper.updateStaffLevel(staffId);
+	}
 }
