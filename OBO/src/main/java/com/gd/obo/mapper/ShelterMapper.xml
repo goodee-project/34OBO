@@ -43,5 +43,12 @@
 			active
 		FROM shelter
 		WHERE shelter_id = #{shelterId}
-	</select>	
+	</select>
+	
+	<select id="selectShelterName" resultType="com.gd.obo.vo.Shelter">
+		SELECT
+			shelter_id shelterId,
+			shelter_name shelterName
+		FROM shelter
+	</select>
 </mapper>

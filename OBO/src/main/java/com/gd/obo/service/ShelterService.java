@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.obo.mapper.ShelterMapper;
 import com.gd.obo.vo.Page;
+import com.gd.obo.vo.Shelter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,5 +67,9 @@ public class ShelterService {
 		log.debug("@@@@@ returnMap: "+returnMap);
 		
 		return returnMap;
+	}
+	
+	public List<Shelter> getShelterName(){
+		return shelterMapper.selectShelterName();
 	}
 }

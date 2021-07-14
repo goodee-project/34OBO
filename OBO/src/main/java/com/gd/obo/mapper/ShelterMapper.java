@@ -12,4 +12,5 @@ public interface ShelterMapper {
 	List<Map<String, Object>> selectShelterList(Map<String, Object> map);
 	int selectTotal(Map<String, Object> totalMap);
 	Map<String, Object> selectShelterOne(int shelterId);
+	List<Shelter> selectShelterName();
 }
