@@ -76,7 +76,7 @@ $(document).ready(function(){
             <div class="row">
                 <div class="col-lg-12">
                     <div class="bradcam_text text-center">
-                        <h3>자격 승인 목록</h3>
+                        <h3>자격 신청 목록</h3>
                     </div>
                 </div>
             </div>
@@ -96,25 +96,27 @@ $(document).ready(function(){
                 			<th>봉사 종류</th>
                 			<th>자격증 종류</th>
                 			<th>파일</th>
-                			<th>매니저 아이디</th>
-                			<th>승인여부</th>
-                			<th>승인날짜</th>
+                			<th>신청날짜</th>
+                			<th>승인</th>
                 		</tr>
                 	</thead>
                 	<tbody>
-                	<c:forEach var="q" items="${qcaList}">
-                	<input type="text" hidden="hidden" name="fileId" value="${q.fileId}">
+                	    <c:forEach var="q" items="${qvaList}">
                 		<tr>
-               				<td>${q.qvaId}</td>
+               				<td>${q.applicationId}</td>
                				<td>${q.memberId}</td>
-               				<td>${q.volunteerCategory}</td>
+               				<td>${q.category}</td>
                				<td>${q.qualificationType}</td>
-               				<td>${q.qualificationFile}</td>
-               				<td>${q.managerId}</td>
-               				<td>${q.ck}</td>
-               				<td>${fn:substring(q.approvalDate, 0, 11)}</td>
+               				<td>
+               				<input type="text" hidden="hidden" name="fileId" value="${q.fileId}">
+               				${q.qualificationFile}</td>
+               				<td>${fn:substring(q.date, 0, 11)}</td>
+               				<td>
+               					<a href="${pageContext.request.contextPath}/manager/approveApplication?applicationId=${q.applicationId}&managerId=${loginManager.managerId}" onclick="return confirm('승인 하시겠습니까?');"><i class="fa fa-check-circle"></i></a>
+               					<a href="${pageContext.request.contextPath}/manager/rejectApplication?applicationId=${q.applicationId}&managerId=${loginManager.managerId}" onclick="return confirm('거절 하시겠습니까?');"><i class="fa fa-ban"></i></a>
+               				</td>
                 		</tr>
-                	</c:forEach>
+                		</c:forEach>
                 	</tbody>
                 </table>
             </div>

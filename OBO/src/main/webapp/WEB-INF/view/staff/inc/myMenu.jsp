@@ -1,4 +1,5 @@
 <!-- 작성자 : 이윤정 -->
+<!-- 수정 : 남궁혜영(21.07.14) -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -10,7 +11,7 @@
 <body>
 	<!-- 로그인 전 -->
 	<c:if test="${loginStaff == null}">
-		<div class="col-lg-10 col-md-8">
+		<div class="col-lg-8 col-md-8">
 			<div class="short_contact_list">
 				<form id="loginForm" action="${pageContext.request.contextPath}/staff/login" method="post">
 					<ul>
@@ -25,9 +26,10 @@
 			</div>
 		</div>
 		
-		<div class="col-lg-2 col-md-4">
+		<div class="col-lg-4 col-md-4">
 			<div class="social_media_links">
 				<a href="${pageContext.request.contextPath}/home">회원페이지</a>
+				<a href="${pageContext.request.contextPath}/manager/">관리자페이지</a>
 			</div>
 		</div>
 	</c:if>

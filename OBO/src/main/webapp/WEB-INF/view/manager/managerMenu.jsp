@@ -9,7 +9,7 @@
 <body>
    <div class="col-xl-3 col-lg-3">
       <div class="logo">
-          <a href="${pageContext.request.contextPath}/manager/home">
+          <a href="${pageContext.request.contextPath}/manager/">
               <img src="../static/img/logo.png" alt="">
           </a>
       </div>
@@ -18,15 +18,18 @@
       <div class="main-menu  d-none d-lg-block">
           <nav>
               <ul id="navigation">
-                  <li><a href="${pageContext.request.contextPath}/manager/home">홈</a></li>
+                  <li><span><a href="${pageContext.request.contextPath}/manager/">홈</a></span></li>
+                  <c:if test="${loginManager == null}">
+                  	<li><span>로그인이 필요한 기능입니다.</span></li>
+                  </c:if>
                   <c:if test="${loginManager != null}">
-                  <li><a href="#">봉사자격 <i class="ti-angle-down"></i></a>
-                      <ul class="submenu">
-                          <li><a href="">신청목록</a></li>
-                          <li><a href="${pageContext.request.contextPath}/manager/getQualificationApprovalList">승인목록</a></li>
-                      </ul>
-                  </li>
-                  <li><a href="">보호소등록</a></li>
+	                <li><a href="#">봉사자격 <i class="ti-angle-down"></i></a>
+	                    <ul class="submenu">
+	                        <li><span><a href="${pageContext.request.contextPath}/manager/getQualificationApplicationList">신청목록</a></span></li>
+	                        <li><span><a href="${pageContext.request.contextPath}/manager/getQualificationApprovalList">승인목록</a></span></li>
+	                    </ul>
+	                </li>
+	                <li><span><a href="">보호소등록</a></span></li>
                   </c:if>
               </ul>
           </nav>

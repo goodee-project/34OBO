@@ -23,11 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerHomeController {
 	@Autowired ManagerService managerService;
 	
-	@GetMapping("/home")
+	@GetMapping({"/home", "/"})
 	public String managerHome() {
 		log.debug("======managerHome");
-		return "manager/home";
+		return "manager/managerHome";
 	}
+	
 	//manager 로그인
 	@PostMapping("/login")
 	public String managerLogin(HttpSession session, Manager manager, Model model) {
@@ -38,13 +39,13 @@ public class ManagerHomeController {
 	    }
 	    model.addAttribute("manager", manager);
 	    
-		return "redirect:/manager/home";
+		return "redirect:/manager/";
 	}
 	
 	//manager로그아웃
 	@GetMapping("/logout")
 	public String managerLogout(HttpSession session) {
 		session.invalidate();
-		return "manager/home";
+		return "redirect:/manager/";
 	}
 }

@@ -46,21 +46,19 @@ $(document).ready(function(){
 </head>
 
 <body>
-    <!--[if lte IE 9]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-        <![endif]-->
-
     <header>
         <div class="header-area ">
+        	
+        	<!-- 검정 바탕 네비 바 -->
             <div class="header-top_area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 col-md-8">
-							<jsp:include page="/WEB-INF/view/manager/myMenu.jsp"></jsp:include>
-                        </div>
+				<div class="container">
+					<div class="row">
+						<jsp:include page="/WEB-INF/view/manager/myMenu.jsp"></jsp:include>
                     </div>
                 </div>
             </div>
+            
+            <!-- 흰 바탕 네비 바 -->
             <div id="sticky-header" class="main-header-area">
                 <div class="container">
                     <div class="row align-items-center">
