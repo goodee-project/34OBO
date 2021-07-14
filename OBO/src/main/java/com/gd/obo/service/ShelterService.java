@@ -7,8 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.gd.obo.mapper.MainShelterMapper;
 import com.gd.obo.mapper.ShelterMapper;
 import com.gd.obo.vo.Shelter;
 
@@ -18,29 +16,24 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Service
 public class ShelterService {
-	@Autowired MainShelterMapper mainShelterMapper;
+	@Autowired ShelterMapper shelterMapper;
 	
 	// shelter 상세보기
 	public Map<String, Object> getShelterOne(int shelterId) {
 		// 상세보기
-		Map<String, Object> shelterMap = mainShelterMapper.selectShelterOne(shelterId);
+		Map<String, Object> shelterMap = shelterMapper.selectShelterOne(shelterId);
 		log.debug("@@@@@shelterMap: "+shelterMap);
 		
 		return shelterMap;
 		}
 	
 	
-	// shelter 리스트
+	// shelter 리스트,  staff 회원가입 -> 보호소 선택
 	public List<Shelter> getShelterList() {
 		
-		List<Shelter> shelterList = mainShelterMapper.selectShelterList();
+		List<Shelter> shelterList = shelterMapper.selectShelterList();
 		
 		
 		return shelterList;
 	}
-	
-		// staff 회원가입 -> 보호소 선택
-		public List<Shelter> getShelterList() {
-			return shelterMapper.selectShelterList();
-	
 }
