@@ -9,6 +9,59 @@
 	</select>
 	
 	<!-- 직원이 자기 보호소 동물 리스트 조회 -->
+	
+	<!-- Animal 추가 --> <!-- 더 추가해야함, 기본적인것만 추가 -->
+	<insert id="insertAnimal" parameterType="java.util.Map">
+		INSERT INTO animal(
+			animal_name,
+			animal_age,
+			animal_sex,
+			animal_weight,
+			animal_kind,
+			animal_find_place,
+			animal_note,
+			animal_enter_date,
+			animal_state
+		) VALUES (
+			#{animalName},
+			#{animalAge},
+			#{animalSex},
+			#{animalWeight},
+			#{animalKind},
+			#{animalFindPlace},
+			#{animalNote},
+			#{animalEnterDate},
+			#{animalState}
+		)
+	</insert>
+	
+	<!-- Animal 상세보기 --> 
+	<select id="selectAnimalOne" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT 
+   			a.animal_id animalId,
+   			a.animal_category_id animalCategoryId,
+		    a.shelter_id shelterId,
+		    a.animal_name animalName,
+		    ac.species species,
+		    a.animal_age animalAge,
+		    a.animal_sex animalSex,
+		    a.animal_weight animalWeight,
+		    a.animal_kind animalKind,
+		    a.animal_find_place animalFindPlace,
+		    a.animal_note animalNote,
+		    a.animal_enter_date animalEnterDate,
+		    a.animal_exit_date animalExitDate,
+		    a.animal_introduce animalIntroduce,
+		    a.animal_state animalState,
+		    af.animal_file_name animalFileName
+		FROM animal AS a
+    	INNER JOIN animal_file AS af ON af.animal_id = a.animal_id
+    	INNER JOIN animal_category AS ac ON ac.animal_category_id = a.animal_category_id
+    	WHERE
+    		a.animal_id = #{animalId} 
+	</select>	
+	
+	<!-- 직원이 자기 보호소 Animal 리스트 조회 --> <!-- 직원 로그인 후 쿼리 수정. -->
 	<select id="selectAnimalList" resultType="java.util.Map" parameterType="java.util.Map"> 
 		SELECT 
    			a.animal_id animalId,
@@ -27,9 +80,7 @@
     	INNER JOIN animal_file AS af ON af.animal_id = a.animal_id
     	INNER JOIN animal_category AS ac ON ac.animal_category_id = a.animal_category_id
 		<where>
-			 a.shelter_id = 1
-			
-			
+			 a.shelter_id = 1 <!-- shelter_id 수정해야함. -->
 			<if test = "searchWord != null">
 				AND animalName LIKE CONCAT('%', #{searchWord}, '%')
 			</if>
@@ -38,16 +89,16 @@
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
-	
+	<!-- total -->
 	<select id="selectAnimalTotal" resultType="int" parameterType="java.util.Map">
 		SELECT COUNT(*)
 		FROM animal
 		<where>
-			shelter_id = 1 
+			shelter_id = 1 <!-- shelter_id = #{shelterId}로 바꿔야함. -->
 			
 			<if test = "searchWord != null">
 				AND animalName LIKE CONCAT('%', #{searchWord}, '%')
 			</if>
 		</where>
-	</select>
+	</select>	
 </mapper>

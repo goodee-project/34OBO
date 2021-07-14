@@ -20,21 +20,59 @@ public class AnimalService {
 	@Autowired
 	AnimalMapper animalMapper;
 	
+	
+	/*
+	// 작성자 : 남민정
+	// animal 추가
+	public int insertAnimal(Map<String, Object> map) {
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> insertAnimal map: " + map);
+		
+		
+		
+		return ;
+	}
+	*/
+	
+	
+	
+	// 작성자 : 남민정
+	// animal 상세 정보
+	public Map<String, Object> getAnimalOne(int animalId) {
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalOne animalId: " + animalId);
+		
+		// 동물 상세보기
+		Map<String, Object> animalMap = animalMapper.selectAnimalOne(animalId);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalOne animalMap: " + animalMap);
+		
+		// 동물 파일 목록
+		
+		// controller에서 사용할 수 있는 맵
+		Map<String, Object> map = new HashMap<>();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalOne map: " + map);
+		
+		map.put("animalMap", animalMap);
+		
+		return map;
+	}
+	
+	
+	
+	// 작성자 : 남민정
 	// animal 리스트 (보호소마다 다름)
 	public Map<String, Object> getAnimalList(int shelterId, String searchWord, 
 											int currentPage, int rowPerPage) {
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList param: " + shelterId);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList param: " + searchWord);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList param: " + currentPage);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList param: " + rowPerPage);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList shelterId: " + shelterId);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList searchWord: " + searchWord);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList currentPage: " + currentPage);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList rowPerPage: " + rowPerPage);
 		
 		// beginRow를 생성
 		int beginRow = ((currentPage-1)*rowPerPage);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList param: " + beginRow);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList beginRow: " + beginRow);
 		
 		// map을 불러와서 파라미터 데이터를 넣어줌.
 		Map<String, Object> map = new HashMap<>();
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList param: " + map);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList map: " + map);
 		
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
@@ -43,19 +81,19 @@ public class AnimalService {
 		
 		// selectAnimalTotal
 		int selectAnimalTotal = animalMapper.selectAnimalTotal(map);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList param: " + selectAnimalTotal);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList selectAnimalTotal: " + selectAnimalTotal);
 		
 		// lastPage 생성
 		int lastPage = (int)(Math.ceil((double)selectAnimalTotal / rowPerPage)); // lastPage만드는 식
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList param: " + lastPage);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList lastPage: " + lastPage);
 		
 		// animalList
 		List<Map<String, Object>> animalList = animalMapper.selectAnimalList(map);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList param: " + animalList);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList animalList: " + animalList);
 		
 		// controller에서 사용할 수 있는 맵
 		Map<String, Object> returnMap = new HashMap<>();
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList param: " + returnMap);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList returnMap: " + returnMap);
 		
 		returnMap.put("animalList", animalList);
 		returnMap.put("selectAnimalTotal", selectAnimalTotal);
