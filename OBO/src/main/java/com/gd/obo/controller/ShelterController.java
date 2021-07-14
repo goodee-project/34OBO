@@ -21,23 +21,23 @@ public class ShelterController {
 	@Autowired ShelterService shelterService;
 	
 	// shelter 리스트
-	@GetMapping("/getMainShelterList")
+	@GetMapping("/getShelterList")
 	public String getShelterlist(Model model) {
 		List<Shelter> mainShelterList = shelterService.getShelterList();
 		model.addAttribute("mainShelterList",mainShelterList);
 		log.debug("@@@@@ mainShelterList: "+mainShelterList);
 		
-		return "main/getMainShelterList";
+		return "main/getShelterList";
 	}
 	
 	// shelter 상세보기
-	@GetMapping("/getMainShelterOne")
+	@GetMapping("/getShelterOne")
 	public String getShelterOne(Model model,
 									@RequestParam(value="shelterId",required= true) int shelterId) {
 		Map<String, Object> map = shelterService.getShelterOne(shelterId);
 		log.debug("@@@@@ map: "+map);
 		model.addAttribute("shelterMap", map.get("shelterMap"));
-		return "main/getMainShelterOne";
+		return "main/getShelterOne";
 	}
 }
 

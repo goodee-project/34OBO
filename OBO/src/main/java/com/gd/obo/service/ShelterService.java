@@ -7,10 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-<<<<<<< HEAD
 
-=======
->>>>>>> branch 'master' of https://github.com/goodee-project/34OBO.git
 import com.gd.obo.mapper.ShelterMapper;
 import com.gd.obo.vo.Shelter;
 
@@ -33,14 +30,9 @@ public class ShelterService {
 	
 	// shelter 리스트,  staff 회원가입 -> 보호소 선택
 	public List<Shelter> getShelterList() {
-<<<<<<< HEAD
-		return shelterMapper.selectShelterList();
-=======
 		
 		List<Shelter> shelterList = shelterMapper.selectShelterList();
 		
-		
 		return shelterList;
->>>>>>> branch 'master' of https://github.com/goodee-project/34OBO.git
 	}
 }

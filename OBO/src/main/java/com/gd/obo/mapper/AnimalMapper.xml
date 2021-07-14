@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gd.obo.mapper.staff.AnimalMapper">
+<mapper namespace="com.gd.obo.mapper.AnimalMapper">
 	
 	<!-- 직원이 자기 보호소 동물 리스트 조회 -->
 	<select id="selectAnimalList" resultType="java.util.Map" parameterType="java.util.Map"> 
