@@ -1,3 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gd.obo.mapper.BoardMapper"></mapper>
+<mapper namespace="com.gd.obo.mapper.BoardMapper">
+	<select id="selectBoardList" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			b.board_id boardId,
+			b.member_id memberId,
+			b.animal_category_id animalCategoryId,
+			ac.species,
+			b.board_title boardTitle
+		FROM board b, animal_category ac
+		WHERE b.animal_category_id = ac.animal_category_id
+			<if test="boartTitle != null">
+				AND board_title LIKE CONCAT('%',#{boardTitle},'%')
+			</if>
+			<if test="species != null">
+				AND species =#{species}
+			</if>
+			<if test="memberId != null">
+				AND member_id LIKE CONCAT('%',#{memberId},'%')
+			</if>
+		ORDER BY b.board_id ASC		
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<select id="selectTotal" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM board
+	</select>
+</mapper>

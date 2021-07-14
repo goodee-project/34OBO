@@ -5,9 +5,4 @@
 	<select id="selectManagerByLogin" parameterType="com.gd.obo.vo.Manager" resultType="com.gd.obo.vo.Manager">
 		SELECT manager_id managerId, manager_pw managerPw, manager_name managerName FROM manager WHERE manager_id=#{managerId} AND manager_pw=PASSWORD(#{managerPw})
 	</select>
-	
-	<!-- 자격 승인 내역 -->
-	<select id="selectQualificationApprovalList" resultType="String">
-		SELECT qualification_volunteer_application_id qvaId, manager_id managerId, approval_check approvalCheck, approval_date approvalDate FROM qualification_approval LIMIT 0,10
-	</select>
 </mapper>

@@ -3,22 +3,42 @@ package com.gd.obo.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.gd.obo.service.MemberService;
 import com.gd.obo.vo.Member;
+import com.gd.obo.vo.MemberAddress;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
 public class MemberController {
+	@Autowired
+	MemberService memberService;
+	
+	//memeber 정보 상세보기(내 정보)
+	@GetMapping("/member/getMemberOne")
+	public String getMemberOne(HttpSession session, Model model) {
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		log.debug("■■■■■ 마이페이지 멤버아이디 : " + memberId);
+		
+		//내 정보 가져오기
+		model.addAttribute("memberOne", memberService.getMemeberOne(memberId));
+		return "main/getMemberOne";
+	}
 	
 	//member 회원가입
 	@PostMapping("/addMember")
-	public String addMember(Member member) {
-		log.debug("회원가입" + member);
+	public String addMember(MemberAddress memberAddress) {
+		log.debug("■■■■■ addMember param" + memberAddress);
+		int row = memberService.addMember(memberAddress);
+		
+		log.debug("■■■■■ 회원 가입이 되면 2 : " + row);
 		
 		return "redirect:/home";
 	}

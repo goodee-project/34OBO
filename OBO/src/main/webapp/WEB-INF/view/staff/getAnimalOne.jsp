@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>getAnimalList</title>
+<title>getAnimalOne</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -34,7 +34,7 @@
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
 <body>
-	<header>
+<header>
 		<div class="header-area ">
 		
 			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
@@ -94,80 +94,88 @@
             <div class="row justify-content-center ">
                 <div class="col-lg-6 col-md-10">
                     <div class="section_title text-center mb-95">
-                        <h3>동물리스트</h3>
+                        <h3>동물 상세정보</h3>
                     </div>
                 </div>
             </div>
             
-
-	
-	
 	<div class="container">
-		<div>
-			<form id="animalForm" action="${pageContext.request.contextPath}/staff/getAnimalList" method="get">
-				동물 이름 :
-				<input type="text" name="searchWord" value="${searchWord}">
-				
-				<button id="btn" type="button">검색</button>
-			</form>
-		</div>
-		<br>
-		
-		<table class="table">
-		      <thead>
-		          <tr>
-		              <th>animalId</th>
-		              <th>shelterId</th> <!-- 동물 종 -->
-		            <th>animalFileName</th>
-		            <th>species</th>
-		            <th>animalName</th>
-		            <th>animalAge</th>
-		            <th>animalSex</th>
-		            <th>animalWeight</th>
-		            <th>animalKind</th>
-		            <th>animalFindPlace</th>
-		            <th>animalEnterDate</th>
-		            <th>animalState</th>
-		            
-		        </tr>
-		    </thead>
-		    <tbody>
-		        <c:forEach var="a" items="${animalList}">
-		            <tr>
-		            	<td>${a.animalId}</td>
-		            	<td>${a.shelterId}</td>
-		            	<td>${a.animalFileName}</td>
-		            	<td>${a.species}</td>
-		            	<td><a href="${pageContext.request.contextPath}/staff/getAnimalOne?animalId=${a.animalId}">${a.animalName}</a></td>
-		            	<td>${a.animalAge}</td>
-		            	<td>${a.animalSex}</td>
-		            	<td>${a.animalWeight}</td>
-		            	<td>${a.animalKind}</td>
-		            	<td>${a.animalFindPlace}</td>
-		            	<td>${a.animalEnterDate}</td>
-		            	<td>${a.animalState}</td>
-		            </tr>
-		        </c:forEach>
-		    </tbody>
+	    <table class="table">
+	        <tbody>
+	            <tr>
+	               <td>animal_id :</td>
+	               <td>${animalMap.animalId}</td>
+	              </tr>
+	           <tr>
+	               <td>animal_category_id :</td>
+	               <td>${animalMap.animalCategoryId}</td>
+	           </tr>
+	           <tr>
+	               <td>shelter_id :</td>
+	               <td>${animalMap.shelterId}</td>
+	           </tr>
+	           <tr>
+	               <td>animal_name :</td>
+	               <td>${animalMap.animalName}</td>
+	           </tr>
+	           <tr>
+	               <td>species :</td>
+	               <td>${animalMap.species}</td>
+	           </tr>
+	           <tr>
+	               <td>animal_age :</td>
+	               <td>${animalMap.animalAge}</td>
+	              </tr>
+	           <tr>
+	               <td>animal_sex :</td>
+	               <td>${animalMap.animalSex}</td>
+	           </tr>
+	           <tr>
+	               <td>animal_weight :</td>
+	               <td>${animalMap.animalWeight}</td>
+	           </tr>
+	           <tr>
+	               <td>animal_kind :</td>
+	               <td>${animalMap.animalKind}</td>
+	           </tr>
+	           <tr>
+	               <td>animal_find_place :</td>
+	               <td>${animalMap.animalFindPlace}</td>
+	           </tr>
+	           <tr>
+	               <td>animal_note :</td>
+	               <td>${animalMap.animalNote}</td>
+	              </tr>
+	           <tr>
+	               <td>animal_enter_date :</td>
+	               <td>${animalMap.animalEnterDate}</td>
+	           </tr>
+	           <tr>
+	               <td>animal_exit_date :</td>
+	               <td>${animalMap.animalExitDate}</td>
+	           </tr>
+	           <tr>
+	               <td>animal_introduce :</td>
+	               <td>${animalMap.animalIntroduce}</td>
+	           </tr>
+	           <tr>
+	               <td>animal_state :</td>
+	               <td>${animalMap.animalState}</td>
+	           </tr>
+	           <tr>
+	               <td>animal_file_name :</td>
+	               <td>${animalMap.animalFileName}</td>
+	           </tr>
+			</tbody>   
 		</table>
-	 
-	     <div>
-	    	<a  href="${pageContext.request.contextPath}/staff/addAnimal">addAnimal</a>	
+		
+		<div>
+			<a href="${pageContext.request.contextPath}/staff/getAnimalList?currentPage=${currentPage}&searchWord=${searchWord}">뒤로가기</a>	
 	    </div>
-	
-		<!-- 페이징 -->
-	    <ul class="pager">
-			<c:if test="${currentPage > 1}">
-			   	<a href="${pageContext.request.contextPath}/staff/getAnimalList?currentPage=${currentPage-1}&searchWord=${searchWord}&animalId=${a.animalId}">이전</a>
-			</c:if>
-			<c:if test="${currentPage < lastPage}">
-			    <a href="${pageContext.request.contextPath}/staff/getAnimalList?currentPage=${currentPage+1}&searchWord=${searchWord}&animalId=${a.animalId}">다음</a>
-			</c:if>
-	   </ul>
-   
-   </div>
-   
-   <!-- JS here -->
+	</div>        
+
+
+  	<!-- JS here -->
 	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
 	<script src="../static/js/popper.min.js"></script>
@@ -194,14 +202,5 @@
 	<script src="../static/js/jquery.validate.min.js"></script>
 	<script src="../static/js/mail-script.js"></script>
 	<script src="../static/js/main.js"></script>
-    
-    <script>
-	    $(document).ready(function() {
-	   	 $('#btn').click(function() {
-	   		 console.log('btn click...');
-	           $('#animalForm').submit();   
-	        });  
-	  	 });
-    </script>
 </body>
 </html>

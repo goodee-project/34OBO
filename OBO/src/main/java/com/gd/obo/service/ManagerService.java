@@ -27,10 +27,4 @@ public class ManagerService {
 		return managerMapper.selectManagerByLogin(manager);
 	}
 	
-	//자격 승인 내역
-	public List<String> getQualificationApprovalList(){
-		List<String> list = managerMapper.selectQualificationApprovalList();
-		log.debug("======자격 승인 리스트 : "+list);
-		return list;
-	}
 }

@@ -1,10 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.MemberMapper">
+	<!-- 계정정보 조회, 주소도 같이 -->
+	<select id="selectMemeberOne" parameterType="java.lang.String" resultType="java.util.Map">
+		SELECT 
+			m.member_id memberId, 
+			m.member_name memberName, 
+			m.member_phone memberPhone, 
+			DATE(m.member_birth) memberBirth, 
+			m.member_email memberEmail, 
+			m.member_nickname memberNickname, 
+			m.member_gender memberGender, 
+			DATE(m.create_date) createDate, 
+			a.post_code postCode, 
+			a.doro doro, 
+			a.detail_address detailAddress
+		FROM member m 
+			LEFT JOIN address a ON m.address_id=a.address_id 
+		WHERE m.member_id = #{memeberId}
+	</select>
+	<!-- 아이디 중복검사 -->
+	<select id="selectMemberIdByAddMember" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT member_id FROM member WHERE member_id = #{memberId}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="insertMember" parameterType="com.gd.obo.vo.Member">
+		INSERT INTO member(
+			member_id,
+			address_id, 
+			member_name, 
+			member_phone, 
+			member_birth, 
+			member_email, 
+			member_pw, 
+			member_nickname, 
+			member_gender,
+			create_date, 
+			update_date) 
+		VALUES(
+			#{memberId},
+			#{addressId},
+			#{memberName},
+			#{memberPhone},
+			#{memberBirth},
+			#{memberEmail},
+			PASSWORD(#{memberPw}),
+			#{memberNickname},
+			#{memberGender},
+			NOW(),
+			NOW()
+			)
+	</insert>
+
 	<!-- 로그인용 회원 조회 -->
 	<select id="selectMemberByLogin" resultType="com.gd.obo.vo.Member" parameterType="com.gd.obo.vo.Member">
 		SELECT 
-			member_id memeberId, 
+			member_id memberId, 
 			member_nickname memberNickName 
 		FROM member 
 		WHERE 
