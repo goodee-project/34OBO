@@ -1,11 +1,13 @@
 package com.gd.obo.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,14 +17,73 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/staff")
+
 public class AnimalController {
 	@Autowired
 	AnimalService animalService;
 	
+	// 작성자 : 남민정
+	@GetMapping("/staff/addAnimal")
+	public String addAnimal() {
+		
+		return "staff/addAnimal";
+	}
+	
+	@PostMapping("/staff/addAnimal") // 코드 수정 하기
+	public String addAnimal(Model model, @RequestParam(value = "animalId", required = false) Integer animalId,
+										@RequestParam(value = "animalCategoryId", required = false) Integer animalCategoryId,
+										@RequestParam(value = "shelterId", required = false) Integer shelterId,
+										@RequestParam(value = "animalName", required = false) String animalName,
+										@RequestParam(value = "animalAge", required = false) Integer animalAge,
+										@RequestParam(value = "animalSex", required = false) String animalSex,
+										@RequestParam(value = "animalWeight", required = false) Integer animalWeight,
+										@RequestParam(value = "animalKind", required = false) String animalKind,
+										@RequestParam(value = "animalFindPlace", required = false) String animalFindPlace,
+										@RequestParam(value = "animalNote", required = false) String animalNote,
+										@RequestParam(value = "animalState", required = false) String animalState) {
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalId: " + animalId);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalCategoryId: " + animalCategoryId);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal shelterId: " + shelterId);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalName: " + animalName);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalAge: " + animalAge);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalSex: " + animalSex);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalWeight: " + animalWeight);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalKind: " + animalKind);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalFindPlace: " + animalFindPlace);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalNote: " + animalNote);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalState: " + animalState);
+		
+		Map<String, Object> map = new HashMap<>();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal map: " + map);
+		
+		map.put("animalId", animalId);
+		map.put("animalCategoryId", animalCategoryId);
+		map.put("shelterId", shelterId);
+		map.put("animalName", animalName);
+		map.put("animalAge", animalAge);
+		map.put("animalSex", animalSex);
+		map.put("animalWeight", animalWeight);
+		map.put("animalKind", animalKind);
+		map.put("animalFindPlace", animalFindPlace);
+		map.put("animalNote", animalNote);
+		map.put("animalState", animalState);
+		
+		int addAnimal = animalService.addAnimal(map);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal addAnimal: " + addAnimal);
+		
+		model.addAttribute("map", map);
+		model.addAttribute("addAnimal", addAnimal);
+		
+		return "redirect:/staff/getAnimalList";
+	}
+	
+	
+	
+	
+	
 	
 	// 작성자 : 남민정
-	@GetMapping("getAnimalOne")
+	@GetMapping("/staff/getAnimalOne")
 	public String getAnimalOne(Model model, @RequestParam(value = "animalId", required = false) int animalId) {
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> getAnimalOne animalId: " + animalId);
 		
@@ -38,7 +99,7 @@ public class AnimalController {
 	
 	
 	// 작성자 : 남민정
-	@GetMapping("getAnimalList")
+	@GetMapping("/staff/getAnimalList")
 	public String getAnimalList(Model model, @RequestParam(value = "shelterId" , defaultValue = "1") int shelterId,
 											@RequestParam(value = "searchWord", required =  false) String searchWord,
 											@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
