@@ -4,7 +4,9 @@
 	
 	<!-- 카테고리 리스트 -->
 	<select id="selectAnimalCategoryList" resultType="java.util.Map">
-		SELECT species
+		SELECT 
+			animal_category_id animalCategoryId,
+			species
 		FROM animal_category
 	</select>
 	
@@ -13,6 +15,9 @@
 	<!-- Animal 추가 --> <!-- 더 추가해야함, 기본적인것만 추가 -->
 	<insert id="insertAnimal" parameterType="java.util.Map">
 		INSERT INTO animal(
+			animal_id,
+			animal_category_id,
+			shelter_id,
 			animal_name,
 			animal_age,
 			animal_sex,
@@ -23,6 +28,9 @@
 			animal_enter_date,
 			animal_state
 		) VALUES (
+			#{animalId},
+			#{animalCategoryId},
+			#{shelterId}
 			#{animalName},
 			#{animalAge},
 			#{animalSex},
@@ -30,7 +38,7 @@
 			#{animalKind},
 			#{animalFindPlace},
 			#{animalNote},
-			#{animalEnterDate},
+			NOW(),
 			#{animalState}
 		)
 	</insert>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.obo.mapper.BoardMapper;
+import com.gd.obo.vo.Board;
 import com.gd.obo.vo.Page;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,25 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 	@Autowired BoardMapper boardMapper;
 	
-	public Map<String, Object> selectBoardList(int currentPage, int rowPerPage, String boardTitle, String species, String memberId){
+	// board category 리스트
+	public List<Map<String, Object>> getBoardCategoryList() {
+		return boardMapper.selectBoardCategoryList();
+	}
+	
+	// board 추가
+	public int addBoard(Board board) {
+		return boardMapper.insertBoard(board);
+	}
+	
+	// board 상세보기
+	public Map<String, Object> getBoardOne(int boardId) {
+		Map<String, Object> boardMap = boardMapper.selectBoardOne(boardId);
+		log.debug("@@@@@ boardMap"+boardMap);
+		return boardMap;		
+	}
+	
+	// board 리스트
+	public Map<String, Object> getBoardList(int currentPage, int rowPerPage, String boardTitle, String species, String memberId){
 		// shelter 개수
 				Map<String, Object> totalMap = new HashMap<>();	
 				totalMap.put("boardTitle", boardTitle);

@@ -2146,7 +2146,7 @@ h3 {
 @media (max-width: 767px) {
   /* line 2, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_testmonial.scss */
   .testmonial_area {
-    padding: 50px 0  50px 0;
+    padding: 50px 0  50px 0; 
   }
 }
 
@@ -2172,7 +2172,7 @@ h3 {
   /* line 17, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_testmonial.scss */
   .testmonial_area .single_testmonial {
     display: block !important;
-    padding: 30px;
+    padding: 200px; /*30px;*/
   }
 }
 
@@ -3967,36 +3967,49 @@ h6 {
 
 /* line 353, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .progress-table-wrap {
-  overflow-x: scroll;
+  /*overflow-x: scroll; 수정*/
+}
+
+.shelter_table{ /*수정&추가*/
+  width: 25%;
+  padding-left: 30px;
+  text-align: center;
 }
 
 /* line 357, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .progress-table {
-  background: #f9f9ff;
+  background: #fff; /*수정, 테이블수정 #f9f9ff -> #fff*/
   padding: 15px 0px 30px 0px;
   min-width: 800px;
+  text-align: center;
 }
 
 /* line 361, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .progress-table .serial {
-  width: 11.83%;
+  width: 25%;
   padding-left: 30px;
+  text-align: center;
 }
 
 /* line 365, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .progress-table .country {
-  width: 28.07%;
+  width: 25%;
+  padding-left: 30px;
+  text-align: center;
 }
 
 /* line 368, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .progress-table .visit {
-  width: 19.74%;
+  width: 25%;
+  padding-left: 30px;
+  text-align: center;
 }
 
 /* line 371, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .progress-table .percentage {
-  width: 40.36%;
-  padding-right: 50px;
+  width: 25%;
+  padding-left: 30px;
+  text-align: center;
 }
 
 /* line 375, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
@@ -4027,8 +4040,11 @@ h6 {
 .progress-table .table-row .country,
 .progress-table .table-row .visit,
 .progress-table .table-row .percentage {
-  display: flex;
-  align-items: center;
+ /* display: flex;
+  align-items: center; 수정*/
+   width: 25%;
+  padding-left: 30px;
+  text-align: center;
 }
 
 /* line 399, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */

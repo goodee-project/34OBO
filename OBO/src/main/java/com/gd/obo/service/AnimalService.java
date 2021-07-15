@@ -21,17 +21,15 @@ public class AnimalService {
 	AnimalMapper animalMapper;
 	
 	
-	/*
-	// 작성자 : 남민정
+
+	// 작성자 : 남민정 
 	// animal 추가
-	public int insertAnimal(Map<String, Object> map) {
+	public int addAnimal(Map<String, Object> map) {
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> insertAnimal map: " + map);
 		
-		
-		
-		return ;
+		return animalMapper.insertAnimal(map);
 	}
-	*/
+	
 	
 	
 	

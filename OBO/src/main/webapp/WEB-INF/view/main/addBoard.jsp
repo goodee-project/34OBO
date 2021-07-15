@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>addBoard</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -30,10 +31,16 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
-<!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
-<meta charset="UTF-8">
-<title>getShelterOne</title>
+<script>
+$(document).ready(function(){	
+	// 가입 버튼 클릭 시 -> 유효성 검사 필요
+	$('#addBtn').click(function(){
+		console.log('addBtn 버튼 클릭!');
+		$('#addForm').submit();
+	});
+});
+</script>
 </head>
 <body>
 	<header>
@@ -83,77 +90,70 @@
 	<div class="bradcam_area breadcam_bg">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12">
-					<h3>보호소 상세보기</h3>
+				<div class="col-12">
+					<h3>자유게시판</h3>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	<div class="section-top-border container">
-		<h3 class="mb-30">${shelterMap.shelterName}</h3>
-			<div class="testmonial_area">
-				<div class="row">
-					<div class="col-lg-5 mb-5 mb-lg-0">
-						<div class="textmonial_active owl-carousel">
-							<div class="testmonial_wrap">
-                            	<div class="single_testmonial d-flex align-items-center ">
-									<img src="static/img/blog/single_blog_1.png" alt="">
+	   <section class="contact-section">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-12">
+                    </div>
+                    <div class="col-lg-8">
+                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/addBoard" method="post" id="addForm" novalidate="novalidate">
+                            <div class="row">
+                            	<div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="memberId" id="memberId" value="sunyou" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="sunyou" readonly="readonly">
+                                    </div>
+                                </div>
+         						<div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="boardTitle" id="boardTitle" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Title">
+                                    </div>
+                                </div>
+                                <div class="default-select col-12" id="default-select">
+									<select name="animalCategoryId">
+										<option value="">종 선택</option>
+											<c:forEach var="a" items="${animalCategoryList}">
+								    			<c:if test="${a.species == species}"> 
+								    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
+								    			</c:if>
+								    			<c:if test="${a.species != species}"> 
+								    				<option value="${a.animalCategoryId}">${a.species}</option>
+								    			</c:if>
+								    		</c:forEach>
+									</select>
 								</div>
-							</div>
-							<div class="testmonial_wrap">
-                            	<div class="single_testmonial d-flex align-items-center">
-									<img src="static/img/elements/d.jpg" alt="">
+								 <div class="default-select col-12">
+									<select name="boardCategoryId">
+										<option value="">카테고리선택</option>
+											<c:forEach var="b" items="${boardCategoryList}">
+								    			<c:if test="${b.boardCategoryName == boardCategoryName}"> 
+								    				<option value="${b.boardCategoryId}" id="boardCategoryId" selected="selected">${b.boardCategoryName}</option>
+								    			</c:if>
+								    			<c:if test="${b.boardCategoryName != boardCategoryName}"> 
+								    				<option value="${b.boardCategoryId}">${b.boardCategoryName}</option>
+								    			</c:if>
+								    		</c:forEach>
+									</select>
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<br>
-			<div class="col-md-9 mt-sm-10">
-				<div class="row align-items-center">
-               <table class="table table-hover">
-					<tr>
-						<td>주소</td>
-						<td>${shelterMap.addressId}</td>
-					</tr>
-					<tr>
-						<td>설립일</td>
-						<td>${shelterMap.createDate}</td>
-					</tr>
-					<tr>
-						<td>소개글</td>
-						<td>${shelterMap.introduction}</td>
-					</tr>
-					<tr>
-						<td>보호기간</td>
-						<td>${shelterMap.protectDuration}</td>
-					</tr>
-					<tr>
-						<td>전화번호</td>
-						<td>${shelterMap.shelterPhone}</td>
-					</tr>
-					<tr>
-						<td>계좌</td>
-						<td>${shelterMap.account}</td>
-					</tr>
-					<tr>
-						<td>활동</td>
-						<td>
-							<c:if test="${shelterMap.active==1}">
-								영업중
-							</c:if>
-							<c:if test="${shelterMap.active==0}">
-								휴업중
-							</c:if>
-						</td>
-					</tr>			                	
-                </table>
-					<a href="${pageContext.request.contextPath}/getShelterList">보호소 리스트</a>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="boardContent" id="boardContent" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Content"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="button" id="addBtn" class="button button-contactForm boxed-btn">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-		</div>
-	</div>
+        </section>
 
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
