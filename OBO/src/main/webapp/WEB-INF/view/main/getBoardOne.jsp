@@ -33,7 +33,7 @@
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
 <meta charset="UTF-8">
-<title>getShelterOne</title>
+<title>getBoardOne</title>
 </head>
 <body>
 	<header>
@@ -84,14 +84,14 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>보호소 상세보기</h3>
+					<h3>자유게시판</h3>
 				</div>
 			</div>
 		</div>
 	</div>
 	
 	<div class="section-top-border container">
-		<h3 class="mb-30">${shelterMap.shelterName}</h3>
+		<h3 class="mb-30">${boardMap.boardTitle}</h3>
 			<div class="testmonial_area">
 				<div class="row">
 					<div class="col-lg-5 mb-5 mb-lg-0">
@@ -115,28 +115,32 @@
 				<div class="row align-items-center">
                <table class="table table-hover">
 					<tr>
-						<td>주소</td>
-						<td>${shelterMap.addressId}</td>
+						<td>No.</td>
+						<td>${boardMap.boardId}</td>
 					</tr>
 					<tr>
-						<td>설립일</td>
-						<td>${shelterMap.createDate}</td>
+						<td>게시판 카테고리</td>
+						<td>${boardMap.boardCN}</td>
 					</tr>
 					<tr>
-						<td>소개글</td>
-						<td>${shelterMap.introduction}</td>
+						<td>동물 종류</td>
+						<td>${boardMap.species}</td>
 					</tr>
 					<tr>
-						<td>보호기간</td>
-						<td>${shelterMap.protectDuration}</td>
+						<td>작성자</td>
+						<td>${boardMap.memberId}</td>
 					</tr>
 					<tr>
-						<td>전화번호</td>
-						<td>${shelterMap.shelterPhone}</td>
+						<td>내용</td>
+						<td>${boardMap.boardContent}</td>
 					</tr>
 					<tr>
-						<td>계좌</td>
-						<td>${shelterMap.account}</td>
+						<td>작성 날짜</td>
+						<td>${boardMap.createDate}</td>
+					</tr>
+					<tr>
+						<td>업데이트 날짜</td>
+						<td>${boardMap.updateDate}</td>
 					</tr>
 					<tr>
 						<td>활동</td>
@@ -150,7 +154,7 @@
 						</td>
 					</tr>			                	
                 </table>
-					<a href="${pageContext.request.contextPath}/getShelterList">보호소 리스트</a>
+					<a href="${pageContext.request.contextPath}/getBoardList">자유게시판</a>
             </div>
 		</div>
 	</div>

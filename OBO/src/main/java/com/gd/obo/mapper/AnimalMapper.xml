@@ -4,7 +4,9 @@
 	
 	<!-- 카테고리 리스트 -->
 	<select id="selectAnimalCategoryList" resultType="java.util.Map">
-		SELECT species
+		SELECT 
+			animal_category_id animalCategoryId,
+			species
 		FROM animal_category
 	</select>
 	

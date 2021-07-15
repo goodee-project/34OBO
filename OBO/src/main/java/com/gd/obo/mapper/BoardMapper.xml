@@ -1,15 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.BoardMapper">
+	
+	<!-- 게시판 파일 추가 -->
+	<insert id="insertBoardFile" parameterType="java.util.Map">
+		INSERT INTO
+			board_file
+			(
+				board_id,
+				board_file_original_name,
+				board_file_name,
+				board_file_size,
+				board_file_ext)
+		VALUES 
+			(
+				#{boardId},
+				#{boardFileOriginalName},
+				#{boardFileName},
+				#{boardFileSize},
+				#{boardFileExt}
+			)
+	</insert>
+	
+	<!-- 게시판 카테고리 리스트 -->
+	<select id="selectBoardCategoryList" resultType="java.util.Map">
+		SELECT 
+			board_category_id boardCategoryId,
+			board_category_name boardCategoryName
+		FROM board_category
+	</select>
+	
+	<!-- 게시판 추가 -->
+	<insert id="insertBoard" parameterType="com.gd.obo.vo.Board">
+		<selectKey keyProperty="boardId" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO 
+			board
+			(	board_category_id,
+				member_id,
+				animal_category_id,
+				board_title,
+				board_content,
+				create_date,
+				update_date)
+		VALUES
+			(
+				#{boardCategoryId},
+				#{memberId},
+				#{animalCategoryId},
+				#{boardTitle},
+				#{boardContent},
+				NOW(),
+				NOW()
+			)		
+	</insert>
+	
+	<!-- 게시판 상세보기 -->
+	<select id="selectBoardOne" resultType="java.util.Map" parameterType="Integer">
+		SELECT
+			b.board_id boardId,
+			bc.board_category_name boardCN,
+			ac.species species,
+			b.member_id memberId,
+			b.board_content boardContent,
+			b.board_title boardTitle,
+			b.create_date createDate,
+			b.update_date updateDate
+		FROM
+			board b, board_category bc, animal_category ac
+		WHERE
+			b.board_category_id=bc.board_category_id 
+		AND
+			b.animal_category_id = ac.animal_category_id
+		AND board_id=#{boardId}
+
+		
+	</select>
+	<!-- 게시판 리스트 -->
 	<select id="selectBoardList" resultType="java.util.Map" parameterType="java.util.Map">
 		SELECT
 			b.board_id boardId,
 			b.member_id memberId,
 			b.animal_category_id animalCategoryId,
 			ac.species,
-			b.board_title boardTitle
-		FROM board b, animal_category ac
+			b.board_title boardTitle,
+			bc.board_category_name boardCategoryName
+		FROM board b, animal_category ac, board_category bc
 		WHERE b.animal_category_id = ac.animal_category_id
+		AND b.board_category_id=bc.board_category_id 
 			<if test="boartTitle != null">
 				AND board_title LIKE CONCAT('%',#{boardTitle},'%')
 			</if>
