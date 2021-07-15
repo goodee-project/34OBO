@@ -21,7 +21,13 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 	
-	//memeber 정보 상세보기(내 정보)
+	//member 정보 수정 페이지로 이동
+	@GetMapping("/member/modifyMemberOne")
+	public String modifyMemberOne(HttpSession session, Model model) {
+		return "main/modifyMemberOne";
+	}
+	
+	//member 정보 상세보기(내 정보)
 	@GetMapping("/member/getMemberOne")
 	public String getMemberOne(HttpSession session, Model model) {
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();

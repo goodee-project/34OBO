@@ -42,9 +42,17 @@ $(document).ready(function(){
 			alert('이메일을 입력해주세요.')
 			$('#memberEmail').focus();
 			
+		} else if(mailChecked != true){
+			alert('이메일을 인증해주세요.')
+			$('#memberEmail').focus();
+			
 		} else if($('#memberPw').val() ==''){
 			alert('비밀번호를 입력해주세요.')
 			$('#memberPw').focus();
+			
+		} else if($('#pwCheck').text() != '패스워드가 일치합니다.' || $('#pwCheck').text() == ''|| $('#memberPw').val() != $('#memberPwCheck').val()){
+			alert('비밀번호가 일치하지 않습니다.')
+			$('#memberPwCheck').focus();
 			
 		} else if($('#memberNickname').val() ==''){
 			alert('닉네임을 입력해주세요.')
@@ -63,9 +71,25 @@ $(document).ready(function(){
 		<table>
 			<tr>
 				<th>아이디</th>
-				<td><input id="memberId" name="member.memberId" type="text">
+				<td>
+					<input id="memberId" name="member.memberId" type="text">
 					<input type="button" onclick="memberIdCheck()" value="중복검사"><br>
 					<span id="target"></span>
+				</td>
+			</tr>
+			<tr>
+				<!-- 비밀번호 확인 넣기 -->
+				<th>비밀번호</th>
+				<td><input id="memberPw" name="member.memberPw" type="password"></td>
+			</tr>
+			<tr>
+				<!-- 비밀번호 확인 넣기 -->
+				<th>비밀번호 확인</th>
+				<td>
+					<input id="memberPwCheck" type="password">
+					<div>
+						<span id="pwCheck"></span>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -86,7 +110,7 @@ $(document).ready(function(){
 				<td><input id="memberName" name="member.memberName" type="text"></td>
 			</tr>
 			<tr>
-				<th>휴대폰번호</th>
+				<th>연락처</th>
 				<td><input id="memberPhone" name="member.memberPhone" type="text"></td>
 			</tr>
 			<tr>
@@ -94,13 +118,21 @@ $(document).ready(function(){
 				<td><input id="memberBirth" name="member.memberBirth" type="date"></td>
 			</tr>
 			<tr>
+				<!-- 이메일 인증 넣기 -->
 				<th>이메일</th>
-				<td><input id="memberEmail" name="member.memberEmail" type="text"></td>
+				<td>
+					<input id="memberEmail" name="member.memberEmail" type="text">
+					<button id="sendMail" type="button">인증메일 발송</button>
+					
+					<div>
+						<input id="emailCheck" type="text" placeholder="인증코드">
+					</div>
+					<div>
+						<span id="mailTarget"></span>
+					</div>
+				</td>
 			</tr>
-			<tr>
-				<th>비밀번호</th>
-				<td><input id="memberPw" name="member.memberPw" type="password"></td>
-			</tr>
+			
 			<tr>
 				<th>닉네임</th>
 				<td><input id="memberNickname" name="member.memberNickname" type="text"></td>
@@ -111,7 +143,8 @@ $(document).ready(function(){
 					<input name="member.memberGender" type="radio" value="남">남
 					<input name="member.memberGender" type="radio" value="여">여
 				</td>
-			</tr>		
+			</tr>
+				<!-- 로봇이 아닙니다. google 보안기능 넣기 -->	
 		</table>
 		<button id="addMemberFormBtn" type="button">회원가입</button>
 		<button type="reset">리셋</button>
@@ -119,6 +152,59 @@ $(document).ready(function(){
 	
 	
 <script>
+	//메일 인증코드
+	let mailKey;
+	let mailChecked;
+	
+	$("#emailCheck").on("propertychange change keyup paste input", function() {
+		if ($("#emailCheck").val() == mailKey) {   //인증 키 값을 비교를 위해 텍스트인풋과 벨류를 비교
+			$("#mailTarget").text("인증 성공").css("color", "black");
+			mailChecked = true;  //인증 성공여부 check
+		} else {
+			$("#mailTarget").text("불일치").css("color", "red");
+			mailChecked = false; //인증 실패
+		}
+	});
+	
+	//email 확인하기!
+	$("#sendMail").click(function() {// 메일 입력 유효성 검사
+		let mail = $("#memberEmail").val(); //사용자의 이메일 입력값.
+		
+		if (mail == "") {
+			alert("메일 주소가 입력되지 않았습니다.");
+		} else {
+			$.ajax({
+				type : 'post',
+				url : '${pageContext.request.contextPath}/checkMail',
+				data : {mail:mail},
+				success: function(jsonData){
+					alert("인증번호가 전송되었습니다.");
+					mailKey = jsonData;
+					console.log(mailKey);
+									
+				}
+			});
+			
+			//isCertification=true; //추후 인증 여부를 알기위한 값
+		}
+	});
+	
+	//pw 확인
+	$('#memberPwCheck').keyup(function(){
+		console.log('pw 확인');
+		
+		let pwLength = $('#memberPwCheck').val().length;
+		//pw 3자 이상
+		if(pwLength > 3){
+			if($('#memberPw').val() != $('#memberPwCheck').val()){
+				$('#pwCheck').text('패스워드가 일치하지 않습니다.');
+			} else{
+				$('#pwCheck').text('패스워드가 일치합니다.');
+			}
+		}
+		
+	});
+
 	//아이디 중복검사
 	function memberIdCheck(){
 		console.log('click!');
@@ -183,6 +269,7 @@ $(document).ready(function(){
                 
                 var guideTextBox = document.getElementById("guide");
                 // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                /*
                 if(data.autoRoadAddress) {
                     var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
                     guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
@@ -196,6 +283,7 @@ $(document).ready(function(){
                     guideTextBox.innerHTML = '';
                     guideTextBox.style.display = 'none';
                 }
+                */
             }
         }).open();
     }

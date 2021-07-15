@@ -6,5 +6,6 @@ import com.gd.obo.vo.Address;
 
 @Mapper
 public interface AddressMapper {
+	//주소추가
 	int insertAddress(Address address);
 }

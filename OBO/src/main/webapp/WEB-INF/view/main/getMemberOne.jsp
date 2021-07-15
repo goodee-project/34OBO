@@ -6,6 +6,7 @@
 <head>
 <meta charset="EUC-KR">
 <title>내정보</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 	<h1>내정보 보기</h1>
@@ -69,10 +70,18 @@
 		
 		$.ajax({
 			type: 'post',
-			url: '/',
-			data: {memberId: ${memberOne.memberId}},
+			url: '${pageContext.request.contextPath}/getMemberByPwCheck',
+			data: {memberPw: checkPw},
 			success: function(jsonData){
-				console.log('성공')
+				console.log('성공');
+				console.log(jsonData);
+				
+				//true면 성공, false면 실패
+				if(jsonData == false){
+					alert('비밀번호가 틀렸습니다.');
+				} else {//회원 정보 수정 페이지로 이동하기 
+					window.location.href = '${pageContext.request.contextPath}/member/modifyMemberOne';
+				}
 			}
 		})
 		
