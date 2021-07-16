@@ -20,6 +20,16 @@ public class AnimalService {
 	@Autowired
 	AnimalMapper animalMapper;
 	
+	/*
+	// 작성자 : 남민정
+	// animal 수정
+	public int updateAnimal(Map<String, Object> map) {
+		
+		return ;
+	}
+	*/
+	
+	
 	
 
 	// 작성자 : 남민정 

@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
 <title>addStaff</title>
 
 <!-- JQuery CDN -->
@@ -31,71 +32,181 @@
 <link rel="stylesheet" href="../static/css/slicknav.css">
 <link rel="stylesheet" href="../static/css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+
+<script>
+	    $(document).ready(function() {
+	   	 $('#addBtn').click(function() {
+	   		 console.log('btn click...');
+	           $('#addAnimal').submit();   
+	        });  
+	  	 });
+ </script>
 </head>
 <body>
-	<h3>동물 등록</h3>
-	<form id="addAnimal" action="${pageContext.request.contextPath}/staff/addAnimal" method="post">
-		<table>
-			<tr>
-				<td>동물 이름</td>
-				<td>
-					<input id="animalName" type="text" name="animalName">
-				</td>
-			</tr>
-			<tr>
-				<td>동물 나이(개월)</td>
-				<td>
-					<div>
-						<input id="animalAge" type="text" name="animalAge">
-					</div>
-					
-				</td>
-			</tr>
-			<tr>
-				<td>동물 성별</td>
-				<td>
-					<input id="animalSex" type="text" name="animalSex">
-				</td>
-			</tr>
-			<tr>
-				<td>동물 무게</td>
-				<td>
-					<div>
-						<input id="animalWeight" type="text" name="animalWeight">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>동물 종류</td>
-				<td>
-					<input id="animalKind" type="text" name="animalKind">
-				</td>
-			</tr>
-			<tr>
-				<td>발견한 장소</td>
-				<td>
-					<input id="animalFindPlace" type="text" name="animalFindPlace">
-				</td>
-			</tr>
-			<tr>
-				<td>동물 상세정보(회원 보여줄 노트)</td>
-				<td>
-					<input id="animalNote" type="text" name="animalNote">
-				</td>
-			</tr>
-			<tr>
-				<td>동물 상태</td>
-				<td>
-					<input id="animalState" type="text" name="animalState">
-				</td>
-			</tr>
-		</table>
+
+	<header>
+		<div class="header-area ">
 		
-		<button id="addBtn" type="button">등록</button>
-		<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button">뒤로가기</button></a>
-	</form>
+			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
+			<div class="header-top_area">
+				<div class="container">
+					<div class="row">
+						<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 흰색 바탕 : 메인 메뉴 -->
+			<div id="sticky-header" class="main-header-area">
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col-xl-3 col-lg-3">
+							<div class="logo">
+								<a href="${pageContext.request.contextPath}/staff/">
+									<img src="../static/img/logo.png" alt="">
+								</a>
+							</div>
+						</div>
+						
+						<div class="col-xl-9 col-lg-9">
+							<div class="main-menu  d-none d-lg-block">
+								<nav>
+									<ul id="navigation">
+										<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
+									</ul>
+								</nav>
+							</div>
+						</div>
+						
+						<div class="col-12">
+							<div class="mobile_menu d-block d-lg-none"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- header_start  -->
+	<div class="bradcam_area breadcam_bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<h3>보호소</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	 <!-- animalList start  -->
+    <div class="team_area">
+        <div class="container">
+            <div class="row justify-content-center ">
+                <div class="col-lg-6 col-md-10">
+                    <div class="section_title text-center mb-95">
+                        <h3>동물 등록</h3>
+                    </div>
+                </div>
+            </div>
+	
 
 
+
+
+	<div class="container">
+		<form id="addAnimal" action="${pageContext.request.contextPath}/staff/addAnimal" method="post">
+			<table>
+				<tr>
+					<td>동물 번호</td>
+					<td>
+						<input class="form-control" id="animalId" type="text">
+					</td>
+				</tr>
+				<tr>
+					<td>동물 카테고리 번호</td>
+					<td>
+						<input class="form-control" id="animalCateogyrId" type="text" name="animalCateogyrId" >
+					</td>
+				</tr>
+				<tr>
+					<td>보호소 번호</td>
+					<td>
+						<input class="form-control" id="shelterId" type="text" name="shelterId" >
+					</td>
+				</tr>
+				<tr>
+					<td>동물 이름</td>
+					<td>
+						<input class="form-control" id="animalName" type="text" name="animalName">
+					</td>
+				</tr>
+				<tr>
+					<td>동물 나이(개월)</td>
+					<td>
+						<div>
+							<input class="form-control" id="animalAge" type="text" name="animalAge">
+						</div>
+						
+					</td>
+				</tr>
+				<tr>
+					<td>동물 성별</td>
+					<td>
+						<select class="form-control" id="animalSex" name="animalSex">
+							<option value="">==성별 선택==</option>
+		                    <option value="male">수컷</option>
+		                    <option value="female">암컷</option>
+		                    <option value="maleNeutering">수컷(중성화)</option>
+		                    <option value="femaleNeutering">암컷(중성화)</option>
+		                   
+	                  	</select>
+					</td>
+				</tr>
+				<tr>
+					<td>동물 무게</td>
+					<td>
+						<div>
+							<input class="form-control" id="animalWeight" type="text" name="animalWeight">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>동물 종류</td>
+					<td>
+						<input class="form-control" id="animalKind" type="text" name="animalKind">
+					</td>
+				</tr>
+				<tr>
+					<td>발견한 장소</td>
+					<td>
+						<input class="form-control" id="animalFindPlace" type="text" name="animalFindPlace">
+					</td>
+				</tr>
+				<tr>
+					<td>동물 상세정보(회원 보여줄 노트)</td>
+					<td>
+						<input class="form-control" id="animalNote" type="text" name="animalNote">
+					</td>
+				</tr>
+				<tr>
+					<td>동물 상태</td>
+					<td>
+						<select class="form-control" id="animalState" name="animalState">
+		                    <option value="protect">보호중</option>
+		                    <option value="adopt">입양</option>
+		                    <option value="euthanasia">안락사</option>
+		                    <option value="death">자연사</option>
+	                  	</select>
+					</td>
+				</tr>
+			</table>
+			
+			<button id="addBtn" type="button">등록</button>
+			<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button">뒤로가기</button></a>
+		</form>
+	</div>
+</div>
+</div>	
 
 
 
