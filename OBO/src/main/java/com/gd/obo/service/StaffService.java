@@ -1,4 +1,5 @@
 // 작성자 : 이윤정
+// 수정자 : 남궁혜영(2021-07-16)
 
 package com.gd.obo.service;
 
@@ -56,8 +57,14 @@ public class StaffService {
 
 	// staff 추가
 	public int addStaff(Staff staff) {
+		log.debug("===== add staff:"+staff);
 		return staffMapper.insertStaff(staff);
 	}
+	// 마스터 staff 추가
+		public int addMasterStaff(Staff staff) {
+			log.debug("===== add staff:"+staff);
+			return staffMapper.insertMasterStaff(staff);
+		}
 	
 	// staff Id 중복확인
 	public int getStaffIdCheck(String staffId) {

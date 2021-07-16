@@ -141,39 +141,30 @@ $(document).ready(function(){
                     <div class="col-lg-6">
                         <article class="blog_item">
                         	<div class="blog_details">
-                        	<!-- 마스터 직원 주소는 shelter와 동일. 성별은 무조건 비공개. birth는 NOW()-->
 							<h2>마스터 직원</h2>
                             	<table class="table">
                             		<tr>
                             			<td><p>아이디</p></td>
-                            			<td><input class="text" name="memberID"></td>
+                            			<td><input class="text" name="staffId"></td>
                             		</tr>
                             		<tr>
                             			<td><p>비밀번호</p></td>
-                            			<td><input type="password" id="memberPw" name="memberPw"></td>
+                            			<td><input type="password" id="staffPw" name="staffPw"></td>
                             		</tr>
                             		<tr>
                             			<td><p>비밀번호 확인</p></td>
                             			<td>
-                            				<input type="password" id="memberPwCheck">
+                            				<input type="password" id="staffPwCheck">
                             				<span id="pwCheck"></span>
                             			</td>
                             		</tr>
                             		<tr>
                             			<td><p>이름</p></td>
-                            			<td><input type="text" name="memberName"></td>
-                            		</tr>
-                            		<tr>
-                            			<td><p>닉네임</p></td>
-                            			<td><input type="text" name="memberNickName"></td>
-                            		</tr>
-                            		<tr>
-                            			<td><p>전화번호</p></td>
-                            			<td><input type="text" name="memberPhone"></td>
+                            			<td><input type="text" name="staffName"></td>
                             		</tr>
                             		<tr>
                             			<td><p>이메일</p></td>
-                            			<td><input type="text" name="memberEmail"></td>
+                            			<td><input type="text" name="staffEmail"></td>
                             		</tr>
                             	</table>
                             </div>

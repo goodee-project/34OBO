@@ -12,6 +12,7 @@ public interface StaffMapper {
 	Staff selectStaffLevel0(int shelterId);
 	int selectStaffIdCheck(String staffId);
 	int insertStaff(Staff staff);
+	int insertMasterStaff(Staff staff);
 	int updateStaff(Staff staff);
 	int updateStaffLevel(String staffId);
 }
