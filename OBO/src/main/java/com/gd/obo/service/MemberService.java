@@ -1,6 +1,7 @@
 //작성자: 손영현
 package com.gd.obo.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,34 @@ public class MemberService {
 	MemberMapper memberMapper;
 	@Autowired
 	AddressMapper addressMapper;
+	
+	//member Pw변경
+	public boolean modifyMemberPw(String memberId, String originalPw, String changedPw) {
+		log.debug("■■■■■ modifyMemberPw mamberId param : " + memberId);
+		log.debug("■■■■■ modifyMemberPw originalPw param : " + originalPw);
+		log.debug("■■■■■ modifyMemberPw changedPw param : " + changedPw);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("originalPw", originalPw);
+		map.put("changedPw", changedPw);
+		
+		boolean result = false; //성공 true, 실패 false
+		
+		if(memberMapper.updateMemberPw(map) != 0) {
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	//member 정보 업데이트
+	public void modifyMemberOne(MemberAddress memberAddress) {
+		log.debug("■■■■■ modifyMemberOne param : " + memberAddress);
+		
+		addressMapper.updateAddress(memberAddress.getAddress());
+		memberMapper.updateMemberOne(memberAddress.getMember());
+	}
 	
 	//회원 상세정보페이지
 	public Map<String,Object> getMemeberOne(String memberId) {

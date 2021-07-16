@@ -12,6 +12,14 @@
 		WHERE staff_id = #{staffId} AND staff_pw = PASSWORD(#{staffPw});
 	</select>
 	
+	<!-- staff 로그인 유효성 -->
+	<select id="selectStaffLoginCk" parameterType="com.gd.obo.vo.Staff" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM staff
+		WHERE staff_id = #{staffId} AND staff_pw = PASSWORD(#{staffPw});
+	</select>
+	
 	<!-- staff 상세보기 -->
 	<select id="selectStaffOne" parameterType="String" resultType="com.gd.obo.vo.Staff">
 		SELECT
@@ -25,12 +33,22 @@
 		WHERE staff_id = #{staffId};
 	</select>
 	
+	<!-- staff level 수정 -->
 	<select id="selectStaffLevel0" parameterType="int" resultType="com.gd.obo.vo.Staff">
 		SELECT
 			staff_id staffId,
 			staff_name staffName
 		FROM staff
 		WHERE shelter_id = #{shelterId} AND staff_level = 0;
+	</select>
+	
+	<!-- staff 회원가입 id 중복확인 -->
+	<select id="selectStaffIdCheck" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM staff
+		WHERE staff_id = #{staffId};
+	
 	</select>
 	
 	<!-- staff 추가 -->

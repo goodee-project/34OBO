@@ -26,6 +26,11 @@ public class StaffService {
 		return staffMapper.selectStaffByLogin(staff);
 	}
 	
+	// staff 로그인 유효성 검사
+	public int checkStaffLogin(Staff staff) {
+		return staffMapper.selectStaffLoginCk(staff);
+	}
+	
 	// staff account
 	public Map<String, Object> getStaffAccount(String staffId, int shelterId){
 		log.debug("●●●●▶staffId: " + staffId);
@@ -54,6 +59,11 @@ public class StaffService {
 		return staffMapper.insertStaff(staff);
 	}
 	
+	// staff Id 중복확인
+	public int getStaffIdCheck(String staffId) {
+		return staffMapper.selectStaffIdCheck(staffId);
+	}
+	
 	// staff 정보 수정
 	public int modifyStaff(Staff staff) {
 		return staffMapper.updateStaff(staff);
@@ -63,4 +73,5 @@ public class StaffService {
 	public int modifyStaffLevel(String staffId) {
 		return staffMapper.updateStaffLevel(staffId);
 	}
+	
 }

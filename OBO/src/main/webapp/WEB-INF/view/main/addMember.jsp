@@ -9,6 +9,25 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- 다음 우편번호 api -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- <link rel="manifest" href="site.webmanifest"> -->
+<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+<!-- Place favicon.ico in the root directory -->
+
+<!-- CSS here -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 <script>
 
 $(document).ready(function(){
@@ -66,7 +85,27 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-	<h1>회원가입 폼</h1>
+	<header>
+		<div class="header-area">		
+			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
+			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
+			<!-- 흰색 바탕 : 메인 메뉴 -->
+			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
+					
+		</div>
+	</header>
+	
+	<!-- header_start  -->
+	<div class="bradcam_area breadcam_bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<h3>회원가입</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<form id="addMemberForm" action="${pageContext.request.contextPath}/addMember" method="post">
 		<table>
 			<tr>
@@ -93,6 +132,14 @@ $(document).ready(function(){
 				</td>
 			</tr>
 			<tr>
+				<th>이름</th>
+				<td><input id="memberName" name="member.memberName" type="text"></td>
+			</tr>
+			<tr>
+				<th>닉네임</th>
+				<td><input id="memberNickname" name="member.memberNickname" type="text"></td>
+			</tr>
+			<tr>
 				<th>주소</th>
 				<td>
 					<input type="text" id="sample4_postcode" name="address.postCode" placeholder="우편번호">
@@ -105,10 +152,7 @@ $(document).ready(function(){
 					
 				</td>
 			</tr>
-			<tr>
-				<th>이름</th>
-				<td><input id="memberName" name="member.memberName" type="text"></td>
-			</tr>
+			
 			<tr>
 				<th>연락처</th>
 				<td><input id="memberPhone" name="member.memberPhone" type="text"></td>
@@ -133,10 +177,7 @@ $(document).ready(function(){
 				</td>
 			</tr>
 			
-			<tr>
-				<th>닉네임</th>
-				<td><input id="memberNickname" name="member.memberNickname" type="text"></td>
-			</tr>
+			
 			<tr>
 				<th>성별</th>
 				<td>
@@ -159,6 +200,7 @@ $(document).ready(function(){
 	$("#emailCheck").on("propertychange change keyup paste input", function() {
 		if ($("#emailCheck").val() == mailKey) {   //인증 키 값을 비교를 위해 텍스트인풋과 벨류를 비교
 			$("#mailTarget").text("인증 성공").css("color", "black");
+			$('#memberEmail').attr( 'readonly', 'readonly' );
 			mailChecked = true;  //인증 성공여부 check
 		} else {
 			$("#mailTarget").text("불일치").css("color", "red");
@@ -200,6 +242,9 @@ $(document).ready(function(){
 				$('#pwCheck').text('패스워드가 일치하지 않습니다.');
 			} else{
 				$('#pwCheck').text('패스워드가 일치합니다.');
+				//패스워드 일치하면 더이상 패스워드 변경 못하게 막아버림
+				$('#memberPw').attr( 'readonly', 'readonly' );
+				$('#pwCheck').attr( 'readonly', 'readonly' );
 			}
 		}
 		
@@ -269,7 +314,7 @@ $(document).ready(function(){
                 
                 var guideTextBox = document.getElementById("guide");
                 // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                /*
+                
                 if(data.autoRoadAddress) {
                     var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
                     guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
@@ -283,10 +328,65 @@ $(document).ready(function(){
                     guideTextBox.innerHTML = '';
                     guideTextBox.style.display = 'none';
                 }
-                */
+                
             }
         }).open();
     }
 </script>
+<!-- footer_start  -->
+	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
+	<!-- footer_end  -->
+
+
+	<!-- JS here -->
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
+	
+	<!--contact js-->
+	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+
+<script>
+	$('#datepicker').datepicker({
+		iconsLibrary: 'fontawesome',
+		disableDaysOfWeek: [0, 0],
+		//icons: {
+		//rightIcon: '<span class="fa fa-caret-down"></span>'
+		//}
+	});
+	
+	$('#datepicker2').datepicker({
+		iconsLibrary: 'fontawesome',
+		icons: {
+			rightIcon: '<span class="fa fa-caret-down"></span>'
+		}
+	});
+	
+	var timepicker = $('#timepicker').timepicker({
+		format: 'HH.MM'
+	});
+</script>
+</body>
+</html>
 </body>
 </html>

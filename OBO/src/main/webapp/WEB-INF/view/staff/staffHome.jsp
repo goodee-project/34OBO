@@ -33,12 +33,7 @@
 
 <script>
 $(document).ready(function(){	
-	// 로그인 버튼 클릭 시
-	$('#loginBtn').click(function(){
-		console.log('loginBtn 버튼 클릭!');
-		$('#loginForm').submit();
-	});
-	
+
 });
 </script>
 </head>
