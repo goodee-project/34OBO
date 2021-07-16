@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.ShelterMapper">
-	<select id="selectShelterList" resultType="com.gd.obo.vo.Shelter" parameterType="java.util.Map">
+	<select id="selectShelterList" resultType="com.gd.obo.vo.ShelterAddress" parameterType="java.util.Map">
 		SELECT 
 			s.shelter_id shelterId,
 			sf.shelter_file_id shelterFileId,
 			s.shelter_name shelterName, 
 			s.create_date createDate, 
-			s.shelter_phone shelterPhone
+			s.shelter_phone shelterPhone,
+			s.account account,
+			s.protect_duration protectDuration,
+			a.post_code postCode,
+			a.doro doro,
+			a.detail_address detailAddress
 		FROM shelter s
-		INNER JOIN shelter_file sf
+		LEFT JOIN shelter_file sf
 		ON s.shelter_id = sf.shelter_id
+		JOIN address a
+		ON s.address_id = a.address_id
 		<where>
 			<if test="shelterName != null">
 				AND s.shelter_name LIKE CONCAT('%',#{shelterName},'%')
@@ -51,4 +58,11 @@
 			shelter_name shelterName
 		FROM shelter
 	</select>
+	
+	<!-- 보호소 등록 주소는 addressnmapper에서.-->
+	<insert id="insertShelter" parameterType="com.gd.obo.vo.Shelter">
+		INSERT INTO shelter(address_id, shelter_name, create_date, introduction, protect_duration, shelter_phone, account) 
+			VALUES(#{addressId}, #{shelterName}, NOW(), #{introduction}, #{protectDuration}, #{shelterPhone}, #{account})
+	</insert>
+	
 </mapper>

@@ -1,4 +1,5 @@
 // 작성자: 김선유
+// 수정자 : 남궁혜영(2021-07-16)
 package com.gd.obo.service;
 
 import java.util.HashMap;
@@ -9,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gd.obo.mapper.AddressMapper;
 import com.gd.obo.mapper.ShelterMapper;
+import com.gd.obo.vo.Address;
 import com.gd.obo.vo.Page;
 import com.gd.obo.vo.Shelter;
+import com.gd.obo.vo.ShelterAddress;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class ShelterService {
 	@Autowired ShelterMapper shelterMapper;
+	@Autowired AddressMapper addressMapper;
 	
 	// shelter 상세보기
 	public Map<String, Object> getShelterOne(int shelterId) {
@@ -58,7 +63,8 @@ public class ShelterService {
 		paramMap.put("shelterName", shelterName);
 		log.debug("@@@@@ paramMap: "+paramMap);
 		
-		List<Map<String, Object>> shelterList = shelterMapper.selectShelterList(paramMap);
+		List<ShelterAddress> shelterList = shelterMapper.selectShelterList(paramMap);
+		log.debug("shelterList"+shelterList);
 		
 		Map<String, Object> returnMap = new HashMap<>();
 		
@@ -72,4 +78,14 @@ public class ShelterService {
 	public List<Shelter> getShelterName(){
 		return shelterMapper.selectShelterName();
 	}
+	
+	//보호소 등록, 마스터계정 등록 코드 추가 해야 함.
+	public int addShelter(Shelter shelter, Address address) {
+		addressMapper.insertAddress(address);
+		shelter.setAddressId(address.getAddressId());
+		int row = shelterMapper.insertShelter(shelter);
+		log.debug("===== 보호소 등록 row 값 : "+row);
+		return row;
+	}
+	
 }
