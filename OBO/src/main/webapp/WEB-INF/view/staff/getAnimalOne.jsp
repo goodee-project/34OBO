@@ -171,6 +171,8 @@
 		
 		<div>
 			<a href="${pageContext.request.contextPath}/staff/getAnimalList?currentPage=${currentPage}&searchWord=${searchWord}">뒤로가기</a>	
+			<!-- 전체수정 고유번호는 수정 x -->
+   			<a href="${pageContext.request.contextPath}/staff/modifyAnimal?animalId=${animalMap.animalId}">수정</a>
 	    </div>
 	</div>        
 
