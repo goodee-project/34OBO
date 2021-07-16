@@ -7,6 +7,40 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script>
+$(document).ready(function(){
+	// 로그인 버튼 클릭 시
+	$('#loginBtn').click(function(){
+		console.log('loginBtn 버튼 클릭!');
+		
+		// 유효성 검사
+		if($('#loginStaffId').val() == ''){
+			alert('ID를 입력해주세요.');
+			$('#loginStaffId').focus();
+		} else if($('#loginStaffPw').val() == ''){
+			alert('PW를 입력해주세요.');
+			$('#loginStaffPw').focus();
+		} else{	// 일치&불일치 확인
+			$.ajax({
+				url: '/obo/checkStaffLogin',
+				type: 'get',
+				data: { loginStaffId : $('#loginStaffId').val(),
+						loginStaffPw : $('#loginStaffPw').val()},
+				success: function(jsonData){
+					console.log('로그인 유효성 검사 ajax 성공');
+					if(jsonData != 1){
+						alert('존재하지 않는 ID이거나 혹은 PW가 일치하지 않습니다.');
+						return;
+					}
+				}
+			});
+			
+			// submit
+			$('#loginForm').submit();
+		}
+	});
+});
+</script>
 </head>
 <body>
 	<!-- 로그인 전 -->
@@ -16,9 +50,9 @@
 				<form id="loginForm" action="${pageContext.request.contextPath}/staff/login" method="post">
 					<ul>
 						<li><span style="color:white">ID</span>&nbsp;</li>
-						<li><input class="form-control" type="text" id="staffId" name="staffId" style="width:150px; height:30px"></li>&emsp;
+						<li><input class="form-control" type="text" id="loginStaffId" name="loginStaffId" style="width:150px; height:30px"></li>&emsp;
 						<li><span style="color:white">PW</span>&nbsp;</li>
-						<li><input class="form-control" type="password" id="staffPw" name="staffPw" style="width:150px; height:30px"></li>&emsp;
+						<li><input class="form-control" type="password" id="loginStaffPw" name="loginStaffPw" style="width:150px; height:30px"></li>&emsp;
 						<li><button type="button" id="loginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
 						<li><a href="${pageContext.request.contextPath}/staff/addStaff">가입</a></li>
 					</ul>
