@@ -29,7 +29,7 @@
 	                        <li><span><a href="${pageContext.request.contextPath}/manager/getQualificationApprovalList">승인목록</a></span></li>
 	                    </ul>
 	                </li>
-	                <li><span><a href="">보호소등록</a></span></li>
+	                <li><span><a href="${pageContext.request.contextPath}/manager/getManagerShelterList">보호소</a></span></li>
                   </c:if>
               </ul>
           </nav>

@@ -6,11 +6,13 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gd.obo.vo.Shelter;
+import com.gd.obo.vo.ShelterAddress;
 
 @Mapper
 public interface ShelterMapper {
-	List<Map<String, Object>> selectShelterList(Map<String, Object> map);
+	List<ShelterAddress> selectShelterList(Map<String, Object> map);
 	int selectTotal(Map<String, Object> totalMap);
 	Map<String, Object> selectShelterOne(int shelterId);
 	List<Shelter> selectShelterName();
+	int insertShelter(Shelter shelter);
 }
