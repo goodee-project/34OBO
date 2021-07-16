@@ -3,6 +3,7 @@
 package com.gd.obo.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class StaffService {
 		
 		//상세보기 정보, 승인 대기 staff 정보 가져오기
 		Staff staffOne = staffMapper.selectStaffOne(staffId);
-		Staff staffLevel0 = staffMapper.selectStaffLevel0(shelterId);
+		List<Staff> staffLevel0 = staffMapper.selectStaffLevel0(shelterId);
 		log.debug("●●●●▶staffOne: " + staffOne);
 		log.debug("●●●●▶staffLevel0: " + staffLevel0);
 		

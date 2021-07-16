@@ -39,7 +39,7 @@
 			staff_id staffId,
 			staff_name staffName
 		FROM staff
-		WHERE shelter_id = #{shelterId} AND staff_level = 0;
+		WHERE shelter_id = #{shelterId} AND staff_level = '0';
 	</select>
 	
 	<!-- staff 회원가입 id 중복확인 -->
@@ -69,8 +69,8 @@
 			#{shelterId},
 			#{staffName},
 			#{staffPhone},
-			1,
-			0,
+			'1',
+			'0',
 			PASSWORD(#{staffPw}),
 			NOW()
 		);

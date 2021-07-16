@@ -7,49 +7,44 @@
 <head>
 <meta charset="UTF-8">
 <title>addStaff</title>
-<!-- JQuery CDN -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- <link rel="manifest" href="site.webmanifest"> -->
-<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-<!-- Place favicon.ico in the root directory -->
-
-<!-- CSS here -->
-<link rel="stylesheet" href="../static/css/bootstrap.min.css">
-<link rel="stylesheet" href="../static/css/owl.carousel.min.css">
-<link rel="stylesheet" href="../static/css/magnific-popup.css">
-<link rel="stylesheet" href="../static/css/font-awesome.min.css">
-<link rel="stylesheet" href="../static/css/themify-icons.css">
-<link rel="stylesheet" href="../static/css/nice-select.css">
-<link rel="stylesheet" href="../static/css/flaticon.css">
-<link rel="stylesheet" href="../static/css/gijgo.css">
-<link rel="stylesheet" href="../static/css/animate.css">
-<link rel="stylesheet" href="../static/css/slicknav.css">
-<link rel="stylesheet" href="../static/css/style.css">
-<!-- <link rel="stylesheet" href="css/responsive.css"> -->
+<!-- JQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- 검색어 자동완성 cdn  -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+<!-- CSS here -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 
 <script>
 $(document).ready(function(){	
 	let idBtn = false;
 	let pwCheck = false;
+	let shelterId;
 	
-	let shelterId, shelterName;
-	
-	/*
 	// 보호소 검색
-	$('#shelterId').autocomplete({
+	$('#shelterName').autocomplete({
 		source : function(request, response) {
 			 $.ajax({
 				type: 'get',
-				url: '/obo/getShelterNameList',
+				url: '${pageContext.request.contextPath}/getShelterNameList',
+				dataType: 'json',
 				data: {searchWord : $('#shelterId').val()}, 	// 검색 키워드
 				success: function(jsonData){
 					console.log('보호소 리스트 가져오기 성공');
@@ -58,52 +53,26 @@ $(document).ready(function(){
 							return{
 								label : item.shelterName,	// 자동완성에 표시되는 값
 								value : item.shelterName,	// 자동완성 선택 시 화면에 보여줄 내용
-								
-								// (1) 자동완성 선택 시 name 대신 id 뜨는 것을 수정하기 위해 변수에 새로 값을 저장한다.
-								shelterName : item.shelterName,
-								shelterId : item.shelterId
+								shelterId : item.shelterId	// 자동완성 선택 시 value에 id 대신 name 뜬다 -> id 값 설정위해 저장
 							}
 						})
-					) // response
+					)
 				}
 					
 			});
-		},	//source; 자동완성 대상
-		select: function(event, ui){	//영화 선택하는 순간 보유수량이 바로 뜨도록 한다.
-			console.log('선택한 shelterId-> '+shelterId);
-			console.log('선택한 shelterName-> '+shelterName);
-			console.log('선택한 item 값-> '+ui.item);
-			console.log('shelterId 값-> '+ui.item.value);
-			
-			// 변수에 값 넣어주기 -> (1)에서 넣은 값들을 다시 세팅해준다.
-			shelterName = ui.item.shelterName;
-			shelterId = ui.item.shelterId;
-			console.log('변수 설정 후 shelterId-> '+shelterId);
-			console.log('변수 설정 후 shelterName-> '+shelterName);
-			
-			if($('#storeId_').val() == 0){
-				alert('store를 선택하세요!');
-				$('#storeId_').focus();
-				$('#storeId_').focus(function(){
-					$('#textInput_').val(null);
-				});
-			} else{
-				$('#inStock_').empty();
-				$('#inStock_').val(inStock);
-			}
-			
-			if(rating == 'NC-17'){
-				alert('청소년 관람불가 영화입니다.');
-				console.log('청불영화 디버깅-> '+rating);
-			}
+		},
+		select: function(event, ui){	// 선택한 값 설정
+			shelterId = ui.item.shelterId; // 변수에 값 넣어주기 -> (1)에서 넣은 값들을 다시 세팅해준다.
+			console.log('선택한 보호소의 shelterId-> '+shelterId);
+			$('#shelterId').val(shelterId);	// shelterId 값 설정
+			console.log('val 설정 후 shelterId 값-> '+$('#shelterId').val());
 		},
 		focus: function(evnet, ui){ // 자동 초점
 			return false;
 		},
 		minLength: 1,	// 최소 글자
 		delay: 500		// 자동완성 뜨는 시간
-	})*/
-	
+	})
 	
 	// id 중복확인
 	$('#idBtn').click(function(){
@@ -114,7 +83,7 @@ $(document).ready(function(){
 		}
 		$.ajax({
 			type:'get',
-			url:'/obo/getStaffIdCheck',
+			url:'${pageContext.request.contextPath}/getStaffIdCheck',
 			data: {staffId : $('#staffId').val()},
 			success: function(jsonData){
 				console.log('id 중복확인 ajax 성공');
@@ -130,9 +99,7 @@ $(document).ready(function(){
 	
 	// pw 일치확인
 	$('#staffPwCheck').keyup(function(){
-		let pwLength = $('#staffPwCheck').val().length;
-		
-		if(pwLength > 5){
+		if($('#staffPwCheck').val().length > 3){
 			if($('#staffPw').val() != $('#staffPwCheck').val()){
 				$('#pwCheck').text('패스워드가 일치하지 않습니다.');
 			} else{
@@ -150,59 +117,49 @@ $(document).ready(function(){
 	$("#emailBtn").click(function() {
 		console.log('인증 버튼 클릭');
 		let email = $("#staffEmail").val(); // 이메일 입력값.
+		alert('인증번호가 전송되었습니다.');
 		$('#emailKey').empty();	// 칸 초기화
 		
 		if(email == '') {
 			alert('사용할 email을 입력해주세요.');
 		} else {
 			$('#emailKey').append(
-				'<input id="emailCheck" type="text"> '
+				'<input id="emailCheck" type="text" placeholder="숫자 6자리"> '
 				+'<button id="emailCkBtn" type="button" class="genric-btn default-border radius">확인</button> '
 				+'<span id="emailCheckInfo"></span>'
 			);
-			/*
+			
 			$.ajax({
 				type: 'post',
-				url: '/obo/checkEmail',
+				url: '${pageContext.request.contextPath}/checkEmail',
 				data: {email : email},
 				success: function(jsonData){
-					alert('인증번호가 전송되었습니다.');
 					emailKey = jsonData;
 					console.log('email 인증 번호-> '+emailKey);
 				}
-			});*/
-			
-			
-			//isCertification=true; //추후 인증 여부를 알기위한 값
+			});
 		}
 	});
 	
-	// 코드 구현중,,,ㅠㅠㅠ!!!
 	// email 인증 번호 일치하는지 확인하기 -> email [확인] 버튼 클릭 후 인증 번호 확인 가능하도록 
 	$(document).on('click', '#emailCkBtn', function(){
 		console.log('[확인] 버튼 클릭!!!');
-		console.log('emailKey값-> '+emailKey);
-		console.log('emailCheck값-> '+$('#emailCheck').val());
 		if(emailKey != $('#emailCheck').val()){
 			console.log('인증 실패');
-			$('#emailCheckInfor').text('html,인증 번호를 다시 확인해주세요.');
-			
+			$('#emailCheckInfo').text('인증 번호를 다시 확인해주세요.');
 		} else{
 			emailBtn = true;
 			console.log('인증 성공');
-			$("#emailCheckInfor").html('change');
-			$('#emailCheckInfor').text('email 인증 성공');
+			$('#emailCheckInfo').text('email 인증 성공');
 		}
 	});
 	
 	// 가입 버튼 클릭 시 -> 유효성 검사 필요
 	$('#addBtn').click(function(){
 		console.log('addBtn 버튼 클릭!');
-		$('#addForm').submit();
 		
 		//보호소 -> 이름 -> 아이디 -> 패스워드 -> 연락처 -> 이메일
-		/*
-		if($('#shelterId').val() == 0){
+		if($('#shelterId').val() == ''){
 			alert('보호소를 선택하세요.');
 			$('#shelterId').focus();
 		} else if($('#staffName').val() == ''){
@@ -210,14 +167,17 @@ $(document).ready(function(){
 			$('#staffName').focus();
 		} else if(idBtn == false){
 			alert('ID 중복확인 버튼을 눌러주세요.');
+		} else if($('#staffPwCheck').val().length < 4){
+			alert('PW는 최소 4자입니다.');
+			$('#staffPw').focus();
 		} else if(pwCheck == false){
 			alert('PW가 일치하지 않습니다.');
 			$('#staffPw').focus();
 		} else if($('#staffPhone').val() == ''){
-			alert('연락처 11자리를 입력하세요.');
+			alert('연락처를 입력하세요.');
 			$('#staffPhone').focus();
-		} else if($('#staffPhone').val().length != 11){
-			alert('연락처는 11자리입니다.');
+		} else if(isNaN($('#staffPhone').val())){
+			alert('연락처는 숫자만 입력하세요.');
 			$('#staffPhone').focus();
 		} else if($('#staffEmail').val() == ''){
 			alert('email을 입력하세요.');
@@ -227,7 +187,8 @@ $(document).ready(function(){
 			$('#staffEmail').focus();
 		} else{
 			$('#addForm').submit();
-		}*/
+			alert('회원가입 성공. 승인 후 로그인 가능합니다.');
+		}
 	});
 	
 	
@@ -292,12 +253,13 @@ $(document).ready(function(){
 	<section class="sample-text-area">
 		<div class="container">
 			<div>
-				<form id="addForm" action="${pageContext.request.contextPath}/staff/login" method="post">
+				<form id="addForm" action="${pageContext.request.contextPath}/staff/addStaff" method="post">
 					<table class="table">
 						<tr>
 							<td width="30%">보호소</td>
 							<td width="70%">
-								<input id="shelterId" type="text" name="shelterId">
+								<input id="shelterName" type="text">
+								<input id="shelterId" type="hidden" name="shelterId">
 							</td>
 						</tr>
 						<tr>
@@ -364,32 +326,31 @@ $(document).ready(function(){
 
 
 	<!-- JS here -->
-	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
-	<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
-	<script src="../static/js/popper.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script src="../static/js/owl.carousel.min.js"></script>
-	<script src="../static/js/isotope.pkgd.min.js"></script>
-	<script src="../static/js/ajax-form.js"></script>
-	<script src="../static/js/waypoints.min.js"></script>
-	<script src="../static/js/jquery.counterup.min.js"></script>
-	<script src="../static/js/imagesloaded.pkgd.min.js"></script>
-	<script src="../static/js/scrollIt.js"></script>
-	<script src="../static/js/jquery.scrollUp.min.js"></script>
-	<script src="../static/js/wow.min.js"></script>
-	<script src="../static/js/nice-select.min.js"></script>
-	<script src="../static/js/jquery.slicknav.min.js"></script>
-	<script src="../static/js/jquery.magnific-popup.min.js"></script>
-	<script src="../static/js/plugins.js"></script>
-	<script src="../static/js/gijgo.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
 	
 	<!--contact js-->
-	<script src="../static/js/contact.js"></script>
-	<script src="../static/js/jquery.ajaxchimp.min.js"></script>
-	<script src="../static/js/jquery.form.js"></script>
-	<script src="../static/js/jquery.validate.min.js"></script>
-	<script src="../static/js/mail-script.js"></script>
-	<script src="../static/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 	
 	<script>
 		$('#datepicker').datepicker({

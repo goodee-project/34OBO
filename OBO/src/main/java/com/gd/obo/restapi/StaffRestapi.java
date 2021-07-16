@@ -55,12 +55,13 @@ public class StaffRestapi {
 		Random random = new Random();
 		String key = "";  // 인증번호 
 		
-		// key값 설정 -> 알파벳3+숫자4
+		// key값 설정 -> 숫자6
+		/*
 		for(int i=0; i<3; i++) { // 알파벳3
-			int index = random.nextInt(25)+65; 
+			int index = random.nextInt(25)+65;
 			key += (char)index;
-		}
-		int numIndex = random.nextInt(9999)+1000; // 숫자4
+		}*/
+		int numIndex = random.nextInt(999999); // 숫자6
 		key += numIndex;
 		
 		SimpleMailMessage message = new SimpleMailMessage();
@@ -68,7 +69,7 @@ public class StaffRestapi {
 		message.setSubject("인증번호 입력을 위한 메일 전송");	// 메일 제목
 		message.setText("인증 번호 : "+key);	// 메일 내용
 		
-		javaMailSender.send(message);
+		//javaMailSender.send(message);	// 테스트 중에는 주석처리
 		
 		return key;
 	}
@@ -78,6 +79,6 @@ public class StaffRestapi {
 	@GetMapping("/getShelterNameList")
 	public List<Shelter> getShelterNameList(@RequestParam(value="searchWord", required = false) String searchWord){
 		log.debug("●●●●▶검색어: "+searchWord);
-		return shelterService.getShelterName(); // 매개변수 searchWord 넣고 service->mapper.java->mapper.xml 수정 꼭
+		return shelterService.getShelterName(searchWord); // 매개변수 searchWord 넣고 service->mapper.java->mapper.xml 수정 꼭
 	}
 }

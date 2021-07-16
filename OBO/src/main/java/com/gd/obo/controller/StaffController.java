@@ -31,10 +31,6 @@ public class StaffController {
 	// staff 회원가입 창 이동
 	@GetMapping("/addStaff")
 	public String addStaff(Model model){
-		List<Shelter> shelterList = shelterService.getShelterName();
-		log.debug("●●●●▶shelterList: "+shelterList);
-		
-		model.addAttribute("shelterList", shelterList);
 		
 		return "staff/addStaff";
 	}
