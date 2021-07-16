@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.MemberService;
 import com.gd.obo.vo.Member;
@@ -21,9 +22,28 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 	
+	//member Pw 수정 창으로 이동
+	@GetMapping("/member/modifyMemberPw")
+	public String modifyMemberPw() {
+		return "main/modifyMemberPw";
+	}
+	
+	//member 정보 업데이트
+	@PostMapping("/member/modifyMemberOne")
+	public String modifyMemberOne(MemberAddress memberAddress) {
+		log.debug("■■■■■ modifyMemberOne param" + memberAddress);
+		
+		memberService.modifyMemberOne(memberAddress);
+		
+		return "redirect:/member/getMemberOne";
+	}
+	
 	//member 정보 수정 페이지로 이동
 	@GetMapping("/member/modifyMemberOne")
 	public String modifyMemberOne(HttpSession session, Model model) {
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		
+		model.addAttribute("memberOne", memberService.getMemeberOne(memberId));
 		return "main/modifyMemberOne";
 	}
 	
@@ -31,7 +51,7 @@ public class MemberController {
 	@GetMapping("/member/getMemberOne")
 	public String getMemberOne(HttpSession session, Model model) {
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
-		log.debug("■■■■■ 마이페이지 멤버아이디 : " + memberId);
+		log.debug("■■■■■ memberOne 멤버아이디 : " + memberId);
 		
 		//내 정보 가져오기
 		model.addAttribute("memberOne", memberService.getMemeberOne(memberId));

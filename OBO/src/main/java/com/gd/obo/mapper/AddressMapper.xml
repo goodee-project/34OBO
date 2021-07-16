@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.AddressMapper">
+	<update id="updateAddress" parameterType="com.gd.obo.vo.Address">
+		UPDATE address
+		SET 
+			post_code = #{postCode},
+			doro = #{doro},
+			detail_address = #{detailAddress}
+		WHERE address_id = #{addressId}
+	</update>
 	<!-- 주소추가 : 추가한 주소 id 가져오기-->
 	<insert id="insertAddress" parameterType="com.gd.obo.vo.Address">
 		<selectKey resultType="int" keyProperty="addressId" order="AFTER">

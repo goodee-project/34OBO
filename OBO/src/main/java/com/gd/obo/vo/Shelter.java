@@ -9,7 +9,7 @@ public class Shelter {
 	private String shelterName;
 	private String createDate;
 	private String introduction;
-	private int protextDuration;
+	private int protectDuration;
 	private String shelterPhone;
 	private String account;
 	private int active;

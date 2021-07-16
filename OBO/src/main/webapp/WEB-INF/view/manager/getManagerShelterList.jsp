@@ -1,5 +1,4 @@
 <!-- 작성자 : 남궁혜영 -->
-<!-- 파일 넣는 폴더 만들고 파일 불러오기 기능 구현 해야함. 회원쪽에서 자격 신청 등록 구현 후에 가능.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -77,7 +76,7 @@ $(document).ready(function(){
             <div class="row">
                 <div class="col-lg-12">
                     <div class="bradcam_text text-center">
-                        <h3>자격 신청 목록</h3>
+                        <h3>보호소 목록</h3>
                     </div>
                 </div>
             </div>
@@ -88,39 +87,37 @@ $(document).ready(function(){
     <!-- pet_care_area_start  -->
     <div class="pet_care_area">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row">
                <table class="table table-hover text-center">
                 	<thead>
                 		<tr>
                 			<th>No.</th>
-                			<th>회원 아이디</th>
-                			<th>봉사 종류</th>
-                			<th>자격증 종류</th>
-                			<th>파일</th>
-                			<th>신청날짜</th>
-                			<th>승인</th>
+                			<th>보호소</th>
+                			<th>주소</th>
+                			<th>보호 기간(일)</th>
+                			<th>전화번호</th>
+                			<th>계좌번호</th>
+                			<th>등록 날짜</th>
                 		</tr>
                 	</thead>
                 	<tbody>
-                		<c:forEach var="q" items="${qvaList}">
+                	    <c:forEach var="s" items="${shelterList}">
                 		<tr>
-               				<td>${q.applicationId}</td>
-               				<td>${q.memberId}</td>
-               				<td>${q.category}</td>
-               				<td>${q.qualificationType}</td>
-               				<td>
-               				<input type="text" hidden="hidden" name="fileId" value="${q.fileId}">
-               				${q.qualificationFile}</td>
-               				<td>${fn:substring(q.date, 0, 11)}</td>
-               				<td>
-               					<a href="${pageContext.request.contextPath}/manager/approveApplication?applicationId=${q.applicationId}&managerId=${loginManager.managerId}" onclick="return confirm('승인 하시겠습니까?');"><i class="fa fa-check-circle"></i></a>
-               					<a href="${pageContext.request.contextPath}/manager/rejectApplication?applicationId=${q.applicationId}&managerId=${loginManager.managerId}" onclick="return confirm('거절 하시겠습니까?');"><i class="fa fa-ban"></i></a>
-               				</td>
+               				<td>${s.shelterId}</td>
+               				<td>${s.shelterName}</td>
+               				<td>[${s.postCode}] ${s.doro} ${s.detailAddress}</td>
+               				<td>${s.protectDuration}</td>
+               				<td>${s.shelterPhone}</td>
+               				<td>${s.account}</td>
+               				<td>${fn:substring(s.createDate, 0, 11)}</td>
                 		</tr>
                 		</c:forEach>
                 	</tbody>
                 </table>
             </div>
+            <div style="text-align: right;">
+        		<a href="${pageContext.request.contextPath}/manager/addShelter" type="button" class="genric-btn primary-border circle arrow medium">등록</a>
+        	</div>
         </div>
     </div>
     <!-- pet_care_area_end  -->

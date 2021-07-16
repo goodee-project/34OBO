@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.MemberMapper">
-	
+	<!-- 비밀번호 수정 -->
+	<update id="updateMemberPw" parameterType="java.util.Map">
+		UPDATE member
+		SET 
+			member_pw = PASSWORD(#{changedPw})
+		WHERE 
+			member_id=#{memberId} 
+			AND member_pw = PASSWORD(#{originalPw})
+	</update>
+	<!-- 회원정보 수정 -->
+	<update id="updateMemberOne" parameterType="com.gd.obo.vo.Member">
+		UPDATE member 
+		SET 
+			member_name = #{memberName},
+			member_birth = #{memberBirth},
+			member_email = #{memberEmail},
+			member_nickname = #{memberNickname},
+			member_gender = #{memberGender},
+			update_date = NOW()
+		WHERE member_id = #{memberId}
+	</update>
 	<!-- 계정정보 조회, 주소도 같이 -->
 	<select id="selectMemeberOne" parameterType="java.lang.String" resultType="java.util.Map">
-		SELECT 
+		SELECT
+			m.address_id addressId,
 			m.member_id memberId, 
 			m.member_name memberName, 
 			m.member_phone memberPhone, 
@@ -12,7 +33,7 @@
 			m.member_email memberEmail, 
 			m.member_nickname memberNickname, 
 			m.member_gender memberGender, 
-			DATE(m.create_date) createDate, 
+			DATE(m.create_date) createDate,
 			a.post_code postCode, 
 			a.doro doro, 
 			a.detail_address detailAddress
