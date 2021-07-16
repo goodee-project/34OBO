@@ -1,55 +1,55 @@
-<!-- ÀÛ¼ºÀÚ: ¼Õ¿µÇö -->
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<!-- ì‘ì„±ì: ì†ì˜í˜„ -->
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>³»Á¤º¸</title>
+<meta charset="UTF-8">
+<title>ë‚´ì •ë³´</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-	<h1>³»Á¤º¸ º¸±â</h1>
+	<h1>ë‚´ì •ë³´ ë³´ê¸°</h1>
 	
 	<table>
 		<tr>
-			<th>¾ÆÀÌµğ</th>
+			<th>ì•„ì´ë””</th>
 			<td>${memberOne.memberId}</td>
 		</tr>
 		<tr>
-			<th>ÀÌ¸§</th>
+			<th>ì´ë¦„</th>
 			<td>${memberOne.memberName}</td>
 		</tr>
 		<tr>
-			<th>´Ğ³×ÀÓ</th>
+			<th>ë‹‰ë„¤ì„</th>
 			<td>${memberOne.memberNickname}</td>
 		</tr>
 		<tr>
-			<th>ÀÌ¸ŞÀÏ</th>
+			<th>ì´ë©”ì¼</th>
 			<td>${memberOne.memberEmail}</td>
 		</tr>
 		<tr>
-			<th>°¡ÀÔ³¯Â¥</th>
+			<th>ê°€ì…ë‚ ì§œ</th>
 			<td>${memberOne.createDate}</td>
 		</tr>
 		<tr>
-			<th>ÈŞ´ëÆù¹øÈ£</th>
+			<th>íœ´ëŒ€í°ë²ˆí˜¸</th>
 			<td>${memberOne.memberPhone}</td>
 		</tr>
 		<tr>
-			<th>»ıÀÏ</th>
+			<th>ìƒì¼</th>
 			<td>${memberOne.memberBirth}</td>
 		</tr>
 		<tr>
-			<th>¼ºº°</th>
+			<th>ì„±ë³„</th>
 			<td>${memberOne.memberGender}</td>
 		</tr>
 		<tr>
-			<th>¿ìÆí¹øÈ£</th>
+			<th>ìš°í¸ë²ˆí˜¸</th>
 			<td>${memberOne.postCode}</td>
 		</tr>
 		<tr>
-			<th>ÁÖ¼Ò</th>
+			<th>ì£¼ì†Œ</th>
 			<td>
 				<div>
 					${memberOne.doro}
@@ -60,26 +60,27 @@
 		</tr>
 	</table>
 	
-	<button id="modifyMemberOne" type="button" onclick="modifyMemberOne()">³» Á¤º¸ ¼öÁ¤</button>
+	<button id="modifyMemberOne" type="button" onclick="modifyMemberOne()">ë‚´ ì •ë³´ ìˆ˜ì •</button>
+	<a href="${pageContext.request.contextPath}/member/modifyMemberPw"><button type="button">ë¹„ë°€ë²ˆí˜¸ ìˆ˜ì •</button></a>
 <script>
-	//Á¤º¸¼öÁ¤ ÆäÀÌÁö·Î ÀÌµ¿ÇÏ±â Àü¿¡ ºñ¹Ğ¹øÈ£ °Ë»ç
+	//ì •ë³´ìˆ˜ì • í˜ì´ì§€ë¡œ ì´ë™í•˜ê¸° ì „ì— ë¹„ë°€ë²ˆí˜¸ ê²€ì‚¬
 	function modifyMemberOne(){
 		console.log('click!');
 		
-		let checkPw = prompt("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ½Ã¿À");
+		let checkPw = prompt("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì‹œì˜¤");
 		
 		$.ajax({
 			type: 'post',
 			url: '${pageContext.request.contextPath}/getMemberByPwCheck',
 			data: {memberPw: checkPw},
 			success: function(jsonData){
-				console.log('¼º°ø');
+				console.log('ì„±ê³µ');
 				console.log(jsonData);
 				
-				//true¸é ¼º°ø, false¸é ½ÇÆĞ
+				//trueë©´ ì„±ê³µ, falseë©´ ì‹¤íŒ¨
 				if(jsonData == false){
-					alert('ºñ¹Ğ¹øÈ£°¡ Æ²·È½À´Ï´Ù.');
-				} else {//È¸¿ø Á¤º¸ ¼öÁ¤ ÆäÀÌÁö·Î ÀÌµ¿ÇÏ±â 
+					alert('ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë ¸ìŠµë‹ˆë‹¤.');
+				} else {//íšŒì› ì •ë³´ ìˆ˜ì • í˜ì´ì§€ë¡œ ì´ë™í•˜ê¸° 
 					window.location.href = '${pageContext.request.contextPath}/member/modifyMemberOne';
 				}
 			}

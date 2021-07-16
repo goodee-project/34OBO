@@ -32,9 +32,24 @@ public class MemberRestapi {
 	@Autowired
 	JavaMailSender javaMailSender;
 	
+	//비밀번호 변경
+	@PostMapping("/member/modifyMemberPw")
+	public boolean modifyMemberPw(HttpSession session,
+									@RequestParam(value = "originalPw", required = true)String originalPw,
+									@RequestParam(value = "changedPw", required = true)String changedPw) {
+		
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		//변경 실패하면 다시 폼으로
+		
+		//변경 성공하면 로그아웃
+		return memberService.modifyMemberPw(memberId, originalPw, changedPw);
+	}
+	
 	//회원가입 인증 메일을 발송!
 	@PostMapping("/checkMail")
 	public String checkMail(@RequestParam(value = "mail", required = true)String mail) {
+		
+		log.debug("■■■■■ checkMail param : "+ mail);
 		
 		Random random = new Random();  //난수 생성을 위한 랜덤 클래스
 		String key="";  //인증번호 
@@ -56,6 +71,7 @@ public class MemberRestapi {
 		
 		javaMailSender.send(message);
 		
+		log.debug("■■■■■ checkMail key : "+ key);
 		
 		return key;
 	}

@@ -11,6 +11,10 @@ import com.gd.obo.vo.Member;
 
 @Mapper
 public interface MemberMapper {
+	//비밀번호 수정
+	int updateMemberPw(Map<String, Object> map);
+	//member 정보수정
+	int updateMemberOne(Member member);
 	//회원 정보페이지
 	Map<String,Object> selectMemeberOne(String memberId);
 	//memeberId 중복검사
