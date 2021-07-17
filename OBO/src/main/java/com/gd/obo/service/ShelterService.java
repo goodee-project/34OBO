@@ -1,5 +1,6 @@
 // 작성자: 김선유
 // 수정자 : 남궁혜영(2021-07-16)
+// 수정자 : 이윤정(2021-07-16) ; staff 회원가입시 -> 보호소 검색용
 package com.gd.obo.service;
 
 import java.util.HashMap;
@@ -75,8 +76,9 @@ public class ShelterService {
 		return returnMap;
 	}
 	
-	public List<Shelter> getShelterName(){
-		return shelterMapper.selectShelterName();
+	// staff 회원가입시 -> 보호소 검색용
+	public List<Shelter> getShelterName(String searchWord){
+		return shelterMapper.selectShelterName(searchWord);
 	}
 	
 	//보호소 등록, 마스터계정 등록 코드 추가 해야 함.

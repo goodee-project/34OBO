@@ -12,6 +12,14 @@
 		WHERE staff_id = #{staffId} AND staff_pw = PASSWORD(#{staffPw});
 	</select>
 	
+	<!-- staff 로그인 유효성 -->
+	<select id="selectStaffLoginCk" parameterType="com.gd.obo.vo.Staff" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM staff
+		WHERE staff_id = #{staffId} AND staff_pw = PASSWORD(#{staffPw});
+	</select>
+	
 	<!-- staff 상세보기 -->
 	<select id="selectStaffOne" parameterType="String" resultType="com.gd.obo.vo.Staff">
 		SELECT
@@ -25,12 +33,22 @@
 		WHERE staff_id = #{staffId};
 	</select>
 	
+	<!-- staff level 수정 -->
 	<select id="selectStaffLevel0" parameterType="int" resultType="com.gd.obo.vo.Staff">
 		SELECT
 			staff_id staffId,
 			staff_name staffName
 		FROM staff
-		WHERE shelter_id = #{shelterId} AND staff_level = 0;
+		WHERE shelter_id = #{shelterId} AND staff_level = '0';
+	</select>
+	
+	<!-- staff 회원가입 id 중복확인 -->
+	<select id="selectStaffIdCheck" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM staff
+		WHERE staff_id = #{staffId};
+	
 	</select>
 	
 	<!-- staff 추가 -->
@@ -51,8 +69,36 @@
 			#{shelterId},
 			#{staffName},
 			#{staffPhone},
-			1,
-			0,
+			'1',
+			'0',
+			PASSWORD(#{staffPw}),
+			NOW()
+		);
+	</insert>
+	
+	<!-- 마스터 staff 추가. shelterId와 같이 등록할거라 shelterId 등록 되면 id 받아온다. -->
+	<insert id="insertMasterStaff" parameterType="com.gd.obo.vo.Staff">
+		<selectKey resultType="Integer" keyProperty="shelterId" order="BEFORE">
+	 		SELECT LAST_INSERT_ID()
+	 	</selectKey>
+		INSERT INTO staff(
+			staff_id,
+			staff_email,
+			shelter_id,
+			staff_name,
+			staff_phone,
+			staff_active,
+			staff_level,
+			staff_pw,
+			update_date
+		) VALUE(
+			#{staffId},
+			#{staffEmail},
+			#{shelterId},
+			#{staffName},
+			#{staffPhone},
+			'1',
+			'2',
 			PASSWORD(#{staffPw}),
 			NOW()
 		);

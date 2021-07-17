@@ -10,6 +10,9 @@ import com.gd.obo.vo.Animal;
 @Mapper
 public interface AnimalMapper {
 	
+	// updateAnimal -> 동물 수정
+	int updateAnimal(Map<String, Object> map);
+	
 	// insertAnimal -> 동물 추가
 	int insertAnimal(Map<String, Object> map);
 	

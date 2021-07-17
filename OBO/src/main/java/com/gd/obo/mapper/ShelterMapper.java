@@ -13,6 +13,6 @@ public interface ShelterMapper {
 	List<ShelterAddress> selectShelterList(Map<String, Object> map);
 	int selectTotal(Map<String, Object> totalMap);
 	Map<String, Object> selectShelterOne(int shelterId);
-	List<Shelter> selectShelterName();
+	List<Shelter> selectShelterName(String searchWord);
 	int insertShelter(Shelter shelter);
 }

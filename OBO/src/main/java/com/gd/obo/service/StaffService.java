@@ -1,8 +1,10 @@
 // 작성자 : 이윤정
+// 수정자 : 남궁혜영(2021-07-16)
 
 package com.gd.obo.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,11 @@ public class StaffService {
 		return staffMapper.selectStaffByLogin(staff);
 	}
 	
+	// staff 로그인 유효성 검사
+	public int checkStaffLogin(Staff staff) {
+		return staffMapper.selectStaffLoginCk(staff);
+	}
+	
 	// staff account
 	public Map<String, Object> getStaffAccount(String staffId, int shelterId){
 		log.debug("●●●●▶staffId: " + staffId);
@@ -33,7 +40,7 @@ public class StaffService {
 		
 		//상세보기 정보, 승인 대기 staff 정보 가져오기
 		Staff staffOne = staffMapper.selectStaffOne(staffId);
-		Staff staffLevel0 = staffMapper.selectStaffLevel0(shelterId);
+		List<Staff> staffLevel0 = staffMapper.selectStaffLevel0(shelterId);
 		log.debug("●●●●▶staffOne: " + staffOne);
 		log.debug("●●●●▶staffLevel0: " + staffLevel0);
 		
@@ -51,7 +58,18 @@ public class StaffService {
 
 	// staff 추가
 	public int addStaff(Staff staff) {
+		log.debug("===== add staff:"+staff);
 		return staffMapper.insertStaff(staff);
+	}
+	// 마스터 staff 추가
+		public int addMasterStaff(Staff staff) {
+			log.debug("===== add staff:"+staff);
+			return staffMapper.insertMasterStaff(staff);
+		}
+	
+	// staff Id 중복확인
+	public int getStaffIdCheck(String staffId) {
+		return staffMapper.selectStaffIdCheck(staffId);
 	}
 	
 	// staff 정보 수정
@@ -63,4 +81,5 @@ public class StaffService {
 	public int modifyStaffLevel(String staffId) {
 		return staffMapper.updateStaffLevel(staffId);
 	}
+	
 }

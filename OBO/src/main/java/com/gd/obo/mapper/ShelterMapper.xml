@@ -57,6 +57,7 @@
 			shelter_id shelterId,
 			shelter_name shelterName
 		FROM shelter
+		WHERE shelter_name LIKE CONCAT('%', #{searchWord}, '%');
 	</select>
 	
 	<!-- 보호소 등록 주소는 addressnmapper에서.-->

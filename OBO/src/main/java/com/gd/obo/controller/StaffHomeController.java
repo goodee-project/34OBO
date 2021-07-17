@@ -35,20 +35,32 @@ public class StaffHomeController {
 	
 	// staff 로그인 action
 	@PostMapping("/login")
-	public String login(HttpSession session, Staff staff) {
-		log.debug("●●●●▶로그인 staff 정보: "+staff);
+	public String login(HttpSession session, String loginStaffId, String loginStaffPw) {
+		log.debug("●●●●▶로그인 staffId: "+loginStaffId);
+		log.debug("●●●●▶로그인 staffPw: "+loginStaffPw);
+		
+		Staff staff = new Staff();
+		staff.setStaffId(loginStaffId);
+		staff.setStaffPw(loginStaffPw);
 		
 		// 로그인 세션 정보 -> 직원id, 이름, 보호소id 
 		Staff loginStaff = staffService.login(staff);
 		
+		if(loginStaff == null) {
+			log.debug("●●●●▶ 로그인 실패!!!! 정보를 다시 확인해주세요!!!!");
+			return "redirect:/staff/";
+		}
+		
+		int staffLevel = loginStaff.getStaffLevel();
+		if(staffLevel == 0) {
+			log.debug("●●●●▶ 레벨0. 승인 대기중!");
+			return "redirect:/staff/";
+		}
+			
 		// 세션 세팅
 		if(loginStaff != null) {
 			session.setAttribute("loginStaff", loginStaff);
 			log.debug("●●●●▶ 로그인 완료!!!!!");
-		}
-		
-		if(loginStaff == null) {
-			log.debug("●●●●▶ 로그인 실패!!!! 정보를 다시 확인해주세요!!!!");
 		}
 		
 		return "redirect:/staff/";

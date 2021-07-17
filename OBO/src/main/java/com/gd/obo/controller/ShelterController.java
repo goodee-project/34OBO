@@ -9,21 +9,26 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.ShelterService;
+import com.gd.obo.service.StaffService;
 import com.gd.obo.vo.Address;
 import com.gd.obo.vo.Shelter;
+import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@Transactional
 public class ShelterController {
 	@Autowired ShelterService shelterService;
+	@Autowired StaffService staffService;
 	
 	// shelter 리스트
 	@GetMapping("/getShelterList")
@@ -99,10 +104,14 @@ public class ShelterController {
 	public String addShelter() {
 		return "manager/addShelter";
 	}
-	// 보호소 등록 , 마스터계정 등록 코드 추가 해야 함.
+	// 보호소 등록, 마스터계정 등록 액션
 	@PostMapping("/manager/addShelter")
-	public String addShelter(Shelter shelter, Address address) {
+	public String addShelter(Shelter shelter, Address address, Staff staff) {
 		int row = shelterService.addShelter(shelter, address);
+		staff.setStaffPhone(shelter.getShelterPhone());
+		int staffRow = staffService.addMasterStaff(staff);
+		log.debug("===== 직원 값 : "+staff);
+		log.debug("===== 직원 등록 row : "+staffRow);
 		log.debug("===== 보호소 등록 row : "+row);
 		return "redirect:/manager/getManagerShelterList";
 	}
