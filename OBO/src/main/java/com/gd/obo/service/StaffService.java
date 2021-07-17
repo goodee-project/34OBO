@@ -61,11 +61,12 @@ public class StaffService {
 		log.debug("===== add staff:"+staff);
 		return staffMapper.insertStaff(staff);
 	}
+	
 	// 마스터 staff 추가
-		public int addMasterStaff(Staff staff) {
-			log.debug("===== add staff:"+staff);
-			return staffMapper.insertMasterStaff(staff);
-		}
+	public int addMasterStaff(Staff staff) {
+		log.debug("===== add staff:"+staff);
+		return staffMapper.insertMasterStaff(staff);
+	}
 	
 	// staff Id 중복확인
 	public int getStaffIdCheck(String staffId) {
@@ -75,6 +76,11 @@ public class StaffService {
 	// staff 정보 수정
 	public int modifyStaff(Staff staff) {
 		return staffMapper.updateStaff(staff);
+	}
+	
+	// staff 간단한 정보 보기 -> 마스터 계정만 가능
+	public List<Map<String, Object>> getStaffListByMaster(int shelterId) {
+		return staffMapper.selectStaffListByMaster(shelterId);
 	}
 	
 	// staff level 수정 -> 마스터 계정이 사이드 계정 접근 권한 준다.

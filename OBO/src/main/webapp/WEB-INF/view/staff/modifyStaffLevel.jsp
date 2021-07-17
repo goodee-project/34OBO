@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>modifyStaff</title>
+<title>modifyStaffLevel</title>
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -28,112 +28,29 @@
 
 <script>
 $(document).ready(function(){	
+	let idBtn = false;
 	let pwCheck = false;
-	let emailBtn = false;
 	
-	// pw 변경 시 pw 확인 일치 여부
-	$('#staffPwCk').keyup(function(){
-		if($('#staffPwCk').val().length > 3){
-			if($('#staffPw').val() != $('#staffPwCk').val()){
-				$('#pwCheck').text('패스워드가 일치하지 않습니다.');
-			} else{
-				$('#pwCheck').text('패스워드가 일치합니다.');
-				pwCheck = true;
-			}
-		}
-		
-		// 4자리에서 3자리로 바꿀경우 true 값 유지 상태 false로 변경
-		if($('#staffPwCk').val().length < 4){
-			pwCheck = false;
-		}
-	});
-	
-	// 기존 email 값
-	let emailBefore = $('#staffEmail').val();
-	
-	// email 인증키
-	let emailKey;
-	
-	// email 인증버튼 클릭 시
-	$('#emailBtn').click(function(){
-		console.log('emailBtn 클릭!');
-		$('#emailCk').empty();
-		
-		if($('#staffEmail').val() == emailBefore){
-			alert('기존 email주소입니다.');
-			$('#staffEmail').focus();
-		} else if($('#staffEmail').val() == ''){
-			alert('수정할 email을 입력해주세요.');
-			$('#staffEmail').focus();
-		} else{
-			alert('인증 번호가 전송되었습니다.');
-			
-			$('#emailCk').append(
-				'<input id="staffEmailCk" type="text" placeholder="숫자 6자리 입력"> '
-				+'<button id="emailCkBtn" type="button" class="genric-btn default-border radius">확인</button>'
-				+'<span id="emailCkInfo"></span>'
-			)
-			
-			// email 전송 ajax
-			$.ajax({
-				url: '${pageContext.request.contextPath}/checkEmail',
-				type: 'post',
-				data: {email : $('#staffEmail').val()},
-				success: function(jsonData){
-					emailKey = jsonData;
-					console.log('email 인증 번호-> '+emailKey);
-				}
-			});
-		}
-		
-	});
-	
-	//[확인] 버튼 클릭 시 -> 유효한 메일인지?
-	$(document).on('click', '#emailCkBtn', function(){	// 동적으로 생성된 staffEmailCk, emailCkBtn, emailCkInfo를 바인딩한다.
-		console.log('인증번호[확인]버튼 클릭!');
-	
-		if(emailKey == $('#staffEmailCk').val()){
-			$('#emailCkInfo').text('email 인증에 성공했습니다.');
-			emailBtn = true;
-		} else{
-			$('#emailCkInfo').text('인증번호를 다시 확인해주세요.');
-		}
-	});
-	
-	
-	// 수정 버튼 클릭 시 -> 유효성 검사 필요
+	// 가입 버튼 클릭 시 -> 유효성 검사 필요
 	$('#modifyBtn').click(function(){
 		console.log('modifyBtn 버튼 클릭!');
+		$('#modifyForm').submit();
 		
-		// pw 수정 후 일치하지 않을 때
-		if(!pwCheck && ($('#staffEmail').val() != '')){
-			console.log('pw != pw확인 : 둘 다름');
-			alert('PW가 일치하지 않습니다.');
-			return;
-		}
-		
-		
-		// email 수정 후 인증절차 안 했을 때
-		if(!emailBtn && ($('#staffEmail').val() != emailBefore)){
-			console.log('email 수정했지만 인증확인을 안 했다!');
-			alert('email 수정 후 인증절차를 진행해주세요.');
-			return;
-		}
-		
-		if($('#staffName').val() == ''){
+		//보호소 -> 이름 -> 아이디 -> 패스워드 -> 연락처 -> 이메일
+		/*
+		if($('#staffName').val() == null){
 			alert('이름을 입력하세요.');
-			$('#staffName').focus();
-		} else if($('#staffPw').val() != $('#staffPwCk').val()){
-			alert('패스워드를 확인하세요.');
-			$('#staffPw').focus();
-		} else if($('#staffPhone').val() == ''){
-			alert('연락처를 입력하세요.');
-			$('#staffPhone').focus();
-		} else if($('#staffEmail').val() == ''){
+		} else if(idBtn == false){
+			alert('ID 중복확인은 필수입니다.');
+		} else if(pwCheck == false){
+			alert('PW를 정확하게 입력하세요.');
+		} else if($('#staffPhone').val().length != 11){
+			alert('연락처는 13자리입니다.');
+		} else if($('#staffEmail').val() == null){
 			alert('email을 입력하세요.');
 		} else{
-			$('#modifyForm').submit();
-		}
+			$('#addForm').submit();
+		}*/
 	});
 });
 </script>
@@ -158,7 +75,7 @@ $(document).ready(function(){
 						<div class="col-xl-3 col-lg-3">
 							<div class="logo">
 								<a href="${pageContext.request.contextPath}/staff/">
-									<img src="${pageContext.request.contextPath}/static/img/logo.png" alt="">
+									<img src="../static/img/logo.png" alt="">
 								</a>
 							</div>
 						</div>
@@ -187,16 +104,16 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>정보 수정</h3>
+					<h3>레벨 관리</h3>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-		<section class="blog_area single-post-area section-padding">
+	<section class="blog_area single-post-area section-padding">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-3 mb-5">
+				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
 							<ul class="list cat-list">
@@ -215,71 +132,30 @@ $(document).ready(function(){
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
-							<form id="modifyForm" action="${pageContext.request.contextPath}/staff/modifyStaff" method="post">
-								<table class="table">
+							<table class="table">
+								<tr>
+									<td>ID</td>
+									<td>이름</td>
+									<td>레벨</td>
+									<td>상태</td>
+								</tr>
+								<c:forEach var="s" items="${staffList}">
 									<tr>
-										<td width="25%">이름</td>
-										<td width="75%">
-											<input id="staffName" type="text" name="staffName" value="${staffOne.staffName}">
-										</td>
-									</tr>
-									<tr>
-										<td>ID</td>
+										<td>${s.staffId}</td>
+										<td>${s.staffName}</td>
+										<td>${s.staffLevel}</td>
 										<td>
-											<div>
-												${staffOne.staffId}
-												<input id="staffId" type="hidden" name="staffId" value="${staffOne.staffId}">
-											</div>
+											<button id="stateBtn" type="button">${s.state}</button>
 										</td>
 									</tr>
-									<tr>
-										<td>PW</td>
-										<td>
-											<input id="staffPw" type="password" name="staffPw" placeholder="변경 시 입력해주세요">
-										</td>
-									</tr>
-									<tr>
-										<td>PW 확인</td>
-										<td>
-											<div>
-												<input id="staffPwCk" type="password" name="" placeholder="변경 시 입력해주세요">
-											</div>
-											<div>
-												<span id="pwCheck"></span>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>연락처</td>
-										<td>
-											<input id="staffPhone" type="text" name="staffPhone" value="${staffOne.staffPhone}">
-										</td>
-									</tr>
-									<tr>
-										<td>이메일</td>
-										<td>
-											<div>
-												<input id="staffEmail" type="text" name="staffEmail" placeholder="example@gmail.coom" value="${staffOne.staffEmail}">
-												<button id="emailBtn" type="button" class="genric-btn default-border radius">인증</button>
-											</div>
-											<div id="emailCk">
-											</div>
-										</td>
-									</tr>
-								</table>
-								
-								<button id="modifyBtn" type="button" class="genric-btn primary-border radius">수정</button>
-								<a href="${pageContext.request.contextPath}/staff/getStaffAccount"><button type="button" class="genric-btn primary-border radius">취소</button></a>
-							</form>
-						
+								</c:forEach>
+							</table>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	
-	
 
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
