@@ -16,6 +16,7 @@ public class Member {
 	private String memberNickname;
 	private String memberState;
 	private String memberGender;
+	private String kakaoId;
 	private String createDate;
 	private String updateDate;
 }
