@@ -9,6 +9,7 @@ import com.gd.obo.vo.DonationMoneyList;
 
 @Mapper
 public interface DonationMapper {
+	int insertDonationMoneyList(DonationMoneyList donationMoneyList);
 	List<DonationItemList> selectDonationItemList(int shelterId);
 	List<DonationMoneyList> selectDonationMoneyList(int shelterId);
 }

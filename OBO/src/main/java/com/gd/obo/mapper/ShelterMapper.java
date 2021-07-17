@@ -10,6 +10,7 @@ import com.gd.obo.vo.ShelterAddress;
 
 @Mapper
 public interface ShelterMapper {
+	List<Shelter> selectShelterListByDonation();
 	List<ShelterAddress> selectShelterList(Map<String, Object> map);
 	int selectTotal(Map<String, Object> totalMap);
 	Map<String, Object> selectShelterOne(int shelterId);

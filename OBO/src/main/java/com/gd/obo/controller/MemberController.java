@@ -67,9 +67,9 @@ public class MemberController {
 			return "redirect:/home";
 		}
 		
-		log.debug("■■■■■■■■■■■■ 확인확인하과어랑렁나리너 ㄹ: " + list);
+		log.debug("■■■■■■■■■■■■ getMemberListByKakaoId list 확인: " + list);
 		
-		if(!list.isEmpty()) {
+		if(!list.isEmpty()) {//list가 비었는지 확인
 			model.addAttribute("list", list);
 		}
 		

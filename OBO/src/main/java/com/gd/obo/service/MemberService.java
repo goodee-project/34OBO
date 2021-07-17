@@ -36,7 +36,7 @@ public class MemberService {
 	MemberMapper memberMapper;
 	@Autowired
 	AddressMapper addressMapper;
-	
+
 	
 	//카카오 로그인
 	public Member getMemberByKakaoLogin(Member member) {
