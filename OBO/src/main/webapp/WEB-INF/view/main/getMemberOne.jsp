@@ -58,6 +58,19 @@
 				
 			</td>
 		</tr>
+		<tr>
+			<th>카카오연동</th>
+			<td>
+				<c:if test="${memberOne.kakaoId == null}"><!-- 연동x -->
+					<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=535757159a398fe468b3ed3f2d2032e4&redirect_uri=http://localhost/obo/member/getKakaoLink">
+						<img src="${pageContext.request.contextPath}/static/img/kakaolink_btn_medium.png">
+					</a>
+				</c:if>
+				<c:if test="${memberOne.kakaoId != null}"><!-- 연동o -->
+					연동되었습니다.
+				</c:if>
+			</td>
+		</tr>
 	</table>
 	
 	<button id="modifyMemberOne" type="button" onclick="modifyMemberOne()">내 정보 수정</button>
@@ -85,10 +98,24 @@
 				}
 			}
 		})
-		
-		
+				
 	}
-</script>	
-
+	
+	/*
+	
+	//카카오 연동 - 카카오 로그인창 불러오기!
+	function kakao(){
+		console.log('카카오');
+		 $.ajax({
+		        url: '/member/getKakaoAuthUrl',
+		        type: 'get',
+		    }).done(function (jsonData) {
+		        console.log('로그인창 가져왔니?');
+		    });
+	}
+	*/
+	
+	
+</script>
 </body>
 </html>

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.DonationMapper">
+	<insert id="insertDonationMoneyList" parameterType="com.gd.obo.vo.DonationMoneyList">
+		INSERT INTO donation_money_list(
+			member_id, 
+			shelter_id, 
+			amount, 
+			donation_date
+		) VALUES(
+			#{memberId}, 
+			#{shelterId}, 
+			#{amount}, 
+			NOW()
+		)
+	</insert>
 	<select id="selectDonationItemList" parameterType="int" resultType="com.gd.obo.vo.DonationItemList">
 		SELECT
 			donation_item_list_id donationItemListId,

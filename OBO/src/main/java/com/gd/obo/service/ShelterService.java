@@ -1,6 +1,7 @@
 // 작성자: 김선유
 // 수정자 : 남궁혜영(2021-07-16)
 // 수정자 : 이윤정(2021-07-16) ; staff 회원가입시 -> 보호소 검색용
+// 수정자 : 손영현(2021-07-17) ; 일반, 정기 후원시 -> 보호소 선택용
 package com.gd.obo.service;
 
 import java.util.HashMap;
@@ -27,6 +28,11 @@ public class ShelterService {
 	@Autowired ShelterMapper shelterMapper;
 	@Autowired AddressMapper addressMapper;
 	
+	
+	// 후원: 쉘터 선택용 리스트
+	public List<Shelter> getShelterListByDonation(){
+		return shelterMapper.selectShelterListByDonation();
+	}
 	// shelter 상세보기
 	public Map<String, Object> getShelterOne(int shelterId) {
 		// 상세보기

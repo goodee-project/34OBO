@@ -15,8 +15,15 @@
 								<li><input id="loginMemberPw" name="memberPw" type="password" placeholder="비밀번호" class="form-control" style="width:150px; height:30px"></li>&emsp;
 								<li><button type="button" id="memberLoginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
 								<li><a href="${pageContext.request.contextPath}/addMember">가입</a></li>
+								<li>
+									<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=535757159a398fe468b3ed3f2d2032e4&redirect_uri=http://localhost/obo/loginByKakao">
+										<img src="${pageContext.request.contextPath}/static/img/kakao_login.png">
+									</a>
+								</li>
 							</ul>
+							
 						</form>
+						
 					</div>
 				</div>
 				

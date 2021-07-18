@@ -32,6 +32,7 @@ public class MemberRestapi {
 	@Autowired
 	JavaMailSender javaMailSender;
 	
+		
 	//비밀번호 변경
 	@PostMapping("/member/modifyMemberPw")
 	public boolean modifyMemberPw(HttpSession session,

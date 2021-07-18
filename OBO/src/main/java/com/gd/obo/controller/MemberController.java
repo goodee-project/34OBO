@@ -1,6 +1,9 @@
 //작성자: 손영현
 package com.gd.obo.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.MemberService;
@@ -21,6 +25,82 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Autowired
 	MemberService memberService;
+	
+	//카카오 로그인
+	@PostMapping("/loginByKakao")
+	public String loginByKakao(HttpSession session, Member member) {
+		
+		log.debug("■■■■■ loginByKakao memberId param: " + member);
+		
+		Member loginMember = memberService.getMemberByKakaoLogin(member);
+		log.debug("■■■■■ loginByKakao loginMember: " + loginMember);
+		
+		session.setAttribute("loginMember", loginMember);
+		
+		return "redirect:/home";
+	}
+	
+	//카카오 로그인 폼으로
+	@GetMapping("/loginByKakao")
+	public String getMemberListByKakaoId(Model model,
+									@RequestParam(value = "code", required = true)String code,
+									@RequestParam(value = "error", required = false)String error) {
+		log.debug("■■■■■ loginByKakao code param: " + code);
+		log.debug("■■■■■ loginByKakao error param: " + error);
+		
+		String url = "http://localhost/obo/loginByKakao";
+		
+		List<Map<String, Object>> list = null;
+		String kakaoId = null;
+		
+		//error 코드가 있으면 로그인 x
+		if(error == null) {
+			//토큰 받기
+			String accessToken = memberService.getKakaoToken(code, url);
+			
+			//카카오 아이디 받기
+			kakaoId = memberService.getKakaoId(accessToken);
+			
+			//카카오에 연동된 OBO member목록 가져오기
+			list = memberService.getMemberListByKakaoId(kakaoId);
+		} else {
+			return "redirect:/home";
+		}
+		
+		log.debug("■■■■■■■■■■■■ getMemberListByKakaoId list 확인: " + list);
+		
+		if(!list.isEmpty()) {//list가 비었는지 확인
+			model.addAttribute("list", list);
+		}
+		
+		
+		model.addAttribute("kakaoId" , kakaoId);
+		return "main/getMemberListByKakaoId";
+	}
+	
+	//카카오 연동
+	@GetMapping("/member/getKakaoLink")
+	public String getKakaoLink(HttpSession session,
+								@RequestParam(value = "code", required = true)String code,
+								@RequestParam(value = "error", required = false)String error) {
+		log.debug("■■■■■ getKakaoLink code param: " + code);
+		log.debug("■■■■■ getKakaoLink error param: " + error);
+		
+		String url = "http://localhost/obo/member/getKakaoLink";
+		//error 코드가 있으면 연동 x
+		if(error == null) {
+			//토큰 받기
+			String accessToken = memberService.getKakaoToken(code, url);
+			
+			//카카오 아이디 받기
+			String kakaoId = memberService.getKakaoId(accessToken);
+			
+			//카카오 아이디 저장하기
+			memberService.modifyMemberByKakao(((Member)session.getAttribute("loginMember")).getMemberId(), kakaoId);
+		}
+		
+		return "redirect:/member/getMemberOne";
+	}
 	
 	//member Pw 수정 창으로 이동
 	@GetMapping("/member/modifyMemberPw")
