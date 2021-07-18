@@ -112,16 +112,25 @@ public class StaffController {
 	}
 	
 	// staff 승인대기 창 이동
-	@GetMapping("/modifyStaffLevel")
-	public String modifyStaffLevel() {
+	@GetMapping("/modifyStaffState")
+	public String modifyStaffState(Model model, HttpSession session) {
 		log.debug("●●●●●●●●●●▶승인 페이지 이동");
-		return "staff/modifyStaffLevel";
+		
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●●●●●●●▶세션의 shelterId-> "+shelterId);
+		List<Map<String, Object>> staffList = staffService.getStaffListByMaster(shelterId);
+		log.debug("●●●●●●●●●●▶불러온 staffList-> "+staffList);
+		
+		model.addAttribute("staffList", staffList);
+		
+		return "staff/modifyStaffState";
 	}
 	
 	// staff 승인대기 action
-	@PostMapping("/modifyStaffLevel")
-	public String modifyStaffLevel(Model model) {
+	@PostMapping("/modifyStaffState")
+	public String modifyStaffState() {
 		log.debug("●●●●●●●●●●▶승인 페이지 이동");
+		
 		return "redirect:/staff/getStaffAccount";
 	}
 

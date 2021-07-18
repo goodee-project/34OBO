@@ -1,6 +1,7 @@
 package com.gd.obo.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,9 +13,10 @@ public interface StaffMapper {
 	int selectStaffLoginCk(Staff staff);
 	Staff selectStaffOne(String staffId);
 	List<Staff> selectStaffLevel0(int shelterId);
-	int selectStaffIdCheck(String staffId);
+	List<Map<String, Object>> selectStaffListByMaster(int shelterId);
+	int selectStaffIdCheck(String staffId, String staffPw);
 	int insertStaff(Staff staff);
 	int insertMasterStaff(Staff staff);
 	int updateStaff(Staff staff);
-	int updateStaffLevel(String staffId);
+	int updateStaffState(Map<String, Object> map);
 }
