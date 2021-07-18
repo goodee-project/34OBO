@@ -42,6 +42,10 @@ $(document).ready(function(){
 		console.log('logout!');
 		$('#logout').submit();
 	});
+	$('#searchBtn').click(function(){
+		console.log('검색!');
+		$('#qaList').submit();
+	});
 });
 </script>
 </head>
@@ -118,6 +122,54 @@ $(document).ready(function(){
                 	</tbody>
                 </table>
             </div>
+            <!-- 페이징 -->
+        	<div class="blog_left_sidebar">
+			<nav class="blog-pagination justify-content-center d-flex">
+				<ul class="pagination">
+				<!-- 이전 페이지 -->
+				<c:if test="${currentPage-1 >0}">
+					<li class="page-item"><a href="${pageContext.request.contextPath}/manager/getQualificationApprovalList?currentPage=${currentPage-1}&lastPage=${lastPage}&searchWord=${searchWord}" 
+						 class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i>
+					</a></li>
+					<li class="page-item"><a href="${pageContext.request.contextPath}/manager/getQualificationApprovalList?currentPage=${currentPage-1}&lastPage=${lastPage}&searchWord=${searchWord}" 
+						 class="page-link">${currentPage-1}
+					</a></li>
+				</c:if>
+				<c:if test="${currentPage-1 <= 0}">
+				</c:if>
+				<!-- /이전 페이지 -->
+				<!-- 현재 페이지 -->
+					<li class="page-item active"><a href="${pageContext.request.contextPath}/manager/getQualificationApprovalList?currentPage=${currentPage}&lastPage=${lastPage}&searchWord=${searchWord}" 
+						 class="page-link">${currentPage}
+					</a></li>
+				<!-- /현재 페이지 -->
+				<!-- 다음 페이지 -->
+				<c:if test="${currentPage+1 <= lastPage}">
+					<li class="page-item"><a href="${pageContext.request.contextPath}/manager/getQualificationApprovalList?currentPage=${currentPage+1}&lastPage=${lastPage}&searchWord=${searchWord}" 
+						class="page-link" aria-label="Next"> ${currentPage+1}
+					</a></li>
+					<li class="page-item"><a href="${pageContext.request.contextPath}/manager/getQualificationApprovalList?currentPage=${currentPage+1}&lastPage=${lastPage}&searchWord=${searchWord}" 
+						class="page-link" aria-label="Next"> <i class="ti-angle-right"></i>
+					</a></li>
+				</c:if>
+				<!-- /다음 페이지 -->
+				</ul>
+			</nav>
+			<hr>
+			<!-- /페이징 -->
+			
+			<!-- 검색 -->
+				<div class="default-select" id="default-select">
+				</div>
+				<form action="${pageContext.request.contextPath}/manager/getQualificationApprovalList?currentPage=${currentPage}&lastPage=${lastPage}&searchWord=${searchWord}" id="qaList">
+				<div class="form-group">
+					<div class="input-group mb-4">
+						<input type="text" id="sName" class="form-control" placeholder='Search Name' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Member'" name="searchWord">
+						<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+					</div>
+				</div>
+			</form>
+			<!-- /검색 -->
         </div>
     </div>
     <!-- pet_care_area_end  -->

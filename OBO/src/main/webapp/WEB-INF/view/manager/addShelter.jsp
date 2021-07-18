@@ -1,5 +1,4 @@
 <!-- 작성자 : 남궁혜영 -->
-<!-- 유효성 검사 해야 됨! -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -46,9 +45,95 @@ $(document).ready(function(){
 		console.log('logout!');
 		$('#logout').submit();
 	});
+	// id 중복확인
+	$('#idBtn').click(function(){
+		console.log('idBtn 버튼 클릭!');
+		if($('#staffId').val() == ''){
+			alert('사용할 ID를 입력해주세요.');
+			return;
+		}
+		$.ajax({
+			type:'get',
+			url:'${pageContext.request.contextPath}/getStaffIdCheck',
+			data: {staffId : $('#staffId').val()},
+			success: function(jsonData){
+				console.log('id 중복확인 ajax 성공');
+				if(jsonData == 1){
+					$('#idCheck').text('중복된 id 입니다.');
+				} else{
+					$('#idCheck').text('사용가능 합니다.');
+					idBtn = true;
+				}
+			}
+		});
+	});
+	
+	// pw 일치확인
+	$('#staffPwCheck').keyup(function(){
+		if($('#staffPwCheck').val().length > 3){
+			if($('#staffPw').val() != $('#staffPwCheck').val()){
+				$('#pwCheck').text('패스워드가 일치하지 않습니다.');
+			} else{
+				$('#pwCheck').text('패스워드가 일치합니다.');
+				pwCheck = true;
+			}
+		}
+	});
 	$('#addshelter').click(function(){
 		console.log('보호소등록!');
-		$('#addshelterForm').submit();
+		if($('#shelterName').val()==''){
+			alert('보호소 이름을 입력하세요.');
+			$('#shelterName').focus();
+		} else if($('#introduction').val()==''){
+			alert('보호소 소개를 입력하세요.');
+			$('#introduction').focus();
+		} else if($('#sample4_postcode').val()==''){
+			alert('주소를 입력하세요.');
+			$('#sample4_postcode').focus();
+		} else if($('#sample4_roadAddress').val()==''){
+			alert('주소를 입력하세요.');
+			$('#sample4_roadAddress').focus();
+		} else if($('#sample4_detailAddress').val()==''){
+			alert('상세 주소를 입력하세요.');
+			$('#sample4_detailAddress').focus();
+		} else if($('#shelterPhone').val()==''){
+			alert('보호소 전화번호를 입력하세요.');
+			$('#shelterPhone').focus();
+		} else if($('#protectDuration').val()==''){
+			alert('보호 기간을 입력하세요.');
+			$('#protectDuration').focus();
+		} else if($('#account').val()==''){
+			alert('계좌번호를 입력하세요.');
+			$('#account').focus();
+		} else if($('#staffId').val() == ''){
+			alert('직원 아이디를 입력하세요.');
+			$('#staffId').focus();
+		} else if(idBtn == false || $('#idCheck').text()==''){
+			alert('ID 중복확인 버튼을 눌러주세요.');
+		} else if($('#idCheck').text()=='중복된 id 입니다.'){
+			alert('아이디가 중복되지 않게 해주세요.');
+		} else if($('#staffPw').val() == ''){
+			alert('직원 비밀번호를 입력하세요.');
+			$('#staffPw').focus();
+		} else if($('#staffPwCheck').val() == ''){
+			alert('직원 비밀번호 확인을 입력하세요.');
+			$('#staffPw').focus();
+		} else if($('#staffPwCheck').val().length < 4){
+			alert('PW는 최소 4자입니다.');
+			$('#staffPw').focus();
+		} else if($('#pwCheck').text() == '패스워드가 일치하지 않습니다.'){
+			alert('PW가 일치하지 않습니다.');
+			$('#staffPw').focus();
+		} else if($('#staffName').val() == ''){
+			alert('직원 이름을 입력하세요.');
+			$('#staffName').focus();
+		} else if($('#staffEmail').val() == ''){
+			alert('email을 입력하세요.');
+			$('#staffEmail').focus();
+		} else {
+			console.log('등록 완료');
+			$('#shelterForm').submit();
+		}
 	});
 });
 </script>
@@ -95,7 +180,7 @@ $(document).ready(function(){
      <!--================Blog Area =================-->
     <section class="blog_area section-padding">
         <div class="container">
-       	 <form action="${pageContext.request.contextPath}/manager/addShelter" method="post" id="addShelterForm">
+       	 <form action="${pageContext.request.contextPath}/manager/addShelter" method="post" id="shelterForm">
             <div class="row">
                 <div class="col-lg-6">
                         <article class="blog_item">
@@ -104,18 +189,18 @@ $(document).ready(function(){
                             	<table class="table">
                             		<tr>
                             			<td><p>보호소 이름</p></td>
-                            			<td><input class="text" name="shelterName"></td>
+                            			<td><input class="text" id="shelterName" name="shelterName"></td>
                             		</tr>
                             		<tr>
                             			<td><p>보호소 소개</p></td>
-                            			<td><textarea name="introduction" cols="25" rows="5"></textarea></td>
+                            			<td><textarea name="introduction" id="introduction" cols="25" rows="5"></textarea></td>
                             		</tr>
                             		<tr>
                             			<td><p>보호소 주소</p></td>
                             			<td>
-	                            			<input type="text" id="sample4_postcode" name="postCode" placeholder="우편번호">
+	                            			<input type="text" id="sample4_postcode" name="postCode" placeholder="우편번호" readonly>
 											<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-											<input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="doro">
+											<input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="doro" readonly>
 											<span id="guide" style="color:#999;display:none"></span>
 											<div>
 												<input type="text" id="sample4_detailAddress" placeholder="상세주소" name="detailAddress">		
@@ -124,15 +209,15 @@ $(document).ready(function(){
                             		</tr>
                             		<tr>
                             			<td><p>전화번호</p></td>
-                            			<td><input type="text" name="shelterPhone"></td>
+                            			<td><input type="text" id="shelterPhone" name="shelterPhone"></td>
                             		</tr>
                             		<tr>
                             			<td><p>보호기간(일)</p></td>
-                            			<td><input type="text" name="protectDuration"></td>
+                            			<td><input type="text" id="protectDuration" name="protectDuration"></td>
                             		</tr>
                             		<tr>
                             			<td><p>계좌번호</p></td>
-                            			<td><input type="text" name="account"></td>
+                            			<td><input type="text" id="account" name="account"></td>
                             		</tr>
                             	</table>
                             </div>
@@ -145,7 +230,10 @@ $(document).ready(function(){
                             	<table class="table">
                             		<tr>
                             			<td><p>아이디</p></td>
-                            			<td><input class="text" name="staffId"></td>
+                            			<td><input class="text" id="staffId" name="staffId"><button id="idBtn" type="button" class="genric-btn default-border radius">확인</button>
+	                            			<br>
+	                            			<span id="idCheck"></span>
+                            			</td>
                             		</tr>
                             		<tr>
                             			<td><p>비밀번호</p></td>
@@ -155,16 +243,17 @@ $(document).ready(function(){
                             			<td><p>비밀번호 확인</p></td>
                             			<td>
                             				<input type="password" id="staffPwCheck">
+                            				<br>
                             				<span id="pwCheck"></span>
                             			</td>
                             		</tr>
                             		<tr>
                             			<td><p>이름</p></td>
-                            			<td><input type="text" name="staffName"></td>
+                            			<td><input type="text" id="staffName" name="staffName"></td>
                             		</tr>
                             		<tr>
                             			<td><p>이메일</p></td>
-                            			<td><input type="text" name="staffEmail"></td>
+                            			<td><input type="text" id="staffEmail" name="staffEmail"></td>
                             		</tr>
                             	</table>
                             </div>
@@ -172,8 +261,8 @@ $(document).ready(function(){
                     </div>
                 </div>
                 <div style="text-align: right;">
-                <a href="${pageContext.request.contextPath}/manager/getManagerShelterList" onclick="return confirm('보호소 등록을 취소 하시겠습니까?');" class="genric-btn danger-border circle arrow medium">취소</a>
-               	<button class="genric-btn primary-border circle arrow medium" id="addShelter">등록</button>
+              	<a href="${pageContext.request.contextPath}/manager/getManagerShelterList" onclick="return confirm('보호소 등록을 취소 하시겠습니까?');" class="genric-btn danger-border circle arrow medium">취소</a>
+               	<button type="button" class="genric-btn primary-border circle arrow medium" id="addshelter">등록</button>
                 </div>
                 </form>
         </div>
