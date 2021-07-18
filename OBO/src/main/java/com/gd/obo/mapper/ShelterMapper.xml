@@ -9,6 +9,8 @@
 			account account 
 		FROM shelter
 	</select>
+	
+	<!-- 보호소 목록. 검색어는 이름, 지역. -->
 	<select id="selectShelterList" resultType="com.gd.obo.vo.ShelterAddress" parameterType="java.util.Map">
 		SELECT 
 			s.shelter_id shelterId,
@@ -30,17 +32,23 @@
 			<if test="shelterName != null">
 				AND s.shelter_name LIKE CONCAT('%',#{shelterName},'%')
 			</if>
+			<if test="searchAddress != null">
+				AND a.doro LIKE CONCAT('%',#{searchAddress},'%')
+			</if>
 		</where>	
 		ORDER BY s.shelter_id ASC		
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
-	<select id="selectTotal" resultType="Integer">
+	<select id="selectTotal" parameterType="java.util.Map" resultType="Integer">
 		SELECT COUNT(*) 
-		FROM shelter	
+		FROM shelter s JOIN address a ON s.address_id = a.address_id
 		<where>
 			<if test="shelterName != null">
-				AND shelter_name LIKE CONCAT('%',#{shelterName},'%')
+				AND s.shelter_name LIKE CONCAT('%',#{shelterName},'%')
+			</if>
+			<if test="searchAddress != null">
+				AND a.doro LIKE CONCAT('%',#{searchAddress},'%')
 			</if>
 		</where>
 	</select>

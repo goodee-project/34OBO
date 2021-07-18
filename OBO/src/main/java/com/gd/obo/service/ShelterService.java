@@ -43,11 +43,13 @@ public class ShelterService {
 	}
 	
 	// shelter 리스트,  staff 회원가입 -> 보호소 선택
-	public Map<String, Object> getShelterList(int currentPage, int rowPerPage, String shelterName) {
+	public Map<String, Object> getShelterList(int currentPage, int rowPerPage, String shelterName, String searchAddress) {
 		
 		// shelter 개수
 		Map<String, Object> totalMap = new HashMap<>();
 		totalMap.put("shelterName", shelterName);
+		totalMap.put("searchAddress", searchAddress);
+		log.debug("===== totalMap: "+totalMap);
 		
 		int shelterTotal = shelterMapper.selectTotal(totalMap);
 		int lastPage = (int)Math.ceil((double)shelterTotal/rowPerPage);
@@ -63,11 +65,11 @@ public class ShelterService {
 		
 		//리스트
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("paramMap", paramMap);
 		paramMap.put("currentPage", currentPage);
 		paramMap.put("rowPerPage", rowPerPage);
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("shelterName", shelterName);
+		paramMap.put("searchAddress", searchAddress);
 		log.debug("@@@@@ paramMap: "+paramMap);
 		
 		List<ShelterAddress> shelterList = shelterMapper.selectShelterList(paramMap);

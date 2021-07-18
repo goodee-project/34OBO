@@ -61,15 +61,16 @@ public class StaffService {
 		log.debug("===== add staff:"+staff);
 		return staffMapper.insertStaff(staff);
 	}
-	// 마스터 staff 추가
-		public int addMasterStaff(Staff staff) {
-			log.debug("===== add staff:"+staff);
-			return staffMapper.insertMasterStaff(staff);
-		}
 	
-	// staff Id 중복확인
-	public int getStaffIdCheck(String staffId) {
-		return staffMapper.selectStaffIdCheck(staffId);
+	// 마스터 staff 추가
+	public int addMasterStaff(Staff staff) {
+		log.debug("===== add staff:"+staff);
+		return staffMapper.insertMasterStaff(staff);
+	}
+	
+	// staff account 확인 -> Id 중복확인 + 계정 수정시 pw일치확인
+	public int getStaffAccountCheck(String staffId, String staffPw) {
+		return staffMapper.selectStaffIdCheck(staffId, staffPw);
 	}
 	
 	// staff 정보 수정
@@ -77,9 +78,21 @@ public class StaffService {
 		return staffMapper.updateStaff(staff);
 	}
 	
-	// staff level 수정 -> 마스터 계정이 사이드 계정 접근 권한 준다.
-	public int modifyStaffLevel(String staffId) {
-		return staffMapper.updateStaffLevel(staffId);
+	// staff 간단한 정보 보기 -> 마스터 계정만 가능
+	public List<Map<String, Object>> getStaffListByMaster(int shelterId) {
+		return staffMapper.selectStaffListByMaster(shelterId);
 	}
 	
+	// staff level 수정 -> 마스터 계정이 사이드 계정 접근 권한 준다.
+	public int modifyStaffState(Integer staffLevel, Integer staffActive, String staffId) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("staffLevel", staffLevel);
+		map.put("staffActive", staffActive);
+		map.put("staffId", staffId);
+		
+		log.debug("●●●●▶변경할 정보-> "+map);
+		
+		return staffMapper.updateStaffState(map);
+	}
 }

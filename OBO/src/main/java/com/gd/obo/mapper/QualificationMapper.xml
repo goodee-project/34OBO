@@ -3,7 +3,7 @@
 <mapper namespace="com.gd.obo.mapper.QualificationMapper">
 
 <!-- 자격 승인 목록 -->
-<select id="selectQualificationApprovalList" resultType="java.util.Map">
+<select id="selectQualificationApprovalList" resultType="java.util.Map" parameterType="com.gd.obo.vo.Page">
 	SELECT a.qualification_volunteer_application_id qvaId, qv.member_id memberId, vc.volunteer_category_name volunteerCategory, 
 		qt.qualification_type_name qualificationType, qf.qualification_file_id fileId, qf.qualification_file_name qualificationFile, a.approval_check ck,
 		a.manager_id managerId, a.approval_date approvalDate
@@ -16,11 +16,16 @@
 		ON qv.volunteer_category_id = vc.volunteer_category_id
 	JOIN qualification_type qt
 		ON qv.qualification_type_id = qt.qualification_type_id
-	LIMIT 0,10
+	<where>
+		<if test="searchWord != null">
+			AND qv.member_id LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+	</where>	
+	LIMIT #{beginRow}, #{rowPerPage}
 </select>
 
 <!-- 자격 신청 목록 -->
-<select id="selectQualificationApplicationList" resultType="java.util.Map">
+<select id="selectQualificationApplicationList" resultType="java.util.Map" parameterType="com.gd.obo.vo.Page">
 	SELECT a.qualification_volunteer_application_id applicationId, a.member_id memberId, vc.volunteer_category_name category,a.applicate_date date,
 		qt.qualification_type_name qualificationType, qf.qualification_file_id fileId, qf.qualification_file_name qualificationFile, qa.approval_check ck
 		FROM qualification_volunteer_application a
@@ -32,7 +37,38 @@
 		ON a.qualification_file_id = qf.qualification_file_id
 	JOIN qualification_type qt
 		ON a.qualification_type_id = qt.qualification_type_id
-	WHERE qa.approval_check IS NULL
+	<where>
+		AND qa.approval_check IS NULL
+		<if test="searchWord != null">
+			AND a.member_id LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+	</where>
+	LIMIT #{beginRow}, #{rowPerPage}
+</select>
+
+<!-- 자격 신청 목록 토탈 -->
+<select id="selectQualificationApplicationListTotal" resultType="int" parameterType="com.gd.obo.vo.Page">
+	SELECT COUNT(*) FROM qualification_volunteer_application a
+	LEFT JOIN qualification_approval qa
+		ON qa.qualification_volunteer_application_id = a.qualification_volunteer_application_id
+	<where>
+		AND qa.approval_check IS NULL
+		<if test="searchWord != null">
+			AND a.member_id LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+	</where>
+</select>
+
+<!-- 자격 승인 목록 토탈 -->
+<select id="selectQualificationApprovalListTotal" resultType="int" parameterType="com.gd.obo.vo.Page">
+	SELECT COUNT(*) FROM qualification_approval a
+	JOIN qualification_volunteer_application qv
+		ON a.qualification_volunteer_application_id = qv.qualification_volunteer_application_id
+	<where>
+		<if test="searchWord != null">
+			AND qv.member_id LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+	</where>
 </select>
 
 <!-- 자격 신청 승인 -->

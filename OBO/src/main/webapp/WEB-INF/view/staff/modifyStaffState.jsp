@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>modifyStaff</title>
+<title>modifyStaffLevel</title>
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -30,114 +30,113 @@
 
 <script>
 $(document).ready(function(){	
+	let idBtn = false;
 	let pwCheck = false;
-	let emailBtn = false;
 	
-	// pw 변경 시 pw 확인 일치 여부
-	$('#staffPwCk').keyup(function(){
-		if($('#staffPwCk').val().length > 3){
-			if($('#staffPw').val() != $('#staffPwCk').val()){
-				$('#pwCheck').text('패스워드가 일치하지 않습니다.');
-			} else{
-				$('#pwCheck').text('패스워드가 일치합니다.');
-				pwCheck = true;
-			}
-		}
+	// 대기중 클릭 시 level 변경하는 모달 창
+	$(document).on('click', '#levelClick', function(e){
+		console.log('대기중 클릭');
+		console.log('클릭 value!!!!!!!!!!!'+e.target.value);
 		
-		// 4자리에서 3자리로 바꿀경우 true 값 유지 상태 false로 변경
-		if($('#staffPwCk').val().length < 4){
-			pwCheck = false;
-		}
-	});
-	
-	// 기존 email 값
-	let emailBefore = $('#staffEmail').val();
-	
-	// email 인증키
-	let emailKey;
-	
-	// email 인증버튼 클릭 시
-	$('#emailBtn').click(function(){
-		console.log('emailBtn 클릭!');
-		$('#emailCk').empty();
+		let staffId = e.target.value;
 		
-		if($('#staffEmail').val() == emailBefore){
-			alert('기존 email주소입니다.');
-			$('#staffEmail').focus();
-		} else if($('#staffEmail').val() == ''){
-			alert('수정할 email을 입력해주세요.');
-			$('#staffEmail').focus();
-		} else{
-			alert('인증 번호가 전송되었습니다.');
-			
-			$('#emailCk').append(
-				'<input id="staffEmailCk" type="text" placeholder="숫자 6자리 입력"> '
-				+'<button id="emailCkBtn" type="button" class="genric-btn default-border radius">확인</button>'
-				+'<span id="emailCkInfo"></span>'
-			)
-			
-			// email 전송 ajax
+		$(document).on('click', '#levelCkBtn', function(){
+			console.log('승인확인 클릭!');
 			$.ajax({
-				url: '${pageContext.request.contextPath}/checkEmail',
+				url: '${pageContext.request.contextPath}/changeStaffState',
 				type: 'post',
-				data: {email : $('#staffEmail').val()},
+				dataType: 'json',
+				data: {staffId : staffId,
+						staffLevel : 1},
 				success: function(jsonData){
-					emailKey = jsonData;
-					console.log('email 인증 번호-> '+emailKey);
+					if(jsonData != 1){
+						alert('수정 실패.');
+						return;
+					}
+					console.log('level 수정 완료!');
+					location.href='${pageContext.request.contextPath}/staff/modifyStaffState';	//일치하면 페이지 이동
 				}
 			});
-		}
+		});
+	});
+	
+	// 수정 클릭 시 active 변경하는 모달 창
+	$(document).on('click', '#activeClick', function(e){
+		console.log('수정&비활성 클릭');
+		console.log('클릭 value!!!!!!!!!!!'+e.target.value);
 		
+		let staffId = e.target.value;
+		//let staffActive = e.target.
+		
+		$(document).on('click', '#activeCkBtn', function(a){
+			console.log('level 선택 후 확인버튼 클릭!');
+			
+			let staffActive = a.target.value;
+			let staffActive2 = $('#staffActive').val();
+			console.log('staffActive?!'+staffActive2);
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/changeStaffState',
+				type: 'post',
+				dataType: 'json',
+				data: {staffId : staffId,
+						staffActive : $('#staffActive').val()},
+				success: function(jsonData){
+					if(jsonData != 1){
+						alert('수정 실패');
+						return;
+					}
+					console.log('active 수정 완료!');
+					location.href='${pageContext.request.contextPath}/staff/modifyStaffState';	//일치하면 페이지 이동
+				}
+			});
+		});
 	});
 	
-	//[확인] 버튼 클릭 시 -> 유효한 메일인지?
-	$(document).on('click', '#emailCkBtn', function(){	// 동적으로 생성된 staffEmailCk, emailCkBtn, emailCkInfo를 바인딩한다.
-		console.log('인증번호[확인]버튼 클릭!');
-	
-		if(emailKey == $('#staffEmailCk').val()){
-			$('#emailCkInfo').text('email 인증에 성공했습니다.');
-			emailBtn = true;
-		} else{
-			$('#emailCkInfo').text('인증번호를 다시 확인해주세요.');
-		}
-	});
-	
-	
-	// 수정 버튼 클릭 시 -> 유효성 검사 필요
+	// 가입 버튼 클릭 시 -> 유효성 검사 필요
 	$('#modifyBtn').click(function(){
 		console.log('modifyBtn 버튼 클릭!');
+		$('#modifyForm').submit();
 		
-		// pw 수정 후 일치하지 않을 때
-		if(!pwCheck && ($('#staffEmail').val() != '')){
-			console.log('pw != pw확인 : 둘 다름');
-			alert('PW가 일치하지 않습니다.');
-			return;
-		}
-		
-		
-		// email 수정 후 인증절차 안 했을 때
-		if(!emailBtn && ($('#staffEmail').val() != emailBefore)){
-			console.log('email 수정했지만 인증확인을 안 했다!');
-			alert('email 수정 후 인증절차를 진행해주세요.');
-			return;
-		}
-		
-		if($('#staffName').val() == ''){
+		//보호소 -> 이름 -> 아이디 -> 패스워드 -> 연락처 -> 이메일
+		/*
+		if($('#staffName').val() == null){
 			alert('이름을 입력하세요.');
-			$('#staffName').focus();
-		} else if($('#staffPw').val() != $('#staffPwCk').val()){
-			alert('패스워드를 확인하세요.');
-			$('#staffPw').focus();
-		} else if($('#staffPhone').val() == ''){
-			alert('연락처를 입력하세요.');
-			$('#staffPhone').focus();
-		} else if($('#staffEmail').val() == ''){
+		} else if(idBtn == false){
+			alert('ID 중복확인은 필수입니다.');
+		} else if(pwCheck == false){
+			alert('PW를 정확하게 입력하세요.');
+		} else if($('#staffPhone').val().length != 11){
+			alert('연락처는 13자리입니다.');
+		} else if($('#staffEmail').val() == null){
 			alert('email을 입력하세요.');
 		} else{
-			alert('정보 수정 완료');
-			$('#modifyForm').submit();
-		}
+			$('#addForm').submit();
+		}*/
 	});
+	
+	// 정보 수정 클릭 시 pw 입력하는 모달 창
+	$('#myAccountClick').click(function() {
+		console.log('정보 수정 클릭');
+		
+		$('#ckBtn').click(function(){
+			console.log('pw 입력 후 확인버튼 클릭!');
+			$.ajax({
+				url: '${pageContext.request.contextPath}/checkStaffPw',
+				type: 'post',
+				data: {staffPw : $('#staffPw').val()},
+				success: function(jsonData){
+					// console.log('계정클릭 ajax 성공!');
+					if(jsonData != 1){
+						alert('PW가 일치하지 않습니다.');
+						return;
+					}
+					console.log('pw일치!');
+					location.href='${pageContext.request.contextPath}/staff/modifyStaff';	//일치하면 페이지 이동
+				}
+			});	// ajax; pw 일치
+		});	// ckBtn; 모달창 pw 입력 후 확인버튼 클릭
+	});	// myAccountClick; 내 정보 클릭
 });
 </script>
 </head>
@@ -161,7 +160,7 @@ $(document).ready(function(){
 						<div class="col-xl-3 col-lg-3">
 							<div class="logo">
 								<a href="${pageContext.request.contextPath}/staff/">
-									<img src="${pageContext.request.contextPath}/static/img/logo.png" alt="">
+									<img src="../static/img/logo.png" alt="">
 								</a>
 							</div>
 						</div>
@@ -190,21 +189,22 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>정보 수정</h3>
+					<h3>상태 관리</h3>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-		<section class="blog_area single-post-area section-padding">
+	<section class="blog_area single-post-area section-padding">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-3 mb-5">
+				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
 							<ul class="list cat-list">
 								<li>
-									<a href="${pageContext.request.contextPath}/staff/modifyStaff" class="d-flex"><p>정보 수정</p></a>
+									<a href="${pageContext.request.contextPath}/staff/modifyStaff" class="d-flex"
+										id="myAccountClick" data-toggle="modal" data-target="#login-modal"><p>정보 수정</p></a>
 								</li>
 								<li>
 									<c:if test="${loginStaff.staffLevel == 2}">
@@ -217,64 +217,37 @@ $(document).ready(function(){
 				</div>
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
-						<div class="blog_details">
-							<form id="modifyForm" action="${pageContext.request.contextPath}/staff/modifyStaff" method="post">
-								<table class="table">
+						<div id="but" class="blog_details">
+							<div>* 마스터 계정의 레벨은 변경할 수 없습니다.</div>
+							<br>
+							<table class="table" style="text-align:center;">
+								<tr>
+									<td>ID</td>
+									<td>이름</td>
+									<td>레벨</td>
+									<td>상태</td>
+								</tr>
+								<c:forEach var="s" items="${staffList}">
 									<tr>
-										<td width="25%">이름</td>
-										<td width="75%">
-											<input id="staffName" type="text" name="staffName" value="${staffOne.staffName}">
-										</td>
-									</tr>
-									<tr>
-										<td>ID</td>
+										<td>${s.staffId}</td>
+										<td>${s.staffName}</td>
+										<td>${s.staffLevel}</td>
 										<td>
-											<div>
-												${staffOne.staffId}
-												<input id="staffId" type="hidden" name="staffId" value="${staffOne.staffId}">
-											</div>
+											<c:if test="${s.staffLevel == 0}">
+												<button type="button" class="genric-btn default-border radius" value="${s.staffId}"
+														id="levelClick" data-toggle="modal" data-target="#level-modal">${s.state}</button>
+											</c:if>
+											<c:if test="${s.staffLevel == 1}">
+												<button type="button" class="genric-btn default-border radius" value="${s.staffId}"
+														id="activeClick" data-toggle="modal" data-target="#active-modal">${s.state}</button>
+											</c:if>
+											<c:if test="${s.state == '마스터'}">
+												<button id="stateBtn" type="button" class="genric-btn default-border radius" disabled>${s.state}</button>
+											</c:if>
 										</td>
 									</tr>
-									<tr>
-										<td>PW</td>
-										<td>
-											<input id="staffPw" type="password" name="staffPw" placeholder="변경 시 입력해주세요">
-										</td>
-									</tr>
-									<tr>
-										<td>PW 확인</td>
-										<td>
-											<div>
-												<input id="staffPwCk" type="password" name="" placeholder="변경 시 입력해주세요">
-											</div>
-											<div>
-												<span id="pwCheck"></span>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>연락처</td>
-										<td>
-											<input id="staffPhone" type="text" name="staffPhone" value="${staffOne.staffPhone}">
-										</td>
-									</tr>
-									<tr>
-										<td>이메일</td>
-										<td>
-											<div>
-												<input id="staffEmail" type="text" name="staffEmail" placeholder="example@gmail.coom" value="${staffOne.staffEmail}">
-												<button id="emailBtn" type="button" class="genric-btn default-border radius">인증</button>
-											</div>
-											<div id="emailCk">
-											</div>
-										</td>
-									</tr>
-								</table>
-								
-								<button id="modifyBtn" type="button" class="genric-btn primary-border radius">수정</button>
-								<a href="${pageContext.request.contextPath}/staff/getStaffAccount"><button type="button" class="genric-btn primary-border radius">취소</button></a>
-							</form>
-						
+								</c:forEach>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -282,9 +255,8 @@ $(document).ready(function(){
 		</div>
 	</section>
 	
-	<!-- 정보 수정 페이지에서 정보 수정을 다시 클릭할 경우 모달을 따로 띄우진 않도록 한다. -->
 	<!-- pw 모달 -->
-	<div class="modal fade modal_pw" id="login-modal" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+	<div class="modal fade" id="login-modal" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
@@ -293,6 +265,43 @@ $(document).ready(function(){
 					<input id="staffPw" class="form-control" type="password"  name="password" placeholder="PW 입력" required="required"> <br />
 					<button id="ckBtn" type="button" class="btn btn-primary">확인</button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- level 변경 모달 -->
+	<div class="modal fade" id="level-modal" role="dialog" aria-labelledby="level-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title">계정 승인 하시겠습니까?</h4>
+					<br>
+					<br>
+					<button id="levelCkBtn" type="button" class="genric-btn primary-border radius">확인</button>
+					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- active 변경 모달 -->
+	<div class="modal fade" id="active-modal" role="dialog" aria-labelledby="active-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title">active을 선택해주세요</h4>
+					<br>
+					<div class="form-control">
+						staffActive 
+						<select id="staffActive" name="staffActive">
+								<option value="1">활성</option>
+								<option value="0">비활성</option>
+						</select>
+					</div>
+					<br>
+					<button id="activeCkBtn" type="button" class="genric-btn primary-border radius">확인</button>
+					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

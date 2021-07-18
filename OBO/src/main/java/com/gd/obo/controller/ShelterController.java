@@ -1,6 +1,7 @@
 // 작성자 : 김선유
 // 수정자 : 이윤정
 // 수정자 : 남궁혜영(2021-07-16)
+// 수정자 : 남궁혜영(2021-07-18)
 
 package com.gd.obo.controller;
 
@@ -35,15 +36,20 @@ public class ShelterController {
 	public String getShelterlist(Model model,
 									@RequestParam(value="currentPage", defaultValue="1") int currentPage,
 									@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
-									@RequestParam(value="shelterName", required = false) String shelterName) {
+									@RequestParam(value="shelterName", required = false) String shelterName,
+									@RequestParam(value="searchAddress", required = false) String searchAddress) {
 		log.debug("@@@@@ shelterName: "+shelterName);
 		if(shelterName != null && shelterName.equals("")) {
 			shelterName=null;
-		}		
-		Map<String, Object> map = shelterService.getShelterList(currentPage, rowPerPage, shelterName);
+		}	
+		if(searchAddress != null && searchAddress.equals("")) {
+			searchAddress=null;
+		}
+		Map<String, Object> map = shelterService.getShelterList(currentPage, rowPerPage, shelterName, searchAddress);
 		model.addAttribute("shelterList",map.get("shelterList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("searchAddress", searchAddress);
 		model.addAttribute("shelterName", shelterName);
 		log.debug("@@@@@ map: "+map);
 		
@@ -51,20 +57,25 @@ public class ShelterController {
 	}
 	
 	// 관리자용 shelter 리스트
-	// 
+	// 주소 검색 추가.
 	@GetMapping("/manager/getManagerShelterList")
 	public String getManagerShelterList(Model model,
 									@RequestParam(value="currentPage", defaultValue="1") int currentPage,
 									@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
-									@RequestParam(value="shelterName", required = false) String shelterName) {
+									@RequestParam(value="shelterName", required = false) String shelterName,
+									@RequestParam(value="searchAddress", required = false) String searchAddress) {
 		log.debug("===== shelterName: "+shelterName);
 		if(shelterName != null && shelterName.equals("")) {
 			shelterName=null;
-		}		
-		Map<String, Object> map = shelterService.getShelterList(currentPage, rowPerPage, shelterName);
+		}
+		if(searchAddress != null && searchAddress.equals("")) {
+			searchAddress=null;
+		}
+		Map<String, Object> map = shelterService.getShelterList(currentPage, rowPerPage, shelterName, searchAddress);
 		model.addAttribute("shelterList",map.get("shelterList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("searchAddress", searchAddress);
 		model.addAttribute("shelterName", shelterName);
 		log.debug("===== map: "+map);
 		

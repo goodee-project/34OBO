@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.QualificationService;
+import com.gd.obo.vo.Page;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,19 +24,33 @@ public class QualificationController {
 	
 	//자격승인 내역
 	@GetMapping("/manager/getQualificationApprovalList")
-	public String getQaList(Model model) {
-		List<Map<String, Object>> qcaList = qualificationService.getQualificationApprovalList();
-		log.debug("======자격 승인 리스트 : "+qcaList);
-		model.addAttribute("qcaList", qcaList);
+	public String getQaList(Model model, @RequestParam(value="currentPage", defaultValue="1") int currentPage,
+											@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
+											@RequestParam(value="searchWord", required = false) String searchWord) {
+		if(searchWord != null && searchWord.equals("")) {
+			searchWord=null;
+		}	
+		Map<String, Object> map = qualificationService.getQualificationApprovalList(currentPage, rowPerPage, searchWord);
+		log.debug("======자격 승인 리스트 : "+map.get("list"));
+		model.addAttribute("qcaList", map.get("list"));
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("searchWord", searchWord);
 		return "/manager/getQualificationApprovalList";
 	}
 	
 	//자격신청 내역
 	@GetMapping("/manager/getQualificationApplicationList")
-	public String getQvaList(Model model) {
-		List<Map<String, Object>> qvaList = qualificationService.getQualificationApplicationList();
-		log.debug("======자격 신청 리스트 : "+qvaList);
-		model.addAttribute("qvaList", qvaList);
+	public String getQvaList(Model model, @RequestParam(value="currentPage", defaultValue="1") int currentPage,
+											@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
+											@RequestParam(value="searchWord", required = false) String searchWord) {
+		Map<String, Object> map = qualificationService.getQualificationApplicationList(currentPage, rowPerPage, searchWord);
+		log.debug("======자격 신청 리스트 : "+map.get("list"));
+		log.debug("현재페이지 : " + currentPage);
+		model.addAttribute("qvaList", map.get("list"));
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("searchWord", searchWord);
 		return "/manager/getQualificationApplicationList";
 	}
 	
