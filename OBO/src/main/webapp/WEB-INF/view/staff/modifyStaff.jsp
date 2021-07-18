@@ -13,8 +13,10 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 <!-- CSS here -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
@@ -132,6 +134,7 @@ $(document).ready(function(){
 		} else if($('#staffEmail').val() == ''){
 			alert('email을 입력하세요.');
 		} else{
+			alert('정보 수정 완료');
 			$('#modifyForm').submit();
 		}
 	});
@@ -205,7 +208,7 @@ $(document).ready(function(){
 								</li>
 								<li>
 									<c:if test="${loginStaff.staffLevel == 2}">
-										<a href="${pageContext.request.contextPath}/staff/modifyStaffLevel" class="d-flex"><p>레벨 관리</p></a>
+										<a href="${pageContext.request.contextPath}/staff/modifyStaffState" class="d-flex"><p>상태 관리</p></a>
 									</c:if>
 								</li>
 							</ul>
@@ -279,7 +282,21 @@ $(document).ready(function(){
 		</div>
 	</section>
 	
-	
+	<!-- 정보 수정 페이지에서 정보 수정을 다시 클릭할 경우 모달을 따로 띄우진 않도록 한다. -->
+	<!-- pw 모달 -->
+	<div class="modal fade modal_pw" id="login-modal" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h5 class="modal-title">비밀번호를 입력하세요</h5>
+					<br>
+					<input id="staffPw" class="form-control" type="password"  name="password" placeholder="PW 입력" required="required"> <br />
+					<button id="ckBtn" type="button" class="btn btn-primary">확인</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>

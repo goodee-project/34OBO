@@ -5,6 +5,8 @@ package com.gd.obo.restapi;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -42,10 +44,14 @@ public class StaffRestapi {
 	
 	// staff id 중복확인
 	@GetMapping("/getStaffIdCheck")
-	public int getStaffIdCheck(@RequestParam(value = "staffId", required = true) String staffId){
+	public int getStaffIdCheck(@RequestParam(value = "staffId", required = true) String staffId,
+								@RequestParam(value = "staffPw", required = false) String staffPw){
 		log.debug("●●●●▶중복확인용 staffId: "+staffId);
-		int idCnt = staffService.getStaffIdCheck(staffId);
-		return idCnt;
+		
+		int cnt = staffService.getStaffAccountCheck(staffId, staffPw);
+		log.debug("●●●●▶중복확인(0:중복아님, 1:중복)->: "+cnt);
+		
+		return cnt;
 	}
 	
 	// staff 회원가입 email 인증 코드 발송
@@ -74,6 +80,32 @@ public class StaffRestapi {
 		return key;
 	}
 	
+	// staff 정보 수정 시 pw 일치하는지 확인
+	@PostMapping("/checkStaffPw")
+	public int checkStaffPw(HttpSession session, @RequestParam(value = "staffPw", required = true) String staffPw) {
+		log.debug("●●●●▶입력한 pw->: "+staffPw);
+		
+		// 세션에서 id를 가져온다.
+		String staffId = ((Staff)(session.getAttribute("loginStaff"))).getStaffId();
+		int cnt = staffService.getStaffAccountCheck(staffId, staffPw);
+		log.debug("●●●●▶일치확인(0:불일치, 1:일치)->: "+cnt);
+		
+		return cnt;
+	}
+	
+	@PostMapping("/changeStaffState")
+	public int changeStaffState(@RequestParam(value = "staffLevel", required = false) Integer staffLevel,
+								@RequestParam(value = "staffActive", required = false) Integer staffActive,
+								@RequestParam(value = "staffId", required = true) String staffId) {
+		log.debug("●●●●▶선택한 staffId->: "+staffId);
+		log.debug("●●●●▶변경할 staffLevel->: "+staffLevel);
+		log.debug("●●●●▶변경할 staffActive->: "+staffActive);
+		
+		int cnt = staffService.modifyStaffState(staffLevel, staffActive, staffId);
+		log.debug("●●●●▶수정확인(0:수정미완, 1:수정완료)->: "+cnt);
+		
+		return cnt;
+	}
 	
 	// 보호소 이름 자동완성
 	@GetMapping("/getShelterNameList")

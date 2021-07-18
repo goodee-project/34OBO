@@ -14,9 +14,9 @@ public interface StaffMapper {
 	Staff selectStaffOne(String staffId);
 	List<Staff> selectStaffLevel0(int shelterId);
 	List<Map<String, Object>> selectStaffListByMaster(int shelterId);
-	int selectStaffIdCheck(String staffId);
+	int selectStaffIdCheck(String staffId, String staffPw);
 	int insertStaff(Staff staff);
 	int insertMasterStaff(Staff staff);
 	int updateStaff(Staff staff);
-	int updateStaffLevel(String staffId);
+	int updateStaffState(Map<String, Object> map);
 }

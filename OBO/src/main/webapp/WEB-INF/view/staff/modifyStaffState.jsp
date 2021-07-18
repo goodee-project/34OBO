@@ -13,8 +13,10 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 <!-- CSS here -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
@@ -30,6 +32,66 @@
 $(document).ready(function(){	
 	let idBtn = false;
 	let pwCheck = false;
+	
+	// 대기중 클릭 시 level 변경하는 모달 창
+	$(document).on('click', '#levelClick', function(e){
+		console.log('대기중 클릭');
+		console.log('클릭 value!!!!!!!!!!!'+e.target.value);
+		
+		let staffId = e.target.value;
+		
+		$(document).on('click', '#levelCkBtn', function(){
+			console.log('승인확인 클릭!');
+			$.ajax({
+				url: '${pageContext.request.contextPath}/changeStaffState',
+				type: 'post',
+				dataType: 'json',
+				data: {staffId : staffId,
+						staffLevel : 1},
+				success: function(jsonData){
+					if(jsonData != 1){
+						alert('수정 실패.');
+						return;
+					}
+					console.log('level 수정 완료!');
+					location.href='${pageContext.request.contextPath}/staff/modifyStaffState';	//일치하면 페이지 이동
+				}
+			});
+		});
+	});
+	
+	// 수정 클릭 시 active 변경하는 모달 창
+	$(document).on('click', '#activeClick', function(e){
+		console.log('수정&비활성 클릭');
+		console.log('클릭 value!!!!!!!!!!!'+e.target.value);
+		
+		let staffId = e.target.value;
+		//let staffActive = e.target.
+		
+		$(document).on('click', '#activeCkBtn', function(a){
+			console.log('level 선택 후 확인버튼 클릭!');
+			
+			let staffActive = a.target.value;
+			let staffActive2 = $('#staffActive').val();
+			console.log('staffActive?!'+staffActive2);
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/changeStaffState',
+				type: 'post',
+				dataType: 'json',
+				data: {staffId : staffId,
+						staffActive : $('#staffActive').val()},
+				success: function(jsonData){
+					if(jsonData != 1){
+						alert('수정 실패');
+						return;
+					}
+					console.log('active 수정 완료!');
+					location.href='${pageContext.request.contextPath}/staff/modifyStaffState';	//일치하면 페이지 이동
+				}
+			});
+		});
+	});
 	
 	// 가입 버튼 클릭 시 -> 유효성 검사 필요
 	$('#modifyBtn').click(function(){
@@ -52,6 +114,29 @@ $(document).ready(function(){
 			$('#addForm').submit();
 		}*/
 	});
+	
+	// 정보 수정 클릭 시 pw 입력하는 모달 창
+	$('#myAccountClick').click(function() {
+		console.log('정보 수정 클릭');
+		
+		$('#ckBtn').click(function(){
+			console.log('pw 입력 후 확인버튼 클릭!');
+			$.ajax({
+				url: '${pageContext.request.contextPath}/checkStaffPw',
+				type: 'post',
+				data: {staffPw : $('#staffPw').val()},
+				success: function(jsonData){
+					// console.log('계정클릭 ajax 성공!');
+					if(jsonData != 1){
+						alert('PW가 일치하지 않습니다.');
+						return;
+					}
+					console.log('pw일치!');
+					location.href='${pageContext.request.contextPath}/staff/modifyStaff';	//일치하면 페이지 이동
+				}
+			});	// ajax; pw 일치
+		});	// ckBtn; 모달창 pw 입력 후 확인버튼 클릭
+	});	// myAccountClick; 내 정보 클릭
 });
 </script>
 </head>
@@ -104,7 +189,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>레벨 관리</h3>
+					<h3>상태 관리</h3>
 				</div>
 			</div>
 		</div>
@@ -118,11 +203,12 @@ $(document).ready(function(){
 						<aside class="single_sidebar_widget post_category_widget category_setting">
 							<ul class="list cat-list">
 								<li>
-									<a href="${pageContext.request.contextPath}/staff/modifyStaff" class="d-flex"><p>정보 수정</p></a>
+									<a href="${pageContext.request.contextPath}/staff/modifyStaff" class="d-flex"
+										id="myAccountClick" data-toggle="modal" data-target="#login-modal"><p>정보 수정</p></a>
 								</li>
 								<li>
 									<c:if test="${loginStaff.staffLevel == 2}">
-										<a href="${pageContext.request.contextPath}/staff/modifyStaffLevel" class="d-flex"><p>레벨 관리</p></a>
+										<a href="${pageContext.request.contextPath}/staff/modifyStaffState" class="d-flex"><p>상태 관리</p></a>
 									</c:if>
 								</li>
 							</ul>
@@ -131,8 +217,10 @@ $(document).ready(function(){
 				</div>
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
-						<div class="blog_details">
-							<table class="table">
+						<div id="but" class="blog_details">
+							<div>* 마스터 계정의 레벨은 변경할 수 없습니다.</div>
+							<br>
+							<table class="table" style="text-align:center;">
 								<tr>
 									<td>ID</td>
 									<td>이름</td>
@@ -145,7 +233,17 @@ $(document).ready(function(){
 										<td>${s.staffName}</td>
 										<td>${s.staffLevel}</td>
 										<td>
-											<button id="stateBtn" type="button">${s.state}</button>
+											<c:if test="${s.staffLevel == 0}">
+												<button type="button" class="genric-btn default-border radius" value="${s.staffId}"
+														id="levelClick" data-toggle="modal" data-target="#level-modal">${s.state}</button>
+											</c:if>
+											<c:if test="${s.staffLevel == 1}">
+												<button type="button" class="genric-btn default-border radius" value="${s.staffId}"
+														id="activeClick" data-toggle="modal" data-target="#active-modal">${s.state}</button>
+											</c:if>
+											<c:if test="${s.state == '마스터'}">
+												<button id="stateBtn" type="button" class="genric-btn default-border radius" disabled>${s.state}</button>
+											</c:if>
 										</td>
 									</tr>
 								</c:forEach>
@@ -156,6 +254,58 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</section>
+	
+	<!-- pw 모달 -->
+	<div class="modal fade" id="login-modal" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h5 class="modal-title">비밀번호를 입력하세요</h5>
+					<br>
+					<input id="staffPw" class="form-control" type="password"  name="password" placeholder="PW 입력" required="required"> <br />
+					<button id="ckBtn" type="button" class="btn btn-primary">확인</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- level 변경 모달 -->
+	<div class="modal fade" id="level-modal" role="dialog" aria-labelledby="level-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title">계정 승인 하시겠습니까?</h4>
+					<br>
+					<br>
+					<button id="levelCkBtn" type="button" class="genric-btn primary-border radius">확인</button>
+					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- active 변경 모달 -->
+	<div class="modal fade" id="active-modal" role="dialog" aria-labelledby="active-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title">active을 선택해주세요</h4>
+					<br>
+					<div class="form-control">
+						staffActive 
+						<select id="staffActive" name="staffActive">
+								<option value="1">활성</option>
+								<option value="0">비활성</option>
+						</select>
+					</div>
+					<br>
+					<button id="activeCkBtn" type="button" class="genric-btn primary-border radius">확인</button>
+					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>

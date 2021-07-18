@@ -13,30 +13,53 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- <link rel="manifest" href="site.webmanifest"> -->
-<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-<!-- Place favicon.ico in the root directory -->
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 <!-- CSS here -->
-<link rel="stylesheet" href="../static/css/bootstrap.min.css">
-<link rel="stylesheet" href="../static/css/owl.carousel.min.css">
-<link rel="stylesheet" href="../static/css/magnific-popup.css">
-<link rel="stylesheet" href="../static/css/font-awesome.min.css">
-<link rel="stylesheet" href="../static/css/themify-icons.css">
-<link rel="stylesheet" href="../static/css/nice-select.css">
-<link rel="stylesheet" href="../static/css/flaticon.css">
-<link rel="stylesheet" href="../static/css/gijgo.css">
-<link rel="stylesheet" href="../static/css/animate.css">
-<link rel="stylesheet" href="../static/css/slicknav.css">
-<link rel="stylesheet" href="../static/css/style.css">
-<!-- <link rel="stylesheet" href="css/responsive.css"> -->
+
+<!-- 위의 cdn과 충돌로 인해 모달창 오류 발생. 주석처리함
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
+ -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 
 <script>
-$(document).ready(function(){	
-	
-	
+$(document).ready(function(){
+	$('#myAccountClick').click(function() {
+		//$('.modal').modal('show');
+		
+		console.log('내 정보 클릭');
+		
+		$('#ckBtn').click(function(){
+			console.log('pw 입력 후 확인버튼 클릭!');
+			$.ajax({
+				url: '${pageContext.request.contextPath}/checkStaffPw',
+				type: 'post',
+				data: {staffPw : $('#staffPw').val()},
+				success: function(jsonData){
+					// console.log('계정클릭 ajax 성공!');
+					if(jsonData != 1){
+						alert('PW가 일치하지 않습니다.');
+						return;
+					}
+					console.log('pw일치 합니다.');
+					location.href='${pageContext.request.contextPath}/staff/modifyStaff';	//일치하면 페이지 이동
+				}
+			});	// ajax; pw 일치
+		});	// ckBtn; 모달창 pw 입력 후 확인버튼 클릭
+	});	// myAccountClick; 내 정보 클릭
 });
 </script>
+
 </head>
 <body>
 	<header>
@@ -103,7 +126,8 @@ $(document).ready(function(){
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
 					<div class="single_service staff_account">
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyStaff">
+							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyStaff"
+								id="myAccountClick" data-toggle="modal" data-target="#login-modal">
 								<h3>내 정보</h3>
 							</a>
 							<p>
@@ -134,11 +158,12 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
+
 				<div class="col-lg-6 col-md-6">
 					<div class="single_service staff_account">
 						<div class="service_content text-center">
 							<c:if test="${loginStaff.staffLevel == 2}">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyStaffLevel">
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyStaffState">
 									<h3>승인 대기</h3>
 								</a>
 							</c:if>
@@ -160,7 +185,6 @@ $(document).ready(function(){
 									</c:forEach>
 								</table>
 							</div>
-								
 						</div>
 					</div>
 				</div>
@@ -174,54 +198,48 @@ $(document).ready(function(){
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
 
+	<!-- pw 모달 -->
+	<div class="modal fade modal_pw" id="login-modal" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h5 class="modal-title">비밀번호를 입력하세요</h5>
+					<br>
+					<input id="staffPw" class="form-control" type="password"  name="password" placeholder="PW 입력" required="required"> <br />
+					<button id="ckBtn" type="button" class="btn btn-primary">확인</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- JS here -->
-	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
-	<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
-	<script src="../static/js/popper.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script src="../static/js/owl.carousel.min.js"></script>
-	<script src="../static/js/isotope.pkgd.min.js"></script>
-	<script src="../static/js/ajax-form.js"></script>
-	<script src="../static/js/waypoints.min.js"></script>
-	<script src="../static/js/jquery.counterup.min.js"></script>
-	<script src="../static/js/imagesloaded.pkgd.min.js"></script>
-	<script src="../static/js/scrollIt.js"></script>
-	<script src="../static/js/jquery.scrollUp.min.js"></script>
-	<script src="../static/js/wow.min.js"></script>
-	<script src="../static/js/nice-select.min.js"></script>
-	<script src="../static/js/jquery.slicknav.min.js"></script>
-	<script src="../static/js/jquery.magnific-popup.min.js"></script>
-	<script src="../static/js/plugins.js"></script>
-	<script src="../static/js/gijgo.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
 	
 	<!--contact js-->
-	<script src="../static/js/contact.js"></script>
-	<script src="../static/js/jquery.ajaxchimp.min.js"></script>
-	<script src="../static/js/jquery.form.js"></script>
-	<script src="../static/js/jquery.validate.min.js"></script>
-	<script src="../static/js/mail-script.js"></script>
-	<script src="../static/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 
-<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
-	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>
 </body>
 </html>

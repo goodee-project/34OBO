@@ -68,9 +68,9 @@ public class StaffService {
 		return staffMapper.insertMasterStaff(staff);
 	}
 	
-	// staff Id 중복확인
-	public int getStaffIdCheck(String staffId) {
-		return staffMapper.selectStaffIdCheck(staffId);
+	// staff account 확인 -> Id 중복확인 + 계정 수정시 pw일치확인
+	public int getStaffAccountCheck(String staffId, String staffPw) {
+		return staffMapper.selectStaffIdCheck(staffId, staffPw);
 	}
 	
 	// staff 정보 수정
@@ -84,8 +84,15 @@ public class StaffService {
 	}
 	
 	// staff level 수정 -> 마스터 계정이 사이드 계정 접근 권한 준다.
-	public int modifyStaffLevel(String staffId) {
-		return staffMapper.updateStaffLevel(staffId);
+	public int modifyStaffState(Integer staffLevel, Integer staffActive, String staffId) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("staffLevel", staffLevel);
+		map.put("staffActive", staffActive);
+		map.put("staffId", staffId);
+		
+		log.debug("●●●●▶변경할 정보-> "+map);
+		
+		return staffMapper.updateStaffState(map);
 	}
-	
 }
