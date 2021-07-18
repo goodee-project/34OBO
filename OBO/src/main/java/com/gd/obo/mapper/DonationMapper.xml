@@ -1,6 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.DonationMapper">
+	<!-- 내정보/후원내역/정기후원목록 -->
+	<select id="selectPeriodicallyDonationByMemberId" resultType="java.util.Map" parameterType="java.lang.String">
+		SELECT 
+			p.periodically_donation_id periodicallyDonationId, 
+			p.shelter_id shelterId, 
+			p.apply_date applyDate, 
+			DATE(p.end_date) endDate, 
+			p.amount amount, 
+			s.shelter_name shelterName
+		FROM 
+			periodically_donation p 
+			INNER JOIN shelter s ON p.shelter_id = s.shelter_id
+		WHERE p.member_id = #{memberId}
+	</select>
+	<update id="updatePeriodicallyDonationByEndDate" parameterType="int">
+		UPDATE periodically_donation SET end_date = NOW() WHERE periodically_donation_id = #{periodicallyDonationId}
+	</update>
+	<!-- 정기결제 끊기! -->
+	<select id="selectPeriodicallyDonationByPeriodicallyDonationId" resultType="java.lang.String" parameterType="int">
+		SELECT 
+			sid sid 
+		FROM 
+			periodically_donation 
+		WHERE 
+			periodically_donation_id = #{periodicallyDonationId}
+	</select>
+	<!-- 정기결제를 위한 정기결제중 리스트 -->
+	<select id="selectPeriodicallyDonationBYEndDateISNULL" resultType="com.gd.obo.vo.PeriodicallyDonation">
+		SELECT 
+			periodically_donation_id periodicallyDonationId, 
+			member_id memberId, 
+			shelter_id shelterId, 
+			amount amount, 
+			sid sid
+		FROM 
+			periodically_donation 
+		WHERE 
+			end_date IS NULL
+	</select>
+	<!-- 정기결제 기록테이블 삽입 -->
+	<insert id="insertPeriodicallyDonationList" parameterType="int">
+		INSERT periodically_donation_list(
+			periodically_donation_id, 
+			deposit_date
+		) VALUES(
+			#{periodicallyDonationId}, 
+			NOW()
+		)
+	</insert>
+	<!-- 정기결제 테이블 삽입 -->
+	<insert id="insertPeriodicallyDonation" parameterType="com.gd.obo.vo.PeriodicallyDonation">
+		<selectKey resultType="int" keyProperty="periodicallyDonationId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	
+		INSERT INTO periodically_donation(
+			member_id, 
+			shelter_id, 
+			apply_date, 
+			amount, 
+			sid
+		) VALUES(
+			#{memberId}, 
+			#{shelterId}, 
+			NOW(), 
+			#{amount} ,
+			#{sid}
+		)
+	</insert>
 	<insert id="insertDonationMoneyList" parameterType="com.gd.obo.vo.DonationMoneyList">
 		INSERT INTO donation_money_list(
 			member_id, 
