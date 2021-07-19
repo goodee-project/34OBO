@@ -7,29 +7,27 @@
 <head>
 <meta charset="UTF-8">
 <title>shelterIntro</title>
+
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- <link rel="manifest" href="site.webmanifest"> -->
-<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-<!-- Place favicon.ico in the root directory -->
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 <!-- CSS here -->
-<link rel="stylesheet" href="../static/css/bootstrap.min.css">
-<link rel="stylesheet" href="../static/css/owl.carousel.min.css">
-<link rel="stylesheet" href="../static/css/magnific-popup.css">
-<link rel="stylesheet" href="../static/css/font-awesome.min.css">
-<link rel="stylesheet" href="../static/css/themify-icons.css">
-<link rel="stylesheet" href="../static/css/nice-select.css">
-<link rel="stylesheet" href="../static/css/flaticon.css">
-<link rel="stylesheet" href="../static/css/gijgo.css">
-<link rel="stylesheet" href="../static/css/animate.css">
-<link rel="stylesheet" href="../static/css/slicknav.css">
-<link rel="stylesheet" href="../static/css/style.css">
-<!-- <link rel="stylesheet" href="css/responsive.css"> -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 
 <script>
 $(document).ready(function(){	
@@ -87,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>보호소 소개</h3>
+					<h3>보호소 > 보호소 소개</h3>
 				</div>
 			</div>
 		</div>
@@ -101,14 +99,7 @@ $(document).ready(function(){
 				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<ul class="list cat-list">
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/shelterIntro" class="d-flex"><p>보호소 소개</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/modifyShelter" class="d-flex"><p>내용 수정</p></a>
-								</li>
-							</ul>
+							<jsp:include page="/WEB-INF/view/staff/inc/side/shelterMenu.jsp"></jsp:include>
 						</aside>
 					</div>
 				</div>
@@ -177,56 +168,33 @@ $(document).ready(function(){
 
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
-	<!-- footer_end  -->
-
-
+	<!-- footer_end  -->	
+	
 	<!-- JS here -->
-	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
-	<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
-	<script src="../static/js/popper.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script src="../static/js/owl.carousel.min.js"></script>
-	<script src="../static/js/isotope.pkgd.min.js"></script>
-	<script src="../static/js/ajax-form.js"></script>
-	<script src="../static/js/waypoints.min.js"></script>
-	<script src="../static/js/jquery.counterup.min.js"></script>
-	<script src="../static/js/imagesloaded.pkgd.min.js"></script>
-	<script src="../static/js/scrollIt.js"></script>
-	<script src="../static/js/jquery.scrollUp.min.js"></script>
-	<script src="../static/js/wow.min.js"></script>
-	<script src="../static/js/nice-select.min.js"></script>
-	<script src="../static/js/jquery.slicknav.min.js"></script>
-	<script src="../static/js/jquery.magnific-popup.min.js"></script>
-	<script src="../static/js/plugins.js"></script>
-	<script src="../static/js/gijgo.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
 	
 	<!--contact js-->
-	<script src="../static/js/contact.js"></script>
-	<script src="../static/js/jquery.ajaxchimp.min.js"></script>
-	<script src="../static/js/jquery.form.js"></script>
-	<script src="../static/js/jquery.validate.min.js"></script>
-	<script src="../static/js/mail-script.js"></script>
-	<script src="../static/js/main.js"></script>
-
-<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
-	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>
+	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 </body>
 </html>

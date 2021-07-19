@@ -93,9 +93,9 @@ public class ShelterController {
 	}
 	
 	// staff 보호소
-	@GetMapping("/staff/getShelter")
-	public String getShelter() {
-		return "staff/getShelter";
+	@GetMapping("/staff/getShelterInStaff")
+	public String getShelterInStaff() {
+		return "staff/getShelterInStaff";
 	}
 	
 	// staff 보호소 소개

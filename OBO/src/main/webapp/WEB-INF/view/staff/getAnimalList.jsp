@@ -98,8 +98,7 @@
                     </div>
                 </div>
             </div>
-		</div>
-	</div>		            
+		            
 
 	
 	
@@ -152,8 +151,10 @@
 		    </tbody>
 		</table>
 	 
+	 
+	 	
 	     <div>
-	    	<a  href="${pageContext.request.contextPath}/staff/addAnimal">addAnimal</a>	
+	    	<a  href="${pageContext.request.contextPath}/staff/addAnimal">동물 등록</a>	
 	    </div>
 	
 		<!-- 페이징 -->
@@ -167,6 +168,8 @@
 	   </ul>
    
    </div>
+  </div>
+ </div>	
    
    <!-- JS here -->
 	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getVolunteerCheckN</title>
+<title>getDonationInStaff</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>봉사 > 일반봉사 > 확인목록</h3>
+					<h3>후원</h3>
 				</div>
 			</div>
 		</div>
@@ -93,88 +93,92 @@ $(document).ready(function(){
 
 	<!--================Blog Area =================-->
 	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
-	<section class="blog_area single-post-area section-padding">
+	<div class="service_area">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-3">
-					<div class="blog_right_sidebar">
-						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<jsp:include page="/WEB-INF/view/staff/inc/side/volunteerMenu.jsp"></jsp:include>
-						</aside>
-					</div>
-				</div>
-				<div class="col-lg-9 mb-5 mb-lg-0">
-					
-					<div class="single-post">
-						<div class="blog_details">
-							<table class="table">
-								<tr>
-									<td>No</td>
-									<td>제목</td>
-									<td>회원ID</td>
-									<td>확인직원</td>
-									<td>봉사시간</td>
-									<td>봉사일</td>
-									<td>확인일</td>
-								</tr>
-								<c:forEach var="v" items="${volunteerCheckN}">
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-									</tr>
-								</c:forEach>
-							</table>
+			<div class="row justify-content-center">
+				<div class="col-lg-3 col-md-6">
+					<div class="single_service donation_option"> <!-- volunteer_option : css에서 칸 높이 조정 -->
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="../static/img/service/service_icon_3.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationItemN">물품후원</a>
+							</h3>
+							<p>후원 받은 물품을<br>조회 해보세요</p>
 						</div>
 					</div>
-					
-					<!-- 페이징 & 검색 -->
-					<div class="blog_left_sidebar">
-					
-						<!-- 페이징 -->
-						<nav class="blog-pagination justify-content-center d-flex">
-							<ul class="pagination">
-								<!-- 이전 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
-								</li>
-								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
-								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
-								
-								<!-- 다음 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
-								</li>
-							</ul>
-						</nav>
-						<hr>
-						
-						<!-- 검색 -->
-						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getVolunteerCheckN">
-							<div class="form-group col-xl-8 col-lg-6">
-								<div class="input-group mb-4" >
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
-											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
-									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
-								</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="single_service donation_option">
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="../static/img/service/service_icon_1.png" alt="">
+								</a>
 							</div>
-						</form>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyN">일반후원</a>
+							</h3>
+							<p>후원 받은 금액을<br>조회 해보세요</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="single_service donation_option">
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="../static/img/service/service_icon_2.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyP">정기후원</a>
+							</h3>
+							<p>정기 후원 받은 금액을<br>조회 해보세요</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="single_service donation_option">
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="../static/img/service/statistics_1.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationStats">통계</a>
+							</h3>
+							<p>우리 보호소의 후원 내역을<br>통계로 확인해봐요</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-	<!--================Blog Area =================-->	
+	</div>
+	<!--================Blog Area =================-->
 
 
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
-	<!-- footer_end  -->	
-	
+	<!-- footer_end  -->
+
+
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
@@ -201,5 +205,6 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+
 </body>
 </html>

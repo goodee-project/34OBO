@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getVolunteerCheckN</title>
+<title>getAdoptApprovalInStaff</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>봉사 > 일반봉사 > 확인목록</h3>
+					<h3>입양&케어 > 입양 > 승인목록</h3>
 				</div>
 			</div>
 		</div>
@@ -99,25 +99,27 @@ $(document).ready(function(){
 				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<jsp:include page="/WEB-INF/view/staff/inc/side/volunteerMenu.jsp"></jsp:include>
+							<jsp:include page="/WEB-INF/view/staff/inc/side/adoptCareMenu.jsp"></jsp:include>
 						</aside>
 					</div>
 				</div>
 				<div class="col-lg-9 mb-5 mb-lg-0">
-					
 					<div class="single-post">
 						<div class="blog_details">
 							<table class="table">
 								<tr>
 									<td>No</td>
-									<td>제목</td>
+									<td>동물</td>
 									<td>회원ID</td>
+									<td>신청서류</td> <!-- 클릭 시 다운로드 -->
+									<td>신청일</td>
+									<td>입양일</td>
 									<td>확인직원</td>
-									<td>봉사시간</td>
-									<td>봉사일</td>
-									<td>확인일</td>
+									<td>케어Plan
+										<a href=""><i class="fa fa-external-link"></i></a>
+									</td>
 								</tr>
-								<c:forEach var="v" items="${volunteerCheckN}">
+								<c:forEach var="a" items="${adoptApproval}">
 									<tr>
 										<td></td>
 										<td></td>
@@ -126,6 +128,7 @@ $(document).ready(function(){
 										<td></td>
 										<td></td>
 										<td></td>
+										<td><a href=""><i class="fa fa-external-link"></i></a></td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -154,9 +157,9 @@ $(document).ready(function(){
 						<hr>
 						
 						<!-- 검색 -->
-						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getVolunteerCheckN">
+						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getAdoptApprovalInStaff">
 							<div class="form-group col-xl-8 col-lg-6">
-								<div class="input-group mb-4" >
+								<div class="input-group mb-4 search_form">
 									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
 											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
 									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>

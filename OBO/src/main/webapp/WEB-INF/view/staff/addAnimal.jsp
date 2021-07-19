@@ -116,16 +116,21 @@
 	<div class="container">
 		<form id="addAnimal" action="${pageContext.request.contextPath}/staff/addAnimal" method="post">
 			<table>
+
 				<tr>
-					<td>동물 번호</td>
+					<td>동물 종</td>
 					<td>
-						<input class="form-control" id="animalId" type="text">
-					</td>
-				</tr>
-				<tr>
-					<td>동물 카테고리 번호</td>
-					<td>
-						<input class="form-control" id="animalCateogyrId" type="text" name="animalCateogyrId" >
+						<select name="animalCategoryId" class="form-control">
+						<option value="">==종 선택==</option>
+							<c:forEach var="a" items="${animalCategoryList}">
+				    			<c:if test="${a.species == species}"> 
+				    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
+				    			</c:if>
+				    			<c:if test="${a.species != species}"> 
+				    				<option value="${a.animalCategoryId}">${a.species}</option>
+				    			</c:if>
+				    		</c:forEach>
+						</select>
 					</td>
 				</tr>
 				<tr>
@@ -154,10 +159,10 @@
 					<td>
 						<select class="form-control" id="animalSex" name="animalSex">
 							<option value="">==성별 선택==</option>
-		                    <option value="male">수컷</option>
-		                    <option value="female">암컷</option>
-		                    <option value="maleNeutering">수컷(중성화)</option>
-		                    <option value="femaleNeutering">암컷(중성화)</option>
+		                    <option value="수컷">수컷</option>
+		                    <option value="암컷">암컷</option>
+		                    <option value="수컷(중성화)">수컷(중성화)</option>
+		                    <option value="암컷(중성화)">암컷(중성화)</option>
 		                   
 	                  	</select>
 					</td>
@@ -185,24 +190,36 @@
 				<tr>
 					<td>동물 상세정보(회원 보여줄 노트)</td>
 					<td>
-						<input class="form-control" id="animalNote" type="text" name="animalNote">
+						<div>
+							<textarea class="form-control" name="animalNote" id="animalNote" rows="5" cols="50"></textarea>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>동물 상태</td>
 					<td>
 						<select class="form-control" id="animalState" name="animalState">
-		                    <option value="protect">보호중</option>
-		                    <option value="adopt">입양</option>
-		                    <option value="euthanasia">안락사</option>
-		                    <option value="death">자연사</option>
+		                    <option value="보호중">보호중</option>
+		                    <option value="입양">입양</option>
+		                    <option value="안락사">안락사</option>
+		                    <option value="자연사">자연사</option>
 	                  	</select>
+					</td>
+				</tr>
+				<tr>
+					<td>동물 소개</td>
+					<td>
+						<div>
+							<textarea class="form-control" name="animalIntroduce" id="animalIntroduce" rows="5" cols="50"></textarea>
+						</div>
 					</td>
 				</tr>
 			</table>
 			
-			<button id="addBtn" type="button">등록</button>
-			<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button">뒤로가기</button></a>
+			<div>
+				<input id="addBtn" type="button" value="등록">
+				<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button">뒤로가기</button></a>
+			</div>
 		</form>
 	</div>
 </div>

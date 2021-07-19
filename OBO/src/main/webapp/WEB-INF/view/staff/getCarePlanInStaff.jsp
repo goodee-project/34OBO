@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getVolunteer</title>
+<title>getCarePlanInStaff</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>봉사</h3>
+					<h3>입양&케어 > 케어 > Plan목록</h3>
 				</div>
 			</div>
 		</div>
@@ -93,62 +93,116 @@ $(document).ready(function(){
 
 	<!--================Blog Area =================-->
 	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
-	<div class="service_area">
+	<section class="blog_area single-post-area section-padding">
 		<div class="container">
-			<div class="row justify-content-center">
-				
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option">
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block">
-									<img src="../static/img/service/service_icon_2.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<h3>
-								<a class="d-inline-block">일반봉사</a>
-							</h3>
-							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerRecruitN">모집공고</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerApplyN">신청목록</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerCheckN">확인목록</a>
-							</h4>
-						</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="blog_right_sidebar">
+						<aside class="single_sidebar_widget post_category_widget category_setting">
+							<jsp:include page="/WEB-INF/view/staff/inc/side/adoptCareMenu.jsp"></jsp:include>
+						</aside>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option">
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block">
-									<img src="../static/img/service/service_icon_3.png" alt="">
-								</a>
+				<div class="col-lg-9 mb-5 mb-lg-0">
+					<div class="single-post">
+						<h3>다가오는 Plan</h3>
+						<div class="blog_details">
+							<table class="table">
+								<tr>
+									<td>D-day</td>
+									<td>이름</td> <!-- care_info & animal_category 조인 -->
+									<td>케어Info</td>
+									<td>회원ID</td>
+									<td>케어일</td>
+									<td>Record</td>
+								</tr>
+								<c:forEach var="c" items="${carePlanDday}">
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+					<br><br>
+					<div class="single-post">
+						<h3>Care Plan</h3>
+						<div class="blog_details">
+							<div>"검색어" 검색결과 (@건)</div>
+							<table class="table">
+								<tr>
+									<td>No</td>
+									<td>이름</td> <!-- care_info & animal_category 조인 -->
+									<td>케어Info</td>
+									<td>회원ID</td>
+									<td>작성직원</td>
+									<td>입양일</td>
+									<td>케어일</td>
+									<td>Record</td>
+								</tr>
+								<c:forEach var="c" items="${carePlanList}">
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+					
+					<!-- 페이징 & 검색 -->
+					<div class="blog_left_sidebar">
+					
+						<!-- 페이징 -->
+						<nav class="blog-pagination justify-content-center d-flex">
+							<ul class="pagination">
+								<!-- 이전 페이지 setting -->
+								<li class="page-item">
+									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
+								</li>
+								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
+								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
+								
+								<!-- 다음 페이지 setting -->
+								<li class="page-item">
+									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
+								</li>
+							</ul>
+						</nav>
+						<hr>
+						
+						<!-- 검색 -->
+						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getCarePlanInStaff">
+							<div class="form-group col-xl-8 col-lg-6">
+								<div class="input-group mb-4 search_form">
+									<select id="searchSelect">
+										<option value="">동물이름</option>
+										<option value="">케어Info</option>
+										<option value="">회원ID</option>
+									</select> 
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요."
+											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
+									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+								</div>
 							</div>
-						</div>
-						<div class="service_content text-center">
-							<h3>
-								<a class="d-inline-block">정기봉사</a>
-							</h3>
-							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerRecruitP">모집공고</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerApplyP">신청목록</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerCheckP">확인목록</a>
-							</h4>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!--================Blog Area =================-->
+	</section>
+	<!--================Blog Area =================-->	
 
 
 	<!-- footer_start  -->

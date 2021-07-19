@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getVolunteerCheckN</title>
+<title>addCarePlanInStaff</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>봉사 > 일반봉사 > 확인목록</h3>
+					<h3>입양&케어 > 케어 > Plan작성</h3>
 				</div>
 			</div>
 		</div>
@@ -99,70 +99,18 @@ $(document).ready(function(){
 				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<jsp:include page="/WEB-INF/view/staff/inc/side/volunteerMenu.jsp"></jsp:include>
+							<jsp:include page="/WEB-INF/view/staff/inc/side/adoptCareMenu.jsp"></jsp:include>
 						</aside>
 					</div>
 				</div>
 				<div class="col-lg-9 mb-5 mb-lg-0">
-					
 					<div class="single-post">
 						<div class="blog_details">
-							<table class="table">
-								<tr>
-									<td>No</td>
-									<td>제목</td>
-									<td>회원ID</td>
-									<td>확인직원</td>
-									<td>봉사시간</td>
-									<td>봉사일</td>
-									<td>확인일</td>
-								</tr>
-								<c:forEach var="v" items="${volunteerCheckN}">
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-									</tr>
-								</c:forEach>
-							</table>
+							<!-- form 형식 작성 -->
+							
+							
+							
 						</div>
-					</div>
-					
-					<!-- 페이징 & 검색 -->
-					<div class="blog_left_sidebar">
-					
-						<!-- 페이징 -->
-						<nav class="blog-pagination justify-content-center d-flex">
-							<ul class="pagination">
-								<!-- 이전 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
-								</li>
-								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
-								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
-								
-								<!-- 다음 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
-								</li>
-							</ul>
-						</nav>
-						<hr>
-						
-						<!-- 검색 -->
-						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getVolunteerCheckN">
-							<div class="form-group col-xl-8 col-lg-6">
-								<div class="input-group mb-4" >
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
-											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
-									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
-								</div>
-							</div>
-						</form>
 					</div>
 				</div>
 			</div>
