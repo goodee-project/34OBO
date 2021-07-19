@@ -12,7 +12,7 @@
 		SELECT 
 			shelter_name shelterName, 
 			amount amount, 
-			donation_date donationDate, 
+			DATE(donation_date) donationDate, 
 			kind kind 
 		FROM full_money_donation_list 
 		WHERE member_id = #{memberId}

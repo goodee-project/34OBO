@@ -19,7 +19,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
-
 </head>
 <body>
 	<header>
@@ -51,7 +50,7 @@
 				
 				<div class="col-lg-9 mb-5 mb-lg-0"  >
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
-					<div class="single_service staff_account" style="height: 80%;">
+					<div class="single_service staff_account" style="height: 90%;">
 						<div class="service_content text-center">
 							<h3>총 후원내역</h3>
 							<table class="table">
@@ -80,9 +79,9 @@
 					</div>
 				</div>
 				
-				<div class="col-lg-6 mb-5 mb-lg-0">
+				<div class="col-lg-8 mb-5 mb-lg-0">
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
-					<div class="single_service staff_account">
+					<div class="single_service staff_account" style="height: 90%;">
 						<div class="service_content text-center">
 							<h3>정기후원</h3>
 							<table class="table">
@@ -98,6 +97,16 @@
 								
 								</tbody>
 							</table>
+							
+							<!-- 페이징 -->
+							<div class="blog_left_sidebar">
+								<nav class="blog-pagination justify-content-center d-flex">
+									<ul class="pagination" id="pPaging">
+										
+										
+									</ul>
+								</nav>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -108,36 +117,9 @@
 	</section>
 	
 	
-	
-	
 	<script>
-		let fullCurrentPage = 1;
-		let pCurrentPage = 1;
 		
 		
-		//실패한 코드 --> 나중에 다시 도전...
-		/*
-		$('.removePDonationBtn').click(function(){
-			//periodicallyDonationId 구하기
-			let index = $('.removePDonationBtn').index(this);
-			console.log(index);
-			
-			let periodicallyDonationId = $('.periodicallyDonationId').val()
-			console.log(periodicallyDonationId);
-		});
-		*/
-		
-		/*
-			<c:forEach var="f" items="${fList}">
-									<input type="hidden" class="periodicallyDonationId" value="${p.periodicallyDonationId}">
-									<tr>
-										<td>${f.shelterName}</td>
-										<td>${f.amount}</td>
-										<td>${f.donationDate}</td>
-										<td>${f.kinde}</td>		
-									</tr>
-								</c:forEach>
-		*/
 		//총 후원내역
 		function fullDonationList(page){
 			$.ajax({
@@ -145,39 +127,38 @@
 				url: '${pageContext.request.contextPath}/member/getFullDonation',
 				data: {'currentPage': page},
 				success: function(jsonData){
-
+				
 					prePage = page-1;
 					nextPage = page+1;
+					
+					$('#fullTarget').empty();
+					$('#fullPaging').empty();
 					
 					$.each(jsonData.list, function(index, data) {
 						$('#fullTarget').append('<tr>');
 						$('#fullTarget').append('<td>'+data.shelterName+'</td>');
 						$('#fullTarget').append('<td>'+data.amount+'</td>');
 						$('#fullTarget').append('<td>'+data.donationDate+'</td>');
-						$('#fullTarget').append('<td>'+data.kinde+'</td>');
+						$('#fullTarget').append('<td>'+data.kind+'</td>');
 						$('#fullTarget').append('</tr>');
 				
 					});
-					
-					console.log(page);
-					console.log(page-1);
-					console.log(page+1);
 
 					
 					//페이징
 					//이전
 					if(prePage > 0){
-						$('#fullPaging').append('<li class="page-item"><i class="ti-angle-left"></i></li>');
-						$('#fullPaging').append('<li class="page-item">'+prePage+'</li>');
+						$('#fullPaging').append('<li class="page-item"><button type="buttn" class="page-link" onclick="moveFullDonation(-1)"><i class="ti-angle-left"></i></button></li>');
+						$('#fullPaging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveFullDonation(-1)">'+prePage+'</button></li>');
 					}
 					
 					//현재
-					$('#fullPaging').append('<li class="page-item active">'+page+'</li>');
+					$('#fullPaging').append('<li class="page-item active"><button type="button" class="page-link">'+page+'</button></li>');
 					
 					//다음
 					if(nextPage <= jsonData.lastPage){						
-						$('#fullPaging').append('<li class="page-item">'+nextPage+'</li>');
-						$('#fullPaging').append('<li class="page-item"><i class="ti-angle-right"></i></li>');
+						$('#fullPaging').append('<li class="page-item nemo"><button type="button" class="page-link" onclick="moveFullDonation(1)">'+nextPage+'</button></li>');
+						$('#fullPaging').append('<li class="page-item nemo "><button type="button" class="page-link" onclick="moveFullDonation(1)"><i class="ti-angle-right"></i></button></li>');
 					}
 				}
 			
@@ -191,22 +172,83 @@
 				url: '${pageContext.request.contextPath}/member/getPeriodicallyDonationByMemberId',
 				data: {'currentPage': pPage},
 				success: function(result){
+					
+					pPrePage = pPage-1;
+					pNextPage = pPage+1;
+					
+					$('#pTarget').empty();
+					$('#pPaging').empty();
+
+					
 					$.each(result.list, function(index, table) {
 						$('#pTarget').append('<tr>');
 						$('#pTarget').append('<td>'+table.shelterName+'</td>');
 						$('#pTarget').append('<td>'+table.amount+'</td>');
-						$('#pTarget').append('<td>'+table.donationDate+'</td>');
-						$('#pTarget').append('<td>'+table.kinde+'</td>');
+						$('#pTarget').append('<td>'+table.applyDate+'</td>');
+						
+						if(table.endDate){
+							$('#pTarget').append('<td>'+table.endDate+'</td>');
+						} else {
+							$('#pTarget').append('<td><a href="endPeriodicallyDonation?periodicallyDonationId='+table.periodicallyDonationId+'">후원끊기</a></td>');				
+						}
+						
 						$('#pTarget').append('</tr>');
 						
 					});
+					
+
+					//페이징
+					//이전
+					if(pPrePage > 0){
+						$('#pPaging').append('<li class="page-item"><button type="buttn" class="page-link" onclick="prePDonaiontList()"><i class="ti-angle-left"></i></button></li>');
+						$('#pPaging').append('<li class="page-item"><button type="button" class="page-link" onclick="prePDonaiontList()">'+pPrePage+'</button></li>');
+					}
+					
+					//현재
+					$('#pPaging').append('<li class="page-item active"><button type="button" class="page-link">'+pPage+'</button></li>');
+					
+					//다음
+					if(pNextPage <= result.lastPage){						
+						$('#pPaging').append('<li class="page-item nemo"><button type="button" class="page-link" onclick="nextPDonationList()">'+pNextPage+'</button></li>');
+						$('#pPaging').append('<li class="page-item nemo "><button type="button" class="page-link" onclick="nextPDonationList()"><i class="ti-angle-right"></i></button></li>');
+					}
 				}
 				
 			})
 		}
 		
+		let fullCurrentPage = 1;
+		let perCurrentPage = 1;
+		
 		fullDonationList(fullCurrentPage);
-		pDonationList(pCurrentPage);
+		pDonationList(perCurrentPage);
+		
+		
+		function moveFullDonation(no){
+			fullCurrentPage = fullCurrentPage+no;
+			fullDonationList(fullCurrentPage);
+		}
+		
+		/*
+			스택터졌다고 에러가 계속 난다.
+		function pDonationList(no){
+			perCurrentPage = perCurrentPage+no;
+			pDonationList(perCurrentPage);
+		}
+		*/
+		function prePDonaiontList(){
+			perCurrentPage = perCurrentPage-1;
+			pDonationList(perCurrentPage);
+		}
+		function nextPDonationList(){
+			perCurrentPage = perCurrentPage+1;
+			pDonationList(perCurrentPage);
+			
+		}
+		
+		
+		
+		
 	</script>
 <!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
