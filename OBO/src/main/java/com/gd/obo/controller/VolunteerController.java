@@ -85,9 +85,6 @@ public class VolunteerController {
 		return "staff/getVolunteerCheckP";
 	}
 	
-<<<<<<< HEAD
-	
-=======
 	// 회원 봉사 메인페이지
 	@GetMapping("/getVolunteer")
 	public String getMemberVolunteer() {
@@ -118,5 +115,4 @@ public class VolunteerController {
 		log.debug("=====map:"+map);
 		return "main/getVolunteerN";
 	}
->>>>>>> branch 'master' of https://github.com/goodee-project/34OBO.git
 }
