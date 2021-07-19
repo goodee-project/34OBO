@@ -185,7 +185,7 @@ $(document).ready(function(){
 						<!-- 검색 -->
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getVolunteerRecruitN">
 							<div class="form-group col-xl-8 col-lg-6">
-								<div class="input-group mb-4" >
+								<div class="input-group mb-4 search_form">
 									<select id="categoryName">
 										<option value="0">카테고리</option>
 										<option value="">카테리스트</option>

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getAdoptAndCare</title>
+<title>getAdoptRejectInStaff</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>입양&케어</h3>
+					<h3>입양&케어 > 입양 > 거절목록</h3>
 				</div>
 			</div>
 		</div>
@@ -93,68 +93,116 @@ $(document).ready(function(){
 
 	<!--================Blog Area =================-->
 	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
-	<div class="service_area">
+	<section class="blog_area single-post-area section-padding">
 		<div class="container">
-			<div class="row justify-content-center">
-				
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service adoptAndCard_option">
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block">
-									<img src="../static/img/service/service_icon_2.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<h3>
-								<a class="d-inline-block">입양</a>
-							</h3>
-							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptApplyInStaff">신청목록</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptApprovalInStaff">승인목록</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff">거절목록</a>
-							</h4>
-						</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="blog_right_sidebar">
+						<aside class="single_sidebar_widget post_category_widget category_setting">
+							<h4 class="widget_title">입양</h4>
+							<ul class="list cat-list">
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getAdoptApplyInStaff" class="d-flex"><p>신청목록</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getAdoptApprovalInStaff" class="d-flex"><p>승인목록</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff" class="d-flex"><p>거절목록</p></a>
+								</li>
+							</ul>
+							<br>
+							<h4 class="widget_title">케어</h4>
+							<ul class="list cat-list">
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getCareInfoInStaff" class="d-flex"><p>Info확인</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/addCarePlanInStaff" class="d-flex"><p>Plan작성</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getCarePlanInStaff" class="d-flex"><p>Plan목록</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getCarePlanCalInStaff" class="d-flex"><p>Plan달력</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/addCareRecordInStaff" class="d-flex"><p>Record작성</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getCareRecordInStaff" class="d-flex"><p>Record목록</p></a>
+								</li>
+							</ul>
+							
+						</aside>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service adoptAndCard_option">
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block">
-									<img src="../static/img/service/service_icon_3.png" alt="">
-								</a>
+				<div class="col-lg-9 mb-5 mb-lg-0">
+					
+					<div class="single-post">
+						<div class="blog_details">
+							<table class="table">
+								<tr>
+									<td>No</td>
+									<td>동물</td>
+									<td>회원ID</td>
+									<td>신청서류</td> <!-- 클릭 시 다운로드 -->
+									<td>신청일</td>
+									<td>거절일</td>
+									<td>확인직원</td>
+								</tr>
+								<c:forEach var="a" items="${adoptReject}">
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+					
+					<!-- 페이징 & 검색 -->
+					<div class="blog_left_sidebar">
+					
+						<!-- 페이징 -->
+						<nav class="blog-pagination justify-content-center d-flex">
+							<ul class="pagination">
+								<!-- 이전 페이지 setting -->
+								<li class="page-item">
+									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
+								</li>
+								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
+								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
+								
+								<!-- 다음 페이지 setting -->
+								<li class="page-item">
+									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
+								</li>
+							</ul>
+						</nav>
+						<hr>
+						
+						<!-- 검색 -->
+						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff">
+							<div class="form-group col-xl-8 col-lg-6">
+								<div class="input-group mb-4 search_form">
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
+											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
+									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+								</div>
 							</div>
-						</div>
-						<div class="service_content text-center">
-							<h3>
-								<a class="d-inline-block">케어</a>
-							</h3>
-							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCareInfoInStaff">Info확인</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/addCarePlanInStaff">Plan작성</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCarePlanInStaff">Plan목록</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCarePlanCalInStaff">Plan달력</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/addCareRecordInStaff">Record작성</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCareRecordInStaff">Record목록</a>
-							</h4>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!--================Blog Area =================-->
+	</section>
+	<!--================Blog Area =================-->	
 
 
 	<!-- footer_start  -->
