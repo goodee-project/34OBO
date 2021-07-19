@@ -1,12 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.DonationMapper">
+	<select id="selectFullMoneyDonationListByMemberIdTotal" resultType="int" parameterType="java.lang.String">
+		SELECT 
+			COUNT(*)
+		FROM full_money_donation_list 
+		WHERE member_id = #{memberId}
+	</select>
+	<!-- 내정보/후원내역/총후원내역 -->
+	<select id="selectFullMoneyDonationListByMemberId" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			shelter_name shelterName, 
+			amount amount, 
+			donation_date donationDate, 
+			kind kind 
+		FROM full_money_donation_list 
+		WHERE member_id = #{memberId}
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	<!-- 내정보/후원내역/정기후원목록  토탈-->
+	<select id="selectPeriodicallyDonationByMemberIdTotal" resultType="int" parameterType="java.lang.String">
+		SELECT 
+			COUNT(*)
+		FROM 
+			periodically_donation p 
+			INNER JOIN shelter s ON p.shelter_id = s.shelter_id
+		WHERE p.member_id = #{memberId}
+		
+	</select>
 	<!-- 내정보/후원내역/정기후원목록 -->
-	<select id="selectPeriodicallyDonationByMemberId" resultType="java.util.Map" parameterType="java.lang.String">
+	<select id="selectPeriodicallyDonationByMemberId" resultType="java.util.Map" parameterType="java.util.Map">
 		SELECT 
 			p.periodically_donation_id periodicallyDonationId, 
 			p.shelter_id shelterId, 
-			p.apply_date applyDate, 
+			DATE(p.apply_date) applyDate, 
 			DATE(p.end_date) endDate, 
 			p.amount amount, 
 			s.shelter_name shelterName
@@ -14,6 +41,7 @@
 			periodically_donation p 
 			INNER JOIN shelter s ON p.shelter_id = s.shelter_id
 		WHERE p.member_id = #{memberId}
+		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	<update id="updatePeriodicallyDonationByEndDate" parameterType="int">
 		UPDATE periodically_donation SET end_date = NOW() WHERE periodically_donation_id = #{periodicallyDonationId}

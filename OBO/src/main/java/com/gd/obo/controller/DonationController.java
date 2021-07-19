@@ -41,11 +41,8 @@ public class DonationController {
 	
 	//내정보 후원내역보기 -> 아직 정기후원목록만 만들었습니다... 수정필요!
 	@GetMapping("/member/getMemberDonation")
-	public String getMemberDonation(HttpSession session, Model model) {
+	public String getMemberDonation() {
 		
-		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
-		
-		model.addAttribute("list", donationService.getPeriodicallyDonationByMemberId(memberId));
 		return "main/getMemberDonation";
 	}
 	
