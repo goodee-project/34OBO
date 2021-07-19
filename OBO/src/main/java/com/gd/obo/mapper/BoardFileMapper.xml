@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.obo.mapper.BoardFileMapper">
+
+	<!-- 게시판 파일 삭제 -->
+	<delete id="deleteBoardFile" parameterType="Integer">
+		DELETE FROM board_file
+		WHERE board_file_id = #{boardFileId}
+	</delete>
+	
+	<!-- 게시판 파일 추가 -->
+	<insert id="insertBoardFile" parameterType="com.gd.obo.vo.BoardFile">
+		INSERT INTO
+			board_file
+			(
+				board_id,
+				board_file_original_name,
+				board_file_name,
+				board_file_size,
+				board_file_ext,
+				create_date
+			)
+		VALUES 
+			(
+				#{boardId},
+				#{boardFileOriginalName},
+				#{boardFileName},
+				#{boardFileSize},
+				#{boardFileExt},
+				NOW()
+			)
+	</insert>
+</mapper>

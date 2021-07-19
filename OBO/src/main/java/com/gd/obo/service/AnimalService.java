@@ -111,6 +111,7 @@ public class AnimalService {
 		return returnMap;
 		
 	}
+	
 	public List<Map<String, Object>> getAnimalCategoryList() {
 		return animalMapper.selectAnimalCategoryList();
 	}
