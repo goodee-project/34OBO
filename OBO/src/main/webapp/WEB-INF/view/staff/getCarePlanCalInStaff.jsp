@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getShelter</title>
+<title>getCarePlanCalInStaff</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>보호소</h3>
+					<h3>입양&케어 > 케어 > Plan달력</h3>
 				</div>
 			</div>
 		</div>
@@ -93,47 +93,60 @@ $(document).ready(function(){
 
 	<!--================Blog Area =================-->
 	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
-	<div class="service_area">
+	<section class="blog_area single-post-area section-padding">
 		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option"> <!-- volunteer_option적용 : css에서 칸 높이 조정 -->
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">
-									<img src="../static/img/service/service_icon_1.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">
-								<h3>보호소 소개</h3>
-							</a>
-						</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="blog_right_sidebar">
+						<aside class="single_sidebar_widget post_category_widget category_setting">
+							<jsp:include page="/WEB-INF/view/staff/inc/side/adoptCareMenu.jsp"></jsp:include>
+						</aside>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option">
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">
-									<img src="../static/img/service/service_icon_2.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">
-								<h3>내용 수정</h3>
-							</a>
+				<div class="col-lg-9 mb-5 mb-lg-0">
+					<div class="single-post">
+						<div class="blog_details">
+							<!--  달력 설정 -->
+							<h1>
+								<span style="text-align:center;">
+									<a href=""><i class="fa fa-arrow-circle-o-left"></i></a>
+									월.일
+									<a href=""><i class="fa fa-arrow-circle-o-right"></i></a>
+								</span>
+								
+								<span style="float:right;">
+									<a href="">오늘</a>
+								</span>
+							</h1>
+							<table class="table">
+								<tr>
+									<td>일</td>
+									<td>월</td>
+									<td>화</td>
+									<td>수</td>
+									<td>목</td>
+									<td>금</td>
+									<td>토</td>
+								</tr>
+								<c:forEach var="c" items="${carePlanCal}">
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</c:forEach>
+							</table>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!--================Blog Area =================-->
+	</section>
+	<!--================Blog Area =================-->	
 
 
 	<!-- footer_start  -->

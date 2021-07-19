@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getDonation</title>
+<title>getShelterInStaff</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>후원</h3>
+					<h3>보호소</h3>
 				</div>
 			</div>
 		</div>
@@ -96,8 +96,8 @@ $(document).ready(function(){
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-lg-4 col-md-6">
-					<div class="single_service donation_option"> <!-- volunteer_option : css에서 칸 높이 조정 -->
+				<div class="col-lg-5 col-md-5">
+					<div class="single_service donation_option"> <!-- volunteer_option적용 : css에서 칸 높이 조정 -->
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
@@ -108,14 +108,13 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationItemN">물품후원</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyN">일반후원</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">보호소 소개</a>
 							</h3>
+							<p>우리 보호소는 이렇게 소개 될 거예요</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-6">
+				<div class="col-lg-5 col-md-5">
 					<div class="single_service donation_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
@@ -127,25 +126,9 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyP">정기후원</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">정보수정</a>
 							</h3>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single_service donation_option">
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block">
-									<img src="../static/img/service/service_icon_3.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<h3>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationStats">통계</a>
-							</h3>
+							<p>보호소의 정보를 수정해봐요</p>
 						</div>
 					</div>
 				</div>
@@ -157,9 +140,8 @@ $(document).ready(function(){
 
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
-	<!-- footer_end  -->
-
-
+	<!-- footer_end  -->	
+	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
@@ -186,6 +168,5 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
-
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.gd.obo.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,17 @@ public class AnimalController {
 	
 	// 작성자 : 남민정
 	@GetMapping("/staff/addAnimal")
-	public String addAnimal() {
+	public String addAnimal(Model model) {
+		List<Map<String, Object>> animalCategoryList = animalService.getAnimalCategoryList();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalCategoryList: " + animalCategoryList);
+		
+		model.addAttribute("animalCategoryList", animalCategoryList);
 		
 		return "staff/addAnimal";
 	}
 	
-	@PostMapping("/staff/addAnimal") // 코드 수정 하기
-	public String addAnimal(Model model, @RequestParam(value = "animalId", required = false) Integer animalId,
+	@PostMapping("/staff/addAnimal") // 코드 수정 하기  animalIntroduce
+	public String addAnimal(Model model, 
 										@RequestParam(value = "animalCategoryId", required = false) Integer animalCategoryId,
 										@RequestParam(value = "shelterId", required = false) Integer shelterId,
 										@RequestParam(value = "animalName", required = false) String animalName,
@@ -40,8 +45,8 @@ public class AnimalController {
 										@RequestParam(value = "animalKind", required = false) String animalKind,
 										@RequestParam(value = "animalFindPlace", required = false) String animalFindPlace,
 										@RequestParam(value = "animalNote", required = false) String animalNote,
-										@RequestParam(value = "animalState", required = false) String animalState) {
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalId: " + animalId);
+										@RequestParam(value = "animalState", required = false) String animalState,
+										@RequestParam(value = "animalIntroduce", required = false) String animalIntroduce) {
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalCategoryId: " + animalCategoryId);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal shelterId: " + shelterId);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalName: " + animalName);
@@ -52,11 +57,11 @@ public class AnimalController {
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalFindPlace: " + animalFindPlace);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalNote: " + animalNote);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalState: " + animalState);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalIntroduce: " + animalIntroduce);
 		
 		Map<String, Object> map = new HashMap<>();
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal map: " + map);
 		
-		map.put("animalId", animalId);
 		map.put("animalCategoryId", animalCategoryId);
 		map.put("shelterId", shelterId);
 		map.put("animalName", animalName);
@@ -67,6 +72,7 @@ public class AnimalController {
 		map.put("animalFindPlace", animalFindPlace);
 		map.put("animalNote", animalNote);
 		map.put("animalState", animalState);
+		map.put("animalIntroduce", animalIntroduce);
 		
 		int addAnimal = animalService.addAnimal(map);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal addAnimal: " + addAnimal);
@@ -124,5 +130,11 @@ public class AnimalController {
 		model.addAttribute("lastPage", map.get("lastPage"));
 		
 		return "staff/getAnimalList";
+	}
+	
+	// staff -> 동물 페이지 이동
+	@GetMapping("/staff/getAnimalInStaff")
+	public String getAnimalInStaff() {
+		return "staff/getAnimalInStaff";
 	}
 }

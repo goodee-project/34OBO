@@ -1,5 +1,4 @@
 <!-- 작성자 : 김선유 -->
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -50,7 +49,7 @@
 			<div class="header-top_area">
 				<div class="container">
 					<div class="row">
-						<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
+						<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>
 					</div>
 				</div>
 			</div>
@@ -61,7 +60,7 @@
 					<div class="row align-items-center">
 						<div class="col-xl-3 col-lg-3">
 							<div class="logo">
-								<a href="${pageContext.request.contextPath}/staff/">
+								<a href="${pageContext.request.contextPath}/main/">
 									<img src="../static/img/logo.png" alt="">
 								</a>
 							</div>
@@ -71,7 +70,7 @@
 							<div class="main-menu  d-none d-lg-block">
 								<nav>
 									<ul id="navigation">
-										<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
+										<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
 									</ul>
 								</nav>
 							</div>
@@ -106,7 +105,7 @@
 					<div class="textmonial_active owl-carousel">
 						<div class="testmonial_wrap">
 							<div class="single_testmonial d-flex align-items-center ">
-								<img src="static/img/blog/single_blog_1.png" alt="">
+								<img src="static/img/board/pet.jpeg" alt="">
 							</div>
 						</div>
 						<div class="testmonial_wrap">
@@ -169,6 +168,7 @@
 											<div class="d-flex align-items-center">
 												<h5>${b.memberId}</h5>
 												<p class="date">${b.createDate }</p>
+												<a href="${pageContext.request.contextPath}/removeBoardComment?boardCommentId=${b.boardCommentId}&boardId=${boardMap.boardId}"><button type="button">삭제</button></a>
 											</div>
 										</div>
 									</div>
@@ -176,7 +176,7 @@
 							</div>
 						</div>
 					</c:forEach>
-					<form class="form-contact comment_form" action="${pageContext.request.contextPath}/addComment" id="commentForm">
+					<form class="form-contact comment_form" action="${pageContext.request.contextPath}/addBoardComment?boardId=${boardMap.boardId }&memberId=sunyou" id="commentForm" method = "post">
 						<div class="row">
 							<div class="col-12">
 								<div class="form-group">

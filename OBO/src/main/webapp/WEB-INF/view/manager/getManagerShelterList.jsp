@@ -17,18 +17,18 @@
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../static/css/magnific-popup.css">
-    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/css/themify-icons.css">
-    <link rel="stylesheet" href="../static/css/nice-select.css">
-    <link rel="stylesheet" href="../static/css/flaticon.css">
-    <link rel="stylesheet" href="../static/css/gijgo.css">
-    <link rel="stylesheet" href="../static/css/animate.css">
-    <link rel="stylesheet" href="../static/css/slicknav.css">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+	<!-- <link rel="stylesheet" href="css/responsive.css"> -->
     
     <!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -184,8 +184,7 @@ $(document).ready(function(){
 			<!-- 검색 -->
 				<div class="default-select" id="default-select">
 				</div>
-				<form action="${pageContext.request.contextPath}/manager/getManagerShelterList?currentPage=${currentPage}&lastPage=${lastPage}
-						&shelterName=${shelterName}&searchAddress=${searchAddress}" id="shelterList">
+				<form action="${pageContext.request.contextPath}/manager/getManagerShelterList" id="shelterList">
 				<div class="form-group">
 					<div class="input-group mb-4">
 						<select id="searchSelect">

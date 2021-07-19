@@ -1,3 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gd.obo.mapper.VolunteerMapper"></mapper>
+<mapper namespace="com.gd.obo.mapper.VolunteerMapper">
+	
+	<!-- 회원용 봉사 모집 목록 확인 -->
+	<select id="selectVolunteerNList" resultType="java.util.Map" parameterType="java.util.Map">
+	SELECT * FROM volunteer_list
+		<where>
+			<if test="searchWord != null">
+				AND shelterName LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="categoryName != null">
+				AND categoryName = #{categoryName}
+			</if>
+		</where>
+		ORDER BY recruitId DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 회원용 봉사 모집 총 -->
+	<select id="selectVolunteerNTotal" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM volunteer_recruit vr
+			JOIN staff s ON vr.staff_id = s.staff_id
+			JOIN shelter sh ON s.shelter_id = sh.shelter_id
+			JOIN volunteer_category vc ON vr.volunteer_category_id = vc.volunteer_category_id
+		<where>
+			<if test="searchWord != null">
+				AND sh.shelter_name LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="categoryName != null">
+				AND vc.volunteer_category_name = #{categoryName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 봉사 카테고리 받아오기 -->
+	<select id="selectVolunteerCategory" resultType="String">
+		SELECT volunteer_category_name categoryName FROM volunteer_category
+	</select>
+</mapper>

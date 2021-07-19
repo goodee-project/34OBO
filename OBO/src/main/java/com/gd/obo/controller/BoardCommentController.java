@@ -25,13 +25,13 @@ public class BoardCommentController {
 		
 		return "redirect:/getBoardOne?boardId="+boardComment.getBoardId();
 	}
-	@GetMapping("/removeComment")
+	@GetMapping("/removeBoardComment")
 	public String removeBoardComment(@RequestParam(value = "boardCommentId", required = true) int boardCommentId,
 									@RequestParam(value="boardId", required = true) int boardId) {
 		log.debug("@@@@@ boardCommentId: "+boardCommentId);
 		log.debug("@@@@@ boardId: "+boardId);
 		
-		int row = boardCommentService.deleteBoardComment(boardId);
+		int row = boardCommentService.deleteBoardComment(boardCommentId);
 		log.debug("@@@@@ row: "+row);
 		
 		return "redirect:/getBoardOne?boardId="+boardId;

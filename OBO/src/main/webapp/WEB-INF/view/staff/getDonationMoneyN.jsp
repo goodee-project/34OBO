@@ -99,20 +99,7 @@ $(document).ready(function(){
 				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<ul class="list cat-list">
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationItemN" class="d-flex"><p>물품후원</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyN" class="d-flex"><p>일반후원</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="d-flex"><p>정기후원</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationStats" class="d-flex"><p>통계</p></a>
-								</li>
-							</ul>
+							<jsp:include page="/WEB-INF/view/staff/inc/side/donationMenu.jsp"></jsp:include>
 						</aside>
 					</div>
 				</div>

@@ -18,38 +18,35 @@ public class AdoptController {
 	
 	
 	// staff - 입양&케어 페이지 이동
-	@GetMapping("/staff/getAdoptAndCare")
-	public String getAdoptAndCare (HttpSession session, Model model) {
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
-		
-		return "staff/getAdoptAndCare";
+	@GetMapping("/staff/getAdoptAndCareInStaff")
+	public String getAdoptAndCareInStaff () {
+		return "staff/getAdoptAndCareInStaff";
 	}
 	
 	// staff - 입양 신청 목록 이동
-	@GetMapping("/staff/getAdoptApply")
-	public String getAdoptApply (HttpSession session, Model model) {
+	@GetMapping("/staff/getAdoptApplyInStaff")
+	public String getAdoptApplyInStaff (HttpSession session, Model model) {
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
 		
-		return "staff/getAdoptApply";
+		return "staff/getAdoptApplyInStaff";
 	}
 	
 	// staff - 입양 승인 목록 이동
-	@GetMapping("/staff/getAdoptApplyApproval")
-	public String getAdoptApplyApproval (HttpSession session, Model model) {
+	@GetMapping("/staff/getAdoptApprovalInStaff")
+	public String getAdoptApplyApprovalInStaff (HttpSession session, Model model) {
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
 		
-		return "staff/getAdoptApplyApproval";
+		return "staff/getAdoptApprovalInStaff";
 	}
 	
 	// staff - 입양 거절 목록 이동
-	@GetMapping("/staff/getAdoptApplyReject")
-	public String getAdoptApplyReject (HttpSession session, Model model) {
+	@GetMapping("/staff/getAdoptRejectInStaff")
+	public String getAdoptRejectInStaff (HttpSession session, Model model) {
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
 		
-		return "staff/getAdoptApplyReject";
+		return "staff/getAdoptRejectInStaff";
 	}
 }

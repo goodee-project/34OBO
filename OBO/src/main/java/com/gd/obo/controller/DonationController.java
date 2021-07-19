@@ -133,9 +133,9 @@ public class DonationController {
 	}
 	
 	// staff 후원 페이지
-	@GetMapping("/staff/getDonation")
-	public String getDonation() {
-		return "staff/getDonation";
+	@GetMapping("/staff/getDonationInStaff")
+	public String getDonationInStaff() {
+		return "staff/getDonationInStaff";
 	}
 	
 	// staff 물품후원내역
@@ -185,10 +185,22 @@ public class DonationController {
 		return "staff/getDonationMoneyP";
 	}
 	
-	// staff 후원 - 통계 페이지 이동
+	// staff 후원 - 통계->홈 페이지 이동
 	@GetMapping("/staff/getDonationStats")
 	public String getDonationStats(Model model, HttpSession session) {
 		return "staff/getDonationStats";
+	}
+	
+	// staff 후원 - 통계->물품 페이지 이동
+	@GetMapping("/staff/getDonationStatsItem")
+	public String getDonationStatsItem(Model model, HttpSession session) {
+		return "staff/getDonationStatsItem";
+	}
+	
+	// staff 후원 - 통계->금액 페이지 이동
+	@GetMapping("/staff/getDonationStatsMoney")
+	public String getDonationStatsMoney(Model model, HttpSession session) {
+		return "staff/getDonationStatsMoney";
 	}
 	
 }

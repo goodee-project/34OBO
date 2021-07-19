@@ -32,7 +32,6 @@
 	<!-- Animal 추가 --> <!-- 더 추가해야함, 기본적인것만 추가 -->
 	<insert id="insertAnimal" parameterType="java.util.Map">
 		INSERT INTO animal(
-			animal_id,
 			animal_category_id,
 			shelter_id,
 			animal_name,
@@ -43,11 +42,11 @@
 			animal_find_place,
 			animal_note,
 			animal_enter_date,
-			animal_state
+			animal_state,
+			animal_introduce
 		) VALUES (
-			#{animalId},
 			#{animalCategoryId},
-			#{shelterId}
+			#{shelterId},
 			#{animalName},
 			#{animalAge},
 			#{animalSex},
@@ -56,9 +55,11 @@
 			#{animalFindPlace},
 			#{animalNote},
 			NOW(),
-			#{animalState}
+			#{animalState},
+			#{animalIntroduce}
 		)
 	</insert>
+	
 	
 	<!-- Animal 상세보기 --> 
 	<select id="selectAnimalOne" resultType="java.util.Map" parameterType="java.util.Map">
