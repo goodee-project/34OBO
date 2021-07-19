@@ -50,7 +50,7 @@ $(document).ready(function(){
 			<div class="header-top_area">
 				<div class="container">
 					<div class="row">
-						<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
+						<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>
 					</div>
 				</div>
 			</div>
@@ -71,7 +71,7 @@ $(document).ready(function(){
 							<div class="main-menu  d-none d-lg-block">
 								<nav>
 									<ul id="navigation">
-										<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
+										<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
 									</ul>
 								</nav>
 							</div>

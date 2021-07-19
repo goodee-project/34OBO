@@ -9,6 +9,6 @@ public class BoardFile {
 	String createDate;
 	String boardFileOriginalName;
 	String boardFileName;
-	int boardFileSize;
+	double boardFileSize;
 	String boardFileExt;
 }
