@@ -133,6 +133,7 @@ $(document).ready(function(){
 					</div>
 					
 					<!-- 페이징 & 검색 -->
+					<div class="search_form">
 					<div class="blog_left_sidebar">
 					
 						<!-- 페이징 -->
@@ -155,14 +156,15 @@ $(document).ready(function(){
 						
 						<!-- 검색 -->
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getVolunteerCheckN">
-							<div class="form-group col-xl-8 col-lg-6">
-								<div class="input-group mb-4" >
+							<div class="form-group">
+								<div class="input-group mb-4">
 									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
 											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
 									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
 						</form>
+					</div>
 					</div>
 				</div>
 			</div>

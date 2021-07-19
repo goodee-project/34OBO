@@ -112,28 +112,24 @@ $(document).ready(function(){
 								<a href="${pageContext.request.contextPath}/staff/getDonationStatsMoney">금액</a>
 							</h2>
 							
-							
-							<p>MCSE boot camps have its supporters and its detractors.
-								Some people do not understand why you should have to spend money
-								on boot camp when you can get the MCSE study materials yourself
-								at a fraction of the camp price. However, who has the willpower
+							<p>후원 받은 금액을 기간별로 조회할 수 있습니다.</p>
 							
 							<br>
 							<!-- 검색 -->
 							<form id="searchForm" action="${pageContext.request.contextPath}/staff/getDonationMoneyP" method="post">
 								<div class="form-group col-xl-8 col-lg-6">
 									<div class="input-group mb-4"> 
-										<input type="date" id="startDate" name="startDate"> 
+										<input type="month" id="startDate" name="startDate"> 
 										&nbsp;~&nbsp;
-										<input type="date" id="endDate" name="endDate"> 
+										<input type="month" id="endDate" name="endDate"> 
 										
-										<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
-										<button class="btn" type="reset"><i class="fa fa-refresh"></i></button>
+										&nbsp;<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+										&nbsp;<button class="btn" type="reset"><i class="fa fa-refresh"></i></button>
 									</div>
 								</div>
 							</form>
 							
-							</p>
+							
 						</div>
 					</div>
 

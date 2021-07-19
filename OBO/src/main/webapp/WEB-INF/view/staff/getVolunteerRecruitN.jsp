@@ -137,6 +137,7 @@ $(document).ready(function(){
 					</div>
 					
 					<!-- 페이징 & 검색 -->
+					<div class="search_form">
 					<div class="blog_left_sidebar">
 					
 						<!-- 페이징 -->
@@ -159,13 +160,13 @@ $(document).ready(function(){
 						
 						<!-- 검색 -->
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getVolunteerRecruitN">
-							<div class="form-group col-xl-8 col-lg-6">
-								<div class="input-group mb-4 search_form">
-									<select id="categoryName">
+							<div class="form-group">
+								<div class="input-group mb-4">
+									<select id="categoryName" class="select_box">
 										<option value="0">카테고리</option>
 										<option value="">카테리스트</option>
 									</select>
-									<select id="searchSelect">
+									<select id="searchSelect" class="select_box">
 										<option value="memberId">직원ID</option>
 										<option value="itemName">제목</option>
 									</select> 
@@ -175,6 +176,7 @@ $(document).ready(function(){
 								</div>
 							</div>
 						</form>
+					</div>
 					</div>
 				</div>
 			</div>

@@ -108,9 +108,9 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAnimalList">동물목록</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAnimalList">동물 목록</a>
 							</h3>
-							<p>우리 보호소의 동물들이에요</p>
+							<p>우리 보호소의 친구들이에요</p>
 						</div>
 					</div>
 				</div>
@@ -126,7 +126,7 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/addAnimal">동물등록</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/addAnimal">동물 등록</a>
 							</h3>
 							<p>새로운 친구를 등록해주세요</p>
 						</div>
