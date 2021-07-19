@@ -57,6 +57,7 @@ a,
   -moz-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
+  color : grey;
 }
 
 /* line 19, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_reset.scss */
@@ -3923,9 +3924,9 @@ h6 {
 
 /* line 311, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .genric-btn.danger-border:hover {
-  color: #fff;
   background: #f44a40;
   border: 1px solid transparent;
+  color: #fff;
 }
 
 /* line 317, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
