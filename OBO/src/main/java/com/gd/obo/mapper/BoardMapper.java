@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gd.obo.vo.Board;
+import com.gd.obo.vo.BoardFile;
 
 @Mapper
 public interface BoardMapper {
@@ -15,4 +16,8 @@ public interface BoardMapper {
 	int insertBoard(Board board);
 	int insertBoardFile(Map<String, Object> map);
 	List<Map<String, Object>> selectBoardCategoryList();
+	int deleteBoard(int boardId);
+	int deleteBoardFileByBoard(int boardId);
+	int deleteBoardFile(int boardFileId);
+	List<BoardFile> selectBoardFileByBoard(int boardId);
 }

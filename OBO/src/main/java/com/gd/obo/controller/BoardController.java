@@ -23,6 +23,24 @@ public class BoardController {
 	@Autowired BoardService boardService;
 	@Autowired AnimalService animalService;
 	
+	// board 액션
+	@PostMapping("/removeBoard")
+	public String remove(int boardId) {
+		log.debug("@@@@@ boardId: "+boardId);
+		int row = boardService.removeBoard(boardId);
+		if(row == 0) {
+			return "redirect:/getBoardOne?boardId="+boardId;
+		}
+		return "redirect:/getBoardList";
+	}
+	
+	@GetMapping("/removeBoard")
+	public String removeBoard(Model model, @RequestParam(value ="boardId", required = true) int boardId) {
+		log.debug("@@@@@ param: "+boardId);
+		model.addAttribute("boardId",boardId);
+		return "removeBoard";
+	}
+	
 	// board 추가 액션
 	@PostMapping("/addBoard")
 	public String addBoard(Board board) {
@@ -47,9 +65,12 @@ public class BoardController {
 	@GetMapping("/getBoardOne")
 	public String getBoardOne(Model model,
 								@RequestParam(name="boardId", required=true)int boardId) {
-		Map<String, Object> boardMap = boardService.getBoardOne(boardId);
-		log.debug("@@@@@ boardMap: "+boardMap);
-		model.addAttribute("boardMap", boardMap);
+		Map<String, Object> map = boardService.getBoardOne(boardId);
+		log.debug("@@@@@ map: "+map);		
+		model.addAttribute("map", map);
+		model.addAttribute("boardMap",map.get("boardMap"));
+		model.addAttribute("boardCommentList",map.get("boardCommentList"));
+		model.addAttribute("boardFileList",map.get("boardFileList"));
 		return "main/getBoardOne";
 	}
 	

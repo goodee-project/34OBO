@@ -12,4 +12,7 @@ public class PeriodicallyDonation {
 	private int amount;
 	private String sid;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/goodee-project/34OBO.git

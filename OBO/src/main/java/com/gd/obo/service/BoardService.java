@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gd.obo.mapper.BoardCommentMapper;
 import com.gd.obo.mapper.BoardMapper;
 import com.gd.obo.vo.Board;
+import com.gd.obo.vo.BoardComment;
+import com.gd.obo.vo.BoardFile;
 import com.gd.obo.vo.Page;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,27 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class BoardService {
 	@Autowired BoardMapper boardMapper;
+	@Autowired BoardCommentMapper boardCommentMapper;
+	
+	// board 삭제
+	public int removeBoard(int boardId) {
+		// 게시판 삭제
+		int boardRow = boardMapper.deleteBoard(boardId);
+		if(boardRow == 0) {
+			return 0;
+		}
+		log.debug("@@@@@ boardRow :"+boardRow);
+		
+		// 댓글 삭제
+		int boardCommentRow = boardCommentMapper.deleteBoardCommentByBoard(boardId);
+		log.debug("@@@@@ boardCommentRow: "+boardCommentRow);
+		
+		// 파일 삭제
+		int boardFileRow = boardMapper.deleteBoardFileByBoard(boardId);
+		log.debug("@@@@@ boardFileRow: "+boardFileRow);
+		
+		return boardRow;
+	}
 	
 	// board category 리스트
 	public List<Map<String, Object>> getBoardCategoryList() {
@@ -33,9 +57,25 @@ public class BoardService {
 	
 	// board 상세보기
 	public Map<String, Object> getBoardOne(int boardId) {
+		
 		Map<String, Object> boardMap = boardMapper.selectBoardOne(boardId);
 		log.debug("@@@@@ boardMap"+boardMap);
-		return boardMap;		
+		
+		// 댓글 리스트
+		List<BoardComment> boardCommentList = boardCommentMapper.selectBoardComment(boardId);
+		log.debug("@@@@@ boardCommentList: "+boardCommentList);
+		
+		// boardfile
+		List<BoardFile> boardFileList = boardMapper.selectBoardFileByBoard(boardId);
+		log.debug("@@@@@ boardFileList: "+boardFileList);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardMap", boardMap);
+		map.put("boardCommentList", boardCommentList);
+		map.put("boardFileList", boardFileList);		
+		log.debug("@@@@@ map: "+map);
+		
+		return map;		
 	}
 	
 	// board 리스트
