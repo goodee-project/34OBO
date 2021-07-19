@@ -31,7 +31,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
-
+<script>
+	$(document).ready(function(){
+		$('#btn').click(function(){
+			 console.log("btn click!");
+			 $('#commentForm').submit();
+		});
+	});
+</script>
 <meta charset="UTF-8">
 <title>getBoardOne</title>
 </head>
@@ -89,31 +96,32 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="section-top-border container">
 		<h3 class="mb-30">${boardMap.boardTitle}</h3>
-			<div class="testmonial_area">
-				<div class="row">
-					<div class="col-lg-5 mb-5 mb-lg-0">
-						<div class="textmonial_active owl-carousel">
-							<div class="testmonial_wrap">
-                            	<div class="single_testmonial d-flex align-items-center ">
-									<img src="static/img/blog/single_blog_1.png" alt="">
-								</div>
+		<a href="${pageContext.request.contextPath}/getBoardList">자유게시판</a>
+		<div class="testmonial_area">
+			<div class="row">
+				<div class="col-lg-5 mb-5 mb-lg-0">
+					<div class="textmonial_active owl-carousel">
+						<div class="testmonial_wrap">
+							<div class="single_testmonial d-flex align-items-center ">
+								<img src="static/img/blog/single_blog_1.png" alt="">
 							</div>
-							<div class="testmonial_wrap">
-                            	<div class="single_testmonial d-flex align-items-center">
-									<img src="static/img/elements/d.jpg" alt="">
-								</div>
+						</div>
+						<div class="testmonial_wrap">
+							<div class="single_testmonial d-flex align-items-center">
+								<img src="static/img/elements/d.jpg" alt="">
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<br>
-			<div class="col-md-9 mt-sm-10">
-				<div class="row align-items-center">
-               <table class="table table-hover">
+		</div>
+		<br>
+		<div class="col-md-12 mt-sm-10">
+			<div class="row align-items-center">
+				<table class="table table-hover">
 					<tr>
 						<td>No.</td>
 						<td>${boardMap.boardId}</td>
@@ -142,23 +150,50 @@
 						<td>업데이트 날짜</td>
 						<td>${boardMap.updateDate}</td>
 					</tr>
-					<tr>
-						<td>활동</td>
-						<td>
-							<c:if test="${shelterMap.active==1}">
-								영업중
-							</c:if>
-							<c:if test="${shelterMap.active==0}">
-								휴업중
-							</c:if>
-						</td>
-					</tr>			                	
-                </table>
-					<a href="${pageContext.request.contextPath}/getBoardList">자유게시판</a>
-            </div>
+				</table>
+			</div>
+		</div>
+		<section class="blog_area single-post-area section-padding">
+			<div class="container">
+				<div class="row">
+            		<div class="col-lg-8 posts-list">
+				<div class="comments-area">
+					<h4>댓글</h4>
+					<c:forEach var="b" items="${boardCommentList}">
+						<div class="comment-list">
+							<div class="single-comment justify-content-between d-flex">
+								<div class="user justify-content-between d-flex">
+									<div class="desc">
+										<p class="comment">${b.boardCommentContent}</p>
+										<div class="d-flex justify-content-between">
+											<div class="d-flex align-items-center">
+												<h5>${b.memberId}</h5>
+												<p class="date">${b.createDate }</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+					<form class="form-contact comment_form" action="${pageContext.request.contextPath}/addComment" id="commentForm">
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group">
+									 <textarea class="form-control w-100" name="boardCommentContent" id="boardCommentContent" cols="30" rows="2" placeholder="댓글을 작성해주세요"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<button id="btn" type="button" class="genric-btn primary-border radius small">등록</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
-
+	</section>
+	</div>
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
