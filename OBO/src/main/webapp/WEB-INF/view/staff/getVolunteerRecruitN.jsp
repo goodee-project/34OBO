@@ -99,32 +99,7 @@ $(document).ready(function(){
 				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<h4 class="widget_title">일반봉사</h4>
-							<ul class="list cat-list">
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getVolunteerRecruitN" class="d-flex"><p>모집공고</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getVolunteerApplyN" class="d-flex"><p>신청목록</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getVolunteerCheckN" class="d-flex"><p>확인목록</p></a>
-								</li>
-							</ul>
-							<br>
-							<h4 class="widget_title">정기봉사</h4>
-							<ul class="list cat-list">
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getVolunteerRecruitP" class="d-flex"><p>모집공고</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getVolunteerApplyP" class="d-flex"><p>신청목록</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getVolunteerCheckP" class="d-flex"><p>확인목록</p></a>
-								</li>
-							</ul>
-							
+							<jsp:include page="/WEB-INF/view/staff/inc/side/volunteerMenu.jsp"></jsp:include>
 						</aside>
 					</div>
 				</div>

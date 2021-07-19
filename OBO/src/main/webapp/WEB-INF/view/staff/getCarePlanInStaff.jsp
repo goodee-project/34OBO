@@ -99,41 +99,7 @@ $(document).ready(function(){
 				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<h4 class="widget_title">입양</h4>
-							<ul class="list cat-list">
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getAdoptApplyInStaff" class="d-flex"><p>신청목록</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getAdoptApprovalInStaff" class="d-flex"><p>승인목록</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff" class="d-flex"><p>거절목록</p></a>
-								</li>
-							</ul>
-							<br>
-							<h4 class="widget_title">케어</h4>
-							<ul class="list cat-list">
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getCareInfoInStaff" class="d-flex"><p>Info확인</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/addCarePlanInStaff" class="d-flex"><p>Plan작성</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getCarePlanInStaff" class="d-flex"><p>Plan목록</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getCarePlanCalInStaff" class="d-flex"><p>Plan달력</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/addCareRecordInStaff" class="d-flex"><p>Record작성</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getCareRecordInStaff" class="d-flex"><p>Record목록</p></a>
-								</li>
-							</ul>
-							
+							<jsp:include page="/WEB-INF/view/staff/inc/side/adoptCareMenu.jsp"></jsp:include>
 						</aside>
 					</div>
 				</div>

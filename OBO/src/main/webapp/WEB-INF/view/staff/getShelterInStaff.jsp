@@ -96,37 +96,39 @@ $(document).ready(function(){
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option"> <!-- volunteer_option적용 : css에서 칸 높이 조정 -->
+				<div class="col-lg-5 col-md-5">
+					<div class="single_service donation_option"> <!-- volunteer_option적용 : css에서 칸 높이 조정 -->
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">
+								<a class="d-inline-block">
 									<img src="../static/img/service/service_icon_1.png" alt="">
 								</a>
 							</div>
 						</div>
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">
-								<h3>보호소 소개</h3>
-							</a>
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">보호소 소개</a>
+							</h3>
+							<p>우리 보호소는 이렇게 소개 될 거예요</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option">
+				<div class="col-lg-5 col-md-5">
+					<div class="single_service donation_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">
+								<a class="d-inline-block">
 									<img src="../static/img/service/service_icon_2.png" alt="">
 								</a>
 							</div>
 						</div>
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">
-								<h3>내용 수정</h3>
-							</a>
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">정보수정</a>
+							</h3>
+							<p>보호소의 정보를 수정해봐요</p>
 						</div>
 					</div>
 				</div>

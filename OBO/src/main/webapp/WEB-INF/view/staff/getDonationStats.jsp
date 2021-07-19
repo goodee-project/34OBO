@@ -99,36 +99,26 @@ $(document).ready(function(){
 				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<ul class="list cat-list">
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationItemN" class="d-flex"><p>물품후원</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyN" class="d-flex"><p>일반후원</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="d-flex"><p>정기후원</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationStats" class="d-flex"><p>통계</p></a>
-								</li>
-							</ul>
+							<jsp:include page="/WEB-INF/view/staff/inc/side/donationMenu.jsp"></jsp:include>
 						</aside>
 					</div>
 				</div>
 				<div class="col-lg-9 mb-5 mb-lg-0">
-					<h2>
-						<a href="${pageContext.request.contextPath}/staff/getDonationStats"><i class="fa fa-home"></i></a> <a>|</a> 
-						<a href="${pageContext.request.contextPath}/staff/getDonationStatsItem">물품</a> <a>|</a> 
-						<a href="${pageContext.request.contextPath}/staff/getDonationStatsMoney">금액</a>
-					</h2>
-					<div class="single-post col-lg-4">
+					<div class="single-post">
 						<div class="blog_details">
-							<div>이번달 후원 받은 금액 : @</div>
+							<h2>
+								<a href="${pageContext.request.contextPath}/staff/getDonationStats"><i class="fa fa-home"></i></a> <a>|</a> 
+								<a href="${pageContext.request.contextPath}/staff/getDonationStatsItem">물품</a> <a>|</a> 
+								<a href="${pageContext.request.contextPath}/staff/getDonationStatsMoney">금액</a>
+							</h2>
+							<h4>이번 달 후원받은 금액 : @</h4>
+							<h5>이번 달 후원받은 금액 : @</h5>
+							<p>p태그</p>
+							<div>div태그</div>
 						</div>
 					</div>
 					
-					<div class="single-post col-lg-5">
+					<div class="single-post">
 						<div class="blog_details">
 						<div>최근 후원 받은 물품</div>
 						</div>

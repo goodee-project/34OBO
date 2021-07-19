@@ -18,7 +18,12 @@
 	<c:if test="${loginStaff != null}">
 		<!--staffMenu(inc) 홈, 동물, 보호소, 후원, 봉사, 입양&케어-->
 		<li><a href="${pageContext.request.contextPath}/staff/home">홈</a></li>
-		<li><a href="${pageContext.request.contextPath}/staff/getAnimalList">동물</a></li>
+		<li><a href="${pageContext.request.contextPath}/staff/getAnimalInStaff">동물<i class="ti-angle-down"></i></a>
+			<ul class="submenu">
+				<li><a href="${pageContext.request.contextPath}/staff/getAnimalList">동물 목록</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/addAnimal">동물 등록</a></li>
+			</ul>
+		</li>
 		<li><a href="${pageContext.request.contextPath}/staff/getShelterInStaff">보호소<i class="ti-angle-down"></i></a>
 			<ul class="submenu">
 				<li><a href="${pageContext.request.contextPath}/staff/shelterIntro">보호소 소개</a></li>
@@ -35,14 +40,29 @@
 		</li>
 		<li><a href="${pageContext.request.contextPath}/staff/getVolunteerInStaff">봉사<i class="ti-angle-down"></i></a>
 			<ul class="submenu">
-				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerN">일반봉사</a></li>
-				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerP">정기봉사</a></li>
+				<li><span>일반봉사</span></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerRecruitN">모집공고</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerApplyN">신청목록</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerCheckN">확인목록</a></li>
+				<li><span>정기봉사</span></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerRecruitP">모집공고</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerApplyP">신청목록</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerCheckP">확인목록</a></li>
 			</ul>
 		</li>
 		<li><a href="${pageContext.request.contextPath}/staff/getAdoptAndCareInStaff">입양&케어<i class="ti-angle-down"></i></a>
 			<ul class="submenu">
-				<li><a href="${pageContext.request.contextPath}/staff/#">입양</a></li>
-				<li><a href="${pageContext.request.contextPath}/staff/#">케어</a></li>
+				<li><span>입양</span></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getAdoptApplyInStaff">신청목록</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getAdoptApprovalInStaff">승인목록</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff">거절목록</a></li>
+				<li><span>케어</span></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getCareInfoInStaff">Info확인</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/addCarePlanInStaff">Plan작성</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getCarePlanInStaff">Plan목록</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getCarePlanCalInStaff">Plan달력</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/addCareRecordInStaff">Record작성</a></li>
+				<li><a href="${pageContext.request.contextPath}/staff/getCareRecordInStaff">Record목록</a></li>
 			</ul>
 		</li>
 	</c:if>

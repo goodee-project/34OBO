@@ -99,20 +99,7 @@ $(document).ready(function(){
 				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<ul class="list cat-list">
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationItemN" class="d-flex"><p>물품후원</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyN" class="d-flex"><p>일반후원</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="d-flex"><p>정기후원</p></a>
-								</li>
-								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationStats" class="d-flex"><p>통계</p></a>
-								</li>
-							</ul>
+							<jsp:include page="/WEB-INF/view/staff/inc/side/donationMenu.jsp"></jsp:include>
 						</aside>
 					</div>
 				</div>
@@ -130,8 +117,8 @@ $(document).ready(function(){
 								Some people do not understand why you should have to spend money
 								on boot camp when you can get the MCSE study materials yourself
 								at a fraction of the camp price. However, who has the willpower
-							</p>
 							
+							<br>
 							<!-- 검색 -->
 							<form id="searchForm" action="${pageContext.request.contextPath}/staff/getDonationMoneyP" method="post">
 								<div class="form-group col-xl-8 col-lg-6">
@@ -145,6 +132,8 @@ $(document).ready(function(){
 									</div>
 								</div>
 							</form>
+							
+							</p>
 						</div>
 					</div>
 

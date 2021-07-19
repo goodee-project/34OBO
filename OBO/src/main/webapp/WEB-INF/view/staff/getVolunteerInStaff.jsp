@@ -97,7 +97,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row justify-content-center">
 				
-				<div class="col-lg-6 col-md-6">
+				<div class="col-lg-5 col-md-5">
 					<div class="single_service volunteer_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
@@ -121,7 +121,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6">
+				<div class="col-lg-5 col-md-5">
 					<div class="single_service volunteer_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">

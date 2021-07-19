@@ -96,8 +96,26 @@ $(document).ready(function(){
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-lg-4 col-md-6">
+				<div class="col-lg-3 col-md-6">
 					<div class="single_service donation_option"> <!-- volunteer_option : css에서 칸 높이 조정 -->
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="../static/img/service/service_icon_3.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationItemN">물품후원</a>
+							</h3>
+							<p>후원 받은 물품을<br>조회 해보세요</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="single_service donation_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
@@ -108,14 +126,13 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationItemN">물품후원</a>
-								<br><br>
 								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyN">일반후원</a>
 							</h3>
+							<p>후원 받은 금액을<br>조회 해보세요</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-6">
+				<div class="col-lg-3 col-md-6">
 					<div class="single_service donation_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
@@ -129,16 +146,17 @@ $(document).ready(function(){
 							<h3>
 								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyP">정기후원</a>
 							</h3>
+							<p>정기 후원 받은 금액을<br>조회 해보세요</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-6">
+				<div class="col-lg-3 col-md-6">
 					<div class="single_service donation_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
 								<a class="d-inline-block">
-									<img src="../static/img/service/service_icon_3.png" alt="">
+									<img src="../static/img/service/statistics_1.png" alt="">
 								</a>
 							</div>
 						</div>
@@ -146,6 +164,7 @@ $(document).ready(function(){
 							<h3>
 								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationStats">통계</a>
 							</h3>
+							<p>우리 보호소의 후원 내역을<br>통계로 확인해봐요</p>
 						</div>
 					</div>
 				</div>

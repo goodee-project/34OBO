@@ -1145,12 +1145,12 @@ h3 {
 }
 
 /* line 173, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_header.scss */
-.header-area .main-header-area .main-menu ul li .submenu {
+.header-area .main-header-area .main-menu ul li .submenu { /*수정 */
   position: absolute;
   left: 0;
   top: 120%;
   background: #fff;
-  width: 200px;
+  width: 150px; /*수정 : 200 -> 150*/
   z-index: 9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.02);
   opacity: 0;
@@ -1169,9 +1169,10 @@ h3 {
   margin-left: 0;
 }
 
+/*span 태그 설정 추가, 수정*/
 /* line 190, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_header.scss */
-.header-area .main-header-area .main-menu ul li .submenu li a {
-  padding: 10px 15px;
+.header-area .main-header-area .main-menu ul li .submenu li span {
+  padding: 5px 10px; /*a b : 세로 : 가로*/
   position: inherit;
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
@@ -1179,11 +1180,31 @@ h3 {
   transition: 0.3s;
   display: block;
   color: #000;
+  font-weight: 500; /*수정. 추가 0->500*/
+}
+
+/* line 190, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li .submenu li a {
+  padding: 3px 15px; /*수정 10 15 -> 3 15; a b : 세로 : 가로 */
+  position: inherit;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  display: block;
+  color: #000;
+  font-weight: 400; /*수정. 추가 0->400*/
+  font-size: 15px; /*수정. 추가 (위의)16->14*/
 }
 
 /* line 196, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_header.scss */
 .header-area .main-header-area .main-menu ul li .submenu li a::before {
   display: none;
+}
+
+/*수정. 추가 마지막 a태그 margin 부여*/
+.header-area .main-header-area .main-menu ul li .submenu li a:last-child {
+  margin-bottom: 10px;
 }
 
 /* line 200, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_header.scss */

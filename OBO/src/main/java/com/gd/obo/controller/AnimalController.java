@@ -125,4 +125,10 @@ public class AnimalController {
 		
 		return "staff/getAnimalList";
 	}
+	
+	// staff -> 동물 페이지 이동
+	@GetMapping("/staff/getAnimalInStaff")
+	public String getAnimalInStaff() {
+		return "staff/getAnimalInStaff";
+	}
 }
