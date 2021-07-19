@@ -57,6 +57,7 @@ a,
   -moz-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
+  color : grey;
 }
 
 /* line 19, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_reset.scss */
@@ -1912,11 +1913,15 @@ h3 {
 }
 
 .volunteer_option {
-  height: 350px;
+  height: 450px;
 }
 
 .donation_option {
   height: 400px;
+}
+
+.adoptAndCard_option {
+  height: 580px;
 }
 
 /* line 21, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_service.scss */
@@ -3919,9 +3924,9 @@ h6 {
 
 /* line 311, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .genric-btn.danger-border:hover {
-  color: #fff;
   background: #f44a40;
   border: 1px solid transparent;
+  color: #fff;
 }
 
 /* line 317, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
@@ -5562,17 +5567,17 @@ h6 {
 }
 
 /* line 647, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_blog.scss */
-.blog_right_sidebar .widget_title {
+.blog_right_sidebar .widget_title { /*수정 bottom 삭제*/
   font-size: 20px;
-  margin-bottom: 40px;
+  /*margin-bottom: 40px;*/
 }
 
 /* line 652, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_blog.scss */
-.blog_right_sidebar .widget_title::after {
+.blog_right_sidebar .widget_title::after { /*수정 border-bottom: 1px solid #f0e9ff -> 삭제 */
   content: "";
   display: block;
   padding-top: 15px;
-  border-bottom: 1px solid #f0e9ff;
+  /*border-bottom: 1px solid #f0e9ff*/
 }
 
 /* line 660, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_blog.scss */
@@ -5670,14 +5675,15 @@ h6 {
 }
 
 /* line 755, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_blog.scss */
-.blog_right_sidebar .post_category_widget .cat-list li {
+.blog_right_sidebar .post_category_widget .cat-list li { /*수정 margin-left 0 -> 2px*/
   border-bottom: 1px solid #f0e9ff;
   transition: all 0.3s ease 0s;
-  padding-bottom: 12px;
+  padding-bottom: 5px; /*수정 12 -> 5*/
+  margin-left: 5px;
 }
 
 /* line 760, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_blog.scss */
-.blog_right_sidebar .post_category_widget .cat-list li:last-child {
+.blog_right_sidebar .post_category_widget .cat-list li:last-child { 
   border-bottom: 0;
 }
 
@@ -5695,7 +5701,7 @@ h6 {
 
 /* line 774, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_blog.scss */
 .blog_right_sidebar .post_category_widget .cat-list li + li {
-  padding-top: 15px;
+  padding-top: 10px; /*수정 15-> 10*/
 }
 
 /* line 791, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_blog.scss */

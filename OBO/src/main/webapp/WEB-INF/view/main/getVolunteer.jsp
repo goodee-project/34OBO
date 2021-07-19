@@ -1,4 +1,4 @@
-<!-- 작성자 : 이윤정 -->
+<!-- 작성자 : 남궁혜영 -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -6,7 +6,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getShelter</title>
+<title>Animal</title>
+ <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <link rel="shortcut icon" type="${pageContext.request.contextPath}/static/image/x-icon" href="${pageContext.request.contextPath}/static/img/favicon.png">
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -38,45 +40,12 @@ $(document).ready(function(){
 </head>
 <body>
 	<header>
-		<div class="header-area ">
-		
+		<div class="header-area">		
 			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
-			<div class="header-top_area">
-				<div class="container">
-					<div class="row">
-						<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
-					</div>
-				</div>
-			</div>
-			
+			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
 			<!-- 흰색 바탕 : 메인 메뉴 -->
-			<div id="sticky-header" class="main-header-area">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-xl-3 col-lg-3">
-							<div class="logo">
-								<a href="${pageContext.request.contextPath}/staff/">
-									<img src="../static/img/logo.png" alt="">
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-9 col-lg-9">
-							<div class="main-menu  d-none d-lg-block">
-								<nav>
-									<ul id="navigation">
-										<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
-									</ul>
-								</nav>
-							</div>
-						</div>
-						
-						<div class="col-12">
-							<div class="mobile_menu d-block d-lg-none"></div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
+					
 		</div>
 	</header>
 
@@ -85,7 +54,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>보호소</h3>
+					<h3>봉사</h3>
 				</div>
 			</div>
 		</div>
@@ -96,20 +65,24 @@ $(document).ready(function(){
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
+				
 				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option"> <!-- volunteer_option적용 : css에서 칸 높이 조정 -->
+					<div class="single_service volunteer_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">
-									<img src="../static/img/service/service_icon_1.png" alt="">
+								<a class="d-inline-block">
+									<img src="${pageContext.request.contextPath}/static/img/service/service_icon_2.png" alt="">
 								</a>
 							</div>
 						</div>
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">
-								<h3>보호소 소개</h3>
-							</a>
+							<h3>
+								<a class="d-inline-block">일반봉사</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/getVolunteerN">지원하러 가기 <i class="fa fa-arrow-right"></i></a>
+							</h4>
 						</div>
 					</div>
 				</div>
@@ -118,15 +91,18 @@ $(document).ready(function(){
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">
-									<img src="../static/img/service/service_icon_2.png" alt="">
+								<a class="d-inline-block">
+									<img src="${pageContext.request.contextPath}/static/img/service/service_icon_3.png" alt="">
 								</a>
 							</div>
 						</div>
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">
-								<h3>내용 수정</h3>
-							</a>
+							<h3>
+								<a class="d-inline-block">정기봉사</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/getVolunteerP">지원하러 가기 <i class="fa fa-arrow-right"></i></i></a>
+							</h4>
 						</div>
 					</div>
 				</div>

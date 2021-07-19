@@ -22,8 +22,8 @@
 								</li>
 								<li><a href="${pageContext.request.contextPath}/getVolunteer">봉사<i class="ti-angle-down"></i></a>
 									<ul class="submenu">
-										<li><a href="${pageContext.request.contextPath}/getVolunteerN">일반봉사</a></li>
-										<li><a href="${pageContext.request.contextPath}/getVolunteerP">정기봉사</a></li>
+										<li><a href="${pageContext.request.contextPath}/member/getVolunteerN">일반봉사</a></li>
+										<li><a href="${pageContext.request.contextPath}/member/getVolunteerP">정기봉사</a></li>
 									</ul>
 								</li>
 								<li><a href="${pageContext.request.contextPath}/getDonation">후원<i class="ti-angle-down"></i></a>

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getShelter</title>
+<title>getVolunteerRecruitP</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>보호소</h3>
+					<h3>봉사 > 일반봉사 > 모집공고</h3>
 				</div>
 			</div>
 		</div>
@@ -93,47 +93,119 @@ $(document).ready(function(){
 
 	<!--================Blog Area =================-->
 	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
-	<div class="service_area">
+	<section class="blog_area single-post-area section-padding">
 		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option"> <!-- volunteer_option적용 : css에서 칸 높이 조정 -->
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">
-									<img src="../static/img/service/service_icon_1.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">
-								<h3>보호소 소개</h3>
-							</a>
-						</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="blog_right_sidebar">
+						<aside class="single_sidebar_widget post_category_widget category_setting">
+							<h4 class="widget_title">일반봉사</h4>
+							<ul class="list cat-list">
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getVolunteerRecruitN" class="d-flex"><p>모집공고</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getVolunteerApplyN" class="d-flex"><p>신청목록</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getVolunteerCheckN" class="d-flex"><p>확인목록</p></a>
+								</li>
+							</ul>
+							<br>
+							<h4 class="widget_title">정기봉사</h4>
+							<ul class="list cat-list">
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getVolunteerRecruitP" class="d-flex"><p>모집공고</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getVolunteerApplyP" class="d-flex"><p>신청목록</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getVolunteerCheckP" class="d-flex"><p>확인목록</p></a>
+								</li>
+							</ul>
+							
+						</aside>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option">
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">
-									<img src="../static/img/service/service_icon_2.png" alt="">
-								</a>
+				<div class="col-lg-9 mb-5 mb-lg-0">
+					
+					<div class="single-post">
+						<a href="${pageContext.request.contextPath}/staff/addVolunteerRecruitN"><button type="button" class="genric-btn primary-border radius">등록</button></a>
+						
+						<div class="blog_details">
+							<table class="table">
+								<tr>
+									<td>No</td>
+									<td>직원</td> <!-- 이름 혹은 이름,ID로 수정 시 쿼리 수정 필수 -->
+									<td>카테고리</td>
+									<td>제목</td>
+									<td>모집인원</td>
+									<td>신청인원</td>
+									<td>봉사일</td>
+									<td>등록일</td>
+								</tr>
+								<c:forEach var="v" items="${volunteerRecruitN}">
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+					
+					<!-- 페이징 & 검색 -->
+					<div class="blog_left_sidebar">
+					
+						<!-- 페이징 -->
+						<nav class="blog-pagination justify-content-center d-flex">
+							<ul class="pagination">
+								<!-- 이전 페이지 setting -->
+								<li class="page-item">
+									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
+								</li>
+								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
+								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
+								
+								<!-- 다음 페이지 setting -->
+								<li class="page-item">
+									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
+								</li>
+							</ul>
+						</nav>
+						<hr>
+						
+						<!-- 검색 -->
+						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getVolunteerRecruitN">
+							<div class="form-group col-xl-8 col-lg-6">
+								<div class="input-group mb-4" >
+									<select id="categoryName">
+										<option value="0">카테고리</option>
+										<option value="">카테리스트</option>
+									</select>
+									<select id="searchSelect">
+										<option value="memberId">직원ID</option>
+										<option value="itemName">제목</option>
+									</select> 
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
+									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+								</div>
 							</div>
-						</div>
-						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">
-								<h3>내용 수정</h3>
-							</a>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!--================Blog Area =================-->
+	</section>
+	<!--================Blog Area =================-->	
 
 
 	<!-- footer_start  -->

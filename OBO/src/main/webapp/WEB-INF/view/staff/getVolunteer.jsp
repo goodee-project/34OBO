@@ -7,29 +7,27 @@
 <head>
 <meta charset="UTF-8">
 <title>getVolunteer</title>
+
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- <link rel="manifest" href="site.webmanifest"> -->
-<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-<!-- Place favicon.ico in the root directory -->
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 <!-- CSS here -->
-<link rel="stylesheet" href="../static/css/bootstrap.min.css">
-<link rel="stylesheet" href="../static/css/owl.carousel.min.css">
-<link rel="stylesheet" href="../static/css/magnific-popup.css">
-<link rel="stylesheet" href="../static/css/font-awesome.min.css">
-<link rel="stylesheet" href="../static/css/themify-icons.css">
-<link rel="stylesheet" href="../static/css/nice-select.css">
-<link rel="stylesheet" href="../static/css/flaticon.css">
-<link rel="stylesheet" href="../static/css/gijgo.css">
-<link rel="stylesheet" href="../static/css/animate.css">
-<link rel="stylesheet" href="../static/css/slicknav.css">
-<link rel="stylesheet" href="../static/css/style.css">
-<!-- <link rel="stylesheet" href="css/responsive.css"> -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 
 <script>
 $(document).ready(function(){	
@@ -98,55 +96,52 @@ $(document).ready(function(){
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-lg-4 col-md-6">
-					<div class="single_service volunteer_option"> <!-- volunteer_option : css에서 칸 높이 조정 -->
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block" href="#">
-									<img src="../static/img/service/service_icon_1.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<a class="d-inline-block" href="#">
-								<h3>모집공고</h3>
-							</a>
-							<p><a class="d-inline-block" href="#">→등록하러가기</a></p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
+				
+				<div class="col-lg-6 col-md-6">
 					<div class="single_service volunteer_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerN">
+								<a class="d-inline-block">
 									<img src="../static/img/service/service_icon_2.png" alt="">
 								</a>
 							</div>
 						</div>
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerN">
-								<h3>일반봉사</h3>
-							</a>
+							<h3>
+								<a class="d-inline-block">일반봉사</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerRecruitN">모집공고</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerApplyN">신청목록</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerCheckN">확인목록</a>
+							</h4>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-6">
+				<div class="col-lg-6 col-md-6">
 					<div class="single_service volunteer_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerP">
+								<a class="d-inline-block">
 									<img src="../static/img/service/service_icon_3.png" alt="">
 								</a>
 							</div>
 						</div>
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerP">
-								<h3>정기봉사</h3>
-							</a>
+							<h3>
+								<a class="d-inline-block">정기봉사</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerRecruitP">모집공고</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerApplyP">신청목록</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerCheckP">확인목록</a>
+							</h4>
 						</div>
 					</div>
 				</div>
@@ -158,56 +153,33 @@ $(document).ready(function(){
 
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
-	<!-- footer_end  -->
-
-
+	<!-- footer_end  -->	
+	
 	<!-- JS here -->
-	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
-	<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
-	<script src="../static/js/popper.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script src="../static/js/owl.carousel.min.js"></script>
-	<script src="../static/js/isotope.pkgd.min.js"></script>
-	<script src="../static/js/ajax-form.js"></script>
-	<script src="../static/js/waypoints.min.js"></script>
-	<script src="../static/js/jquery.counterup.min.js"></script>
-	<script src="../static/js/imagesloaded.pkgd.min.js"></script>
-	<script src="../static/js/scrollIt.js"></script>
-	<script src="../static/js/jquery.scrollUp.min.js"></script>
-	<script src="../static/js/wow.min.js"></script>
-	<script src="../static/js/nice-select.min.js"></script>
-	<script src="../static/js/jquery.slicknav.min.js"></script>
-	<script src="../static/js/jquery.magnific-popup.min.js"></script>
-	<script src="../static/js/plugins.js"></script>
-	<script src="../static/js/gijgo.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
 	
 	<!--contact js-->
-	<script src="../static/js/contact.js"></script>
-	<script src="../static/js/jquery.ajaxchimp.min.js"></script>
-	<script src="../static/js/jquery.form.js"></script>
-	<script src="../static/js/jquery.validate.min.js"></script>
-	<script src="../static/js/mail-script.js"></script>
-	<script src="../static/js/main.js"></script>
-
-<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
-	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>
+	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 </body>
 </html>
