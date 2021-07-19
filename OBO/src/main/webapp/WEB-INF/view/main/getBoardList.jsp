@@ -49,7 +49,7 @@
 			<div class="header-top_area">
 				<div class="container">
 					<div class="row">
-						<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
+						<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>
 					</div>
 				</div>
 			</div>
@@ -60,7 +60,7 @@
 					<div class="row align-items-center">
 						<div class="col-xl-3 col-lg-3">
 							<div class="logo">
-								<a href="${pageContext.request.contextPath}/staff/">
+								<a href="${pageContext.request.contextPath}/main/">
 									<img src="../static/img/logo.png" alt="">
 								</a>
 							</div>
@@ -70,7 +70,7 @@
 							<div class="main-menu  d-none d-lg-block">
 								<nav>
 									<ul id="navigation">
-										<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
+										<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
 									</ul>
 								</nav>
 							</div>
@@ -137,9 +137,10 @@
 					<button id="btn" type="button">검색</button>
 				</form>
             </div>
+         <div class="text-right"><a href="${pageContext.request.contextPath}/addBoard?memberId=sunyou">게시판추가</a></div>
         </div>
     </div>
-    <a href="${pageContext.request.contextPath}/addBoard?memberId=sunyou">게시판추가</a>
+    
 
 
 			

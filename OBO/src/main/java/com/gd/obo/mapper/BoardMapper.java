@@ -14,10 +14,8 @@ public interface BoardMapper {
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 	int selectTotal(Map<String,Object> totalMap);
 	int insertBoard(Board board);
-	int insertBoardFile(Map<String, Object> map);
 	List<Map<String, Object>> selectBoardCategoryList();
 	int deleteBoard(int boardId);
 	int deleteBoardFileByBoard(int boardId);
-	int deleteBoardFile(int boardFileId);
 	List<BoardFile> selectBoardFileByBoard(int boardId);
 }
