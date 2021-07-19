@@ -29,7 +29,7 @@
 								<li><a href="${pageContext.request.contextPath}/getDonation">후원<i class="ti-angle-down"></i></a>
 									<ul class="submenu">										
 										<li><a href="${pageContext.request.contextPath}/member/addDonation">일반후원</a></li>
-										<li><a href="${pageContext.request.contextPath}/getDonationMoneyP">정기후원</a></li>
+										<li><a href="${pageContext.request.contextPath}/member/addPeriodicallyDonation">정기후원</a></li>
 										<li><a href="${pageContext.request.contextPath}/getDonationItemN">물품후원</a></li>
 									</ul>
 								</li>
