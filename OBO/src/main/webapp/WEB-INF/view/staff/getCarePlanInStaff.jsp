@@ -162,6 +162,7 @@ $(document).ready(function(){
 					</div>
 					
 					<!-- 페이징 & 검색 -->
+					<div class="search_form">
 					<div class="blog_left_sidebar">
 					
 						<!-- 페이징 -->
@@ -184,9 +185,9 @@ $(document).ready(function(){
 						
 						<!-- 검색 -->
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getCarePlanInStaff">
-							<div class="form-group col-xl-8 col-lg-6">
-								<div class="input-group mb-4 search_form">
-									<select id="searchSelect">
+							<div class="form-group">
+								<div class="input-group mb-4">
+									<select id="searchSelect" class="select_box">
 										<option value="">동물이름</option>
 										<option value="">케어Info</option>
 										<option value="">회원ID</option>
@@ -197,6 +198,7 @@ $(document).ready(function(){
 								</div>
 							</div>
 						</form>
+					</div>
 					</div>
 				</div>
 			</div>

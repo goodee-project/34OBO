@@ -131,13 +131,32 @@ $(document).ready(function(){
 					</div>
 					
 					<!-- 페이징 & 검색 -->
+					<div class="search_form">
 					<div class="blog_left_sidebar">
-					
+						
+						<!-- 페이징 -->
+						<nav class="blog-pagination justify-content-center d-flex">
+							<ul class="pagination">
+								<!-- 이전 페이지 setting -->
+								<li class="page-item">
+									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
+								</li>
+								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
+								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
+								
+								<!-- 다음 페이지 setting -->
+								<li class="page-item">
+									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
+								</li>
+							</ul>
+						</nav>
+						<hr>
+						
 						<!-- 검색 -->
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getAdoptApplyInStaff">
-							<div class="form-group col-xl-8 col-lg-6">
-								<div class="input-group mb-4 search_form">
-									<select id="searchSelect">
+							<div class="form-group">
+								<div class="input-group mb-4">
+									<select id="searchSelect" class="select_box">
 										<option value="">회원ID</option>
 										<option value="">직원ID</option>
 										<option value="">동물</option>
@@ -148,6 +167,7 @@ $(document).ready(function(){
 								</div>
 							</div>
 						</form>
+					</div>
 					</div>
 				</div>
 			</div>

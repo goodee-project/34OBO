@@ -124,42 +124,7 @@ $(document).ready(function(){
 						
 						</div>
 					</div>
-
-					<div class="blog_left_sidebar">
-						<nav class="blog-pagination justify-content-center d-flex">
-							<ul class="pagination">
-								<li class="page-item"><a href="#" class="page-link"
-									aria-label="Previous"> <i class="ti-angle-left"></i>
-								</a></li>
-								<li class="page-item"><a href="#" class="page-link">1</a></li>
-								<li class="page-item active"><a href="#" class="page-link">2</a>
-								</li>
-								<li class="page-item"><a href="#" class="page-link"
-									aria-label="Next"> <i class="ti-angle-right"></i>
-								</a></li>
-							</ul>
-						</nav>
-						<hr>
-						<form action="#">
-							<div class="default-select" id="default-select"">
-								<select>
-									<option value=" 1">English</option>
-									<option value="1">Spanish</option>
-									<option value="1">Arabic</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<div class="input-group mb-3">
-									<input type="text" class="form-control" placeholder='Search Keyword' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
-									<button class="btn" type="button"></button>
-								</div>
-							</div>
-							<!-- <div class="button-group-area mt-10"> </div>-->
-							<button class="genric-btn primary-border" type="button">Search</button>
-						</form>
-					</div>
 				</div>
-
 			</div>
 		</div>
 	</section>

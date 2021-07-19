@@ -3501,6 +3501,24 @@ h3 {
 /*=================== contact banner end ====================*/
 /*=================== contact form start ====================*/
 /* line 45, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_contact.scss */
+
+/*수정. 추가 form 검색어 중앙 정렬*/
+.search_form{
+	width: 70%;
+	display: block;
+	text-align: center;
+	margin: auto;
+}
+
+.search_form .select_box{
+	font-size: 14px;
+	border-radius: 3px; /* 테두리 둥근정도 */
+	height: 40px;
+	padding: 0 10px;
+	text-align: center;
+	margin-right: 3px;
+}
+
 .contact-title {
   font-size: 27px;
   font-weight: 600;
@@ -4950,6 +4968,10 @@ h6 {
 /* Start Blog Area css
 ============================================================================================ */
 /* line 5, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_blog.scss */
+
+/*input type="date" 설정 추가(수정)*/
+
+
 .latest-blog-area .area-heading {
   margin-bottom: 70px;
 }
@@ -5029,7 +5051,7 @@ h6 {
 .single-blog .tag {
   text-align: left;
   display: inline-block;
-  float: left;
+  /*float: left;*/
   font-size: 13px;
   font-weight: 300;
   margin-right: 22px;

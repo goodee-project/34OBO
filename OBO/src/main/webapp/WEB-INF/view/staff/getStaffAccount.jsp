@@ -122,7 +122,7 @@ $(document).ready(function(){
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-lg-6 col-md-6">
+				<div class="col-lg-5 col-md-5">
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
 					<div class="single_service staff_account">
 						<div class="service_content text-center">
@@ -159,7 +159,7 @@ $(document).ready(function(){
 					</div>
 				</div>
 
-				<div class="col-lg-6 col-md-6">
+				<div class="col-lg-5 col-md-5">
 					<div class="single_service staff_account">
 						<div class="service_content text-center">
 							<c:if test="${loginStaff.staffLevel == 2}">

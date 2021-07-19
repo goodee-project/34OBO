@@ -111,16 +111,43 @@ $(document).ready(function(){
 								<a href="${pageContext.request.contextPath}/staff/getDonationStatsItem">물품</a> <a>|</a> 
 								<a href="${pageContext.request.contextPath}/staff/getDonationStatsMoney">금액</a>
 							</h2>
-							<h4>이번 달 후원받은 금액 : @</h4>
-							<h5>이번 달 후원받은 금액 : @</h5>
-							<p>p태그</p>
-							<div>div태그</div>
+							
+							<p>이번 달 후원받은 금액과 최근 후원받은 내역을 간략하게 확인 할 수 있습니다.</p>
+							
 						</div>
 					</div>
-					
-					<div class="single-post">
-						<div class="blog_details">
-						<div>최근 후원 받은 물품</div>
+					<br>
+					<div class="row">
+						<div class="col-xl-5 col-lg-5">
+							<div class="blog_details">
+								<h4>이번 달 후원받은 금액 : @@@@@@@@</h4>
+								<h4>이번 달 후원받은 금액 : 바차트</h4>
+								<p>아름다운 이 땅에 금수강산에 단군할아버지가 터잡으시고 홍익인간 뜻으로 나라 세우니 대대손손 훌륭한 인물도 많아.
+								고구려 세운 동명왕, 백제 온조왕, 알에서 나온 혁거세. 만주벌판 달려라 광개토대왕, 신라장군 이사부.
+								백결 선생 떡방아, 삼천궁녀 의자왕. 황산벌의 계백, 맞서싸운 관창. 역사는 흐른다.</p>
+							</div>
+						</div>
+						
+						<div class="col-xl-7 col-lg-7">
+							<div class="blog_details">
+								<h4>이번 달 후원받은 금액 : @@@@@@@@@@@@</h4>
+								<h4>이번 달 후원받은 금액 : 테이블</h4>
+								<p>아름다운 이 땅에 금수강산에 단군할아버지가 터잡으시고 홍익인간 뜻으로 나라 세우니 대대손손 훌륭한 인물도 많아.
+								고구려 세운 동명왕, 백제 온조왕, 알에서 나온 혁거세. 만주벌판 달려라 광개토대왕, 신라장군 이사부.
+								백결 선생 떡방아, 삼천궁녀 의자왕. 황산벌의 계백, 맞서싸운 관창. 역사는 흐른다.</p>
+								<table class="table">
+									<tr>
+										<td>카테고리</td>
+										<td>수량</td>
+										<td>날짜</td>
+									</tr>
+									<tr>
+										<td>test</td>
+										<td>test</td>
+										<td>test</td>
+									</tr>
+								</table>
+							</div>
 						</div>
 					</div>
 					<!-- 페이징, 검색 없음 -->
