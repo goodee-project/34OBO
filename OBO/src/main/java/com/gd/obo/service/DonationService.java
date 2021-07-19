@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import com.gd.obo.mapper.DonationMapper;
 import com.gd.obo.vo.DonationItemList;
 import com.gd.obo.vo.DonationMoneyList;
+import com.gd.obo.vo.PeriodicallyDonation;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -158,7 +159,12 @@ public class DonationService {
 	}
 	
 	// staff - 돈 후원 조회
-	public List<DonationMoneyList> getDonationMoneyList(int shelterId){
-		return donationMapper.selectDonationMoneyList(shelterId);
+	public List<DonationMoneyList> getDonationMoneyNList(int shelterId){
+		return donationMapper.selectDonationMoneyNList(shelterId);
+	}
+	
+	// staff - 정기 후원 조회
+	public List<PeriodicallyDonation> getDonationMoneyPList(int shelterId){
+		return donationMapper.selectDonationMoneyPList(shelterId);
 	}
 }

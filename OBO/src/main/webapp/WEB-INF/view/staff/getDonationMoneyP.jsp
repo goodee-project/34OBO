@@ -7,29 +7,27 @@
 <head>
 <meta charset="UTF-8">
 <title>getDonationMoneyP</title>
+
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- <link rel="manifest" href="site.webmanifest"> -->
-<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-<!-- Place favicon.ico in the root directory -->
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 <!-- CSS here -->
-<link rel="stylesheet" href="../static/css/bootstrap.min.css">
-<link rel="stylesheet" href="../static/css/owl.carousel.min.css">
-<link rel="stylesheet" href="../static/css/magnific-popup.css">
-<link rel="stylesheet" href="../static/css/font-awesome.min.css">
-<link rel="stylesheet" href="../static/css/themify-icons.css">
-<link rel="stylesheet" href="../static/css/nice-select.css">
-<link rel="stylesheet" href="../static/css/flaticon.css">
-<link rel="stylesheet" href="../static/css/gijgo.css">
-<link rel="stylesheet" href="../static/css/animate.css">
-<link rel="stylesheet" href="../static/css/slicknav.css">
-<link rel="stylesheet" href="../static/css/style.css">
-<!-- <link rel="stylesheet" href="css/responsive.css"> -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 
 <script>
 $(document).ready(function(){	
@@ -87,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>정기후원</h3>
+					<h3>후원 > 정기후원</h3>
 				</div>
 			</div>
 		</div>
@@ -103,13 +101,16 @@ $(document).ready(function(){
 						<aside class="single_sidebar_widget post_category_widget category_setting">
 							<ul class="list cat-list">
 								<li>
+									<a href="${pageContext.request.contextPath}/staff/getDonationItemN" class="d-flex"><p>물품후원</p></a>
+								</li>
+								<li>
 									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyN" class="d-flex"><p>일반후원</p></a>
 								</li>
 								<li>
 									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="d-flex"><p>정기후원</p></a>
 								</li>
 								<li>
-									<a href="${pageContext.request.contextPath}/staff/getDonationItemN" class="d-flex"><p>물품후원</p></a>
+									<a href="${pageContext.request.contextPath}/staff/getDonationStats" class="d-flex"><p>통계</p></a>
 								</li>
 							</ul>
 						</aside>
@@ -118,56 +119,57 @@ $(document).ready(function(){
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
-							<h2>Second divided from form fish beast made every of seas
-								all gathered us saying he our</h2>
-							<ul class="blog-info-link mt-3 mb-4">
-								<li><a href="#"><i class="fa fa-user"></i> Travel,
-										Lifestyle</a></li>
-								<li><a href="#"><i class="fa fa-comments"></i> 03
-										Comments</a></li>
-							</ul>
-							
-							
-							<p>MCSE boot camps have its supporters and its detractors.
-								Some people do not understand why you should have to spend money
-								on boot camp when you can get the MCSE study materials yourself
-								at a fraction of the camp price. However, who has the willpower
-							</p>
-						
+							<table class="table">
+								<tr>
+									<td>No</td>
+									<td>회원ID</td>
+									<td>기부액</td>
+									<td>후원시작일</td>
+									<td>후원종료일</td>
+								</tr>
+								<c:forEach var="d" items="${moneyPList}">
+									<tr>
+										<td>${d.periodicallyDonationId}</td>
+										<td>${d.memberId}</td>
+										<td>${d.amount}</td>
+										<td>${d.applyDate}</td>
+										<td>${d.endDate}</td>
+									</tr>
+								</c:forEach>
+							</table>
 						</div>
 					</div>
 
+					<!-- 페이징 & 검색 -->
 					<div class="blog_left_sidebar">
+					
+						<!-- 페이징 -->
 						<nav class="blog-pagination justify-content-center d-flex">
 							<ul class="pagination">
-								<li class="page-item"><a href="#" class="page-link"
-									aria-label="Previous"> <i class="ti-angle-left"></i>
-								</a></li>
-								<li class="page-item"><a href="#" class="page-link">1</a></li>
-								<li class="page-item active"><a href="#" class="page-link">2</a>
+								<!-- 이전 페이지 setting -->
+								<li class="page-item">
+									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
 								</li>
-								<li class="page-item"><a href="#" class="page-link"
-									aria-label="Next"> <i class="ti-angle-right"></i>
-								</a></li>
+								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="page-link">1</a></li>
+								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="page-link">2</a></li>
+								
+								<!-- 다음 페이지 setting -->
+								<li class="page-item">
+									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
+								</li>
 							</ul>
 						</nav>
 						<hr>
-						<form action="#">
-							<div class="default-select" id="default-select"">
-								<select>
-									<option value=" 1">English</option>
-									<option value="1">Spanish</option>
-									<option value="1">Arabic</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<div class="input-group mb-3">
-									<input type="text" class="form-control" placeholder='Search Keyword' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
-									<button class="btn" type="button"></button>
+						
+						<!-- 검색 -->
+						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getDonationMoneyP" method="post">
+							<div class="form-group col-xl-8 col-lg-6">
+								<div class="input-group mb-4"> 
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 검색"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
+									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
-							<!-- <div class="button-group-area mt-10"> </div>-->
-							<button class="genric-btn primary-border" type="button">Search</button>
 						</form>
 					</div>
 				</div>
@@ -184,52 +186,30 @@ $(document).ready(function(){
 
 
 	<!-- JS here -->
-	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
-	<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
-	<script src="../static/js/popper.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script src="../static/js/owl.carousel.min.js"></script>
-	<script src="../static/js/isotope.pkgd.min.js"></script>
-	<script src="../static/js/ajax-form.js"></script>
-	<script src="../static/js/waypoints.min.js"></script>
-	<script src="../static/js/jquery.counterup.min.js"></script>
-	<script src="../static/js/imagesloaded.pkgd.min.js"></script>
-	<script src="../static/js/scrollIt.js"></script>
-	<script src="../static/js/jquery.scrollUp.min.js"></script>
-	<script src="../static/js/wow.min.js"></script>
-	<script src="../static/js/nice-select.min.js"></script>
-	<script src="../static/js/jquery.slicknav.min.js"></script>
-	<script src="../static/js/jquery.magnific-popup.min.js"></script>
-	<script src="../static/js/plugins.js"></script>
-	<script src="../static/js/gijgo.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
 	
 	<!--contact js-->
-	<script src="../static/js/contact.js"></script>
-	<script src="../static/js/jquery.ajaxchimp.min.js"></script>
-	<script src="../static/js/jquery.form.js"></script>
-	<script src="../static/js/jquery.validate.min.js"></script>
-	<script src="../static/js/mail-script.js"></script>
-	<script src="../static/js/main.js"></script>
-
-<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
-	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>
+	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 </body>
 </html>

@@ -21,6 +21,7 @@ import com.gd.obo.service.ShelterService;
 import com.gd.obo.vo.DonationItemList;
 import com.gd.obo.vo.DonationMoneyList;
 import com.gd.obo.vo.Member;
+import com.gd.obo.vo.PeriodicallyDonation;
 import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
@@ -84,27 +85,46 @@ public class DonationController {
 		
 		List<DonationItemList> itemList = donationService.getDonationItemList(shelterId);
 		Map<String, Object> map = new HashMap<>();
+		model.addAttribute("itemList", itemList);
 		return "staff/getDonationItemN";
 	}
 	
 	// staff 일반후원내역
 	@GetMapping("/staff/getDonationMoneyN")
-	public String getDonationMoneyList(Model model, HttpSession session){
+	public String getDonationMoneyN(Model model, HttpSession session){
 		//세션에서 shelterId 가져오기
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
 		
 		//페이징 추가
 		
-		List<DonationMoneyList> itemList = donationService.getDonationMoneyList(shelterId);
+		List<DonationMoneyList> moneyNList = donationService.getDonationMoneyNList(shelterId);
 		Map<String, Object> map = new HashMap<>();
+		model.addAttribute("moneyNList", moneyNList);
+		
 		return "staff/getDonationMoneyN";
 	}
 	
 	// staff 정기후원 페이지
 	@GetMapping("/staff/getDonationMoneyP")
-	public String getDonationMoneyP() {
+	public String getDonationMoneyP(Model model, HttpSession session) {
+		//세션에서 shelterId 가져오기
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
+		
+		//페이징 추가
+		
+		List<PeriodicallyDonation> moneyPList = donationService.getDonationMoneyPList(shelterId);
+		Map<String, Object> map = new HashMap<>();
+		model.addAttribute("moneyPList", moneyPList);
+		
 		return "staff/getDonationMoneyP";
+	}
+	
+	// staff 후원 - 통계 페이지 이동
+	@GetMapping("/staff/getDonationStats")
+	public String getDonationStats(Model model, HttpSession session) {
+		return "staff/getDonationStats";
 	}
 	
 }
