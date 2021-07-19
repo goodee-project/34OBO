@@ -1,12 +1,12 @@
 <!-- 작성자 : 이윤정 -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getDonation</title>
+<title>getDonationStatsItem</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,83 +85,82 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>후원</h3>
+					<h3>후원 > 통계 > 물품</h3>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	
 	<!--================Blog Area =================-->
 	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
-	<div class="service_area">
+	<section class="blog_area single-post-area section-padding">
 		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-4 col-md-6">
-					<div class="single_service donation_option"> <!-- volunteer_option : css에서 칸 높이 조정 -->
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block">
-									<img src="../static/img/service/service_icon_1.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationItemN">
-								<h3>물품후원</h3>
-							</a>
-							<br>
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyN">
-								<h3>일반후원</h3>
-							</a>
-						</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="blog_right_sidebar">
+						<aside class="single_sidebar_widget post_category_widget category_setting">
+							<ul class="list cat-list">
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getDonationItemN" class="d-flex"><p>물품후원</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyN" class="d-flex"><p>일반후원</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="d-flex"><p>정기후원</p></a>
+								</li>
+								<li>
+									<a href="${pageContext.request.contextPath}/staff/getDonationStats" class="d-flex"><p>통계</p></a>
+								</li>
+							</ul>
+						</aside>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single_service donation_option">
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block">
-									<img src="../static/img/service/service_icon_2.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyP">
-								<h3>정기후원</h3>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single_service donation_option">
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block">
-									<img src="../static/img/service/service_icon_3.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationStats">
-								<h3>통계</h3>
-							</a>
+				<div class="col-lg-9 mb-5 mb-lg-0">
+					<div class="single-post">
+						<div class="blog_details">
+							<h2>
+								<a href="${pageContext.request.contextPath}/staff/getDonationStats"><i class="fa fa-home"></i></a> <a>|</a> 
+								<a href="${pageContext.request.contextPath}/staff/getDonationStatsItem">물품</a> <a>|</a> 
+								<a href="${pageContext.request.contextPath}/staff/getDonationStatsMoney">금액</a>
+							</h2>
+							
+							
+							<p>MCSE boot camps have its supporters and its detractors.
+								Some people do not understand why you should have to spend money
+								on boot camp when you can get the MCSE study materials yourself
+								at a fraction of the camp price. However, who has the willpower
+							</p>
+							
+							<!-- 검색 -->
+							<form id="searchForm" action="${pageContext.request.contextPath}/staff/getDonationMoneyP" method="post">
+								<div class="form-group col-xl-8 col-lg-6">
+									<div class="input-group mb-4"> 
+										<input type="date" id="startDate" name="startDate"> 
+										&nbsp;~&nbsp;
+										<input type="date" id="endDate" name="endDate"> 
+										
+										<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+										<button class="btn" type="reset"><i class="fa fa-refresh"></i></button>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
+
+					<!-- 페이징, 검색 없음 -->
 				</div>
+
 			</div>
 		</div>
-	</div>
-	<!--================Blog Area =================-->
-
-
+	</section>
+	<!--================Blog Area =================-->	
+	
+	
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
-	<!-- footer_end  -->
-
-
+	<!-- footer_end  -->	
+	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
@@ -188,6 +187,5 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
-
 </body>
 </html>

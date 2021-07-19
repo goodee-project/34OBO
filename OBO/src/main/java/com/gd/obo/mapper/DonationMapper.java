@@ -19,5 +19,6 @@ public interface DonationMapper {
 	int insertPeriodicallyDonation(PeriodicallyDonation periodicallyDonation);
 	int insertDonationMoneyList(DonationMoneyList donationMoneyList);
 	List<DonationItemList> selectDonationItemList(int shelterId);
-	List<DonationMoneyList> selectDonationMoneyList(int shelterId);
+	List<DonationMoneyList> selectDonationMoneyNList(int shelterId);
+	List<PeriodicallyDonation> selectDonationMoneyPList(int shelterId);
 }

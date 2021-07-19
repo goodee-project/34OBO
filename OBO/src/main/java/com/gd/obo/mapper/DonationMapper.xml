@@ -94,10 +94,11 @@
 			item_quantity itemQuantity,
 			item_description itemDescription
 		FROM donation_item_list
-		WHERE shelter_id = #{shelterId};
+		WHERE shelter_id = #{shelterId}
+		ORDER BY donation_date DESC;
 	</select>
 	
-	<select id="selectDonationMoneyList" parameterType="int" resultType="com.gd.obo.vo.DonationMoneyList">
+	<select id="selectDonationMoneyNList" parameterType="int" resultType="com.gd.obo.vo.DonationMoneyList">
 		SELECT
 			donation_money_list_id donationMoneyListId,
 			member_id memberId,
@@ -105,7 +106,22 @@
 			donation_date donationDate,
 			amount amount
 		FROM donation_money_list
-		WHERE shelter_id = #{shelterId};
+		WHERE shelter_id = #{shelterId}
+		ORDER BY donation_date DESC;
+	</select>
+	
+	<select id="selectDonationMoneyPList" parameterType="int" resultType="com.gd.obo.vo.PeriodicallyDonation">
+		SELECT
+			periodically_donation_id periodicallyDonationId,
+			member_id memberId,
+			shelter_id shelterId,
+			end_date endDate,
+			apply_date applyDate,
+			amount amount,
+			sid sid
+		FROM periodically_donation
+		WHERE shelter_id = #{shelterId}
+		ORDER BY apply_date DESC;
 	</select>
 
 </mapper>

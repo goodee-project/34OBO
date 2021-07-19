@@ -270,7 +270,12 @@ public class DonationService {
 	}
 	
 	// staff - 돈 후원 조회
-	public List<DonationMoneyList> getDonationMoneyList(int shelterId){
-		return donationMapper.selectDonationMoneyList(shelterId);
+	public List<DonationMoneyList> getDonationMoneyNList(int shelterId){
+		return donationMapper.selectDonationMoneyNList(shelterId);
+	}
+	
+	// staff - 정기 후원 조회
+	public List<PeriodicallyDonation> getDonationMoneyPList(int shelterId){
+		return donationMapper.selectDonationMoneyPList(shelterId);
 	}
 }

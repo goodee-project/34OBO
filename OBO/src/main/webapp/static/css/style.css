@@ -1915,6 +1915,10 @@ h3 {
   height: 350px;
 }
 
+.donation_option {
+  height: 400px;
+}
+
 /* line 21, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_service.scss */
 .service_area .single_service .service_thumb {
   height: 140px;
