@@ -107,13 +107,11 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationItemN">
-								<h3>물품후원</h3>
-							</a>
-							<br>
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyN">
-								<h3>일반후원</h3>
-							</a>
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationItemN">물품후원</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyN">일반후원</a>
+							</h3>
 						</div>
 					</div>
 				</div>
@@ -128,9 +126,9 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyP">
-								<h3>정기후원</h3>
-							</a>
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyP">정기후원</a>
+							</h3>
 						</div>
 					</div>
 				</div>
@@ -145,9 +143,9 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationStats">
-								<h3>통계</h3>
-							</a>
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationStats">통계</a>
+							</h3>
 						</div>
 					</div>
 				</div>
