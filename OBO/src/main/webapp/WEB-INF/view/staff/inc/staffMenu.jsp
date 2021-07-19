@@ -39,7 +39,7 @@
 				<li><a href="${pageContext.request.contextPath}/staff/getVolunteerP">정기봉사</a></li>
 			</ul>
 		</li>
-		<li><a href="${pageContext.request.contextPath}/staff/#">입양&케어<i class="ti-angle-down"></i></a>
+		<li><a href="${pageContext.request.contextPath}/staff/getAdoptAndCare">입양&케어<i class="ti-angle-down"></i></a>
 			<ul class="submenu">
 				<li><a href="${pageContext.request.contextPath}/staff/#">입양</a></li>
 				<li><a href="${pageContext.request.contextPath}/staff/#">케어</a></li>

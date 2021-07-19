@@ -12,3 +12,4 @@ public class PeriodicallyDonation {
 	private int amount;
 	private String sid;
 }
+

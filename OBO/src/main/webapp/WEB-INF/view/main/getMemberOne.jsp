@@ -7,74 +7,164 @@
 <meta charset="UTF-8">
 <title>내정보</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- CSS here -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+<style>
+	th{
+		width: 30%;
+		text-align: center;
+	}
+	
+	td{
+		width: 70%;
+	}
+</style>
 </head>
 <body>
-	<h1>내정보 보기</h1>
+	<header>
+		<div class="header-area">		
+			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
+			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
+			<!-- 흰색 바탕 : 메인 메뉴 -->
+			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
+					
+		</div>
+	</header>
 	
-	<table>
-		<tr>
-			<th>아이디</th>
-			<td>${memberOne.memberId}</td>
-		</tr>
-		<tr>
-			<th>이름</th>
-			<td>${memberOne.memberName}</td>
-		</tr>
-		<tr>
-			<th>닉네임</th>
-			<td>${memberOne.memberNickname}</td>
-		</tr>
-		<tr>
-			<th>이메일</th>
-			<td>${memberOne.memberEmail}</td>
-		</tr>
-		<tr>
-			<th>가입날짜</th>
-			<td>${memberOne.createDate}</td>
-		</tr>
-		<tr>
-			<th>휴대폰번호</th>
-			<td>${memberOne.memberPhone}</td>
-		</tr>
-		<tr>
-			<th>생일</th>
-			<td>${memberOne.memberBirth}</td>
-		</tr>
-		<tr>
-			<th>성별</th>
-			<td>${memberOne.memberGender}</td>
-		</tr>
-		<tr>
-			<th>우편번호</th>
-			<td>${memberOne.postCode}</td>
-		</tr>
-		<tr>
-			<th>주소</th>
-			<td>
-				<div>
-					${memberOne.doro}
+	<!-- header_start  -->
+	<div class="bradcam_area breadcam_bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<h3>내정보</h3>
 				</div>
-					${memberOne.detailAddress}
-				
-			</td>
-		</tr>
-		<tr>
-			<th>카카오연동</th>
-			<td>
-				<c:if test="${memberOne.kakaoId == null}"><!-- 연동x -->
-					<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=535757159a398fe468b3ed3f2d2032e4&redirect_uri=http://localhost/obo/member/getKakaoLink">
-						<img src="${pageContext.request.contextPath}/static/img/kakaolink_btn_medium.png">
-					</a>
-				</c:if>
-				<c:if test="${memberOne.kakaoId != null}"><!-- 연동o -->
-					연동되었습니다.
-				</c:if>
-			</td>
-		</tr>
-	</table>
+			</div>
+		</div>
+	</div>
 	
-	<button id="modifyMemberOne" type="button" onclick="modifyMemberOne()">내 정보 수정</button>
-	<a href="${pageContext.request.contextPath}/member/modifyMemberPw"><button type="button">비밀번호 수정</button></a>
+	<section class="blog_area single-post-area section-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 mb-5">
+					<div class="blog_right_sidebar">
+						<aside class="single_sidebar_widget post_category_widget category_setting">
+							<ul class="list cat-list">
+								<li>
+									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>내정보</p></a>
+								</li>
+								<li>								
+									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>후원내역</p></a>									
+								</li>
+								<li>								
+									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>봉사내역</p></a>									
+								</li>
+								<li>								
+									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>입양&케어</p></a>									
+								</li>
+								<li>								
+									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>관심동물</p></a>									
+								</li>
+								<li>								
+									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>봉사자격신청</p></a>									
+								</li>
+								<li>								
+									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>작성글</p></a>									
+								</li>
+							</ul>
+						</aside>
+					</div>
+				</div>
+				
+				<div class="col-lg-9 mb-5 mb-lg-0">
+					<div class="single-post">
+						<div class="blog_details">
+							<table class="table">
+								<tr>
+									<th>아이디</th>
+									<td>${memberOne.memberId}</td>
+								</tr>
+								<tr>
+									<th>이름</th>
+									<td>${memberOne.memberName}</td>
+								</tr>
+								<tr>
+									<th>닉네임</th>
+									<td>${memberOne.memberNickname}</td>
+								</tr>
+								<tr>
+									<th>이메일</th>
+									<td>${memberOne.memberEmail}</td>
+								</tr>
+								<tr>
+									<th>가입날짜</th>
+									<td>${memberOne.createDate}</td>
+								</tr>
+								<tr>
+									<th>휴대폰번호</th>
+									<td>${memberOne.memberPhone}</td>
+								</tr>
+								<tr>
+									<th>생일</th>
+									<td>${memberOne.memberBirth}</td>
+								</tr>
+								<tr>
+									<th>성별</th>
+									<td>${memberOne.memberGender}</td>
+								</tr>
+								<tr>
+									<th>우편번호</th>
+									<td>${memberOne.postCode}</td>
+								</tr>
+								<tr>
+									<th>주소</th>
+									<td>
+										<div>
+											${memberOne.doro}
+										</div>
+											${memberOne.detailAddress}
+										
+									</td>
+								</tr>
+								<tr>
+									<th>카카오연동</th>
+									<td>
+										<c:if test="${memberOne.kakaoId == null}"><!-- 연동x -->
+											<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=535757159a398fe468b3ed3f2d2032e4&redirect_uri=http://localhost/obo/member/getKakaoLink">
+												<img src="${pageContext.request.contextPath}/static/img/kakaolink_btn_medium.png">
+											</a>
+										</c:if>
+										<c:if test="${memberOne.kakaoId != null}"><!-- 연동o -->
+											연동되었습니다.
+										</c:if>
+									</td>
+								</tr>
+							</table>
+
+							<button id="modifyMemberOne" type="button" onclick="modifyMemberOne()" class="genric-btn primary-border radius">내 정보 수정</button>
+							<a href="${pageContext.request.contextPath}/member/modifyMemberPw"><button type="button" class="genric-btn primary-border radius">비밀번호 수정</button></a>
+						
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	
+	
+	
 <script>
 	//정보수정 페이지로 이동하기 전에 비밀번호 검사
 	function modifyMemberOne(){
@@ -117,5 +207,60 @@
 	
 	
 </script>
+<!-- footer_start  -->
+	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
+	<!-- footer_end  -->
+
+
+	<!-- JS here -->
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
+	
+	<!--contact js-->
+	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+
+<script>
+	$('#datepicker').datepicker({
+		iconsLibrary: 'fontawesome',
+		disableDaysOfWeek: [0, 0],
+		//icons: {
+		//rightIcon: '<span class="fa fa-caret-down"></span>'
+		//}
+	});
+	
+	$('#datepicker2').datepicker({
+		iconsLibrary: 'fontawesome',
+		icons: {
+			rightIcon: '<span class="fa fa-caret-down"></span>'
+		}
+	});
+	
+	var timepicker = $('#timepicker').timepicker({
+		format: 'HH.MM'
+	});
+</script>
+</body>
+</html>
 </body>
 </html>

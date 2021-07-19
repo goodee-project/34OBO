@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getShelter</title>
+<title>getAdoptAndCare</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>보호소</h3>
+					<h3>입양&케어</h3>
 				</div>
 			</div>
 		</div>
@@ -96,37 +96,58 @@ $(document).ready(function(){
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
+				
 				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option"> <!-- volunteer_option적용 : css에서 칸 높이 조정 -->
+					<div class="single_service adoptAndCard_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">
-									<img src="../static/img/service/service_icon_1.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/shelterIntro">
-								<h3>보호소 소개</h3>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option">
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">
+								<a class="d-inline-block">
 									<img src="../static/img/service/service_icon_2.png" alt="">
 								</a>
 							</div>
 						</div>
 						<div class="service_content text-center">
-							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyShelter">
-								<h3>내용 수정</h3>
-							</a>
+							<h3>
+								<a class="d-inline-block">입양</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptApply">신청목록</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptApplyApproval">승인목록</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptApplyReject">거절목록</a>
+							</h4>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6">
+					<div class="single_service adoptAndCard_option">
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="../static/img/service/service_icon_3.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block">케어</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCareInfo">Info확인</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/addCarePlan">Plan작성</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCarePlan">Plan목록</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCarePlanCal">Plan달력</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/addCareRecord">Record작성</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCareRecord">Record목록</a>
+							</h4>
 						</div>
 					</div>
 				</div>
