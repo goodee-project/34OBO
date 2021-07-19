@@ -28,6 +28,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+<style>
+	th {
+		width: 30%;
+	}
+	td {
+		width: 70%;
+	}
+</style>
 <script>
 
 $(document).ready(function(){
@@ -106,90 +114,97 @@ $(document).ready(function(){
 		</div>
 	</div>
 	
-	<form id="addMemberForm" action="${pageContext.request.contextPath}/addMember" method="post">
-		<table>
-			<tr>
-				<th>아이디</th>
-				<td>
-					<input id="memberId" name="member.memberId" type="text">
-					<input type="button" onclick="memberIdCheck()" value="중복검사"><br>
-					<span id="target"></span>
-				</td>
-			</tr>
-			<tr>
-				<!-- 비밀번호 확인 넣기 -->
-				<th>비밀번호</th>
-				<td><input id="memberPw" name="member.memberPw" type="password"></td>
-			</tr>
-			<tr>
-				<!-- 비밀번호 확인 넣기 -->
-				<th>비밀번호 확인</th>
-				<td>
-					<input id="memberPwCheck" type="password">
-					<div>
-						<span id="pwCheck"></span>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>이름</th>
-				<td><input id="memberName" name="member.memberName" type="text"></td>
-			</tr>
-			<tr>
-				<th>닉네임</th>
-				<td><input id="memberNickname" name="member.memberNickname" type="text"></td>
-			</tr>
-			<tr>
-				<th>주소</th>
-				<td>
-					<input type="text" id="sample4_postcode" name="address.postCode" placeholder="우편번호">
-					<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-					<input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="address.doro">
-					<span id="guide" style="color:#999;display:none"></span>
-					<div>
-						<input type="text" id="sample4_detailAddress" placeholder="상세주소" name="address.detailAddress">		
-					</div>
-					
-				</td>
-			</tr>
-			
-			<tr>
-				<th>연락처</th>
-				<td><input id="memberPhone" name="member.memberPhone" type="text"></td>
-			</tr>
-			<tr>
-				<th>생일</th>
-				<td><input id="memberBirth" name="member.memberBirth" type="date"></td>
-			</tr>
-			<tr>
-				<!-- 이메일 인증 넣기 -->
-				<th>이메일</th>
-				<td>
-					<input id="memberEmail" name="member.memberEmail" type="text">
-					<button id="sendMail" type="button">인증메일 발송</button>
-					
-					<div>
-						<input id="emailCheck" type="text" placeholder="인증코드">
-					</div>
-					<div>
-						<span id="mailTarget"></span>
-					</div>
-				</td>
-			</tr>
-			
-			
-			<tr>
-				<th>성별</th>
-				<td>
-					<input name="member.memberGender" type="radio" value="남">남
-					<input name="member.memberGender" type="radio" value="여">여
-				</td>
-			</tr>
-				<!-- 로봇이 아닙니다. google 보안기능 넣기 -->	
-		</table>
-		<button id="addMemberFormBtn" type="button">회원가입</button>
-		<button type="reset">리셋</button>
-	</form>
+	<section class="sample-text-area">
+		<div class="container">
+			<div>
+				<form id="addMemberForm" action="${pageContext.request.contextPath}/addMember" method="post">
+					<table class="table">
+						<tr>
+							<th>아이디</th>
+							<td>
+								<input id="memberId" name="member.memberId" type="text">
+								<input type="button" onclick="memberIdCheck()" value="중복검사" class="genric-btn default-border radius"><br>
+								<span id="target"></span>
+							</td>
+						</tr>
+						<tr>
+							<!-- 비밀번호 확인 넣기 -->
+							<th>비밀번호</th>
+							<td><input id="memberPw" name="member.memberPw" type="password"></td>
+						</tr>
+						<tr>
+							<!-- 비밀번호 확인 넣기 -->
+							<th>비밀번호 확인</th>
+							<td>
+								<input id="memberPwCheck" type="password">
+								<div>
+									<span id="pwCheck"></span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>이름</th>
+							<td><input id="memberName" name="member.memberName" type="text"></td>
+						</tr>
+						<tr>
+							<th>닉네임</th>
+							<td><input id="memberNickname" name="member.memberNickname" type="text"></td>
+						</tr>
+						<tr>
+							<th>주소</th>
+							<td>
+								<input type="text" id="sample4_postcode" name="address.postCode" placeholder="우편번호">
+								<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" class="genric-btn default-border radius"><br>
+								<input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="address.doro">
+								<span id="guide" style="color:#999;display:none"></span>
+								<div>
+									<input type="text" id="sample4_detailAddress" placeholder="상세주소" name="address.detailAddress">		
+								</div>
+								
+							</td>
+						</tr>
+						
+						<tr>
+							<th>연락처</th>
+							<td><input id="memberPhone" name="member.memberPhone" type="text"></td>
+						</tr>
+						<tr>
+							<th>생일</th>
+							<td><input id="memberBirth" name="member.memberBirth" type="date"></td>
+						</tr>
+						<tr>
+							<!-- 이메일 인증 넣기 -->
+							<th>이메일</th>
+							<td>
+								<input id="memberEmail" name="member.memberEmail" type="text">
+								<button id="sendMail" type="button" class="genric-btn default-border radius">인증메일 발송</button>
+								
+								<div>
+									<input id="emailCheck" type="text" placeholder="인증코드">
+								</div>
+								<div>
+									<span id="mailTarget"></span>
+								</div>
+							</td>
+						</tr>
+						
+						
+						<tr>
+							<th>성별</th>
+							<td>
+								<input name="member.memberGender" type="radio" value="남">남
+								<input name="member.memberGender" type="radio" value="여">여
+							</td>
+						</tr>
+							<!-- 로봇이 아닙니다. google 보안기능 넣기 -->	
+					</table>
+					<button id="addMemberFormBtn" type="button" class="genric-btn primary-border radius">회원가입</button>
+					<button type="reset" class="genric-btn primary-border radius">리셋</button>
+				</form>
+			</div>
+		</div>
+	</section>
+	<!-- End Sample Area -->
 	
 	
 <script>
