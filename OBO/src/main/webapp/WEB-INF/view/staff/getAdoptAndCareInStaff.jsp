@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getVolunteer</title>
+<title>getAdoptAndCareInStaff</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>봉사</h3>
+					<h3>입양&케어</h3>
 				</div>
 			</div>
 		</div>
@@ -98,7 +98,7 @@ $(document).ready(function(){
 			<div class="row justify-content-center">
 				
 				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option">
+					<div class="single_service adoptAndCard_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
@@ -109,20 +109,20 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block">일반봉사</a>
+								<a class="d-inline-block">입양</a>
 							</h3>
 							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerRecruitN">모집공고</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptApplyInStaff">신청목록</a>
 								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerApplyN">신청목록</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptApprovalInStaff">승인목록</a>
 								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerCheckN">확인목록</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff">거절목록</a>
 							</h4>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6">
-					<div class="single_service volunteer_option">
+					<div class="single_service adoptAndCard_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
@@ -133,14 +133,20 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block">정기봉사</a>
+								<a class="d-inline-block">케어</a>
 							</h3>
 							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerRecruitP">모집공고</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCareInfoInStaff">Info확인</a>
 								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerApplyP">신청목록</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/addCarePlanInStaff">Plan작성</a>
 								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerCheckP">확인목록</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCarePlanInStaff">Plan목록</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCarePlanCalInStaff">Plan달력</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/addCareRecordInStaff">Record작성</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCareRecordInStaff">Record목록</a>
 							</h4>
 						</div>
 					</div>

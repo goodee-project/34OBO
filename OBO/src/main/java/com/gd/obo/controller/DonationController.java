@@ -136,9 +136,9 @@ public class DonationController {
 	}
 	
 	// staff 후원 페이지
-	@GetMapping("/staff/getDonation")
-	public String getDonation() {
-		return "staff/getDonation";
+	@GetMapping("/staff/getDonationInStaff")
+	public String getDonationInStaff() {
+		return "staff/getDonationInStaff";
 	}
 	
 	// staff 물품후원내역

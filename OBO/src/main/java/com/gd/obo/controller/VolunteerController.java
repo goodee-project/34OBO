@@ -17,9 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 public class VolunteerController {
 	
 	// staff 봉사
-	@GetMapping("/staff/getVolunteer")
-	public String getVolunteer() {
-		return "staff/getVolunteer";
+	@GetMapping("/staff/getVolunteerInStaff")
+	public String getVolunteerInStaff() {
+		return "staff/getVolunteerInStaff";
 	}
 	
 	// staff 일반봉사 - 모집공고

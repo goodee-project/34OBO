@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getDonation</title>
+<title>getVolunteerInStaff</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>후원</h3>
+					<h3>봉사</h3>
 				</div>
 			</div>
 		</div>
@@ -96,27 +96,9 @@ $(document).ready(function(){
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-lg-4 col-md-6">
-					<div class="single_service donation_option"> <!-- volunteer_option : css에서 칸 높이 조정 -->
-						<div
-							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
-							<div class="service_icon">
-								<a class="d-inline-block">
-									<img src="../static/img/service/service_icon_1.png" alt="">
-								</a>
-							</div>
-						</div>
-						<div class="service_content text-center">
-							<h3>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationItemN">물품후원</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyN">일반후원</a>
-							</h3>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single_service donation_option">
+				
+				<div class="col-lg-6 col-md-6">
+					<div class="single_service volunteer_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
@@ -127,13 +109,20 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyP">정기후원</a>
+								<a class="d-inline-block">일반봉사</a>
 							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerRecruitN">모집공고</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerApplyN">신청목록</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerCheckN">확인목록</a>
+							</h4>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single_service donation_option">
+				<div class="col-lg-6 col-md-6">
+					<div class="single_service volunteer_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
@@ -144,8 +133,15 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationStats">통계</a>
+								<a class="d-inline-block">정기봉사</a>
 							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerRecruitP">모집공고</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerApplyP">신청목록</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getVolunteerCheckP">확인목록</a>
+							</h4>
 						</div>
 					</div>
 				</div>
@@ -157,9 +153,8 @@ $(document).ready(function(){
 
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
-	<!-- footer_end  -->
-
-
+	<!-- footer_end  -->	
+	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
@@ -186,6 +181,5 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
-
 </body>
 </html>

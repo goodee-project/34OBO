@@ -18,12 +18,9 @@ public class AdoptController {
 	
 	
 	// staff - 입양&케어 페이지 이동
-	@GetMapping("/staff/getAdoptAndCare")
-	public String getAdoptAndCare (HttpSession session, Model model) {
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
-		
-		return "staff/getAdoptAndCare";
+	@GetMapping("/staff/getAdoptAndCareInStaff")
+	public String getAdoptAndCareInStaff () {
+		return "staff/getAdoptAndCareInStaff";
 	}
 	
 	// staff - 입양 신청 목록 이동

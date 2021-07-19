@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>getAdoptAndCare</title>
+<title>getDonationInStaff</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>입양&케어</h3>
+					<h3>후원</h3>
 				</div>
 			</div>
 		</div>
@@ -96,9 +96,27 @@ $(document).ready(function(){
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
-				
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service adoptAndCard_option">
+				<div class="col-lg-4 col-md-6">
+					<div class="single_service donation_option"> <!-- volunteer_option : css에서 칸 높이 조정 -->
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="../static/img/service/service_icon_1.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationItemN">물품후원</a>
+								<br><br>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyN">일반후원</a>
+							</h3>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<div class="single_service donation_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
@@ -109,20 +127,13 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block">입양</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationMoneyP">정기후원</a>
 							</h3>
-							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptApplyInStaff">신청목록</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptApprovalInStaff">승인목록</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff">거절목록</a>
-							</h4>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6">
-					<div class="single_service adoptAndCard_option">
+				<div class="col-lg-4 col-md-6">
+					<div class="single_service donation_option">
 						<div
 							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
 							<div class="service_icon">
@@ -133,21 +144,8 @@ $(document).ready(function(){
 						</div>
 						<div class="service_content text-center">
 							<h3>
-								<a class="d-inline-block">케어</a>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getDonationStats">통계</a>
 							</h3>
-							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCareInfoInStaff">Info확인</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/addCarePlanInStaff">Plan작성</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCarePlanInStaff">Plan목록</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCarePlanCalInStaff">Plan달력</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/addCareRecordInStaff">Record작성</a>
-								<br><br>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/getCareRecordInStaff">Record목록</a>
-							</h4>
 						</div>
 					</div>
 				</div>
@@ -159,8 +157,9 @@ $(document).ready(function(){
 
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
-	<!-- footer_end  -->	
-	
+	<!-- footer_end  -->
+
+
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
@@ -187,5 +186,6 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+
 </body>
 </html>
