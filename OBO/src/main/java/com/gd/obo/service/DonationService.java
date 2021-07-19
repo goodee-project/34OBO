@@ -3,6 +3,7 @@
 
 package com.gd.obo.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,10 +38,66 @@ public class DonationService {
 	private String tid;//kakao 결제준비 -> 결제승인으로 갈때 필요한것... (get방식이라 보내기 힘들어서 위에 만들었습니다.)
 	private String sid;
 	
-	//내정보-> 정기후원목록
-	public List<Map<String,Object>> getPeriodicallyDonationByMemberId(String memberId){
-		return donationMapper.selectPeriodicallyDonationByMemberId(memberId);
+	//내정보 -> 총 후원내역
+	public Map<String, Object> getFullMoneyDonationListByMemberId(int currentPage, int rowPerPage, String memberId){
+		Map<String, Object> paramMap = new HashMap<>();
+		int beginRow = (currentPage - 1)*rowPerPage;
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("memberId", memberId);
+		
+		int total = donationMapper.selectFullMoneyDonationListByMemberIdTotal(memberId);
+		int lastPage = (int)Math.ceil((double)total/rowPerPage);
+		
+		log.debug("■■■■■ getFullMoneyDonationListByMemberId total : "+total);
+		log.debug("■■■■■ getFullMoneyDonationListByMemberId lastPage : "+lastPage);
+		
+		List<Map<String, Object>> list = donationMapper.selectFullMoneyDonationListByMemberId(paramMap);
+		log.debug("■■■■■ getFullMoneyDonationListByMemberId list : "+list);
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		returnMap.put("list", list);
+		returnMap.put("lastPage", lastPage);
+		
+		return returnMap;		
 	}
+	
+	//내정보 -> 정기후원
+	public Map<String, Object> getPeriodicallyDonationByMemberId(int currentPage, int rowPerPage, String memberId){
+		Map<String, Object> paramMap = new HashMap<>();
+		int beginRow = (currentPage - 1)*rowPerPage;
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("memberId", memberId);
+		
+		int total = donationMapper.selectPeriodicallyDonationByMemberIdTotal(memberId);
+		int lastPage = (int)Math.ceil((double)total/rowPerPage);
+		
+		log.debug("■■■■■ selectPeriodicallyDonationByMemberId total : "+total);
+		log.debug("■■■■■ selectPeriodicallyDonationByMemberId lastPage : "+lastPage);
+		
+		List<Map<String, Object>> list = donationMapper.selectPeriodicallyDonationByMemberId(paramMap);
+		log.debug("■■■■■ selectPeriodicallyDonationByMemberId list : "+list);
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		returnMap.put("list", list);
+		returnMap.put("lastPage", lastPage);
+		
+		return returnMap;
+		
+	}
+	
+	/*
+	//내정보-> 정기후원목록 , 총 후원목록 getMemberDonation 필요없을듯..?
+	public Map<String, Object> getMemberDonation(String memberId){
+	
+		Map<String, Object> map = new HashMap<>();
+		map.put("PeriodicallyDonationList", donationMapper.selectPeriodicallyDonationByMemberId(memberId));
+		map.put("fullDonationList", donationMapper.selectFullMoneyDonationListByMemberId(memberId));
+		
+		return map;
+	}
+	*/
 	
 	//정기결제 끊기 구현!
 	public void modifyPeriodicallyDonationListByKakaoPayStop(int periodicallyDonationId) {

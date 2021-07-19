@@ -36,7 +36,6 @@
 					<div class="social_media_links">
 						<span class="text-white font-weight-bolder">${loginMember.memberNickname}님, 반갑습니다!</span>
 						<a href="${pageContext.request.contextPath}/member/getMemberOne" class="text-white font-weight-bolder">내정보</a>
-						<a href="${pageContext.request.contextPath}/member/getMemberDonation">정기결제test</a>
 						<a href="${pageContext.request.contextPath}/memberLogout"><button type="button" class="genric-btn primary-border circle arrow medium">LOGOUT</button></a>
 					</div>
 				</div>

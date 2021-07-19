@@ -22,11 +22,13 @@
 <style>
 	th{
 		width: 30%;
-		text-align: center;
 	}
 	
 	td{
 		width: 70%;
+	}
+	button{
+		float: right;
 	}
 </style>
 </head>
@@ -55,35 +57,8 @@
 	<section class="blog_area single-post-area section-padding">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-3 mb-5">
-					<div class="blog_right_sidebar">
-						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<ul class="list cat-list">
-								<li>
-									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>내정보</p></a>
-								</li>
-								<li>								
-									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>후원내역</p></a>									
-								</li>
-								<li>								
-									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>봉사내역</p></a>									
-								</li>
-								<li>								
-									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>입양&케어</p></a>									
-								</li>
-								<li>								
-									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>관심동물</p></a>									
-								</li>
-								<li>								
-									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>봉사자격신청</p></a>									
-								</li>
-								<li>								
-									<a href="${pageContext.request.contextPath}/" class="d-flex"><p>작성글</p></a>									
-								</li>
-							</ul>
-						</aside>
-					</div>
-				</div>
+				<!-- 내 페이지 메뉴 -->
+				<jsp:include page="/WEB-INF/view/main/inc/myPageMenu.jsp"></jsp:include>			
 				
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
@@ -151,6 +126,7 @@
 							</table>
 
 							<button id="modifyMemberOne" type="button" onclick="modifyMemberOne()" class="genric-btn primary-border radius">내 정보 수정</button>
+							
 							<a href="${pageContext.request.contextPath}/member/modifyMemberPw"><button type="button" class="genric-btn primary-border radius">비밀번호 수정</button></a>
 						
 						
@@ -260,7 +236,5 @@
 		format: 'HH.MM'
 	});
 </script>
-</body>
-</html>
 </body>
 </html>

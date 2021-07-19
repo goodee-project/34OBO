@@ -11,7 +11,10 @@ import com.gd.obo.vo.PeriodicallyDonation;
 
 @Mapper
 public interface DonationMapper {
-	List<Map<String,Object>> selectPeriodicallyDonationByMemberId(String memberId);
+	int selectFullMoneyDonationListByMemberIdTotal(String memberId);
+	List<Map<String,Object>> selectFullMoneyDonationListByMemberId(Map<String, Object> map);
+	int selectPeriodicallyDonationByMemberIdTotal(String memberId);
+	List<Map<String,Object>> selectPeriodicallyDonationByMemberId(Map<String, Object> map);
 	int updatePeriodicallyDonationByEndDate(int periodicallyDonationId);
 	String selectPeriodicallyDonationByPeriodicallyDonationId(int periodicallyDonationId);
 	List<PeriodicallyDonation> selectPeriodicallyDonationBYEndDateISNULL();//정기결제 중인 정기결제 리스트
