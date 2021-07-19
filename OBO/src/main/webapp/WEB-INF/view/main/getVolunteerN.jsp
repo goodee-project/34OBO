@@ -159,7 +159,7 @@ $(document).ready(function(){
 				<div class="form-group">
 					<div class="input-group mb-4">
 					    <div class="list">
-							<select name="cateogryName">
+							<select name="categoryName">
 								<option value="">봉사카테고리선택</option>
 								<c:forEach var="c" items="${categoryNameList}">
 								<option value="${c}">${c}</option>

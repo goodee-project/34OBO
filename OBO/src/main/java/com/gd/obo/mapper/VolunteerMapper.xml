@@ -22,9 +22,13 @@
 		SELECT COUNT(*) FROM volunteer_recruit vr
 			JOIN staff s ON vr.staff_id = s.staff_id
 			JOIN shelter sh ON s.shelter_id = sh.shelter_id
+			JOIN volunteer_category vc ON vr.volunteer_category_id = vc.volunteer_category_id
 		<where>
 			<if test="searchWord != null">
 				AND sh.shelter_name LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="categoryName != null">
+				AND vc.volunteer_category_name = #{categoryName}
 			</if>
 		</where>
 	</select>
