@@ -103,68 +103,68 @@
 	    <table class="table">
 	        <tbody>
 	            <tr>
-	               <td>animal_id :</td>
+	               <td>동물Id :</td>
 	               <td>${animalMap.animalId}</td>
 	              </tr>
 	           <tr>
-	               <td>animal_category_id :</td>
+	               <td>동물 카테고리Id :</td>
 	               <td>${animalMap.animalCategoryId}</td>
 	           </tr>
 	           <tr>
-	               <td>shelter_id :</td>
+	               <td>보호소Id :</td>
 	               <td>${animalMap.shelterId}</td>
 	           </tr>
 	           <tr>
-	               <td>animal_name :</td>
+	               <td>동물 이름 :</td>
 	               <td>${animalMap.animalName}</td>
 	           </tr>
 	           <tr>
-	               <td>species :</td>
+	               <td>종 :</td>
 	               <td>${animalMap.species}</td>
 	           </tr>
 	           <tr>
-	               <td>animal_age :</td>
+	               <td>동물 나이 :</td>
 	               <td>${animalMap.animalAge}</td>
 	              </tr>
 	           <tr>
-	               <td>animal_sex :</td>
+	               <td>동물 성별 :</td>
 	               <td>${animalMap.animalSex}</td>
 	           </tr>
 	           <tr>
-	               <td>animal_weight :</td>
+	               <td>동물 무게 :</td>
 	               <td>${animalMap.animalWeight}</td>
 	           </tr>
 	           <tr>
-	               <td>animal_kind :</td>
+	               <td>동물 종류 :</td>
 	               <td>${animalMap.animalKind}</td>
 	           </tr>
 	           <tr>
-	               <td>animal_find_place :</td>
+	               <td>발견 장소 :</td>
 	               <td>${animalMap.animalFindPlace}</td>
 	           </tr>
 	           <tr>
-	               <td>animal_note :</td>
+	               <td>동물 정보 :</td>
 	               <td>${animalMap.animalNote}</td>
 	              </tr>
 	           <tr>
-	               <td>animal_enter_date :</td>
+	               <td>동물 입소 날짜 :</td>
 	               <td>${animalMap.animalEnterDate}</td>
 	           </tr>
 	           <tr>
-	               <td>animal_exit_date :</td>
+	               <td>동물 퇴소 날짜 :</td>
 	               <td>${animalMap.animalExitDate}</td>
 	           </tr>
 	           <tr>
-	               <td>animal_introduce :</td>
+	               <td>동물 소개 :</td>
 	               <td>${animalMap.animalIntroduce}</td>
 	           </tr>
 	           <tr>
-	               <td>animal_state :</td>
+	               <td>동물 상태 :</td>
 	               <td>${animalMap.animalState}</td>
 	           </tr>
 	           <tr>
-	               <td>animal_file_name :</td>
-	               <td>${animalMap.animalFileName}</td>
+	               <td>사진 :</td>
+	               <td><img src="${pageContext.request.contextPath}/static/img/animal/${animalMap.animalFileName}" height="100px" width="100px"></td>
 	           </tr>
 			</tbody>   
 		</table>
