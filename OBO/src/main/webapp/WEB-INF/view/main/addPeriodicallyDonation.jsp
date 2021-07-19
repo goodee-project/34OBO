@@ -1,17 +1,18 @@
-<!-- 작성자: 손영현 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일반후원</title>
+<title>정기후원</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-	<h1>일반후원</h1>
+	<h1>정기후원</h1>
 	
-	<form id="donationForm" action="${pageContext.request.contextPath}/member/addDonation" method="post">
+	<p>설정하신 후원액은 매 달 '1일'에 자동이체됩니다.</p>
+	
+	<form id="donationForm" action="${pageContext.request.contextPath}/member/addPeriodicallyDonation" method="post">
 		<span id="target"></span>
 		<table>
 			<tr>
@@ -40,6 +41,7 @@
 		</table>
 		<button type="button" id="donationFormBtn" onclick="addDonationBtn()">후원하기</button>
 	</form>
+	
 
 <script>
 	//<input type="hidden" name="device" value="">
@@ -57,7 +59,7 @@
     console.log(device);
     $('#target').append('<input type="hidden" name="device" value="'+device+'">');
 	
-	//후원하기 버튼 클릭
+	
 	function addDonationBtn(){
 		console.log('버튼 click');
 		
@@ -91,5 +93,6 @@
 		}		
 	}
 </script>
+
 </body>
 </html>

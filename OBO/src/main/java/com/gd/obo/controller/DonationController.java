@@ -32,13 +32,73 @@ public class DonationController {
 	@Autowired DonationService donationService;
 	@Autowired ShelterService shelterService;
 	
-	//일반 후원 결제 성공
+	//정기후원 끊기
+	@GetMapping("/member/endPeriodicallyDonation")
+	public String endPeriodicallyDonation(@RequestParam(value = "periodicallyDonationId", required = true)int periodicallyDonationId) {
+		donationService.modifyPeriodicallyDonationListByKakaoPayStop(periodicallyDonationId);
+		return "redirect:/member/getMemberDonation";
+	}
+	
+	//내정보 후원내역보기 -> 아직 정기후원목록만 만들었습니다... 수정필요!
+	@GetMapping("/member/getMemberDonation")
+	public String getMemberDonation(HttpSession session, Model model) {
+		
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		
+		model.addAttribute("list", donationService.getPeriodicallyDonationByMemberId(memberId));
+		return "main/getMemberDonation";
+	}
+	
+	//main 정기후원 첫번째(등록용) 결제성공
+	@GetMapping("/member/successPeriodicallyDonation")
+	public String successPeriodicallyDonation(Model model,
+												@RequestParam(value="pg_token", required = true)String pg_token) {
+		log.debug("■■■■■■■ 결제를 위한 토큰 token : " + pg_token);
+		//결제승인
+		Map<String, Object> map = donationService.confirmKakoPay(pg_token, "TCSUBSCRIP");
+		//데이터 베이스에 결과 남기기
+		donationService.addPeriodicallyDonation();
+		
+		//결제정보 창으로 넘겨줌
+		model.addAttribute("map" ,map);
+		return "main/successDonation";
+	}
+	
+	//main 정기후원 첫번째(등록용) 결제준비
+	@PostMapping("/member/addPeriodicallyDonation")
+	public String addPeriodicallyDonation(DonationMoneyList donationMoneyList,
+												@RequestParam(value="device")String device) {
+		log.debug("■■■■■■■ addDonation param :" + donationMoneyList);
+		log.debug("■■■■■■■ device param :" + device);
+		//결제 준비
+		Map<String, Object> map = donationService.readyKakaoPay(donationMoneyList, "http://localhost/obo/member/successPeriodicallyDonation", "정기후원", "TCSUBSCRIP");
+		
+		//웹이였을 경우의 url , 앱이나 모바일 웹은 다르다.
+		if(device.equals("pc")) {//pc일 경우
+			return "redirect:" + map.get("next_redirect_pc_url");
+		} else {//모바일일 경우
+			return "redirect:" + map.get("next_redirect_mobile_url");
+		}
+		
+	}
+	
+	
+	//main 정기후원 폼으로
+	@GetMapping("/member/addPeriodicallyDonation")
+	public String addPeriodicallyDonation(HttpSession session, Model model) {
+		
+		model.addAttribute("shelterList", shelterService.getShelterListByDonation());
+		model.addAttribute("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
+		return "main/addPeriodicallyDonation";
+	}
+	
+	//main 일반 후원 결제 성공
 	@GetMapping("/member/successDonation")
 	public String successDonation(Model model,
 									@RequestParam(value="pg_token", required = true)String pg_token) {
 		log.debug("■■■■■■■ 결제를 위한 토큰 token : " + pg_token);
 		//결제승인
-		Map<String, Object> map = donationService.confirmKakoPay(pg_token);
+		Map<String, Object> map = donationService.confirmKakoPay(pg_token, "TC0ONETIME");
 		//데이터 베이스에 결과 남기기
 		donationService.addDonationMoneyList();
 		
@@ -48,15 +108,22 @@ public class DonationController {
 	}
 	
 	
-	//일반 후원 결제 준비
+	//main 일반 후원 결제 준비
 	@PostMapping("/member/addDonation")
-	public String addDonation(DonationMoneyList donationMoneyList) {
+	public String addDonation(DonationMoneyList donationMoneyList,
+								@RequestParam(value="device")String device) {
 		log.debug("■■■■■■■ addDonation param :" + donationMoneyList);
+		log.debug("■■■■■■■ device param :" + device);
 		//결제 준비
-		Map<String, Object> map = donationService.readyKakaoPay(donationMoneyList, "http://localhost/obo/member/successDonation");
+		Map<String, Object> map = donationService.readyKakaoPay(donationMoneyList, "http://localhost/obo/member/successDonation", "일반후원", "TC0ONETIME");
 		
 		//웹이였을 경우의 url , 앱이나 모바일 웹은 다르다.
-		return "redirect:" + map.get("next_redirect_pc_url");
+		if(device.equals("pc")) {//pc일 경우
+			return "redirect:" + map.get("next_redirect_pc_url");
+		} else {//모바일일 경우
+			return "redirect:" + map.get("next_redirect_mobile_url");
+		}
+		
 	}
 	
 	//main 일반 후원 폼으로
