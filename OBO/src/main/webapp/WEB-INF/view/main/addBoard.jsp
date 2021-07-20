@@ -37,6 +37,7 @@ $(document).ready(function(){
 	// 가입 버튼 클릭 시 -> 유효성 검사 필요
 	$('#addBtn').click(function(){
 		console.log('addBtn 버튼 클릭!');
+		$('#imgFileUpload').remove();
 		$('#addForm').submit();
 	});
 });
@@ -113,10 +114,14 @@ $(document).ready(function(){
 				                	<h4>상품이미지<span style="color: #7fad39;">*</span></h4>
 				                </div>
 				                <div class="col-lg-9" style="display: inline;">
-				                	<label for="imgFileUpload">
-								        <img src="${pageContext.request.contextPath}/static/img/imgUpload.png"/>
-								    </label>
-								    <input id="imgFileUpload" name="boardFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>
+				                	
+				                		<label for="imgFileUpload">
+									        <img src="${pageContext.request.contextPath}/static/img/imgUpload.png"/>
+									    </label>
+				                	
+				                	
+								    <span id="target"></span>
+								    <input id="imgFileUpload" name="boardFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple" class="imgCheck"/>		   	
 								    <div id="image_container" style="display: inline;"></div> <!-- 업로드 된 이미지 미리보기 생성 -->
 				                </div>
          						<div class="col-12">
@@ -199,7 +204,12 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 
 <script> 
+	let checked = 1;
+
    	function setThumbnail(event){ 
+   		
+   			
+   		
    		
    		for (var image of event.target.files) {
    			
@@ -216,7 +226,13 @@ $(document).ready(function(){
    			
    			console.log(image); 
    			reader.readAsDataURL(image); 
-   		} 
+   		}
+   		
+   		$('#target').prepend('<input id="imgFileUpload" name="boardFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
+   		
+   		checked
+   	
+   	
    	} 
 </script>
 
