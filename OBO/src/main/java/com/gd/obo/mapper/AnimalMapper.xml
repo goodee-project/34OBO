@@ -81,7 +81,7 @@
 		    a.animal_state animalState,
 		    af.animal_file_name animalFileName
 		FROM animal AS a
-    	INNER JOIN animal_file AS af ON af.animal_id = a.animal_id
+    	LEFT JOIN animal_file AS af ON af.animal_id = a.animal_id
     	INNER JOIN animal_category AS ac ON ac.animal_category_id = a.animal_category_id
     	WHERE
     		a.animal_id = #{animalId} 

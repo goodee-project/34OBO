@@ -198,12 +198,7 @@
 				<tr>
 					<td>동물 상태</td>
 					<td>
-						<select class="form-control" id="animalState" name="animalState">
-		                    <option value="보호중">보호중</option>
-		                    <option value="입양">입양</option>
-		                    <option value="안락사">안락사</option>
-		                    <option value="자연사">자연사</option>
-	                  	</select>
+	                  	<input class="form-control" id="animalState" type="text" name="animalState" value="보호중">
 					</td>
 				</tr>
 				<tr>

@@ -115,7 +115,7 @@
 		    <tbody>
 		        <c:forEach var="a" items="${animalList}">
 		            <tr>
-		            	<td><img src="${pageContext.request.contextPath}/static/img/animal/${a.animalFileName}" height="100px" width="100px"></td>
+		            	<td><img src="${pageContext.request.contextPath}/static/img/animal/${a.animalFileName}" height="150px" width="150px"></td>
 		            	<td><a href="${pageContext.request.contextPath}/staff/getAnimalOne?animalId=${a.animalId}">${a.animalName}</a></td>
 		            	<td>${a.animalAge}</td>
 		            	<td>${a.animalSex}</td>

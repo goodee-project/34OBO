@@ -102,6 +102,10 @@
 	<div class="container">
 	    <table class="table">
 	        <tbody>
+	        	<tr>
+	               <td>사진 :</td>
+	               <td><img src="${pageContext.request.contextPath}/static/img/animal/${animalMap.animalFileName}" height="200px" width="200px"></td>
+	           </tr>
 	            <tr>
 	               <td>동물Id :</td>
 	               <td>${animalMap.animalId}</td>
@@ -162,10 +166,7 @@
 	               <td>동물 상태 :</td>
 	               <td>${animalMap.animalState}</td>
 	           </tr>
-	           <tr>
-	               <td>사진 :</td>
-	               <td><img src="${pageContext.request.contextPath}/static/img/animal/${animalMap.animalFileName}" height="100px" width="100px"></td>
-	           </tr>
+	           
 			</tbody>   
 		</table>
 		
