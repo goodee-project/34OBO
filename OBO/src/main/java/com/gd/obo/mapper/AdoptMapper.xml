@@ -22,6 +22,7 @@
 	<select id="selectAdoptApprovalList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			ap.adopt_apply_id adoptApplyId,
+			a.animal_id animalId,
 			a.animal_name animalName,
 			ap.member_id memberId,
 			m.member_name memberName,

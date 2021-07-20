@@ -32,6 +32,31 @@
 <script>
 $(document).ready(function(){	
 	
+	//plan 작성할 동물 선택
+	$('#animalId').change(function(){
+		console.log('동물선택~');
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getAdoptApprovalList',
+			type: 'get',
+			data: {animalId : $('#animalId').val()},
+			success: function(jsonData){
+				console.log('ajax 성공');
+				
+				// for문 돌려서 정보 가져오기 -> 회원 id, 이름, 신청일, 입양일
+			}
+		});
+	});
+	
+	$('#addBtn').click(function(){
+		console.log('등록버튼 클릭');
+		
+		$('#addForm').submit();
+	});
+	
+	$('#checkBtn').click(function(){
+		console.log('아이콘클릭 ㅠ');
+		
+	});
 	
 });
 </script>
@@ -108,14 +133,79 @@ $(document).ready(function(){
 						<div class="blog_details">
 							<!-- form 형식 작성 -->
 							<form id="addForm" action="" method="post">
-								<div class="row">
-								<div class="form-group">
-									<label for="staffId">직원ID</label>
-									<div>${loginStaff.staffId}</div>
-									<input id="staffId" class="form-control" name="staffId" type="text" va>
+								<table class="table">
+									<tr>
+										<td width="25%">직원ID</td>
+										<td width="75%">
+											${loginStaff.staffId}
+											<input id="staffId" class="form-control" name="staffId" type="hidden">
+										</td>
+									</tr>
+									<tr>
+										<td>동물 선택</td>
+										<td>
+											<div class="add_form">
+												<select id="animalId" name="animalId" class="select_box">
+													<option>한글</option>
+													<option>1</option>
+													<option>1</option>
+													<c:forEach var="a" items="${adoptApprovalList}">
+														<option value="${a.animalId}">${a.animalName}</option>
+													</c:forEach>
+												</select>
+											</div>
+										</td>
+									</tr>
+								</table>
+								
+								<div>* 회원정보 *</div>
+								<table class="table">
+									<tr>
+										<td width="25%">회원ID</td>
+										<td width="75%">
+											<input id="memberId" class="form-control" name="memberId" type="text" readonly>
+										</td>
+									</tr>
+									<tr>
+										<td>회원이름</td>
+										<td>
+											<input id="memberName" class="form-control" name="memberName" type="text" readonly>
+										</td>
+									</tr>
+									<tr>
+										<td>신청일</td>
+										<td>
+											<input id="applyDate" class="form-control" name="applyDate" type="text" readonly>
+										</td>
+									</tr>
+									<tr>
+										<td>입양일</td>
+										<td>
+											<input id="adoptDate" class="form-control" name="adoptDate" type="text" readonly>
+										</td>
+									</tr>
+								</table>
+								
+								<div>
+									* 실행할 Plan *
 								</div>
+								
+								<table class="table">
+									<tr>
+										<!-- type="date" 넘어가는 값 : 2021-07-20 -->
+										<td width="25%">정기검진</td>
+										<td width="75%">
+											<!-- 정기검진 defalut : 입양일 1년 후 -->
+											<input id="careDate" class="form-control" name="careDate" type="date" value="">
+										</td>
+									</tr>
+								</table>
+								<div>
+									<a id="planAddBtn" type="button"><i class="fa fa-plus-square-o fa-2x"></i></a>
+									<a id="planRemoveBtn" type="button"><i class="fa fa-minus-square-o fa-2x"></i></a>
 								</div>
-							
+								<br><br>
+								<button id="addBtn" type="button" class="genric-btn primary-border radius">Plan 작성</button>
 							</form>
 							
 							
@@ -133,6 +223,7 @@ $(document).ready(function(){
 	<!-- footer_end  -->	
 	
 	<!-- JS here -->
+	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
