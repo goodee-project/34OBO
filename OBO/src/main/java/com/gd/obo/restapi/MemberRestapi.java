@@ -32,6 +32,12 @@ public class MemberRestapi {
 	@Autowired
 	JavaMailSender javaMailSender;
 	
+	
+	//카카오 연결
+	@GetMapping("/kakaoLogin")
+	public String kakaoLogin(String url) {
+		return "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=535757159a398fe468b3ed3f2d2032e4&redirect_uri="+url;
+	}
 		
 	//비밀번호 변경
 	@PostMapping("/member/modifyMemberPw")

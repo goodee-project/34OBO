@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원봉사내역</title>
+<title>회원후원내역</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- CSS here -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
@@ -46,7 +46,10 @@
 		<div class="container">
 			<div class="row">
 				<!-- 내 페이지 메뉴 -->
-				<jsp:include page="/WEB-INF/view/main/inc/myPageMenu.jsp"></jsp:include>	
+				<jsp:include page="/WEB-INF/view/main/inc/myPageMenu.jsp"></jsp:include>
+				
+				
+				
 				
 				<div class="col-lg-9 mb-5 mb-lg-0"  >
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
@@ -111,6 +114,14 @@
 					</div>
 				</div>
 				
+				<div class="col-lg-8 mb-2 mb-lg-0"  style="height: 20%">
+					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+					<div class="single_service staff_account" style="height: 20%">
+						<div class="service_content text-center">
+							<p>회원님께서 총 기부하신 금액은 ${totalDonation}원 입니다.</p>
+						</div>
+					</div>
+				</div>
 				
 			</div>
 		</div>
@@ -189,7 +200,8 @@
 						if(table.endDate){
 							$('#pTarget').append('<td>'+table.endDate+'</td>');
 						} else {
-							$('#pTarget').append('<td><a href="endPeriodicallyDonation?periodicallyDonationId='+table.periodicallyDonationId+'">후원끊기</a></td>');				
+							$('#pTarget').append('<td><button class="genric-btn default-border radius" onclick="cancelPDonation('+table.periodicallyDonationId +')">후원끊기</button></td>');				
+							//$('#pTarget').append('<td><a href="endPeriodicallyDonation?periodicallyDonationId='+table.periodicallyDonationId+'">후원끊기</a></td>');				
 						}
 						
 						$('#pTarget').append('</tr>');
@@ -247,6 +259,16 @@
 		}
 		
 		
+		//정기결제 츃소
+		
+		function cancelPDonation(num){
+			
+			let checked =  confirm('정기결제를 그만하시겠습니까?');
+			
+			if(checked){
+				window.location.href = '${pageContext.request.contextPath}/member/endPeriodicallyDonation?periodicallyDonationId='+num;
+			}
+		}
 		
 		
 	</script>

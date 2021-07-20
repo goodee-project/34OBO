@@ -38,7 +38,12 @@ public class DonationService {
 	private String tid;//kakao 결제준비 -> 결제승인으로 갈때 필요한것... (get방식이라 보내기 힘들어서 위에 만들었습니다.)
 	private String sid;
 	
-	//내정보 -> 총 후원내역
+	//내정보 -> 총 후원금액
+	public int getTotalMoneyByMemberId(String memberId) {
+		return donationMapper.selectTotalMoneyByMemberId(memberId);
+	}
+	
+	//내정보 -> (정기+일반) 후원내역 목록
 	public Map<String, Object> getFullMoneyDonationListByMemberId(int currentPage, int rowPerPage, String memberId){
 		Map<String, Object> paramMap = new HashMap<>();
 		int beginRow = (currentPage - 1)*rowPerPage;

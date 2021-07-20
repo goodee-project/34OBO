@@ -39,10 +39,16 @@ public class DonationController {
 		return "redirect:/member/getMemberDonation";
 	}
 	
-	//내정보 후원내역보기 -> 아직 정기후원목록만 만들었습니다... 수정필요!
+	//내정보 후원내역보기 -> 아직 수정필요
 	@GetMapping("/member/getMemberDonation")
-	public String getMemberDonation() {
+	public String getMemberDonation(HttpSession session, Model model) {
 		
+		//회원의 총 후원금액
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		int totalDonation = donationService.getTotalMoneyByMemberId(memberId);
+		log.debug("■■■■■ getMemberDonation totalDonation : "+ totalDonation);
+		
+		model.addAttribute("totalDonation", totalDonation);
 		return "main/getMemberDonation";
 	}
 	

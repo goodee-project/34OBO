@@ -114,7 +114,7 @@
 									<th>카카오연동</th>
 									<td>
 										<c:if test="${memberOne.kakaoId == null}"><!-- 연동x -->
-											<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=535757159a398fe468b3ed3f2d2032e4&redirect_uri=http://localhost/obo/member/getKakaoLink">
+											<a href="javascript:void(0);" onclick="kakao();">
 												<img src="${pageContext.request.contextPath}/static/img/kakaolink_btn_medium.png">
 											</a>
 										</c:if>
@@ -167,19 +167,21 @@
 				
 	}
 	
-	/*
+	
 	
 	//카카오 연동 - 카카오 로그인창 불러오기!
 	function kakao(){
 		console.log('카카오');
 		 $.ajax({
-		        url: '/member/getKakaoAuthUrl',
+		        url: '${pageContext.request.contextPath}/kakaoLogin',
 		        type: 'get',
+		        data: {url: 'http://localhost/obo/member/getKakaoLink'}
 		    }).done(function (jsonData) {
 		        console.log('로그인창 가져왔니?');
+		        window.location.href = jsonData;
 		    });
 	}
-	*/
+	
 	
 	
 </script>

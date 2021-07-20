@@ -1,6 +1,13 @@
 <!-- 작성자: 손영현 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<style>
+	.btn_image{
+		 -webkit-appearance: none;
+		  -moz-appearance: none;
+		  appearance: none;
+	}
+</style>
 <div class="header-top_area">
 	<div class="container">
 		<div class="row">
@@ -16,8 +23,8 @@
 								<li><button type="button" id="memberLoginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
 								<li><a href="${pageContext.request.contextPath}/addMember">가입</a></li>
 								<li>
-									<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=535757159a398fe468b3ed3f2d2032e4&redirect_uri=http://localhost/obo/loginByKakao">
-										<img src="${pageContext.request.contextPath}/static/img/kakao_login.png">
+									<a href="javascript:void(0);" onclick="kakao();">
+										<img src="${pageContext.request.contextPath}/static/img/kakao_login.png" >						
 									</a>
 								</li>
 							</ul>
@@ -72,6 +79,20 @@
 					}
 									
 				})
+				
+				
+				// 카카오 로그인창 이동
+				function kakao(){
+					console.log('카카오');
+					 $.ajax({
+					        url: '${pageContext.request.contextPath}/kakaoLogin',
+					        type: 'get',
+					        data: {url: 'http://localhost/obo/loginByKakao'}
+					    }).done(function (jsonData) {
+					        console.log('로그인창 가져왔니?');
+					        window.location.href = jsonData;
+					    });
+				}
 			
 			</script>
 		</div>

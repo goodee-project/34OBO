@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.DonationMapper">
+	<!-- 회원별 전체 후원금액 -->
+	<select id="selectTotalMoneyByMemberId" resultType="int" parameterType="java.lang.String">
+		SELECT SUM(amount) totalDonation FROM full_money_donation_list WHERE member_id = #{memberId}
+	</select>
 	<select id="selectFullMoneyDonationListByMemberIdTotal" resultType="int" parameterType="java.lang.String">
 		SELECT 
 			COUNT(*)
@@ -18,7 +22,7 @@
 		WHERE member_id = #{memberId}
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
-	<!-- 내정보/후원내역/정기후원목록  토탈-->
+	<!-- 내정보/후원내역/정기후원목록 토탈-->
 	<select id="selectPeriodicallyDonationByMemberIdTotal" resultType="int" parameterType="java.lang.String">
 		SELECT 
 			COUNT(*)
