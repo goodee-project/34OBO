@@ -103,7 +103,7 @@
 		    a.animal_enter_date animalEnterDate,
 		    a.animal_state animalState
 		FROM animal AS a
-    	INNER JOIN animal_file AS af ON af.animal_id = a.animal_id
+    	LEFT JOIN animal_file AS af ON af.animal_id = a.animal_id
     	INNER JOIN animal_category AS ac ON ac.animal_category_id = a.animal_category_id
 		<where>
 			 a.shelter_id = 1 <!-- shelter_id 수정해야함. -->

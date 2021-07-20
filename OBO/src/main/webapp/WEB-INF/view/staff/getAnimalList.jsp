@@ -100,9 +100,32 @@
             </div>
 		            
 
-	
-	
 	<div class="container">
+		<table class="table">
+		      <thead>
+		          <tr>   
+		            <th>동물 사진</th>
+		            <th>동물 이름</th>
+		            <th>동물 개월</th>
+		            <th>동물 성별</th>         
+		            <th>동물 상태</th>
+		            
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <c:forEach var="a" items="${animalList}">
+		            <tr>
+		            	<td><img src="${pageContext.request.contextPath}/static/img/animal/${a.animalFileName}" height="100px" width="100px"></td>
+		            	<td><a href="${pageContext.request.contextPath}/staff/getAnimalOne?animalId=${a.animalId}">${a.animalName}</a></td>
+		            	<td>${a.animalAge}</td>
+		            	<td>${a.animalSex}</td>
+		            	<td>${a.animalState}</td>
+		            </tr>
+		        </c:forEach>
+		    </tbody>
+		</table>
+	 
+	 	
 		<div>
 			<form id="animalForm" action="${pageContext.request.contextPath}/staff/getAnimalList" method="get">
 				동물 이름 :
@@ -112,45 +135,6 @@
 			</form>
 		</div>
 		<br>
-		
-		<table class="table">
-		      <thead>
-		          <tr>
-		              <th>animalId</th>
-		              <th>shelterId</th> <!-- 동물 종 -->
-		            <th>animalFileName</th>
-		            <th>species</th>
-		            <th>animalName</th>
-		            <th>animalAge</th>
-		            <th>animalSex</th>
-		            <th>animalWeight</th>
-		            <th>animalKind</th>
-		            <th>animalFindPlace</th>
-		            <th>animalEnterDate</th>
-		            <th>animalState</th>
-		            
-		        </tr>
-		    </thead>
-		    <tbody>
-		        <c:forEach var="a" items="${animalList}">
-		            <tr>
-		            	<td>${a.animalId}</td>
-		            	<td>${a.shelterId}</td>
-		            	<td>${a.animalFileName}</td>
-		            	<td>${a.species}</td>
-		            	<td><a href="${pageContext.request.contextPath}/staff/getAnimalOne?animalId=${a.animalId}">${a.animalName}</a></td>
-		            	<td>${a.animalAge}</td>
-		            	<td>${a.animalSex}</td>
-		            	<td>${a.animalWeight}</td>
-		            	<td>${a.animalKind}</td>
-		            	<td>${a.animalFindPlace}</td>
-		            	<td>${a.animalEnterDate}</td>
-		            	<td>${a.animalState}</td>
-		            </tr>
-		        </c:forEach>
-		    </tbody>
-		</table>
-	 
 	 
 	 	
 	     <div>
