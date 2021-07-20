@@ -63,11 +63,11 @@
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-lg-9 col-md-8">
+				<div class="col-lg-11 col-md-10">
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
 					<div class="single_service staff_account" style="height: 100%;">
 						<div class="service_content">
-								<h3 class="text-center">일반후원 신청</h3>
+								<h3 class="text-center">물품후원 신청</h3>
 							
 								<form id="donationForm" action="${pageContext.request.contextPath}/member/addDonation" method="post">
 									<table class="table">

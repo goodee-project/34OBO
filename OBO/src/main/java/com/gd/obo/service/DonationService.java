@@ -39,6 +39,39 @@ public class DonationService {
 	private String tid;//kakao 결제준비 -> 결제승인으로 갈때 필요한것... (get방식이라 보내기 힘들어서 위에 만들었습니다.)
 	private String sid;
 	
+	//내정보 물품내역 자세히 보기
+	public Map<String, Object> getDonationItemOne(int donationItemListId){
+		log.debug("■■■■■ getDonationItemOne param : " + donationItemListId);
+		
+		return donationMapper.selectDonationItemOne(donationItemListId);
+	}
+	
+	
+	//내정보 물품후원내역
+	public Map<String, Object> getDonationItemByMemberId(int currentPage, int rowPerPage, String memberId){
+		Map<String, Object> paramMap = new HashMap<>();
+		int beginRow = (currentPage - 1)*rowPerPage;
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("memberId", memberId);
+		
+		int total = donationMapper.selectDonationItemByMemberIdTotal(memberId);
+		int lastPage = (int)Math.ceil((double)total/rowPerPage);
+		
+		log.debug("■■■■■ getDonationItemByMemberId total : "+total);
+		log.debug("■■■■■ getDonationItemByMemberId lastPage : "+lastPage);
+		
+		List<Map<String, Object>> list = donationMapper.selectDonationItemByMemberId(paramMap);
+		log.debug("■■■■■ getDonationItemByMemberId list : "+list);
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		returnMap.put("list", list);
+		returnMap.put("lastPage", lastPage);
+		
+		return returnMap;
+	}
+	
+	
 	//물품후원 insert
 	public boolean addDonationItemList(DonationItemList donationItemList) {
 		boolean result = false;

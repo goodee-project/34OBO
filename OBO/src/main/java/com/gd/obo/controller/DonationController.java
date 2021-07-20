@@ -32,7 +32,11 @@ public class DonationController {
 	@Autowired DonationService donationService;
 	@Autowired ShelterService shelterService;
 	
-	
+	//전체 후원페이지
+	@GetMapping("/getDonation")
+	public String getDonation() {
+		return "main/getDonation";
+	}
 	
 	//물품후원 폼으로
 	@GetMapping("/member/addDonationItem")
