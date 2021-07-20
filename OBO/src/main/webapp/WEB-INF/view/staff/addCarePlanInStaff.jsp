@@ -107,7 +107,16 @@ $(document).ready(function(){
 					<div class="single-post">
 						<div class="blog_details">
 							<!-- form 형식 작성 -->
+							<form id="addForm" action="" method="post">
+								<div class="row">
+								<div class="form-group">
+									<label for="staffId">직원ID</label>
+									<div>${loginStaff.staffId}</div>
+									<input id="staffId" class="form-control" name="staffId" type="text" va>
+								</div>
+								</div>
 							
+							</form>
 							
 							
 						</div>

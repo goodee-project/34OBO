@@ -31,7 +31,17 @@
 
 <script>
 $(document).ready(function(){	
-	
+	$('#searchBtn').click(function(){
+		console.log('검색버튼 클릭!');
+		
+		// 유효성 검사
+		if($('#searchWord').val() == ''){
+			alert('검색어를 입력해주세요');
+		} else{
+			$('#searchForm').submit();
+		}
+		
+	});	
 	
 });
 </script>
@@ -104,9 +114,16 @@ $(document).ready(function(){
 					</div>
 				</div>
 				<div class="col-lg-9 mb-5 mb-lg-0">
-					
 					<div class="single-post">
 						<div class="blog_details">
+							<!-- 검색결과 -->
+							<div>
+								<c:if test="${searchWord != null}">
+									"${searchWord}" 검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+								</c:if>
+							</div>
+							
+							<br>
 							<table class="table">
 								<tr>
 									<td>No</td>
@@ -115,17 +132,15 @@ $(document).ready(function(){
 									<td>신청서류</td> <!-- 클릭 시 다운로드 -->
 									<td>신청일</td>
 									<td>거절일</td>
-									<td>확인직원</td>
 								</tr>
-								<c:forEach var="a" items="${adoptReject}">
+								<c:forEach var="a" items="${adoptRejectList}">
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td>${a.adoptApplyId}</td>
+										<td>${a.animalName}</td>
+										<td>${a.memberId}</td>
+										<td>${a.adoptApplyDocumentId}</td>
+										<td>${a.applyDate}</td>
+										<td>${a.applyRejectDate}</td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -158,8 +173,8 @@ $(document).ready(function(){
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff">
 							<div class="form-group">
 								<div class="input-group mb-4">
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
-											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="동물 이름을 입력해주세요"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 이름을 입력해주세요'" >
 									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
 								</div>
 							</div>

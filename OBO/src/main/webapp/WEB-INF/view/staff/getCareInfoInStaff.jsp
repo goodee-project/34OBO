@@ -1,3 +1,4 @@
+
 <!-- 작성자 : 이윤정 -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -182,7 +183,7 @@ $(document).ready(function(){
 												<option value="${c}">${c}</option>
 											</c:if>
 										</c:forEach>
-										</select>
+									</select>
 									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="케어내용을 입력해주세요."
 											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
 									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
