@@ -187,13 +187,28 @@ $(document).ready(function(){
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getCarePlanInStaff">
 							<div class="form-group">
 								<div class="input-group mb-4">
-									<select id="searchSelect" class="select_box">
-										<option value="">동물이름</option>
-										<option value="">케어Info</option>
-										<option value="">회원ID</option>
+									<select id="searchSelect" class="select_box" name="selectOption">
+										<c:if test="${selectOption == 'animal'}">
+											<option value="animal" selected>동물이름</option>
+										</c:if>
+										<c:if test="${selectOption != 'animal'}">
+											<option value="animal">동물이름</option>
+										</c:if>
+										<c:if test="${selectOption == 'care'}">
+											<option value="care" selected>케어Info</option>
+										</c:if>
+										<c:if test="${selectOption != 'care'}">
+											<option value="care">케어Info</option>
+										</c:if>
+										<c:if test="${selectOption == 'member'}">
+											<option value="member" selected>회원ID</option>
+										</c:if>
+										<c:if test="${selectOption != 'member'}">
+											<option value="member">회원ID</option>
+										</c:if>
 									</select> 
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요."
-											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = '검색어를 입력해주세요'" >
 									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
@@ -212,6 +227,7 @@ $(document).ready(function(){
 	<!-- footer_end  -->	
 	
 	<!-- JS here -->
+	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>

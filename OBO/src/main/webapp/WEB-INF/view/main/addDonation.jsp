@@ -67,6 +67,7 @@
 								<h3>일반후원 신청</h3>
 							
 								<form id="donationForm" action="${pageContext.request.contextPath}/member/addDonation" method="post">
+									<span id="target"></span>
 									<table class="table">
 										<tr>
 											<th>보호소</th>

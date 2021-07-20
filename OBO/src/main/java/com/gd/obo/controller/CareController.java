@@ -5,6 +5,8 @@ package com.gd.obo.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gd.obo.service.AdoptService;
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.CareService;
+import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CareController {
 	@Autowired CareService careService;
 	@Autowired AnimalService animalService;
+	@Autowired AdoptService adoptService;
 	
 	// staff - 케어 info 보기 페이지 이동
 	@GetMapping("/staff/getCareInfoInStaff")
@@ -65,19 +70,30 @@ public class CareController {
 		return "staff/getCareInfoInStaff";
 	}
 	
-	// staff - 케어info 검색 or 정렬
-	@PostMapping("/staff/getCareInfoInStaff")
-	public String getCareInfoInStaff(@RequestParam(value = "searchWord", required = false) String searchWord) {
-		log.debug("●●●●▶ careinfo 검색어-> "+searchWord);
-		//List<Map<String, Object>> careInfoList = careService.getCareInfoList(searchWord);
-		
-		return "redirect:/staff/getCareInfoInStaff";
-	}
-	
 	// staff - 케어 plan 작성 페이지 이동
 	@GetMapping("/staff/addCarePlanInStaff")
-	public String addCarePlanInStaff (Model model) {
+	public String addCarePlanInStaff (Model model, HttpSession session) {
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
 		
+		String searchWord = null;
+		String selectOption = null;
+		
+		List<Map<String, Object>> adoptApprovalList = adoptService.getAdoptApprovalList(shelterId, searchWord, selectOption);
+		log.debug("●●●●▶ adoptApprovalList-> "+adoptApprovalList);
+		
+		model.addAttribute("adoptApprovalList", adoptApprovalList);
+		
+		return "staff/addCarePlanInStaff";
+	}
+	
+	// staff - 케어 plan 작성 action
+	@PostMapping("/staff/addCarePlanInStaff")
+	public String addCarePlanInStaff (String careDate) {
+		log.debug("●●●●▶ careDate-> "+careDate);
+		
+		
+		// return "redirect:/staff/getCarePlanInStaff";
 		return "staff/addCarePlanInStaff";
 	}
 	

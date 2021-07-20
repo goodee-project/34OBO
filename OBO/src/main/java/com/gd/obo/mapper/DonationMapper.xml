@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.DonationMapper">
+	<!-- 내정보 / 후원내역/ 물품후원 목록 / 상세보기 -->
+	<select id="selectDonationItemOne" parameterType="int" resultType="java.util.Map">
+		SELECT 
+			d.donation_item_list_id donationItemListId, 
+			DATE(d.donation_date) donationDate, 
+			d.item_name itemName, 
+			d.item_quantity itemQuantity, 
+			s.shelter_name shelterName,
+			i.item_category_name itemCategoryName,
+			d.item_description itemDescription
+		FROM 
+			donation_item_list d 
+			INNER JOIN shelter s ON d.shelter_id = s.shelter_id 
+			INNER JOIN item_category i ON d.item_category_id=i.item_category_id
+		WHERE d.donation_item_list_id = #{donationItemListId}
+	</select>
+	<select id="selectDonationItemByMemberIdTotal" parameterType="java.lang.String" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			donation_item_list
+		WHERE member_id = #{memberId}
+	
+	</select>
+	<!-- 내정보 / 후원내역 / 물품후원 목록 -->
+	<select id="selectDonationItemByMemberId" parameterType="java.util.Map" resultType="java.util.Map" >
+		SELECT 
+			d.donation_item_list_id donationItemListId, 
+			DATE(d.donation_date) donationDate, 
+			d.item_name itemName, 
+			d.item_quantity itemQuantity, 
+			s.shelter_name shelterName, 
+			i.item_category_name itemCategoryName
+		FROM 
+			donation_item_list d 
+			INNER JOIN shelter s ON d.shelter_id = s.shelter_id 
+			INNER JOIN item_category i ON d.item_category_id=i.item_category_id
+		WHERE member_id = #{memberId}
+		ORDER BY donationDate DESC
+		LIMIT #{beginRow}, #{rowPerPage}	
+	</select>
 	<!-- 물품후원 insert -->
 	<insert id="insertDonationItemList" parameterType="com.gd.obo.vo.DonationItemList">
 		INSERT INTO donation_item_list(
@@ -55,9 +96,8 @@
 		SELECT 
 			COUNT(*)
 		FROM 
-			periodically_donation p 
-			INNER JOIN shelter s ON p.shelter_id = s.shelter_id
-		WHERE p.member_id = #{memberId}
+			periodically_donation
+		WHERE member_id = #{memberId}
 		
 	</select>
 	<!-- 내정보/후원내역/정기후원목록 -->

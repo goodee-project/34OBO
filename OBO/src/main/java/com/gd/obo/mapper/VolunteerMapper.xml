@@ -18,7 +18,7 @@
 	</select>
 	
 	<!-- 회원용 봉사 모집 총 -->
-	<select id="selectVolunteerNTotal" resultType="int" parameterType="String">
+	<select id="selectVolunteerNTotal" resultType="int" parameterType="java.util.Map">
 		SELECT COUNT(*) FROM volunteer_recruit vr
 			JOIN staff s ON vr.staff_id = s.staff_id
 			JOIN shelter sh ON s.shelter_id = sh.shelter_id
@@ -35,11 +35,53 @@
 	
 	<!-- 봉사 카테고리 받아오기 -->
 	<select id="selectVolunteerCategory" resultType="String">
-		SELECT volunteer_category_name volunteerCategoryName FROM volunteer_category
+		SELECT volunteer_category_name categoryName FROM volunteer_category
 	</select>
 	
-	<!-- 회원 봉사 신청 -->
+	<!-- 회원 일반 봉사 신청 -->
 	<insert id="insertVolunteerApplyByMember" parameterType="java.util.Map" >
 		INSERT INTO volunteer_apply(volunteer_recruit_id, member_id, apply_date) VALUES (#{recruitId}, #{memberId}, NOW())
 	</insert>
+	
+	<!-- 회원 일반 봉사 중복 검사 -->
+	<select id="selectMemberIdForCheckApplying" resultType="String" parameterType="java.util.Map">
+		SELECT member_id memberId FROM volunteer_apply WHERE volunteer_recruit_id=#{recruitId} AND member_id=#{memberId}
+	</select>
+	
+	<!-- 회원 정기봉사 목록 -->
+	<select id="selectVolunteerPList" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT * FROM periodically_volunteer_list
+				<where>
+			<if test="searchWord != null">
+				AND shelterName LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="categoryName != null">
+				AND categoryName = #{categoryName}
+			</if>
+		</where>
+		ORDER BY startDate DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 회원용 정기 봉사 모집 총 -->
+	<select id="selectVolunteerPTotal" resultType="int" parameterType="java.util.Map">
+		SELECT COUNT(*) FROM periodically_volunteer_recruit pvr
+			JOIN staff s ON pvr.staff_id = s.staff_id
+			JOIN shelter sh ON s.shelter_id = sh.shelter_id
+			JOIN volunteer_category vc ON pvr.volunteer_category_id = vc.volunteer_category_id
+		<where>
+			<if test="searchWord != null">
+				AND sh.shelter_name LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="categoryName != null">
+				AND vc.volunteer_category_name = #{categoryName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 회원 정기 봉사 신청 -->
+	<insert id="insertPeriocallyVolunteerApplyByMember" parameterType="java.util.Map" >
+		INSERT INTO volunteer_apply(volunteer_recruit_id, member_id, apply_date) VALUES (#{recruitId}, #{memberId}, NOW())
+	</insert>
+	
 </mapper>

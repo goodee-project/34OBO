@@ -10,7 +10,10 @@ import com.gd.obo.vo.Page;
 @Mapper
 public interface VolunteerMapper {
 	List<Map<String, Object>> selectVolunteerNList(Map<String, Object> map);
-	int selectVolunteerNTotal(String searchWord);
+	int selectVolunteerNTotal(Map<String, Object> map);
 	List<String> selectVolunteerCategory();
 	int insertVolunteerApplyByMember(Map<String, Object> map);
+	String selectMemberIdForCheckApplying(Map<String, Object> map);
+	List<Map<String, Object>> selectVolunteerPList(Map<String, Object> map);
+	int selectVolunteerPTotal(Map<String, Object> map);
 }

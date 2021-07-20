@@ -18,4 +18,5 @@ public interface BoardMapper {
 	int deleteBoard(int boardId);
 	int deleteBoardFileByBoard(int boardId);
 	List<BoardFile> selectBoardFileByBoard(int boardId);
+	int updateBoard(Board board);
 }

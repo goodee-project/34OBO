@@ -1,15 +1,12 @@
-<!-- 작성자 : 김선유 -->
+<!-- 손영현 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-
-<!-- JQuery CDN -->
+<title>후원</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -29,167 +26,107 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
-<!-- <link rel="stylesheet" href="css/responsive.css"> -->
-<script>
-	$(document).ready(function(){
-		$('#btn').click(function(){
-			 console.log("btn click!");
-			 $('#commentForm').submit();
-		});
-	});
-</script>
-<meta charset="UTF-8">
-<title>getBoardOne</title>
 </head>
 <body>
 	<header>
-		<div class="header-area ">
-		
+		<div class="header-area">		
 			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
-			<div class="header-top_area">
-				<div class="container">
-					<div class="row">
-						<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>
-					</div>
-				</div>
-			</div>
-			
+			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
 			<!-- 흰색 바탕 : 메인 메뉴 -->
-			<div id="sticky-header" class="main-header-area">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-xl-3 col-lg-3">
-							<div class="logo">
-								<a href="${pageContext.request.contextPath}/main/">
-									<img src="../static/img/logo.png" alt="">
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-9 col-lg-9">
-							<div class="main-menu  d-none d-lg-block">
-								<nav>
-									<ul id="navigation">
-										<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
-									</ul>
-								</nav>
-							</div>
-						</div>
-						
-						<div class="col-12">
-							<div class="mobile_menu d-block d-lg-none"></div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
+					
 		</div>
 	</header>
-
+	
 	<!-- header_start  -->
 	<div class="bradcam_area breadcam_bg">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12">
-					<h3>자유게시판</h3>
+				<div class="col-lg-12 text-center">
+					<h3>후원</h3>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	
+	<!--================Blog Area =================-->
+	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
+	<div class="service_area">
+		<div class="container">
+			<div class="row justify-content-center">
+				
+				<div class="col-lg-4 col-md-6">
+					<div class="single_service volunteer_option">
+						<div class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="${pageContext.request.contextPath}/static/img/service/service_icon_2.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block">일반후원</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/addDonation">후원하러 가기 <i class="fa fa-arrow-right"></i></a>
+							</h4>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-4 col-md-6">
+					<div class="single_service volunteer_option">
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="${pageContext.request.contextPath}/static/img/service/service_icon_3.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block">정기후원</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/addPeriodicallyDonation">후원하러 가기 <i class="fa fa-arrow-right"></i></i></a>
+							</h4>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-4 col-md-6">
+					<div class="single_service volunteer_option">
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="${pageContext.request.contextPath}/static/img/service/service_icon_1.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block">물품후원</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/addDonationItem">후원하러 가기 <i class="fa fa-arrow-right"></i></i></a>
+							</h4>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+			</div>
+		</div>
+	</div>
+	<!--================Blog Area =================-->
+	
 
-	<div class="section-top-border container">
-		<h3 class="mb-30">${boardMap.boardTitle}</h3>
-		<div class="text-right">
-		<a href="${pageContext.request.contextPath}/getBoardList">게시판으로</a>
-		<a href="${pageContext.request.contextPath}/modifyBoard">수정</a>
-		<a href="${pageContext.request.contextPath}/removeBoard">삭제</a>
-		</div>
-		<div class="testmonial_area">
-			<div class="row">
-				<div class="col-lg-5 mb-5 mb-lg-0">
-					<c:forEach var="bf" items="${ boardFileList}">
-								<img src="static/img/board/${bf.boardFileName}" width="300" height="300" alt="">
-					</c:forEach>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="col-md-12 mt-sm-10">
-			<div class="row align-items-center">
-				<table class="table table-hover">
-					<tr>
-						<td>No.</td>
-						<td>${boardMap.boardId}</td>
-					</tr>
-					<tr>
-						<td>게시판 카테고리</td>
-						<td>${boardMap.boardCN}</td>
-					</tr>
-					<tr>
-						<td>동물 종류</td>
-						<td>${boardMap.species}</td>
-					</tr>
-					<tr>
-						<td>작성자</td>
-						<td>${boardMap.memberId}</td>
-					</tr>
-					<tr>
-						<td>내용</td>
-						<td>${boardMap.boardContent}</td>
-					</tr>
-					<tr>
-						<td>작성 날짜</td>
-						<td>${boardMap.createDate}</td>
-					</tr>
-					<tr>
-						<td>업데이트 날짜</td>
-						<td>${boardMap.updateDate}</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		<section class="blog_area single-post-area section-padding">
-			<div class="container">
-				<div class="row">
-            		<div class="col-lg-8 posts-list">
-				<div class="comments-area">
-					<h4>댓글</h4>
-					<c:forEach var="b" items="${boardCommentList}">
-						<div class="comment-list">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="desc">
-										<p class="comment">${b.boardCommentContent}</p>
-										<div class="d-flex justify-content-between">
-											<div class="d-flex align-items-center">
-												<h5>${b.memberId}</h5>
-												<p class="date">${b.createDate }</p>
-												<a href="${pageContext.request.contextPath}/removeBoardComment?boardCommentId=${b.boardCommentId}&boardId=${boardMap.boardId}"><button type="button">삭제</button></a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-					<form class="form-contact comment_form" action="${pageContext.request.contextPath}/addBoardComment?boardId=${boardMap.boardId }&memberId=sunyou" id="commentForm" method = "post">
-						<div class="row">
-							<div class="col-12">
-								<div class="form-group">
-									 <textarea class="form-control w-100" name="boardCommentContent" id="boardCommentContent" cols="30" rows="2" placeholder="댓글을 작성해주세요"></textarea>
-								</div>
-							</div>
-							<div class="form-group">
-								<button id="btn" type="button" class="genric-btn primary-border radius small">등록</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	</section>
-	</div>
-	<!-- footer_start  -->
+<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
 
