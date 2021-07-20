@@ -59,7 +59,7 @@
 				AND categoryName = #{categoryName}
 			</if>
 		</where>
-		ORDER BY recruitId DESC
+		ORDER BY startDate DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
@@ -78,4 +78,10 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- 회원 정기 봉사 신청 -->
+	<insert id="insertPeriocallyVolunteerApplyByMember" parameterType="java.util.Map" >
+		INSERT INTO volunteer_apply(volunteer_recruit_id, member_id, apply_date) VALUES (#{recruitId}, #{memberId}, NOW())
+	</insert>
+	
 </mapper>

@@ -45,7 +45,7 @@ $(document).ready(function(){
 				type: 'get',
 				url: '${pageContext.request.contextPath}/getShelterNameList',
 				dataType: 'json',
-				data: {searchWord : $('#shelterId').val()}, 	// 검색 키워드
+				data: {searchWord : $('#shelterName').val()}, 	// 검색 키워드
 				success: function(jsonData){
 					console.log('보호소 리스트 가져오기 성공');
 					response(

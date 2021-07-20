@@ -141,10 +141,10 @@ $(document).ready(function(){
 	               				<td style="color:grey">${r.recruitCount} 명</td>
 	               				<td style="color:grey">${r.applyCount} 명</td>
                				</c:if>
-               				<c:if test="${r.recruitCount == r.applyCount && r.volunteerDate > currentDate}">
+               				<c:if test="${r.recruitCount == r.applyCount && r.startDate > currentDate}">
                					<td><a href=""><i class="fa fa-check-circle" onclick="alert('인원이 마감되었습니다.'); return false;"></i></a></td>
                				</c:if>
-               				<c:if test="${r.volunteerDate <= currentDate}">
+               				<c:if test="${r.startDate <= currentDate}">
                					<td><a href=""><i class="fa fa-check-circle" onclick="alert('신청 기간이 아닙니다.'); return false;"></i></a></td>
                				</c:if>
                 		</tr>
