@@ -145,10 +145,10 @@
 
 			
 	<c:if test="${currentPage > 1}">
-		<li class="previous"><a href="${pageContext.request.contextPath}/getShelterList?currentPage=${currentPage-1}&shelterName=${shelterName}">이전</a></li>
+		<li class="previous"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage-1}&boardName=${boardName}">이전</a></li>
 	</c:if>
 	<c:if test="${currentPage < lastPage}">
-		<li class="next"><a href="${pageContext.request.contextPath}/getShelterList?currentPage=${currentPage+1}&shelterName=${shelterName}">다음</a></li>
+		<li class="next"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage+1}&boardName=${boardName}">다음</a></li>
 	</c:if>	
 
 

@@ -122,9 +122,35 @@ public class VolunteerController {
 	@GetMapping("/member/addVolunteerNApply")
 	public String addVolunteerNApply(Model model,
 			@RequestParam(value="memberId", required = true) String memberId,
-			@RequestParam(value="recruitId", required = true) int recruitIdrecruitId) {
-		int row = volunteerService.addVolunteerNApply(memberId, recruitIdrecruitId);
+			@RequestParam(value="recruitId", required = true) int recruitId) {
+		int row = volunteerService.addVolunteerNApply(memberId, recruitId);
 		log.debug("=====row:"+row);
 		return "redirect:/member/getVolunteerN";
+	}
+	
+	// 회원 정기봉사
+	@GetMapping("/member/getVolunteerP")
+	public String getVolunteerP(Model model,
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
+			@RequestParam(value="searchWord", required = false) String searchWord,
+			@RequestParam(value="categoryName", required = false) String categoryName) {
+		
+		if(searchWord != null && searchWord.equals("")) {
+			searchWord=null;
+		}
+		if(categoryName != null && categoryName.equals("")) {
+			categoryName=null;
+		}
+		Map<String, Object> map = volunteerService.getVolunteerP(currentPage, rowPerPage, searchWord, categoryName);
+		model.addAttribute("recruitList", map.get("recruitList"));
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("total", map.get("recruitTotal"));
+		model.addAttribute("categoryName",categoryName);
+		model.addAttribute("categoryNameList", map.get("categoryNameList"));
+		model.addAttribute("currentDate", map.get("currentDate"));
+		log.debug("=====map:"+map);
+		return "main/getVolunteerP";
 	}
 }
