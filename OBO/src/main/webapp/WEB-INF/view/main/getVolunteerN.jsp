@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
 
@@ -78,7 +79,6 @@ $(document).ready(function(){
     <!-- pet_care_area_start  -->
     <div class="pet_care_area">
         <div class="container">	
-        	<form action="" method="post">
             <div class="row">
                <table class="table table-hover text-center">
                 	<thead>
@@ -96,26 +96,39 @@ $(document).ready(function(){
                 	<tbody>
                 	<c:forEach var="r" items="${recruitList}">
                 		<tr>
-               				<td>${r.recruitId}</td>
-               				<td>${r.shelterName}</td>
-               				<td>${r.title}</td>
-               				<td>${r.categoryName}</td>
-               				<td>${fn:substring(r.volunteerDate, 0, 11)}</td>
-               				<td>${r.recruitCount} 명</td>
-               				<td>${r.applyCount} 명</td>
-               				<c:if test="${r.recruitCount != r.applyCount}">
-               					<td><a href="" id="apply"><i class="fa fa-check-circle"></i></a></td>
+                			<!-- 1. 신청 기간이고, 모집인원과 신청 인원이 동일하지 않은경우 신청 가능.
+               				2. 신청 기간이고, 인원이 찬 경우 신청 불가 : 인원 마강 
+               				3. 신청 기간이 아니면 모두 신청 불가 : 신청기간 마감 -->
+                			<c:if test="${r.recruitCount != r.applyCount && r.volunteerDate > currentDate}">
+	               				<td>${r.recruitId}</td>
+	               				<td>${r.shelterName}</td>
+	               				<td>${r.title}</td>
+	               				<td>${r.categoryName}</td>
+	               				<td>${fn:substring(r.volunteerDate, 0, 11)}</td>
+	               				<td>${r.recruitCount} 명</td>
+	               				<td>${r.applyCount} 명</td>
+	               				<td><a href="${pageContext.request.contextPath}/member/addVolunteerNApply?memberId=${loginMember.memberId}&recruitId=${r.recruitId}" id="apply"><i class="fa fa-check-circle"></i></a></td>
                				</c:if>
-               				<c:if test="${r.recruitCount == r.applyCount}">
+               				<c:if test="${r.recruitCount == r.applyCount || r.volunteerDate <= currentDate}">
+	               				<td style="color:grey">${r.recruitId}</td>
+	               				<td style="color:grey">${r.shelterName}</td>
+	               				<td style="color:grey">${r.title}</td>
+	               				<td style="color:grey">${r.categoryName}</td>
+	               				<td style="color:grey">${fn:substring(r.volunteerDate, 0, 11)}</td>
+	               				<td style="color:grey">${r.recruitCount} 명</td>
+	               				<td style="color:grey">${r.applyCount} 명</td>
+               				</c:if>
+               				<c:if test="${r.recruitCount == r.applyCount && r.volunteerDate > currentDate}">
                					<td><a href=""><i class="fa fa-check-circle" onclick="alert('인원이 마감되었습니다.'); return false;"></i></a></td>
+               				</c:if>
+               				<c:if test="${r.volunteerDate <= currentDate}">
+               					<td><a href=""><i class="fa fa-check-circle" onclick="alert('신청 기간이 아닙니다.'); return false;"></i></a></td>
                				</c:if>
                 		</tr>
                 		</c:forEach>
                 	</tbody>
                 </table>
             </div>
-            </form>
-        	
         	<!-- 페이징 -->
         	<div class="blog_left_sidebar">
 			<nav class="blog-pagination justify-content-center d-flex">

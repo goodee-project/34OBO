@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.VolunteerService;
@@ -112,7 +113,18 @@ public class VolunteerController {
 		model.addAttribute("total", map.get("recruitTotal"));
 		model.addAttribute("categoryName",categoryName);
 		model.addAttribute("categoryNameList", map.get("categoryNameList"));
+		model.addAttribute("currentDate", map.get("currentDate"));
 		log.debug("=====map:"+map);
 		return "main/getVolunteerN";
+	}
+	
+	// 회원 일반봉사 신청
+	@GetMapping("/member/addVolunteerNApply")
+	public String addVolunteerNApply(Model model,
+			@RequestParam(value="memberId", required = true) String memberId,
+			@RequestParam(value="recruitId", required = true) int recruitIdrecruitId) {
+		int row = volunteerService.addVolunteerNApply(memberId, recruitIdrecruitId);
+		log.debug("=====row:"+row);
+		return "redirect:/member/getVolunteerN";
 	}
 }

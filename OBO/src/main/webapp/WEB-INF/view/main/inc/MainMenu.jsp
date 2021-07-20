@@ -19,7 +19,6 @@
 							<li><a href="${pageContext.request.contextPath}/home">홈</a></li>
 								<li><a href="${pageContext.request.contextPath}/getAnimallList">동물</a>
 								<li><a href="${pageContext.request.contextPath}/getShelterList">보호소</a></li>
-								</li>
 								<li><a href="${pageContext.request.contextPath}/getVolunteer">봉사<i class="ti-angle-down"></i></a>
 									<ul class="submenu">
 										<li><a href="${pageContext.request.contextPath}/member/getVolunteerN">일반봉사</a></li>
@@ -30,7 +29,7 @@
 									<ul class="submenu">										
 										<li><a href="${pageContext.request.contextPath}/member/addDonation">일반후원</a></li>
 										<li><a href="${pageContext.request.contextPath}/member/addPeriodicallyDonation">정기후원</a></li>
-										<li><a href="${pageContext.request.contextPath}/getDonationItemN">물품후원</a></li>
+										<li><a href="${pageContext.request.contextPath}/member/addDonationItem">물품후원</a></li>
 									</ul>
 								</li>
 								<li><a href="${pageContext.request.contextPath}/getBoardList">자유게시판<i class="ti-angle-down"></i></a>

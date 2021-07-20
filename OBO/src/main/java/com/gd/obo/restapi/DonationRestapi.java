@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gd.obo.service.DonationService;
+import com.gd.obo.vo.DonationItemList;
 import com.gd.obo.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,18 @@ import lombok.extern.slf4j.Slf4j;
 public class DonationRestapi {
 	@Autowired
 	DonationService donationService;
+	//물품후원 저장
+	@PostMapping("/member/addDonationItem")
+	public boolean addDonationItem(DonationItemList donationItemList) {
+		boolean result = false;
+		log.debug("■■■■■ addDonationItem param : " + donationItemList);
+		
+		result = donationService.addDonationItemList(donationItemList);
+		
+		return result;
+	}
+	
+	
 	//내정보 -> 후원내역
 	@PostMapping("/member/getFullDonation")
 	public Map<String, Object> getFullDonation(HttpSession session,

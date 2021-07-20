@@ -44,7 +44,7 @@
 	<div class="bradcam_area breadcam_bg">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-12 text-center">
 					<h3>비밀번호 수정</h3>
 				</div>
 			</div>
