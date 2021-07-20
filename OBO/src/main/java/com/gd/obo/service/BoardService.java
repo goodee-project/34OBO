@@ -31,6 +31,17 @@ public class BoardService {
 	@Autowired BoardCommentMapper boardCommentMapper;
 	@Autowired BoardFileMapper boardFileMapper;
 	
+	// board 수정
+	public int modifyBoard(BoardForm boardForm) {
+		Board board = boardForm.getBoard();
+		boardMapper.updateBoard(board);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardId",board.getBoardId());
+		map.put("boardFile", boardForm.getBoardFile());
+		log.debug("@@@@@ map: "+map);
+		return board.getBoardId();
+	}
+	
 	// board 삭제
 	public int removeBoard(int boardId) {
 		// 게시판 삭제

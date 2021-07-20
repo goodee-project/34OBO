@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.BoardService;
+import com.gd.obo.vo.Board;
 import com.gd.obo.vo.BoardForm;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +26,25 @@ public class BoardController {
 	@Autowired BoardService boardService;
 	@Autowired AnimalService animalService;
 	
+	@GetMapping("/modifyBoard")
+	public String modifyBoard(Model model,
+								@RequestParam(value="boardId", required = true) int boardId) {
+		log.debug("@@@@@ boardId :"+boardId);
+		List<Map<String, Object>> animalCategoryList = animalService.getAnimalCategoryList();
+		List<Map<String, Object>> boardCategoryList = boardService.getBoardCategoryList();
+		Map<String, Object> map = boardService.getBoardOne(boardId);
+		model.addAttribute("animalCategoryList",animalCategoryList);
+		model.addAttribute("boardCategoryList",boardCategoryList);
+		model.addAttribute("map", map);
+		model.addAttribute("boardMap", map.get("boardMap"));
+		log.debug("@@@@@ animalCategoryList"+animalCategoryList);
+		log.debug("@@@@@ boardCategoryList"+boardCategoryList);
+		return "main/modifyBoard";
+	}
+	
 	// board 액션
 	@PostMapping("/removeBoard")
-	public String remove(int boardId) {
+	public String removeBoard(int boardId) {
 		log.debug("@@@@@ boardId: "+boardId);
 		int row = boardService.removeBoard(boardId);
 		if(row == 0) {

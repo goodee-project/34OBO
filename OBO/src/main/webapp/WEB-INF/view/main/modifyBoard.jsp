@@ -1,4 +1,5 @@
 <!-- 작성자 : 김선유 -->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -6,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>addBoard</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -29,17 +31,16 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
-<!-- <link rel="stylesheet" href="css/responsive.css"> -->
+
 <script>
-	$(document).ready(function(){
-		$('#btn').click(function(){
-			 console.log("btn click!");
-			 $('#commentForm').submit();
-		});
+$(document).ready(function(){	
+	// 가입 버튼 클릭 시 -> 유효성 검사 필요
+	$('#addBtn').click(function(){
+		console.log('addBtn 버튼 클릭!');
+		$('#modifyForm').submit();
 	});
+});
 </script>
-<meta charset="UTF-8">
-<title>getBoardOne</title>
 </head>
 <body>
 	<header>
@@ -89,106 +90,81 @@
 	<div class="bradcam_area breadcam_bg">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-12">
 					<h3>자유게시판</h3>
 				</div>
 			</div>
 		</div>
 	</div>
+	   <section class="contact-section">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-12">
+                    </div>
+                    <div class="col-lg-8">
+                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/modifyBoard" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
+                            <div class="row">
+                            	<div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="board.memberId" id="memberId" value="sunyou" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="sunyou" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+				                	<h4>상품이미지<span style="color: #7fad39;">*</span></h4>
+				                </div>
+				                <div class="col-lg-9" style="display: inline;">
+				                	<label for="imgFileUpload">
+								        <img src="${pageContext.request.contextPath}/static/img/imgUpload.png"/>
+								    </label>
+								    <input id="imgFileUpload" name="boardFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>
+								    <div id="image_container" style="display: inline;"></div> <!-- 업로드 된 이미지 미리보기 생성 -->
+				                </div>
+         						<div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="board.boardTitle" id="boardTitle" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Title">
+                                    </div>
+                                </div>
+                                <div class="default-select col-12" id="default-select">
+									<select name="board.animalCategoryId">
+										<option value="">종 선택</option>
+											<c:forEach var="a" items="${animalCategoryList}">
+								    			<c:if test="${a.species == species}"> 
+								    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
+								    			</c:if>
+								    			<c:if test="${a.species != species}"> 
+								    				<option value="${a.animalCategoryId}">${a.species}</option>
+								    			</c:if>
+								    		</c:forEach>
+									</select>
+								</div>
+								 <div class="default-select col-12">
+									<select name="board.boardCategoryId">
+										<option value="">카테고리선택</option>
+											<c:forEach var="b" items="${boardCategoryList}">
+								    			<c:if test="${b.boardCategoryName == boardCategoryName}"> 
+								    				<option value="${b.boardCategoryId}" id="boardCategoryId" selected="selected">${b.boardCategoryName}</option>
+								    			</c:if>
+								    			<c:if test="${b.boardCategoryName != boardCategoryName}"> 
+								    				<option value="${b.boardCategoryId}">${b.boardCategoryName}</option>
+								    			</c:if>
+								    		</c:forEach>
+									</select>
+								</div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="board.boardContent" id="boardContent" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Content"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="button" id="addBtn" class="button button-contactForm boxed-btn">등록</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-	<div class="section-top-border container">
-		<h3 class="mb-30">${boardMap.boardTitle}</h3>
-		<div class="text-right">
-		<a href="${pageContext.request.contextPath}/getBoardList">게시판으로</a>
-		<a href="${pageContext.request.contextPath}/modifyBoard">수정</a>
-		<a href="${pageContext.request.contextPath}/removeBoard">삭제</a>
-		</div>
-		<div class="testmonial_area">
-			<div class="row">
-				<div class="col-lg-5 mb-5 mb-lg-0">
-					<c:forEach var="bf" items="${ boardFileList}">
-								<img src="static/img/board/${bf.boardFileName}" width="300" height="300" alt="">
-					</c:forEach>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="col-md-12 mt-sm-10">
-			<div class="row align-items-center">
-				<table class="table table-hover">
-					<tr>
-						<td>No.</td>
-						<td>${boardMap.boardId}</td>
-					</tr>
-					<tr>
-						<td>게시판 카테고리</td>
-						<td>${boardMap.boardCN}</td>
-					</tr>
-					<tr>
-						<td>동물 종류</td>
-						<td>${boardMap.species}</td>
-					</tr>
-					<tr>
-						<td>작성자</td>
-						<td>${boardMap.memberId}</td>
-					</tr>
-					<tr>
-						<td>내용</td>
-						<td>${boardMap.boardContent}</td>
-					</tr>
-					<tr>
-						<td>작성 날짜</td>
-						<td>${boardMap.createDate}</td>
-					</tr>
-					<tr>
-						<td>업데이트 날짜</td>
-						<td>${boardMap.updateDate}</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		<section class="blog_area single-post-area section-padding">
-			<div class="container">
-				<div class="row">
-            		<div class="col-lg-8 posts-list">
-				<div class="comments-area">
-					<h4>댓글</h4>
-					<c:forEach var="b" items="${boardCommentList}">
-						<div class="comment-list">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="desc">
-										<p class="comment">${b.boardCommentContent}</p>
-										<div class="d-flex justify-content-between">
-											<div class="d-flex align-items-center">
-												<h5>${b.memberId}</h5>
-												<p class="date">${b.createDate }</p>
-												<a href="${pageContext.request.contextPath}/removeBoardComment?boardCommentId=${b.boardCommentId}&boardId=${boardMap.boardId}"><button type="button">삭제</button></a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-					<form class="form-contact comment_form" action="${pageContext.request.contextPath}/addBoardComment?boardId=${boardMap.boardId }&memberId=sunyou" id="commentForm" method = "post">
-						<div class="row">
-							<div class="col-12">
-								<div class="form-group">
-									 <textarea class="form-control w-100" name="boardCommentContent" id="boardCommentContent" cols="30" rows="2" placeholder="댓글을 작성해주세요"></textarea>
-								</div>
-							</div>
-							<div class="form-group">
-								<button id="btn" type="button" class="genric-btn primary-border radius small">등록</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	</section>
-	</div>
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
@@ -222,7 +198,29 @@
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 
-<script>
+<script> 
+   	function setThumbnail(event){ 
+   		
+   		for (var image of event.target.files) {
+   			
+   			var reader = new FileReader(); 
+   			
+   			reader.onload = function(event) {
+   				var img = document.createElement("img"); 
+   				img.setAttribute("src", event.target.result);
+   				img.setAttribute("width", 203);
+   				img.setAttribute("height", 203);
+   				img.setAttribute("style", "margin-right: 4.5px; border: 1px solid rgb(220, 219, 228);");
+   				document.querySelector("div#image_container").appendChild(img); 
+   			};
+   			
+   			console.log(image); 
+   			reader.readAsDataURL(image); 
+   		} 
+   	} 
+</script>
+
+	<script>
 	$('#datepicker').datepicker({
 		iconsLibrary: 'fontawesome',
 		disableDaysOfWeek: [0, 0],
