@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>회원후원내역</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
 <!-- CSS here -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
@@ -19,6 +21,10 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<header>
@@ -50,11 +56,11 @@
 				
 				
 				
-				
 				<div class="col-lg-9 mb-5 mb-lg-0"  >
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
 					<div class="single_service staff_account" style="height: 90%;">
 						<div class="service_content text-center">
+							<p style="text-align: right;">회원님께서 총 기부하신 금액은 <b>${totalDonation}원</b> 입니다.</p>
 							<h3>총 후원내역</h3>
 							<table class="table">
 								<thead>
@@ -114,18 +120,93 @@
 					</div>
 				</div>
 				
-				<div class="col-lg-8 mb-2 mb-lg-0"  style="height: 20%">
+				<!-- 물품후원 내역 -->
+				<div class="col-lg-9 mb-5 mb-lg-0">
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
-					<div class="single_service staff_account" style="height: 20%">
+					<div class="single_service staff_account" style="height: 90%;">
 						<div class="service_content text-center">
-							<h3>회원님께서 총 기부하신 금액은 ${totalDonation}원 입니다.</h3>
+							<h3>물품후원</h3>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>보호소</th>
+										<th>물품종류</th>
+										<th>물품이름</th>
+										<th>수량</th>
+										<th>후원날짜</th>
+									</tr>
+								</thead>
+								<tbody id="iTarget">
+								
+								</tbody>
+							</table>
+							
+							<!-- 페이징 -->
+							<div class="blog_left_sidebar">
+								<nav class="blog-pagination justify-content-center d-flex">
+									<ul class="pagination" id="iPaging">
+										
+										
+									</ul>
+								</nav>
+							</div>
 						</div>
 					</div>
 				</div>
 				
 			</div>
+			
+			<!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+	        <table class="table">
+	         	<tr>
+	         		<th>보호소</th>
+	  				<td id="sherlterTarget"></td>
+	         	</tr>
+	         	<tr>
+	         		<th>물품이름</th>
+	  				<td id="nameTarget"></td>
+	         	</tr>
+	         	<tr>
+	         		<th>물품카테고리</th>
+	  				<td id="categoryTarget"></td>
+	         	</tr>
+	         	<tr>
+	         		<th>물품설명</th>
+	  				<td id="descriptionTarget"></td>
+	         	</tr>
+	         	<tr>
+	         		<th>후원날짜</th>
+	  				<td id="dateTarget"></td>
+	         	</tr>
+	        </table>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+			
+			
+			
 		</div>
 	</section>
+	
 	
 	
 	<script>
@@ -168,11 +249,63 @@
 					
 					//다음
 					if(nextPage <= jsonData.lastPage){						
-						$('#fullPaging').append('<li class="page-item nemo"><button type="button" class="page-link" onclick="moveFullDonation(1)">'+nextPage+'</button></li>');
-						$('#fullPaging').append('<li class="page-item nemo "><button type="button" class="page-link" onclick="moveFullDonation(1)"><i class="ti-angle-right"></i></button></li>');
+						$('#fullPaging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveFullDonation(1)">'+nextPage+'</button></li>');
+						$('#fullPaging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveFullDonation(1)"><i class="ti-angle-right"></i></button></li>');
 					}
 				}
 			
+			})
+		}
+		
+		//물품내역
+		function iDonationList(page){
+			$.ajax({
+				type: 'post',
+				url: '${pageContext.request.contextPath}/member/getDonationItemByMemberId',
+				data: {'currentPage': page},
+				success: function(jsonData){
+					prePage = page-1;
+					nextPage = page+1;
+					
+					$('#iTarget').empty();
+					$('#iPaging').empty();
+					
+					
+					$.each(jsonData.list, function(index, data) {
+						console.log((data.itemName).length);
+						console.log(data.itemName.substring());
+						$('#iTarget').append('<tr>');
+						$('#iTarget').append('<td>'+data.shelterName+'</td>');
+						$('#iTarget').append('<td>'+data.itemCategoryName+'</td>');
+						if((data.itemName).length > 7){
+							$('#iTarget').append('<td><a href="javascript:void(0);" onclick="donationItemOne('+data.donationItemListId+');" data-toggle="modal" data-target="#myModal">'+data.itemName.substring(0,7)+'...</a></td>');
+						} else {
+							$('#iTarget').append('<td><a href="javascript:void(0);" onclick="donationItemOne('+data.donationItemListId+');"  data-toggle="modal" data-target="#myModal">'+data.itemName+'</a></td>');
+						}			
+						//$('#iTarget').append('<td>'+data.itemName+'</td>');
+						$('#iTarget').append('<td>'+data.itemQuantity+'</td>');
+						$('#iTarget').append('<td>'+data.donationDate+'</td>');
+						$('#iTarget').append('</tr>');
+				
+					});
+					
+					//페이징
+					
+					//이전
+					if(prePage > 0){
+						$('#iPaging').append('<li class="page-item"><button type="buttn" class="page-link" onclick="moveIDonation(-1)"><i class="ti-angle-left"></i></button></li>');
+						$('#iPaging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveIDonation(-1)">'+prePage+'</button></li>');
+					}
+					
+					//현재
+					$('#iPaging').append('<li class="page-item active"><button type="button" class="page-link">'+page+'</button></li>');
+					
+					//다음
+					if(nextPage <= jsonData.lastPage){						
+						$('#iPaging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveIDonation(1)">'+nextPage+'</button></li>');
+						$('#iPaging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveIDonation(1)"><i class="ti-angle-right"></i></button></li>');
+					}
+				}
 			})
 		}
 		
@@ -229,11 +362,13 @@
 			})
 		}
 		
-		let fullCurrentPage = 1;
-		let perCurrentPage = 1;
+		let fullCurrentPage = 1;//총 후원내역 페이지
+		let perCurrentPage = 1;//정기후원 페이지
+		let iCurrentPage = 1;//물품후원 페이지
 		
 		fullDonationList(fullCurrentPage);
 		pDonationList(perCurrentPage);
+		iDonationList(iCurrentPage);
 		
 		
 		function moveFullDonation(no){
@@ -258,9 +393,13 @@
 			
 		}
 		
+		function moveIDonation(no){
+			iCurrentPage = iCurrentPage+no;
+			iDonationList(iCurrentPage);
+		}
 		
-		//정기결제 츃소
 		
+		//정기결제 취소		
 		function cancelPDonation(num){
 			
 			let checked =  confirm('정기결제를 그만하시겠습니까?');
@@ -268,6 +407,23 @@
 			if(checked){
 				window.location.href = '${pageContext.request.contextPath}/member/endPeriodicallyDonation?periodicallyDonationId='+num;
 			}
+		}
+		
+		//물품내역 상세보기
+		function donationItemOne(num){
+			$.ajax({
+				type: 'post',
+				url: '${pageContext.request.contextPath}/member/getDonationItemOne',
+				data: {'donationItemListId': num}
+			}).done(function (jsonData) {
+		        $('#sherlterTarget').append(jsonData.shelterName);
+		        $('#nameTarget').append(jsonData.itemName);
+		        $('#categoryTarget').append(jsonData.itemCategoryName);
+		        $('#descriptionTarget').append(jsonData.itemDescription);
+		        $('#dateTarget').append(jsonData.donationDate);
+		        
+		    });
+			
 		}
 		
 		

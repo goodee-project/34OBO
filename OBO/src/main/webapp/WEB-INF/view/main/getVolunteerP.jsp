@@ -1,4 +1,5 @@
 <!-- 작성자 : 남궁혜영 -->
+<!-- 정기봉사 신청 미구현상태 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -46,7 +47,7 @@ $(document).ready(function(){
 		console.log('검색!');
 		$('#volunteerNList').submit();
 	});
-
+	/*
 	$('#applyBtn').click(function(){
 		console.log('신청!');
 		$.ajax({
@@ -62,6 +63,7 @@ $(document).ready(function(){
 			}
 		});
 	});
+	*/
 });
 </script>
 </head>
@@ -83,7 +85,7 @@ $(document).ready(function(){
             <div class="row">
                 <div class="col-lg-12">
                     <div class="bradcam_text text-center">
-                        <h3>일반 봉사 모집</h3>
+                        <h3>정기 봉사 모집</h3>
                     </div>
                 </div>
             </div>
@@ -94,7 +96,7 @@ $(document).ready(function(){
     <!-- pet_care_area_start  -->
     <div class="pet_care_area">
         <div class="container">
-        <form action="${pageContext.request.contextPath}/member/addVolunteerNApply" id="applyForm">	
+        <form action="${pageContext.request.contextPath}/member/addVolunteerPApply" id="applyForm">	
             <div class="row">
             <input type="text" name="memberId" id="memberId" value="${loginMember.memberId}" hidden="hidden">
                <table class="table table-hover text-center">
@@ -104,7 +106,8 @@ $(document).ready(function(){
                 			<th>보호소</th>
                 			<th>제목</th>
                 			<th>봉사종류</th>
-                			<th>봉사날짜</th>
+                			<th>봉사요일</th>
+                			<th>시작날짜</th>
                 			<th>모집인원</th>
                 			<th>신청인원</th>
                 			<th>신청</th>
@@ -116,30 +119,32 @@ $(document).ready(function(){
                 			<!-- 1. 신청 기간이고, 모집인원과 신청 인원이 동일하지 않은경우 신청 가능.
                				2. 신청 기간이고, 인원이 찬 경우 신청 불가 : 인원 마강 
                				3. 신청 기간이 아니면 모두 신청 불가 : 신청기간 마감 -->
-                			<c:if test="${r.recruitCount != r.applyCount && r.volunteerDate > currentDate}">
+                			<c:if test="${r.recruitCount != r.applyCount && r.startDate > currentDate}">
 	               				<input type="text" name="recruitId" id="recruitId" value="${r.recruitId}" hidden="hidden">
 	               				<td>${r.recruitId}</td>
 	               				<td>${r.shelterName}</td>
 	               				<td>${r.title}</td>
 	               				<td>${r.categoryName}</td>
-	               				<td>${fn:substring(r.volunteerDate, 0, 11)}</td>
+	               				<td>${r.volunteerCycle}요일</td>
+	               				<td>${fn:substring(r.startDate, 0, 11)}</td>
 	               				<td>${r.recruitCount} 명</td>
 	               				<td>${r.applyCount} 명</td>
 	               				<td><a class="btn" id="applyBtn"><i class="fa fa-check-circle"></i></a></td>
-               				</c:if>
-               				<c:if test="${r.recruitCount == r.applyCount || r.volunteerDate <= currentDate}">
+               				</c:if> 
+               				<c:if test="${r.recruitCount == r.applyCount || r.startDate <= currentDate}">
 	               				<td style="color:grey">${r.recruitId}</td>
 	               				<td style="color:grey">${r.shelterName}</td>
 	               				<td style="color:grey">${r.title}</td>
 	               				<td style="color:grey">${r.categoryName}</td>
-	               				<td style="color:grey">${fn:substring(r.volunteerDate, 0, 11)}</td>
+	               				<td>${r.volunteerCycle}요일</td>
+	               				<td>${fn:substring(r.startDate, 0, 11)}</td>
 	               				<td style="color:grey">${r.recruitCount} 명</td>
 	               				<td style="color:grey">${r.applyCount} 명</td>
                				</c:if>
-               				<c:if test="${r.recruitCount == r.applyCount && r.volunteerDate > currentDate}">
+               				<c:if test="${r.recruitCount == r.applyCount && r.startDate > currentDate}">
                					<td><a href=""><i class="fa fa-check-circle" onclick="alert('인원이 마감되었습니다.'); return false;"></i></a></td>
                				</c:if>
-               				<c:if test="${r.volunteerDate <= currentDate}">
+               				<c:if test="${r.startDate <= currentDate}">
                					<td><a href=""><i class="fa fa-check-circle" onclick="alert('신청 기간이 아닙니다.'); return false;"></i></a></td>
                				</c:if>
                 		</tr>
@@ -154,10 +159,10 @@ $(document).ready(function(){
 				<ul class="pagination">
 				<!-- 이전 페이지 -->
 				<c:if test="${currentPage-1 >0}">
-					<li class="page-item"><a href="${pageContext.request.contextPath}/member/getVolunteerN?currentPage=${currentPage-1}
+					<li class="page-item"><a href="${pageContext.request.contextPath}/member/getVolunteerP?currentPage=${currentPage-1}
 						&searchWord=${searchWord}" class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i>
 					</a></li>
-					<li class="page-item"><a href="${pageContext.request.contextPath}/member/getVolunteerN?currentPage=${currentPage-1}
+					<li class="page-item"><a href="${pageContext.request.contextPath}/member/getVolunteerP?currentPage=${currentPage-1}
 						&searchWord=${searchWord}" class="page-link">${currentPage-1}
 					</a></li>
 				</c:if>
@@ -165,16 +170,16 @@ $(document).ready(function(){
 				</c:if>
 				<!-- /이전 페이지 -->
 				<!-- 현재 페이지 -->
-					<li class="page-item active"><a href="${pageContext.request.contextPath}/member/getVolunteerN?currentPage=${currentPage}
+					<li class="page-item active"><a href="${pageContext.request.contextPath}/member/getVolunteerP?currentPage=${currentPage}
 						&searchWord=${searchWord}" class="page-link">${currentPage}
 					</a></li>
 				<!-- /현재 페이지 -->
 				<!-- 다음 페이지 -->
 				<c:if test="${currentPage+1 <= lastPage}">
-					<li class="page-item"><a href="${pageContext.request.contextPath}/member/getVolunteerN?currentPage=${currentPage+1}
+					<li class="page-item"><a href="${pageContext.request.contextPath}/member/getVolunteerP?currentPage=${currentPage+1}
 						&searchWord=${searchWord}" class="page-link" aria-label="Next"> ${currentPage+1}
 					</a></li>
-					<li class="page-item"><a href="${pageContext.request.contextPath}/member/getVolunteerN?currentPage=${currentPage+1}
+					<li class="page-item"><a href="${pageContext.request.contextPath}/member/getVolunteerP?currentPage=${currentPage+1}
 						&searchWord=${searchWord}" class="page-link" aria-label="Next"> <i class="ti-angle-right"></i>
 					</a></li>
 				</c:if>
@@ -187,7 +192,7 @@ $(document).ready(function(){
 			<!-- 검색 -->
 				<div class="default-select" id="default-select">
 				</div>
-				<form action="${pageContext.request.contextPath}/member/getVolunteerN" id="volunteerNList">
+				<form action="${pageContext.request.contextPath}/member/getVolunteerP" id="volunteerNList">
 				<div class="form-group">
 					<div class="input-group mb-4">
 					    <div class="list">

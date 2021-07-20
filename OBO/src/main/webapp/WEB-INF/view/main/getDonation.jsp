@@ -1,12 +1,19 @@
-<!-- 작성자: 손영현 -->
+<!-- 손영현 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일반후원</title>
+<title>후원</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- <link rel="manifest" href="site.webmanifest"> -->
+<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+<!-- Place favicon.ico in the root directory -->
+
 <!-- CSS here -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
@@ -19,18 +26,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
-<style>
-	th{
-		width: 30%;
-	}
-	
-	td{
-		width: 70%;
-	}
-	button {
-		float: right;
-	}
-</style>
 </head>
 <body>
 	<header>
@@ -48,111 +43,89 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<h3>일반후원</h3>
+					<h3>후원</h3>
 				</div>
 			</div>
 		</div>
 	</div>
+	
 	
 	<!--================Blog Area =================-->
 	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
-
 	<div class="service_area">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-lg-8 col-md-8">
-					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
-					<div class="single_service staff_account">
+				
+				<div class="col-lg-4 col-md-6">
+					<div class="single_service volunteer_option">
+						<div class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="${pageContext.request.contextPath}/static/img/service/service_icon_2.png" alt="">
+								</a>
+							</div>
+						</div>
 						<div class="service_content text-center">
-								<h3>일반후원 신청</h3>
-							
-								<form id="donationForm" action="${pageContext.request.contextPath}/member/addDonation" method="post">
-									<span id="target"></span>
-									<table class="table">
-										<tr>
-											<th>보호소</th>
-											<th>
-												<select id="shelter" name="shelterId">
-													<c:forEach var="s" items="${shelterList}">
-														<option value="${s.shelterId}">${s.shelterName}
-													</c:forEach>
-												</select>
-											</th>
-										</tr>
-										<tr>
-											<th>ID</th>
-											<th><input id="memberId" type="text" name="memberId" readonly="readonly" value="${memberId}"></th>
-										</tr>
-										<tr>
-											<th>금액</th>
-											<th><input id="amount" type="text" name="amount"></th>
-										</tr>
-									
-									</table>
-									<br>
-									<br>
-									<button type="button" id="donationFormBtn" onclick="addDonationBtn()" class="genric-btn primary-border radius">후원하기</button>
-								</form>
+							<h3>
+								<a class="d-inline-block">일반후원</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/addDonation">후원하러 가기 <i class="fa fa-arrow-right"></i></a>
+							</h4>
 						</div>
 					</div>
 				</div>
+				
+				<div class="col-lg-4 col-md-6">
+					<div class="single_service volunteer_option">
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="${pageContext.request.contextPath}/static/img/service/service_icon_3.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block">정기후원</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/addPeriodicallyDonation">후원하러 가기 <i class="fa fa-arrow-right"></i></i></a>
+							</h4>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-4 col-md-6">
+					<div class="single_service volunteer_option">
+						<div
+							class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+							<div class="service_icon">
+								<a class="d-inline-block">
+									<img src="${pageContext.request.contextPath}/static/img/service/service_icon_1.png" alt="">
+								</a>
+							</div>
+						</div>
+						<div class="service_content text-center">
+							<h3>
+								<a class="d-inline-block">물품후원</a>
+							</h3>
+							<h4>
+								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/addDonationItem">후원하러 가기 <i class="fa fa-arrow-right"></i></i></a>
+							</h4>
+						</div>
+					</div>
+				</div>
+				
+				
+				
 			</div>
 		</div>
 	</div>
 	<!--================Blog Area =================-->
 	
-	
 
-<script>
-	//<input type="hidden" name="device" value="">
-	let device = null;
-	console.log(navigator.platform);
-	//사용자가 pc인지 mobile 인지 확인하기 -> 윈도우와 맥이 아니면 mobile
- 	let filter = "win16|win32|win64|mac|macintel";
-	
-    if(0 > filter.indexOf(navigator.platform.toLowerCase())){
-        device = 'mobile';     
-    }else{
-        device = 'pc';
-    }
-    
-    console.log(device);
-    $('#target').append('<input type="hidden" name="device" value="'+device+'">');
-	
-	//후원하기 버튼 클릭
-	function addDonationBtn(){
-		console.log('버튼 click');
-		
-		if($('#shelter').val() == ''){
-			alert('보호소를 선택해주세요.');
-			$('#shelter').focus();
-		} else if($('#amount').val() == ''){
-			alert('금액을 입력하시오.');
-			$('#shelter').focus();
-		} else {
-			console.log('비밀번호 검사 시작합니다.');
-			//비밀번호 검사
-			let checkPw = prompt('비밀번호를 입력하시오.');
-			
-			$.ajax({
-				type: 'post',
-				url: '${pageContext.request.contextPath}/getMemberByPwCheck',
-				data: {memberPw: checkPw},
-				success: function(jsonData){
-					console.log('성공');
-					console.log(jsonData);
-					
-					//true면 성공, false면 실패
-					if(jsonData == false){
-						alert('비밀번호가 틀렸습니다.');
-					} else {//회원 정보 수정 페이지로 이동하기 
-						$('#donationForm').submit();
-					}
-				}
-			})
-		}		
-	}
-</script>
 <!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
