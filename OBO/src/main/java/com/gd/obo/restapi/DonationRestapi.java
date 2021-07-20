@@ -22,6 +22,26 @@ import lombok.extern.slf4j.Slf4j;
 public class DonationRestapi {
 	@Autowired
 	DonationService donationService;
+	
+	//내정보 -> 물품후원내역 -> 상세보기
+	@PostMapping("/member/getDonationItemOne")
+	public Map<String, Object> getDonationItemOne(@RequestParam(value = "donationItemListId", required = true)int donationItemListId){
+		log.debug("■■■■■ getDonationItemOne param : " + donationItemListId);
+		
+		return donationService.getDonationItemOne(donationItemListId);
+	}
+	
+	
+	//내정보 -> 물품후원내역
+	@PostMapping("/member/getDonationItemByMemberId")
+	public Map<String, Object> getDonationItemByMemberId(HttpSession session,
+															@RequestParam(value = "currentPage", defaultValue = "1")int currentPage){
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		Map<String, Object> map = donationService.getDonationItemByMemberId(currentPage, 5, memberId);
+		
+		return map;
+	}
+	
 	//물품후원 저장
 	@PostMapping("/member/addDonationItem")
 	public boolean addDonationItem(DonationItemList donationItemList) {
