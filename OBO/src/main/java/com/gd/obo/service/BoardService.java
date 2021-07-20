@@ -57,43 +57,46 @@ public class BoardService {
 	}
 	
 	// board 추가
-	public void addBoard(MultipartFile multipartFile, Board board) {		
+	public void addBoard(BoardForm boardForm) {		
+		Board board = boardForm.getBoard();
+		log.debug("board: "+board.getBoardId());
+		boardMapper.insertBoard(board); 
+		// 입력시 만들어진 key값을 리턴받아야 한다. -> 리턴받을 수가 없다. -> 매개변수board의 boardId값을 변경해준다.
+		log.debug("boardId"+board.getBoardId());
 		
-		// 물리적 파일 저장
-		File temp = new File("");
-		
-		// 프로젝트 경로
-		String path = temp.getAbsolutePath();
-		
-		// 확장자
-		int p = multipartFile.getOriginalFilename().lastIndexOf(".");
-		String ext = multipartFile.getOriginalFilename().substring(p);
-		
-		// 파일 이름
-		String prename = UUID.randomUUID().toString().replace("-", "");
-		
-		// 파일 저장 위치
-		File file = new File(path+"\\src\\main\\webapp\\static\\img\\board\\"+prename+ext);
-		
-		try {
-			multipartFile.transferTo(file);
-		} catch (Exception e) {
-			throw new RuntimeException();
+		// 2)
+		List<MultipartFile> list = boardForm.getBoardFile();
+		if(list != null) {
+			for(MultipartFile f : list) {
+				BoardFile boardFile = new BoardFile();
+				boardFile.setBoardId(board.getBoardId()); // auto increment로 입력된 값
+				
+				String originalFileName = f.getOriginalFilename();
+				int p = originalFileName.lastIndexOf("."); //test.txt면 4;
+				String ext = originalFileName.substring(p).toLowerCase(); // .txt
+				String prename = UUID.randomUUID().toString().replace("-","");
+				
+				String filename = prename+ext;
+				boardFile.setBoardFileName(filename); // 이슈 >> 중복으로 인해 덮어쓰기 가능
+				boardFile.setBoardId(board.getBoardId());
+				boardFile.setBoardFileOriginalName(f.getOriginalFilename());
+				boardFile.setBoardFileSize(f.getSize());
+				boardFile.setBoardFileExt(f.getContentType());
+				log.debug("boardfile :"+boardFile);
+				
+				boardFileMapper.insertBoardFile(boardFile);
+				
+				try {
+					File temp = new File(""); // 프로젝트 폴더에 빈파일이 만들어진다.
+					String path = temp.getAbsolutePath(); // 프로젝트필드
+					f.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\board\\"+filename));
+				} catch (Exception e) {
+					throw new RuntimeException();
+				}
+			}			
 		}
-		
-		// db 저장
-		BoardFile boardFile = new BoardFile();
-		boardFile.setBoardId(board.getBoardId());
-		boardFile.setBoardFileName(prename+ext);
-		boardFile.setBoardFileOriginalName(multipartFile.getOriginalFilename());
-		boardFile.setBoardFileSize(multipartFile.getSize());
-		boardFile.setBoardFileExt(multipartFile.getContentType());
-		log.debug("@@@@@ boardFile: "+boardFile);
-		
-		log.debug("@@@@@ board: "+board);
-		int row = boardFileMapper.insertBoardFile(boardFile);
-			
 	}
+	
 	
 	// board 상세보기
 	public Map<String, Object> getBoardOne(int boardId) {

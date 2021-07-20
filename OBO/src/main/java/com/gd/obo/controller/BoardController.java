@@ -1,6 +1,8 @@
 // 작성자: 김선유
 package com.gd.obo.controller;
 
+
+
 import java.util.List;
 import java.util.Map;
 
@@ -10,11 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.BoardService;
-import com.gd.obo.vo.Board;
+import com.gd.obo.vo.BoardForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,10 +45,9 @@ public class BoardController {
 	
 	// board 추가 액션
 	@PostMapping("/addBoard")
-	public String addBoard(MultipartFile multipartFile, Board board) {
-		log.debug("@@@@@ board: "+board);
-		log.debug("@@@@@ multipartFile: "+multipartFile);
-		boardService.addBoard(multipartFile, board);
+	public String addBoard(BoardForm boardForm) {
+		log.debug("@@@@@ boardForm: "+boardForm);
+		boardService.addBoard(boardForm);
 		return "redirect:/getBoardList";
 	}
 	

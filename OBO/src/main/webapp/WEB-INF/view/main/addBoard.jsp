@@ -102,11 +102,11 @@ $(document).ready(function(){
                     <div class="col-12">
                     </div>
                     <div class="col-lg-8">
-                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/addBoard" method="post" id="addForm" novalidate="novalidate">
+                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/addBoard" method="post" id="addForm" enctype="multipart/form-data" novalidate="novalidate">
                             <div class="row">
                             	<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="memberId" id="memberId" value="sunyou" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="sunyou" readonly="readonly">
+                                        <input class="form-control" name="board.memberId" id="memberId" value="sunyou" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="sunyou" readonly="readonly">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -116,16 +116,16 @@ $(document).ready(function(){
 				                	<label for="imgFileUpload">
 								        <img src="${pageContext.request.contextPath}/static/img/imgUpload.png"/>
 								    </label>
-								    <input id="imgFileUpload" name="multipartFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>
+								    <input id="imgFileUpload" name="boardFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>
 								    <div id="image_container" style="display: inline;"></div> <!-- 업로드 된 이미지 미리보기 생성 -->
 				                </div>
          						<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="boardTitle" id="boardTitle" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Title">
+                                        <input class="form-control" name="board.boardTitle" id="boardTitle" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Title">
                                     </div>
                                 </div>
                                 <div class="default-select col-12" id="default-select">
-									<select name="animalCategoryId">
+									<select name="board.animalCategoryId">
 										<option value="">종 선택</option>
 											<c:forEach var="a" items="${animalCategoryList}">
 								    			<c:if test="${a.species == species}"> 
@@ -138,7 +138,7 @@ $(document).ready(function(){
 									</select>
 								</div>
 								 <div class="default-select col-12">
-									<select name="boardCategoryId">
+									<select name="board.boardCategoryId">
 										<option value="">카테고리선택</option>
 											<c:forEach var="b" items="${boardCategoryList}">
 								    			<c:if test="${b.boardCategoryName == boardCategoryName}"> 
@@ -152,7 +152,7 @@ $(document).ready(function(){
 								</div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <textarea class="form-control w-100" name="boardContent" id="boardContent" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Content"></textarea>
+                                        <textarea class="form-control w-100" name="board.boardContent" id="boardContent" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Content"></textarea>
                                     </div>
                                 </div>
                             </div>
