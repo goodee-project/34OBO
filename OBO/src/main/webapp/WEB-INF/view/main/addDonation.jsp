@@ -47,7 +47,7 @@
 	<div class="bradcam_area breadcam_bg">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-12 text-center">
 					<h3>일반후원</h3>
 				</div>
 			</div>
@@ -67,7 +67,6 @@
 								<h3>일반후원 신청</h3>
 							
 								<form id="donationForm" action="${pageContext.request.contextPath}/member/addDonation" method="post">
-									<span id="target"></span>
 									<table class="table">
 										<tr>
 											<th>보호소</th>

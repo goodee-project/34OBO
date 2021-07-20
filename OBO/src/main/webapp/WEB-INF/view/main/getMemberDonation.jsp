@@ -118,7 +118,7 @@
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
 					<div class="single_service staff_account" style="height: 20%">
 						<div class="service_content text-center">
-							<p>회원님께서 총 기부하신 금액은 ${totalDonation}원 입니다.</p>
+							<h3>회원님께서 총 기부하신 금액은 ${totalDonation}원 입니다.</h3>
 						</div>
 					</div>
 				</div>

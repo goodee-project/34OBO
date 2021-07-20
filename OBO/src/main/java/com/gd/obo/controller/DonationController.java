@@ -32,6 +32,18 @@ public class DonationController {
 	@Autowired DonationService donationService;
 	@Autowired ShelterService shelterService;
 	
+	
+	
+	//물품후원 폼으로
+	@GetMapping("/member/addDonationItem")
+	public String addDonationItem(HttpSession session, Model model) {
+		
+		model.addAttribute("itemCategoryList", donationService.getItemCategoryList());
+		model.addAttribute("shelterList", shelterService.getShelterListByDonation());
+		model.addAttribute("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
+		return "main/addDonationItem";
+	}
+	
 	//정기후원 끊기
 	@GetMapping("/member/endPeriodicallyDonation")
 	public String endPeriodicallyDonation(@RequestParam(value = "periodicallyDonationId", required = true)int periodicallyDonationId) {
