@@ -85,6 +85,7 @@ public class BoardService {
 				String originalFileName = f.getOriginalFilename();
 				int p = originalFileName.lastIndexOf("."); //test.txt면 4;
 				String ext = originalFileName.substring(p).toLowerCase(); // .txt
+
 				String prename = UUID.randomUUID().toString().replace("-","");
 				
 				String filename = prename+ext;
