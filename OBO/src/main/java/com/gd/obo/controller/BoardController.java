@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.BoardService;
@@ -43,9 +44,10 @@ public class BoardController {
 	
 	// board 추가 액션
 	@PostMapping("/addBoard")
-	public String addBoard(Board board) {
+	public String addBoard(MultipartFile multipartFile, Board board) {
 		log.debug("@@@@@ board: "+board);
-		boardService.addBoard(board);
+		log.debug("@@@@@ multipartFile: "+multipartFile);
+		boardService.addBoard(multipartFile, board);
 		return "redirect:/getBoardList";
 	}
 	
@@ -87,7 +89,7 @@ public class BoardController {
 		if(boardTitle != null && boardTitle.equals("")) {
 			boardTitle=null;
 		}
-		log.debug("price: "+species);
+		log.debug("species: "+species);
 		if(species != null && species.equals("")) {
 			species=null;
 		}

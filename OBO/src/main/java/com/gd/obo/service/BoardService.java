@@ -1,19 +1,24 @@
 // 작성자: 김선유
 package com.gd.obo.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.obo.mapper.BoardCommentMapper;
+import com.gd.obo.mapper.BoardFileMapper;
 import com.gd.obo.mapper.BoardMapper;
 import com.gd.obo.vo.Board;
 import com.gd.obo.vo.BoardComment;
 import com.gd.obo.vo.BoardFile;
+import com.gd.obo.vo.BoardForm;
 import com.gd.obo.vo.Page;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 	@Autowired BoardMapper boardMapper;
 	@Autowired BoardCommentMapper boardCommentMapper;
+	@Autowired BoardFileMapper boardFileMapper;
 	
 	// board 삭제
 	public int removeBoard(int boardId) {
@@ -51,8 +57,42 @@ public class BoardService {
 	}
 	
 	// board 추가
-	public int addBoard(Board board) {
-		return boardMapper.insertBoard(board);
+	public void addBoard(MultipartFile multipartFile, Board board) {		
+		
+		// 물리적 파일 저장
+		File temp = new File("");
+		
+		// 프로젝트 경로
+		String path = temp.getAbsolutePath();
+		
+		// 확장자
+		int p = multipartFile.getOriginalFilename().lastIndexOf(".");
+		String ext = multipartFile.getOriginalFilename().substring(p);
+		
+		// 파일 이름
+		String prename = UUID.randomUUID().toString().replace("-", "");
+		
+		// 파일 저장 위치
+		File file = new File(path+"\\src\\main\\webapp\\static\\img\\board\\"+prename+ext);
+		
+		try {
+			multipartFile.transferTo(file);
+		} catch (Exception e) {
+			throw new RuntimeException();
+		}
+		
+		// db 저장
+		BoardFile boardFile = new BoardFile();
+		boardFile.setBoardId(board.getBoardId());
+		boardFile.setBoardFileName(prename+ext);
+		boardFile.setBoardFileOriginalName(multipartFile.getOriginalFilename());
+		boardFile.setBoardFileSize(multipartFile.getSize());
+		boardFile.setBoardFileExt(multipartFile.getContentType());
+		log.debug("@@@@@ boardFile: "+boardFile);
+		
+		log.debug("@@@@@ board: "+board);
+		int row = boardFileMapper.insertBoardFile(boardFile);
+			
 	}
 	
 	// board 상세보기

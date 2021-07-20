@@ -107,7 +107,7 @@
 			<if test="memberId != null">
 				AND member_id LIKE CONCAT('%',#{memberId},'%')
 			</if>
-		ORDER BY b.board_id ASC		
+		ORDER BY b.board_id DESC	
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
