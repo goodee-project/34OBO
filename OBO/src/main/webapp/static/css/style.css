@@ -3510,6 +3510,20 @@ h3 {
 	margin: auto;
 }
 
+.add_form{
+	display: block;
+	margin: auto;
+}
+
+.select_box{
+	font-size: 14px;
+	border-radius: 3px; /* 테두리 둥근정도 */
+	height: 40px;
+	padding: 0 10px;
+	text-align: center;
+	margin-right: 3px;
+}
+
 .search_form .select_box{
 	font-size: 14px;
 	border-radius: 3px; /* 테두리 둥근정도 */
@@ -3517,6 +3531,16 @@ h3 {
 	padding: 0 10px;
 	text-align: center;
 	margin-right: 3px;
+}
+
+
+.add_form .select_box{
+	font-size: 15px;
+	border-radius: 3px; /* 테두리 둥근정도 */
+	height: 37px;
+	padding: 0 10px;
+	text-align: center;
+	margin-right: 4px;
 }
 
 .contact-title {

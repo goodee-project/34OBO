@@ -31,7 +31,17 @@
 
 <script>
 $(document).ready(function(){	
-	
+	$('#searchBtn').click(function(){
+		console.log('검색버튼 클릭!');
+		
+		// 유효성 검사
+		if($('#searchWord').val() == ''){
+			alert('검색어를 입력해주세요');
+		} else{
+			$('#searchForm').submit();
+		}
+		
+	});
 	
 });
 </script>
@@ -106,28 +116,42 @@ $(document).ready(function(){
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
+							<!-- 검색결과 -->
+							<div>
+								<c:if test="${selectOption == 'animal'}">
+									[${selectOption}]
+								</c:if>
+								<c:if test="${selectOption == 'member'}">
+									[${selectOption}]
+								</c:if>
+								<c:if test="${searchWord != null}">
+									"${searchWord}" 검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+								</c:if>
+							</div>
+							
+							<br>
 							<table class="table">
 								<tr>
 									<td>No</td>
 									<td>동물</td>
 									<td>회원ID</td>
+									<td>회원이름</td>
 									<td>신청서류</td> <!-- 클릭 시 다운로드 -->
 									<td>신청일</td>
 									<td>입양일</td>
 									<td>확인직원</td>
-									<td>케어Plan
-										<a href=""><i class="fa fa-external-link"></i></a>
-									</td>
+									<td>케어Plan</td>
 								</tr>
-								<c:forEach var="a" items="${adoptApproval}">
+								<c:forEach var="a" items="${adoptApprovalList}">
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td>${a.adoptApplyId}</td>
+										<td>${a.animalName}</td>
+										<td>${a.memberId}</td>
+										<td>${a.memberName}</td>
+										<td>${a.adoptApplyDocumentId}</td>
+										<td>${a.applyDate}</td>
+										<td>${a.adoptDate}</td>
+										<td>${a.staffId}</td>
 										<td><a href=""><i class="fa fa-external-link"></i></a></td>
 									</tr>
 								</c:forEach>
@@ -161,8 +185,22 @@ $(document).ready(function(){
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getAdoptApprovalInStaff">
 							<div class="form-group">
 								<div class="input-group mb-4">
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
-											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
+									<select id="selectOption" class="select_box" name="selectOption">
+										<c:if test="${selectOption == 'animal'}">
+											<option value="animal" selected>동물 이름</option>
+										</c:if>
+										<c:if test="${selectOption != 'animal'}">
+											<option value="animal">동물 이름</option>
+										</c:if>
+										<c:if test="${selectOption == 'member'}">
+											<option value="member" selected>회원 이름</option>
+										</c:if>
+										<c:if test="${selectOption != 'member'}">
+											<option value="member">회원 이름</option>
+										</c:if>
+									</select>
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = '검색어를 입력해주세요'" >
 									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
@@ -181,6 +219,7 @@ $(document).ready(function(){
 	<!-- footer_end  -->	
 	
 	<!-- JS here -->
+	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>

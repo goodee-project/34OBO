@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.obo.mapper.AnimalMapper;
-import com.gd.obo.vo.Animal;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -112,7 +111,8 @@ public class AnimalService {
 		
 	}
 	
-	public List<Map<String, Object>> getAnimalCategoryList() {
+	// 사용자 : 이윤정 -> staff care info
+	public List<Map<String,Object>> getAnimalCategoryList() {
 		return animalMapper.selectAnimalCategoryList();
 	}
 }

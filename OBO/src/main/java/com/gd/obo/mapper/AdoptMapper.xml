@@ -1,3 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gd.obo.mapper.AdoptMapper"></mapper>
+<mapper namespace="com.gd.obo.mapper.AdoptMapper">
+	<!-- 입양 신청한 동물 리스트 -->
+	<select id="selectAdoptApplyList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			ap.adopt_apply_id adoptApplyId,
+			a.animal_name animalName,
+			ap.member_id memberId,
+			m.member_name memberName,
+			ap.adopt_apply_document_id adoptApplyDocumentId
+		FROM adopt_apply ap, animal a, member m
+		<where>
+			ap.animal_id = a.animal_id AND ap.member_id = m.member_id AND a.shelter_id = #{shelterId}
+			<if test="searchWord != null">
+				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
+			</if>
+		</where>
+	</select>
+	
+	<!-- 입양 완료된 동물 리스트 -->
+	<select id="selectAdoptApprovalList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			ap.adopt_apply_id adoptApplyId,
+			a.animal_id animalId,
+			a.animal_name animalName,
+			ap.member_id memberId,
+			m.member_name memberName,
+			ap.adopt_apply_document_id adoptApplyDocumentId,
+			ap.apply_date applyDate,
+			ad.adopt_date adoptDate,
+			ad.staff_id staffId
+		FROM adopt ad, adopt_apply ap, animal a, member m
+		<where>
+			ad.adopt_apply_id = ap.adopt_apply_id AND ap.animal_id = a.animal_id 
+			AND ap.member_id = m.member_id AND a.shelter_id = #{shelterId}
+			<if test="searchWord != null and selectOption == 'animal'">
+				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
+			</if>
+			<if test="searchWord != null and selectOption == 'member'">
+				AND m.member_name LIKE CONCAT('%', #{searchWord},'%');
+			</if>
+		</where>
+	</select>
+	
+	<!-- 입양 거절된 동물 리스트 -->
+	<select id="selectAdoptRejectList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			ap.adopt_apply_id adoptApplyId,
+			a.animal_name animalName,
+			ap.member_id memberId,
+			ap.adopt_apply_document_id adoptApplyDocumentId,
+			ap.apply_date applyDate,
+			ap.apply_reject_date applyRejectDate
+		FROM adopt_apply ap, animal a, member m
+		<where>
+			ap.animal_id = a.animal_id AND ap.member_id = m.member_id 
+			AND ap.apply_reject_date IS NOT NULL AND a.shelter_id = #{shelterId}
+			<if test="searchWord != null">
+				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
+			</if>
+		</where>		
+	</select>
+</mapper>

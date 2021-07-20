@@ -31,7 +31,17 @@
 
 <script>
 $(document).ready(function(){	
-	
+	$('#searchBtn').click(function(){
+		console.log('검색버튼 클릭!');
+		
+		// 유효성 검사
+		if($('#searchWord').val() == ''){
+			alert('검색어를 입력해주세요');
+		} else{
+			$('#searchForm').submit();
+		}
+		
+	});	
 	
 });
 </script>
@@ -104,35 +114,42 @@ $(document).ready(function(){
 					</div>
 				</div>
 				<div class="col-lg-9 mb-5 mb-lg-0">
-					
 					<div class="single-post">
 						<div class="blog_details">
+							<!-- 검색결과 -->
+							<div>
+								<c:if test="${searchWord != null}">
+									"${searchWord}" 검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getAdoptApplyInStaff"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+								</c:if>
+							</div>
+							
+							<br>
 							<table class="table">
 								<tr>
 									<td>No</td>
 									<td>동물</td>
 									<td>회원ID</td>
+									<td>회원이름</td>
 									<td>신청서류</td> <!-- 클릭 시 다운로드 -->
-									<td>승인
-										<a href=""><i class="fa fa-check-circle fa-2x"></i></a> <!-- 승인 btn -->
-										<a href=""><i class="fa fa-times-circle fa-2x"></i></a> <!-- 거절 btn -->
-									</td>
+									<td>승인</td>
 								</tr>
-								<c:forEach var="a" items="${adoptApply}">
+								<c:forEach var="a" items="${adoptApplyList}">
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td>
-											<a href=""><i class="fa fa-check-circle fa-2x"></i></a> <!-- 승인 btn -->
-											<a href=""><i class="fa fa-times-circle fa-2x"></i></a> <!-- 거절 btn -->
+										<td>${a.adoptApplyId}</td>
+										<td>${a.animalName}</td>
+										<td>${a.memberId}</td>
+										<td>${a.memberName}</td>
+										<td>${a.adoptApplyDocumentId}</td>
+										<td> <!-- 아이콘 클릭 시 새 창으로 열지? 아님 모달창 사용할지? -->
+											<a href=""><i class="fa fa-check-circle fa"></i></a> <!-- 승인 btn -->
+											<a href=""><i class="fa fa-times-circle fa"></i></a> <!-- 거절 btn -->
 										</td>
 									</tr>
 								</c:forEach>
 							</table>
 						</div>
 					</div>
+					<br>
 					
 					<!-- 페이징 & 검색 -->
 					<div class="search_form">
@@ -142,8 +159,8 @@ $(document).ready(function(){
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getAdoptApplyInStaff">
 							<div class="form-group">
 								<div class="input-group mb-4">
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
-											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="동물 이름을 입력해주세요"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 이름을 입력해주세요'" >
 									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
