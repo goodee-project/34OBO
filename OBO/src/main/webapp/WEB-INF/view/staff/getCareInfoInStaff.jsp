@@ -31,7 +31,14 @@
 
 <script>
 $(document).ready(function(){	
-	
+	$('#searchBtn').click(function(){
+		console.log('검색어 입력 후 버튼 클릭!');
+		if(($('#species').val() == '0') && ($('#careSorting').val() == '0') && ($('#searchWord').val() == '')){
+			alert('검색할 항목을 선택 혹은 입력해주세요!');
+		} else{
+			$('#searchForm').submit();
+		}
+	});
 	
 });
 </script>
@@ -106,54 +113,77 @@ $(document).ready(function(){
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
+							<div>
+								<c:if test="${species != null}">
+									[${species}]
+								</c:if>
+								<c:if test="${careSorting != null}">
+									[${careSorting}]
+								</c:if>
+								<c:if test="${searchWord != null}">
+									"${searchWord}"
+								</c:if>
+								<c:if test="${species != null || careSorting != null || searchWord != null}">
+									검색결과
+									&nbsp;<a href="${pageContext.request.contextPath}/staff/getCareInfoInStaff"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+								</c:if>
+							</div>
+							<br>
 							<table class="table">
 								<tr>
 									<td>No</td>
-									<td>동물종</td> <!-- care_info & animal_category 조인 -->
-									<td>케어종류</td>
+									<td>종</td>
+									<td>분류</td>
 									<td>케어내용</td>
 									<td>케어시기(월)</td>
 								</tr>
 								<c:forEach var="c" items="${careInfoList}">
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td>${c.careInfoId}</td>
+										<td>${c.species}</td>
+										<td>${c.careSorting}</td>
+										<td>${c.careInfoContent}</td>
+										<td>${c.careTime}</td>
 									</tr>
 								</c:forEach>
 							</table>
 						</div>
 					</div>
+					<br>
 					
 					<!-- 페이징 & 검색 -->
 					<div class="search_form">
 					<div class="blog_left_sidebar">
-					
-						<!-- 페이징 -->
-						<nav class="blog-pagination justify-content-center d-flex">
-							<ul class="pagination">
-								<!-- 이전 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
-								</li>
-								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
-								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
-								
-								<!-- 다음 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
-								</li>
-							</ul>
-						</nav>
-						<hr>
 						
 						<!-- 검색 -->
-						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getCareInfoInStaff">
+						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getCareInfoInStaff" method="get">
 							<div class="form-group">
 								<div class="input-group mb-4">
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
+									<select id="species" class="select_box" name="species">
+										<option value="">종</option>
+										
+										<c:forEach var="a" items="${animalCategoryList}">
+											<c:if test="${species == a.species}">
+												<option value="${a.species}" selected>${a.species}</option>
+											</c:if>
+											<c:if test="${species != a.species}">
+												<option value="${a.species}">${a.species}</option>
+											</c:if>
+										</c:forEach>
+									</select>
+									<select id="careSorting" class="select_box" name="careSorting">
+										<option value="">분류</option>
+										
+										<c:forEach var="c" items="${careSortingList}">
+											<c:if test="${careSorting == c}">
+												<option value="${c}" selected>${c}</option>
+											</c:if>
+											<c:if test="${careSorting != c}">
+												<option value="${c}">${c}</option>
+											</c:if>
+										</c:forEach>
+										</select>
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="케어내용을 입력해주세요."
 											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
 									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
 								</div>
