@@ -1,19 +1,24 @@
 // 작성자: 김선유
 package com.gd.obo.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.obo.mapper.BoardCommentMapper;
+import com.gd.obo.mapper.BoardFileMapper;
 import com.gd.obo.mapper.BoardMapper;
 import com.gd.obo.vo.Board;
 import com.gd.obo.vo.BoardComment;
 import com.gd.obo.vo.BoardFile;
+import com.gd.obo.vo.BoardForm;
 import com.gd.obo.vo.Page;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 	@Autowired BoardMapper boardMapper;
 	@Autowired BoardCommentMapper boardCommentMapper;
+	@Autowired BoardFileMapper boardFileMapper;
 	
 	// board 삭제
 	public int removeBoard(int boardId) {
@@ -51,9 +57,46 @@ public class BoardService {
 	}
 	
 	// board 추가
-	public int addBoard(Board board) {
-		return boardMapper.insertBoard(board);
+	public void addBoard(BoardForm boardForm) {		
+		Board board = boardForm.getBoard();
+		log.debug("board: "+board.getBoardId());
+		boardMapper.insertBoard(board); 
+		// 입력시 만들어진 key값을 리턴받아야 한다. -> 리턴받을 수가 없다. -> 매개변수board의 boardId값을 변경해준다.
+		log.debug("boardId"+board.getBoardId());
+		
+		// 2)
+		List<MultipartFile> list = boardForm.getBoardFile();
+		if(list != null) {
+			for(MultipartFile f : list) {
+				BoardFile boardFile = new BoardFile();
+				boardFile.setBoardId(board.getBoardId()); // auto increment로 입력된 값
+				
+				String originalFileName = f.getOriginalFilename();
+				int p = originalFileName.lastIndexOf("."); //test.txt면 4;
+				String ext = originalFileName.substring(p).toLowerCase(); // .txt
+				String prename = UUID.randomUUID().toString().replace("-","");
+				
+				String filename = prename+ext;
+				boardFile.setBoardFileName(filename); // 이슈 >> 중복으로 인해 덮어쓰기 가능
+				boardFile.setBoardId(board.getBoardId());
+				boardFile.setBoardFileOriginalName(f.getOriginalFilename());
+				boardFile.setBoardFileSize(f.getSize());
+				boardFile.setBoardFileExt(f.getContentType());
+				log.debug("boardfile :"+boardFile);
+				
+				boardFileMapper.insertBoardFile(boardFile);
+				
+				try {
+					File temp = new File(""); // 프로젝트 폴더에 빈파일이 만들어진다.
+					String path = temp.getAbsolutePath(); // 프로젝트필드
+					f.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\board\\"+filename));
+				} catch (Exception e) {
+					throw new RuntimeException();
+				}
+			}			
+		}
 	}
+	
 	
 	// board 상세보기
 	public Map<String, Object> getBoardOne(int boardId) {

@@ -9,5 +9,5 @@ import lombok.Data;
 @Data
 public class BoardForm {
 	private Board board;
-	private List<MultipartFile> boardfile;
+	private List<MultipartFile> boardFile;
 }

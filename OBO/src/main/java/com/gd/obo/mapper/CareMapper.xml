@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gd.obo.mapper.CareMapper"></mapper>
+<mapper namespace="com.gd.obo.mapper.CareMapper">
+	<select id="selectCareInfoList" resultType="java.util.Map">
+		SELECT
+			ci.care_info_id careInfoId,
+			ac.species species,
+			ci.care_sorting careSorting,
+			ci.care_info_content careInfoContent,
+			ci.care_time careTime
+		FROM animal_category ac, care_info ci
+		<where>
+			ac.animal_category_id = ci.animal_category_id
+			<if test="searchWord != null">
+				AND ci.care_info_content LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="species != null">
+				AND ac.species = #{species}
+			</if>
+			<if test="careSorting != null">
+				AND ci.care_sorting = #{careSorting}
+			</if>
+		</where>
+		ORDER BY ci.care_info_id ASC;
+	</select>
+	
+</mapper>

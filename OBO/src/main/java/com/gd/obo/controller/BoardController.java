@@ -1,6 +1,8 @@
 // 작성자: 김선유
 package com.gd.obo.controller;
 
+
+
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.BoardService;
-import com.gd.obo.vo.Board;
+import com.gd.obo.vo.BoardForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,9 +45,9 @@ public class BoardController {
 	
 	// board 추가 액션
 	@PostMapping("/addBoard")
-	public String addBoard(Board board) {
-		log.debug("@@@@@ board: "+board);
-		boardService.addBoard(board);
+	public String addBoard(BoardForm boardForm) {
+		log.debug("@@@@@ boardForm: "+boardForm);
+		boardService.addBoard(boardForm);
 		return "redirect:/getBoardList";
 	}
 	
@@ -87,7 +89,7 @@ public class BoardController {
 		if(boardTitle != null && boardTitle.equals("")) {
 			boardTitle=null;
 		}
-		log.debug("price: "+species);
+		log.debug("species: "+species);
 		if(species != null && species.equals("")) {
 			species=null;
 		}

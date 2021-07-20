@@ -39,7 +39,7 @@
 			staff_id staffId,
 			staff_name staffName
 		FROM staff
-		WHERE shelter_id = #{shelterId} AND staff_level = '0';
+		WHERE shelter_id = #{shelterId} AND staff_level = 0;
 	</select>
 	
 	<!-- staff 계정 간단한 정보 확인 : 마스터계정만 확인 가능 -->
@@ -50,11 +50,11 @@
 			staff_level staffLevel,
 			staff_active staffActive,
 			CASE 
-				WHEN staff_level = '0'
+				WHEN staff_level = 0
 					THEN '대기중'
-				WHEN staff_level = '2'
+				WHEN staff_level = 2
 					THEN '마스터'
-				WHEN staff_active = '0'
+				WHEN staff_active = 0
 					THEN '비활성'
 				ELSE '수정'
 			END 'state'
@@ -94,8 +94,8 @@
 			#{shelterId},
 			#{staffName},
 			#{staffPhone},
-			'1',
-			'0',
+			1,
+			0,
 			PASSWORD(#{staffPw}),
 			NOW()
 		);
@@ -122,8 +122,8 @@
 			#{shelterId},
 			#{staffName},
 			#{staffPhone},
-			'1',
-			'2',
+			1,
+			2,
 			PASSWORD(#{staffPw}),
 			NOW()
 		);
@@ -146,10 +146,10 @@
 		UPDATE staff
 			<set>
 				<if test="staffLevel != null">
-					staff_level = '#{staffLevel}'
+					staff_level = #{staffLevel}
 				</if>
 				<if test="staffActive != null">
-					staff_active = '#{staffActive}'
+					staff_active = #{staffActive}
 				</if>
 			</set>
 		WHERE staff_id = #{staffId};

@@ -98,22 +98,17 @@
 
 	<div class="section-top-border container">
 		<h3 class="mb-30">${boardMap.boardTitle}</h3>
-		<a href="${pageContext.request.contextPath}/getBoardList">자유게시판</a>
+		<div class="text-right">
+		<a href="${pageContext.request.contextPath}/getBoardList">게시판으로</a>
+		<a href="${pageContext.request.contextPath}/get">수정</a>
+		<a href="${pageContext.request.contextPath}/getBoardList">삭제</a>
+		</div>
 		<div class="testmonial_area">
 			<div class="row">
 				<div class="col-lg-5 mb-5 mb-lg-0">
-					<div class="textmonial_active owl-carousel">
-						<div class="testmonial_wrap">
-							<div class="single_testmonial d-flex align-items-center ">
-								<img src="static/img/board/pet.jpeg" alt="">
-							</div>
-						</div>
-						<div class="testmonial_wrap">
-							<div class="single_testmonial d-flex align-items-center">
-								<img src="static/img/elements/d.jpg" alt="">
-							</div>
-						</div>
-					</div>
+					<c:forEach var="bf" items="${ boardFileList}">
+								<img src="static/img/board/${bf.boardFileName}" width="300" height="300" alt="">
+					</c:forEach>
 				</div>
 			</div>
 		</div>

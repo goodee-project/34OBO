@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>내정보</title>
+<title>물품 후원신청</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- CSS here -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
@@ -27,7 +28,7 @@
 	td{
 		width: 70%;
 	}
-	button{
+	button {
 		float: right;
 	}
 </style>
@@ -48,105 +49,111 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<h3>내정보</h3>
+					<h3>물품후원</h3>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<section class="blog_area single-post-area section-padding">
-		<div class="container">
-			<div class="row">
-				<!-- 내 페이지 메뉴 -->
-				<jsp:include page="/WEB-INF/view/main/inc/myPageMenu.jsp"></jsp:include>			
-				
-				<div class="col-lg-9 mb-5 mb-lg-0">
-					<div class="single-post">
-						<div class="blog_details">
-							<table class="table">
-								<tr>
-									<th>아이디</th>
-									<td>${memberOne.memberId}</td>
-								</tr>
-								<tr>
-									<th>이름</th>
-									<td>${memberOne.memberName}</td>
-								</tr>
-								<tr>
-									<th>닉네임</th>
-									<td>${memberOne.memberNickname}</td>
-								</tr>
-								<tr>
-									<th>이메일</th>
-									<td>${memberOne.memberEmail}</td>
-								</tr>
-								<tr>
-									<th>가입날짜</th>
-									<td>${memberOne.createDate}</td>
-								</tr>
-								<tr>
-									<th>휴대폰번호</th>
-									<td>${memberOne.memberPhone}</td>
-								</tr>
-								<tr>
-									<th>생일</th>
-									<td>${memberOne.memberBirth}</td>
-								</tr>
-								<tr>
-									<th>성별</th>
-									<td>${memberOne.memberGender}</td>
-								</tr>
-								<tr>
-									<th>우편번호</th>
-									<td>${memberOne.postCode}</td>
-								</tr>
-								<tr>
-									<th>주소</th>
-									<td>
-										<div>
-											${memberOne.doro}
-										</div>
-											${memberOne.detailAddress}
-										
-									</td>
-								</tr>
-								<tr>
-									<th>카카오연동</th>
-									<td>
-										<c:if test="${memberOne.kakaoId == null}"><!-- 연동x -->
-											<a href="javascript:void(0);" onclick="kakao();">
-												<img src="${pageContext.request.contextPath}/static/img/kakaolink_btn_medium.png">
-											</a>
-										</c:if>
-										<c:if test="${memberOne.kakaoId != null}"><!-- 연동o -->
-											연동되었습니다.
-										</c:if>
-									</td>
-								</tr>
-							</table>
+	
+	
+	<!--================Blog Area =================-->
+	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
 
-							<button id="modifyMemberOne" type="button" onclick="modifyMemberOne()" class="genric-btn primary-border radius">내 정보 수정</button>
+	<div class="service_area">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-9 col-md-8">
+					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+					<div class="single_service staff_account" style="height: 100%;">
+						<div class="service_content">
+								<h3 class="text-center">일반후원 신청</h3>
 							
-							<a href="${pageContext.request.contextPath}/member/modifyMemberPw"><button type="button" class="genric-btn primary-border radius">비밀번호 수정</button></a>
-						
-						
+								<form id="donationForm" action="${pageContext.request.contextPath}/member/addDonation" method="post">
+									<table class="table">
+										<tr>
+											<th>보호소</th>
+											<td>
+												<select id="shelter" name="shelterId">
+													<c:forEach var="s" items="${shelterList}">
+														<option value="${s.shelterId}">${s.shelterName}
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th>물품</th>
+											<td>
+												<select id="item" name="itemCategoryId">
+													<c:forEach var="i" items="${itemCategoryList}">
+														<option value="${i.itemCategoryId}">${i.itemCategoryName}
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th>ID</th>
+											<td>
+												<input id="memberId" type="text" name="memberId" readonly="readonly" value="${memberId}">
+											</td>
+										</tr>
+										<tr>
+											<th>물품명</th>
+											<td>
+												<input id="itemName" type="text" name="itemName">
+											</td>
+										</tr>
+										<tr>
+											<th>수량</th>
+											<td>
+												<input id="itemQuantity" type="text" name="itemQuantity">
+											</td>
+										</tr>
+										<tr>
+											<th>설명</th>
+											<td>
+												<textarea id="itemDescription" name="itemDescription" rows="10" cols="50"></textarea>	
+											</td>
+										</tr>
+										
+									
+									</table>
+									<br>
+									<br>
+									<button type="button" id="donationFormBtn" onclick="addDonationBtn()" class="genric-btn primary-border radius">후원하기</button>
+								</form>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
+	</div>
+	<!--================Blog Area =================-->
 	
 	
-	
-	
-	
+
+
 <script>
-	//정보수정 페이지로 이동하기 전에 비밀번호 검사
-	function modifyMemberOne(){
-		console.log('click!');
-		
-		let checkPw = prompt("비밀번호를 입력하시오");
+//후원하기 버튼 클릭
+function addDonationBtn(){
+	console.log('버튼 click');
+	
+	if($('#shelter').val() == ''){
+		alert('보호소를 선택해주세요.');
+		$('#shelter').focus();
+	} else if($('#item').val() == ''){
+		alert('물품 카테고리를 선택해주세요.');
+		$('#item').focus();
+	} else if($('#itemName').val() == ''){
+		alert('물품명을 입력해주세요.');
+		$('#itemName').focus();
+	} else if($('#itemQuantity').val() == ''){
+		alert('수량을 입력해주세요.');
+		$('#itemQuantity').focus();
+	} else {
+		console.log('비밀번호 검사 시작합니다.');
+		//비밀번호 검사
+		let checkPw = prompt('비밀번호를 입력하시오.');
 		
 		$.ajax({
 			type: 'post',
@@ -160,30 +167,29 @@
 				if(jsonData == false){
 					alert('비밀번호가 틀렸습니다.');
 				} else {//회원 정보 수정 페이지로 이동하기 
-					window.location.href = '${pageContext.request.contextPath}/member/modifyMemberOne';
+					
+					//ajax로 보냄...
+					
+					$.ajax({
+						type: 'post',
+						url: '${pageContext.request.contextPath}/member/addDonationItem',
+						data: $('#donationForm').serialize()
+					}).done(function(jsonData){
+						//true면 성공 false면 실패
+						
+						if(jsonData == false){
+							alert('후원 실패....');
+						} else {
+							window.location.href = '${pageContext.request.contextPath}/member/getMemberDonation'
+						}
+					});
 				}
 			}
 		})
-				
-	}
-	
-	
-	
-	//카카오 연동 - 카카오 로그인창 불러오기!
-	function kakao(){
-		console.log('카카오');
-		 $.ajax({
-		        url: '${pageContext.request.contextPath}/kakaoLogin',
-		        type: 'get',
-		        data: {url: 'http://localhost/obo/member/getKakaoLink'}
-		    }).done(function (jsonData) {
-		        
-		        window.location.href = jsonData;
-		    });
-	}
-	
-	
-	
+	}		
+}
+
+
 </script>
 <!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
