@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import com.gd.obo.mapper.DonationMapper;
 import com.gd.obo.vo.DonationItemList;
 import com.gd.obo.vo.DonationMoneyList;
+import com.gd.obo.vo.ItemCategory;
 import com.gd.obo.vo.PeriodicallyDonation;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,25 @@ public class DonationService {
 	private DonationMoneyList donationML;//kakao 결제준비단계가 아닌 결제 승인단계에서 데이터베이스로 정보 넘기기위에 만들었습니다.	
 	private String tid;//kakao 결제준비 -> 결제승인으로 갈때 필요한것... (get방식이라 보내기 힘들어서 위에 만들었습니다.)
 	private String sid;
+	
+	//물품후원 insert
+	public boolean addDonationItemList(DonationItemList donationItemList) {
+		boolean result = false;
+		
+		log.debug("■■■■■ addDonationItemList param : "+donationItemList);
+		if(donationMapper.insertDonationItemList(donationItemList) != 0) {
+			result = true;
+		}
+		
+		log.debug("■■■■■ addDonationItemList result : " + result);
+		
+		return result;
+	}
+	
+	//물품카테고리 가져오기
+	public List<ItemCategory> getItemCategoryList(){
+		return donationMapper.selectItemCategoryList();
+	}
 	
 	//내정보 -> 총 후원금액
 	public int getTotalMoneyByMemberId(String memberId) {

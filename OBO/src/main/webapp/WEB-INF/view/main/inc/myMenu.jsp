@@ -89,7 +89,7 @@
 					        type: 'get',
 					        data: {url: 'http://localhost/obo/loginByKakao'}
 					    }).done(function (jsonData) {
-					        console.log('로그인창 가져왔니?');
+					        
 					        window.location.href = jsonData;
 					    });
 				}

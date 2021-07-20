@@ -61,7 +61,7 @@ $(document).ready(function(){
 					<div class="row align-items-center">
 						<div class="col-xl-3 col-lg-3">
 							<div class="logo">
-								<a href="${pageContext.request.contextPath}/staff/">
+								<a href="${pageContext.request.contextPath}/main/">
 									<img src="../static/img/logo.png" alt="">
 								</a>
 							</div>
@@ -102,20 +102,30 @@ $(document).ready(function(){
                     <div class="col-12">
                     </div>
                     <div class="col-lg-8">
-                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/addBoard" method="post" id="addForm" novalidate="novalidate">
+                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/addBoard" method="post" id="addForm" enctype="multipart/form-data" novalidate="novalidate">
                             <div class="row">
                             	<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="memberId" id="memberId" value="sunyou" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="sunyou" readonly="readonly">
+                                        <input class="form-control" name="board.memberId" id="memberId" value="sunyou" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="sunyou" readonly="readonly">
                                     </div>
                                 </div>
+                                <div class="col-lg-3">
+				                	<h4>상품이미지<span style="color: #7fad39;">*</span></h4>
+				                </div>
+				                <div class="col-lg-9" style="display: inline;">
+				                	<label for="imgFileUpload">
+								        <img src="${pageContext.request.contextPath}/static/img/imgUpload.png"/>
+								    </label>
+								    <input id="imgFileUpload" name="boardFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>
+								    <div id="image_container" style="display: inline;"></div> <!-- 업로드 된 이미지 미리보기 생성 -->
+				                </div>
          						<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="boardTitle" id="boardTitle" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Title">
+                                        <input class="form-control" name="board.boardTitle" id="boardTitle" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Title">
                                     </div>
                                 </div>
                                 <div class="default-select col-12" id="default-select">
-									<select name="animalCategoryId">
+									<select name="board.animalCategoryId">
 										<option value="">종 선택</option>
 											<c:forEach var="a" items="${animalCategoryList}">
 								    			<c:if test="${a.species == species}"> 
@@ -128,7 +138,7 @@ $(document).ready(function(){
 									</select>
 								</div>
 								 <div class="default-select col-12">
-									<select name="boardCategoryId">
+									<select name="board.boardCategoryId">
 										<option value="">카테고리선택</option>
 											<c:forEach var="b" items="${boardCategoryList}">
 								    			<c:if test="${b.boardCategoryName == boardCategoryName}"> 
@@ -142,12 +152,12 @@ $(document).ready(function(){
 								</div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <textarea class="form-control w-100" name="boardContent" id="boardContent" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Content"></textarea>
+                                        <textarea class="form-control w-100" name="board.boardContent" id="boardContent" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Content"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group mt-3">
-                                <button type="button" id="addBtn" class="button button-contactForm boxed-btn">Send</button>
+                                <button type="button" id="addBtn" class="button button-contactForm boxed-btn">등록</button>
                             </div>
                         </form>
                     </div>
@@ -188,7 +198,29 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 
-<script>
+<script> 
+   	function setThumbnail(event){ 
+   		
+   		for (var image of event.target.files) {
+   			
+   			var reader = new FileReader(); 
+   			
+   			reader.onload = function(event) {
+   				var img = document.createElement("img"); 
+   				img.setAttribute("src", event.target.result);
+   				img.setAttribute("width", 203);
+   				img.setAttribute("height", 203);
+   				img.setAttribute("style", "margin-right: 4.5px; border: 1px solid rgb(220, 219, 228);");
+   				document.querySelector("div#image_container").appendChild(img); 
+   			};
+   			
+   			console.log(image); 
+   			reader.readAsDataURL(image); 
+   		} 
+   	} 
+</script>
+
+	<script>
 	$('#datepicker').datepicker({
 		iconsLibrary: 'fontawesome',
 		disableDaysOfWeek: [0, 0],

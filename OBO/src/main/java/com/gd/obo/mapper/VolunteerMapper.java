@@ -12,4 +12,5 @@ public interface VolunteerMapper {
 	List<Map<String, Object>> selectVolunteerNList(Map<String, Object> map);
 	int selectVolunteerNTotal(String searchWord);
 	List<String> selectVolunteerCategory();
+	int insertVolunteerApplyByMember(Map<String, Object> map);
 }

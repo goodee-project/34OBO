@@ -35,6 +35,11 @@
 	
 	<!-- 봉사 카테고리 받아오기 -->
 	<select id="selectVolunteerCategory" resultType="String">
-		SELECT volunteer_category_name categoryName FROM volunteer_category
+		SELECT volunteer_category_name volunteerCategoryName FROM volunteer_category
 	</select>
+	
+	<!-- 회원 봉사 신청 -->
+	<insert id="insertVolunteerApplyByMember" parameterType="java.util.Map" >
+		INSERT INTO volunteer_apply(volunteer_recruit_id, member_id, apply_date) VALUES (#{recruitId}, #{memberId}, NOW())
+	</insert>
 </mapper>

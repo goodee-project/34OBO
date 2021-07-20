@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.DonationMapper">
+	<!-- 물품후원 insert -->
+	<insert id="insertDonationItemList" parameterType="com.gd.obo.vo.DonationItemList">
+		INSERT INTO donation_item_list(
+			member_id,
+			shelter_id,
+			item_category_id,
+			item_name,
+			item_quantity,
+			item_description,
+			donation_date
+		) VALUES(
+			#{memberId},
+			#{shelterId},
+			#{itemCategoryId},
+			#{itemName},
+			#{itemQuantity},
+			#{itemDescription},
+			NOW()
+		)
+	</insert>
+	<!-- 물품 후원을 위한 물품카테고리 -->
+	<select id="selectItemCategoryList" resultType="com.gd.obo.vo.ItemCategory">
+		SELECT 
+			item_category_id itemCategoryId, 
+			item_category_name itemCategoryName 
+		FROM item_category
+	</select>
 	<!-- 회원별 전체 후원금액 -->
 	<select id="selectTotalMoneyByMemberId" resultType="int" parameterType="java.lang.String">
 		SELECT SUM(amount) totalDonation FROM full_money_donation_list WHERE member_id = #{memberId}
@@ -20,7 +47,8 @@
 			kind kind 
 		FROM full_money_donation_list 
 		WHERE member_id = #{memberId}
-		LIMIT #{beginRow}, #{rowPerPage}
+		ORDER BY donationDate DESC
+		LIMIT #{beginRow}, #{rowPerPage}		
 	</select>
 	<!-- 내정보/후원내역/정기후원목록 토탈-->
 	<select id="selectPeriodicallyDonationByMemberIdTotal" resultType="int" parameterType="java.lang.String">

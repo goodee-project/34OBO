@@ -26,11 +26,11 @@ public class BoardFileController {
 	
 	
 	@PostMapping("/addBoardFile")
-	public String addBoardFile(MultipartFile multipartFile,
+	public String addBoardFile(MultipartFile boardFile,
 								@RequestParam(value="boardId", required = true) int boardId) {
 		log.debug("@@@@@ boardId: "+boardId);
-		log.debug("@@@@@ multipartFile: "+multipartFile);
-		boardFileService.addBoardFile(multipartFile, boardId);
+		log.debug("@@@@@ multipartFile: "+boardFile);
+		boardFileService.addBoardFile(boardFile, boardId);
 		return "redirect:/getBoardOne?boardId="+boardId;
 	}
 }

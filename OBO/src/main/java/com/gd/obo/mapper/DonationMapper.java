@@ -7,10 +7,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gd.obo.vo.DonationItemList;
 import com.gd.obo.vo.DonationMoneyList;
+import com.gd.obo.vo.ItemCategory;
 import com.gd.obo.vo.PeriodicallyDonation;
 
 @Mapper
 public interface DonationMapper {
+	int insertDonationItemList(DonationItemList donationItemList);
+	List<ItemCategory> selectItemCategoryList();
 	int selectTotalMoneyByMemberId(String memberId);
 	int selectFullMoneyDonationListByMemberIdTotal(String memberId);
 	List<Map<String,Object>> selectFullMoneyDonationListByMemberId(Map<String, Object> map);
