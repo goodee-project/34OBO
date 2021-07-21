@@ -57,14 +57,15 @@ public class DonationController {
 	
 	//내정보 후원내역보기 -> 아직 수정필요
 	@GetMapping("/member/getMemberDonation")
-	public String getMemberDonation(HttpSession session, Model model) {
-		
+	public String getMemberDonation() {
+		/*
 		//회원의 총 후원금액
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
 		int totalDonation = donationService.getTotalMoneyByMemberId(memberId);
 		log.debug("■■■■■ getMemberDonation totalDonation : "+ totalDonation);
 		
 		model.addAttribute("totalDonation", totalDonation);
+		*/
 		return "main/getMemberDonation";
 	}
 	

@@ -1,7 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.QualificationMapper">
-
+<!-- 자격신청 등록 -->
+<insert id="insertQualificationVolunteerApplication" parameterType="com.gd.obo.vo.QualificationVolunteerApplication">
+	INSERT INTO qualification_volunteer_application(
+		member_id, 
+		volunteer_category_id, 
+		qualification_type_id, 
+		qualification_file_id, 
+		applicate_date
+	) VALUES(
+		#{memberId}, 
+		#{volunteerCategoryId}, 
+		#{qualificationTypeId}, 
+		#{qualificationFileId}, 
+		NOW()
+	)
+</insert>
+<!-- 자격파일 등록 -->
+<insert id="insertQualificationFile" parameterType="com.gd.obo.vo.QualificationFile">
+	<selectKey keyProperty="qualificationFileId" resultType="int" order="AFTER">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+	INSERT INTO qualification_file(
+		qualification_file_name, 
+		qualification_file_size, 
+		qualification_file_ext
+	) VALUES(
+		#{qualificationFileName}, 
+		#{qualificationFileSize}, 
+		#{qualificationFileExt}
+	)
+</insert>
+<!-- 자격별로 가능한 봉사 종류 -->
+<select id="selectVolunteerByQualificationTypeId" resultType="java.util.Map" parameterType="int">
+	SELECT  
+		qt.qualification_type_name qualificationTypeName, 
+		vc.volunteer_category_name volunterrCategoryName, 
+		qvc.volunteer_category_id volunteerCategoryId
+	FROM qualification_volunteer_category qvc
+		INNER JOIN qualification_type qt ON qvc.qualification_type_id = qt.qualification_type_id
+		INNER JOIN volunteer_category vc ON qvc.volunteer_category_id = vc.volunteer_category_id
+	WHERE qvc.qualification_type_id = #{qualificationTypeId}
+</select>
+<!-- 자격목록 -->
+<select id="selectQualificationTypeList" resultType="com.gd.obo.vo.QualificationType">
+	SELECT 
+		qualification_type_id qualificationTypeId, 
+		qualification_type_name qualificationTypeName
+	FROM qualification_type
+</select>
+<!-- 자격-가능봉사 목록 -->
+<select id="selectQualificationVolunterrList" resultType="java.util.Map">
+	SELECT  
+		qt.qualification_type_name qualificationTypeName, 
+		vc.volunteer_category_name volunteerCategoryName
+	FROM qualification_volunteer_category qvc
+		INNER JOIN qualification_type qt ON qvc.qualification_type_id = qt.qualification_type_id
+		INNER JOIN volunteer_category vc ON qvc.volunteer_category_id = vc.volunteer_category_id
+	ORDER BY qt.qualification_type_name
+</select>
 <!-- 자격 승인 목록 -->
 <select id="selectQualificationApprovalList" resultType="java.util.Map" parameterType="com.gd.obo.vo.Page">
 	SELECT a.qualification_volunteer_application_id qvaId, qv.member_id memberId, vc.volunteer_category_name volunteerCategory, 

@@ -23,6 +23,17 @@ public class DonationRestapi {
 	@Autowired
 	DonationService donationService;
 	
+	//내정보 -> 내 후원금액
+	@GetMapping("/member/getTotalDonation")
+	public int getTotalDonation(HttpSession session) {
+		
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		int totalDonation = donationService.getTotalMoneyByMemberId(memberId);
+		log.debug("■■■■■ getMemberDonation totalDonation : "+ totalDonation);
+		
+		return totalDonation;
+	}
+	
 	//내정보 -> 물품후원내역 -> 상세보기
 	@PostMapping("/member/getDonationItemOne")
 	public Map<String, Object> getDonationItemOne(@RequestParam(value = "donationItemListId", required = true)int donationItemListId){
