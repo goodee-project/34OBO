@@ -26,7 +26,7 @@
 			aa.adopt_apply_id AS adoptApplyId,
 			a.animal_id AS animalId,
 			a.animal_name AS animalName,
-			aa.member_id AS memberId,
+			m.member_id AS memberId,
 			m.member_name AS memberName,
 			aa.adopt_apply_document_id AS adoptApplyDocumentId,
 			DATE(aa.apply_date) AS applyDate,
@@ -50,7 +50,8 @@
 		SELECT
 			aa.adopt_apply_id AS adoptApplyId,
 			a.animal_name AS animalName,
-			aa.member_id AS memberId,
+			m.member_name AS memberName,
+			m.member_id AS memberId,
 			aa.adopt_apply_document_id AS adoptApplyDocumentId,
 			DATE(aa.apply_date) AS applyDate,
 			DATE(aa.apply_reject_date) AS applyRejectDate
@@ -71,7 +72,7 @@
 			a.animal_id AS animalId,
 			a.animal_category_id AS animalCategoryId,
 			a.animal_name AS animalName,
-			aa.member_id AS memberId,
+			m.member_id AS memberId,
 			m.member_name AS memberName,
 			aa.adopt_apply_document_id AS adoptApplyDocumentId,
 			DATE(aa.apply_date) AS applyDate,

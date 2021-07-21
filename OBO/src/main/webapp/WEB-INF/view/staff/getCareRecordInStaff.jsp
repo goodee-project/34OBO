@@ -76,21 +76,21 @@ $(document).ready(function(){
 						<div class="blog_details">
 							<table class="table">
 								<tr>
-									<td>회원ID</td>
 									<td>동물</td>
-									<td>회원ID</td>
+									<td>회원정보</td> <!-- 이름(아이디) -->
 									<td>케어Plan</td>
+									<td>기타사항</td>
 									<td>작성직원</td>
 									<td>기록일</td>
 								</tr>
 								<c:forEach var="c" items="${carePlanRecordList}">
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td>${c.animalName}</td>
+										<td>${c.memberName}(${c.memberId})</td>
+										<td>${c.careInfo}</td>
+										<td>${c.features}</td>
+										<td>${c.recordDate}</td>
+										<td>${c.staffId}</td>
 									</tr>
 								</c:forEach>
 							</table>

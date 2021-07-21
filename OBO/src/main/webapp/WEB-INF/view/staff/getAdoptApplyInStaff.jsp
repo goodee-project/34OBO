@@ -94,16 +94,14 @@ $(document).ready(function(){
 							<table class="table">
 								<tr>
 									<td>동물</td>
-									<td>회원ID</td>
-									<td>회원이름</td>
+									<td>회원정보</td>
 									<td>신청서류</td> <!-- 클릭 시 다운로드 -->
 									<td>승인</td>
 								</tr>
 								<c:forEach var="a" items="${adoptApplyList}">
 									<tr>
 										<td>${a.animalName}</td>
-										<td>${a.memberId}</td>
-										<td>${a.memberName}</td>
+										<td>${a.memberName}(${a.memberId})</td>
 										<td>${a.adoptApplyDocumentId}</td>
 										<td> <!-- 아이콘 클릭 시 새 창으로 열지? 아님 모달창 사용할지? -->
 											<!-- 승인 btn -->

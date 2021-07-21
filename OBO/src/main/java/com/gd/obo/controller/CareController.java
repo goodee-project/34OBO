@@ -102,7 +102,15 @@ public class CareController {
 	
 	// staff - 케어 plan 목록 페이지 이동
 	@GetMapping("/staff/getCarePlanInStaff")
-	public String getCarePlanInStaff (Model model) {
+	public String getCarePlanInStaff (Model model, HttpSession session) {
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
+		
+		List<Map<String, Object>> carePlanDdayList = careService.getCarePlanDdayList(shelterId);
+		List<Map<String, Object>> carePlanList = careService.getCarePlanList(shelterId);
+		
+		model.addAttribute("carePlanDdayList", carePlanDdayList);
+		model.addAttribute("carePlanList", carePlanList);
 		
 		return "staff/getCarePlanInStaff";
 	}
@@ -116,7 +124,13 @@ public class CareController {
 	
 	// staff - 케어 record 작성 페이지 이동
 	@GetMapping("/staff/addCareRecordInStaff")
-	public String addCareRecordInStaff (Model model) {
+	public String addCareRecordInStaff (Model model, HttpSession session) {
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
+		
+		List<Map<String, Object>> carePlanRecordList = careService.getCarePlanRecordList(shelterId);
+		
+		model.addAttribute("carePlanRecordList", carePlanRecordList);
 		
 		return "staff/addCareRecordInStaff";
 	}

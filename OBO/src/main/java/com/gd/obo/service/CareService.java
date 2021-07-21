@@ -46,6 +46,29 @@ public class CareService {
 		return careMapper.selectCareInfoByCarePlan(map);
 	}*/
 	
+	// staff - care plan dday list 불러오기
+	public List<Map<String, Object>> getCarePlanDdayList(int shelterId){
+		int limitDate = 14;
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("limitDate", limitDate);
+		log.debug("●●●●▶map-> "+map);
+		return careMapper.selectCarePlanList(map);
+	}
+	
+	// staff - care plan list 불러오기
+	public List<Map<String, Object>> getCarePlanList(int shelterId){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		log.debug("●●●●▶map-> "+map);
+		return careMapper.selectCarePlanList(map);
+	}
+	
+	// staff - care plan record list 불러오기
+	public List<Map<String, Object>> getCarePlanRecordList (int shelterId){
+		return careMapper.selectCarePlanRecordList(shelterId);
+	}
+	
 	// staff - care plan 추가
 	public int addCarePlan() {
 		return 0;

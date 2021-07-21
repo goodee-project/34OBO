@@ -79,18 +79,18 @@ $(document).ready(function(){
 									<td>D-day</td>
 									<td>이름</td> <!-- care_info & animal_category 조인 -->
 									<td>케어Info</td>
-									<td>회원ID</td>
+									<td>회원정보</td>
 									<td>케어일</td>
 									<td>Record</td>
 								</tr>
-								<c:forEach var="c" items="${carePlanDday}">
+								<c:forEach var="c" items="${carePlanDdayList}">
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td>${c.dDay}</td>
+										<td>${c.animalName}</td>
+										<td>${c.careInfo}</td>
+										<td>${c.memberName}(${c.memberId})</td>
+										<td>${c.careDate}</td>
+										<td><a href=""><i class="fa fa-external-link"></i></a></td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -103,10 +103,9 @@ $(document).ready(function(){
 							<div>"검색어" 검색결과 (@건)</div>
 							<table class="table">
 								<tr>
-									<td>No</td>
 									<td>이름</td> <!-- care_info & animal_category 조인 -->
 									<td>케어Info</td>
-									<td>회원ID</td>
+									<td>회원정보</td> <!-- 이름(아이디) -->
 									<td>작성직원</td>
 									<td>입양일</td>
 									<td>케어일</td>
@@ -114,14 +113,13 @@ $(document).ready(function(){
 								</tr>
 								<c:forEach var="c" items="${carePlanList}">
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td>${c.animalName}</td>
+										<td>${c.careInfo}</td>
+										<td>${c.memberName}(${c.memberId})</td>
+										<td>${c.staffId}</td>
+										<td>${c.adoptDate}</td>
+										<td>${c.careDate}</td>
+										<td><a href=""><i class="fa fa-external-link"></i></a></td>
 									</tr>
 								</c:forEach>
 							</table>

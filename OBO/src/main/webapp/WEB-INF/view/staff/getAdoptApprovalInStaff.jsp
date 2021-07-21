@@ -100,8 +100,7 @@ $(document).ready(function(){
 							<table class="table">
 								<tr>
 									<td>동물</td>
-									<td>회원ID</td>
-									<td>회원이름</td>
+									<td>회원정보</td> <!-- 이름(아이디) -->
 									<td>신청서류</td> <!-- 클릭 시 다운로드 -->
 									<td>신청일</td>
 									<td>입양일</td>
@@ -111,8 +110,7 @@ $(document).ready(function(){
 								<c:forEach var="a" items="${adoptApprovalList}">
 									<tr>
 										<td>${a.animalName}</td>
-										<td>${a.memberId}</td>
-										<td>${a.memberName}</td>
+										<td>${a.memberName}(${a.memberId})</td>
 										<td>${a.adoptApplyDocumentId}</td>
 										<td>${a.applyDate}</td>
 										<td>${a.adoptDate}</td>
