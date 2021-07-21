@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class BoardFile {
-	int boardFileId;
-	int boardId;
-	String createDate;
-	String boardFileOriginalName;
-	String boardFileName;
-	double boardFileSize;
-	String boardFileExt;
+	private int boardFileId;
+	private int boardId;
+	private String createDate;
+	private String boardFileOriginalName;
+	private String boardFileName;
+	private double boardFileSize;
+	private String boardFileExt;
 }
