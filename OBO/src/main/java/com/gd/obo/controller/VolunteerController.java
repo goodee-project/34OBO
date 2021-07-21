@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.VolunteerService;
+import com.gd.obo.vo.Member;
 import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
@@ -120,9 +121,9 @@ public class VolunteerController {
 	
 	// 회원 일반봉사 신청
 	@GetMapping("/member/addVolunteerNApply")
-	public String addVolunteerNApply(Model model,
-			@RequestParam(value="memberId", required = true) String memberId,
+	public String addVolunteerNApply(HttpSession session,
 			@RequestParam(value="recruitId", required = true) int recruitId) {
+		String memberId = ((Member) session.getAttribute("loginMember")).getMemberId();
 		int row = volunteerService.addVolunteerNApply(memberId, recruitId);
 		log.debug("=====row:"+row);
 		return "redirect:/member/getVolunteerN";
@@ -152,5 +153,15 @@ public class VolunteerController {
 		model.addAttribute("currentDate", map.get("currentDate"));
 		log.debug("=====map:"+map);
 		return "main/getVolunteerP";
+	}
+	// 회원 정기봉사 신청
+	@GetMapping("/member/addVolunteerPApply")
+	public String addVolunteerPApply(HttpSession session,
+			@RequestParam(value="recruitId", required = true) int recruitId,
+			@RequestParam(value="determination", required = true) String determination) {
+		String memberId = ((Member) session.getAttribute("loginMember")).getMemberId();
+		int row = volunteerService.addVolunteerPApply(memberId, recruitId, determination);
+		log.debug("=====row:"+row);
+		return "redirect:/member/getVolunteerP";
 	}
 }

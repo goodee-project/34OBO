@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.obo.mapper.AnimalFileMapper">
+	
+	<!-- animal 파일 추가 -->
+	<insert id="insertAnimalFile" parameterType="com.gd.obo.vo.AnimalFile">
+		INSERT INTO 
+			animal_file
+			(
+				animal_id,
+				animal_file_name,
+				animal_file_size,
+				animal_file_ext,
+				animal_file_date
+			
+			) VALUES (
+			
+				#{animalId},
+				#{animalFileName},
+				#{animalFileSize},
+				#{animalFileExt},
+				NOW()
+			)	
+	</insert>
+</mapper>

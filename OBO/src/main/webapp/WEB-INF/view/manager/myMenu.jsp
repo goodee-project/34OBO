@@ -7,40 +7,46 @@
 <meta charset="UTF-8">
 </head>
 <body>
-	<!-- 로그인 전 -->
-	<c:if test="${loginManager == null}">
-		<div class="col-lg-8 col-md-8">
-			<div class="short_contact_list">
-				<form id="loginForm" action="${pageContext.request.contextPath}/manager/login" method="post">
-					<ul>
-						<li><span style="color:white">ID</span>&nbsp;</li>
-						<li><input class="form-control" type="text" id="managerId" name="managerId" style="width:150px; height:30px"></li>&emsp;
-						<li><span style="color:white">PW</span>&nbsp;</li>
-						<li><input class="form-control" type="password" id="managerPw" name="managerPw" style="width:150px; height:30px"></li>&emsp;
-						<li><button type="button" id="loginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
-					</ul>
-				</form>
+<div class="header-top_area">
+	<div class="container">
+		<div class="row">
+		<!-- 로그인 전 -->
+		<c:if test="${loginManager == null}">
+			<div class="col-lg-8 col-md-8">
+				<div class="short_contact_list">
+					<form id="loginForm" action="${pageContext.request.contextPath}/manager/login" method="post">
+						<ul>
+							<li><span style="color:white">ID</span>&nbsp;</li>
+							<li><input class="form-control" type="text" id="managerId" name="managerId" style="width:150px; height:30px"></li>&emsp;
+							<li><span style="color:white">PW</span>&nbsp;</li>
+							<li><input class="form-control" type="password" id="managerPw" name="managerPw" style="width:150px; height:30px"></li>&emsp;
+							<li><button type="button" id="loginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
+						</ul>
+					</form>
+				</div>
 			</div>
-		</div>
-		
-		<div class="col-lg-4 col-md-4">
-			<div class="social_media_links">
-				<a href="${pageContext.request.contextPath}/home">회원페이지</a>
-				<a href="${pageContext.request.contextPath}/staff/home">직원페이지</a>
+			
+			<div class="col-lg-4 col-md-4">
+				<div class="social_media_links">
+					<a href="${pageContext.request.contextPath}/home">회원페이지</a>
+					<a href="${pageContext.request.contextPath}/staff/home">직원페이지</a>
+				</div>
 			</div>
-		</div>
-	</c:if>
-		
-	<!-- 로그인 후 -->
-	<c:if test="${loginManager != null}">
-		<div class="col-lg-12 col-md-4 ">
-			<div class="social_media_links">
-				<form id="logout" action="${pageContext.request.contextPath}/manager/logout">
-					<span class="text-white font-weight-bolder">${loginManager.managerName} 님, 반갑습니다!</span>
-					<a href="${pageContext.request.contextPath}/manager/logout"><button type="button" class="genric-btn primary-border circle arrow medium">LOGOUT</button></a>
-				</form>
+		</c:if>
+			
+		<!-- 로그인 후 -->
+		<c:if test="${loginManager != null}">
+			<div class="col-lg-12 col-md-4 ">
+				<div class="social_media_links">
+					<form id="logout" action="${pageContext.request.contextPath}/manager/logout">
+						<span class="text-white font-weight-bolder">${loginManager.managerName} 님, 반갑습니다!</span>
+						<a href="${pageContext.request.contextPath}/manager/logout"><button type="button" class="genric-btn primary-border circle arrow medium">LOGOUT</button></a>
+					</form>
+				</div>
 			</div>
+		</c:if>
 		</div>
-	</c:if>
+	</div>
+</div>
 </body>
 </html>

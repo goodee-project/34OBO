@@ -21,7 +21,7 @@ public class BoardFileController {
 	public String removeBoardFile(BoardFile boardFile) {
 		boardFileService.removeBoardFile(boardFile);
 		log.debug("@@@@@ boardFile: " +boardFile);
-		return "redirect:/getBoardOne?boardId="+boardFile.getBoardId();
+		return "redirect:/modifyBoard?boardId="+boardFile.getBoardId();
 	}
 	
 	

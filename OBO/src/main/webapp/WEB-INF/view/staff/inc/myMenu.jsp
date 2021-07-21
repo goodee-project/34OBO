@@ -43,42 +43,50 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-	<!-- 로그인 전 -->
-	<c:if test="${loginStaff == null}">
-		<div class="col-lg-8 col-md-8">
-			<div class="short_contact_list">
-				<form id="loginForm" action="${pageContext.request.contextPath}/staff/login" method="post">
-					<ul>
-						<li><span style="color:white">ID</span>&nbsp;</li>
-						<li><input class="form-control" type="text" id="loginStaffId" name="loginStaffId" style="width:150px; height:30px"></li>&emsp;
-						<li><span style="color:white">PW</span>&nbsp;</li>
-						<li><input class="form-control" type="password" id="loginStaffPw" name="loginStaffPw" style="width:150px; height:30px"></li>&emsp;
-						<li><button type="button" id="loginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
-						<li><a href="${pageContext.request.contextPath}/staff/addStaff">가입</a></li>
-					</ul>
-				</form>
+	<div class="header-top_area">
+		<div class="container">
+			<div class="row">
+			
+				<!-- 로그인 전 -->
+				<c:if test="${loginStaff == null}">
+					<div class="col-lg-8 col-md-8">
+						<div class="short_contact_list">
+							<form id="loginForm" action="${pageContext.request.contextPath}/staff/login" method="post">
+								<ul>
+									<li><span style="color:white">ID</span>&nbsp;</li>
+									<li><input class="form-control" type="text" id="loginStaffId" name="loginStaffId" style="width:150px; height:30px"></li>&emsp;
+									<li><span style="color:white">PW</span>&nbsp;</li>
+									<li><input class="form-control" type="password" id="loginStaffPw" name="loginStaffPw" style="width:150px; height:30px"></li>&emsp;
+									<li><button type="button" id="loginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
+									<li><a href="${pageContext.request.contextPath}/staff/addStaff">가입</a></li>
+								</ul>
+							</form>
+						</div>
+					</div>
+					
+					<div class="col-lg-4 col-md-4">
+						<div class="social_media_links">
+							<a href="${pageContext.request.contextPath}/home">회원페이지</a>
+							<a href="${pageContext.request.contextPath}/manager/">관리자페이지</a>
+						</div>
+					</div>
+				</c:if>
+					
+				<!-- 로그인 후 -->
+				<c:if test="${loginStaff != null}">
+					<div class="col-lg-12 col-md-4 ">
+						<div class="social_media_links">
+							<form id="logout" action="${pageContext.request.contextPath}/staff/logout">
+								<span class="text-white font-weight-bolder">${loginStaff.staffName}님, 반갑습니다!</span>
+								<a href="${pageContext.request.contextPath}/staff/getStaffAccount" class="text-white font-weight-bolder">계정</a>
+								<a href="${pageContext.request.contextPath}/staff/logout"><button type="button" class="genric-btn primary-border circle arrow medium">LOGOUT</button></a>
+							</form>
+						</div>
+					</div>
+				</c:if>
+				
 			</div>
 		</div>
-		
-		<div class="col-lg-4 col-md-4">
-			<div class="social_media_links">
-				<a href="${pageContext.request.contextPath}/home">회원페이지</a>
-				<a href="${pageContext.request.contextPath}/manager/">관리자페이지</a>
-			</div>
-		</div>
-	</c:if>
-		
-	<!-- 로그인 후 -->
-	<c:if test="${loginStaff != null}">
-		<div class="col-lg-12 col-md-4 ">
-			<div class="social_media_links">
-				<form id="logout" action="${pageContext.request.contextPath}/staff/logout">
-					<span class="text-white font-weight-bolder">${loginStaff.staffName}님, 반갑습니다!</span>
-					<a href="${pageContext.request.contextPath}/staff/getStaffAccount" class="text-white font-weight-bolder">계정</a>
-					<a href="${pageContext.request.contextPath}/staff/logout"><button type="button" class="genric-btn primary-border circle arrow medium">LOGOUT</button></a>
-				</form>
-			</div>
-		</div>
-	</c:if>
+	</div>
 </body>
 </html>
