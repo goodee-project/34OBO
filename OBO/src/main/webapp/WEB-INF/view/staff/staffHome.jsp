@@ -40,44 +40,11 @@ $(document).ready(function(){
 <body>
 	<header>
 		<div class="header-area ">
-		
 			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
-			<div class="header-top_area">
-				<div class="container">
-					<div class="row">
-						<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
-					</div>
-				</div>
-			</div>
-			
+			<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
+
 			<!-- 흰색 바탕 : 메인 메뉴 -->
-			<div id="sticky-header" class="main-header-area">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-xl-3 col-lg-3">
-							<div class="logo">
-								<a href="${pageContext.request.contextPath}/staff/">
-									<img src="../static/img/logo.png" alt="">
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-9 col-lg-9">
-							<div class="main-menu  d-none d-lg-block">
-								<nav>
-									<ul id="navigation">
-										<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
-									</ul>
-								</nav>
-							</div>
-						</div>
-						
-						<div class="col-12">
-							<div class="mobile_menu d-block d-lg-none"></div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
 		</div>
 	</header>
 
@@ -112,32 +79,32 @@ $(document).ready(function(){
 
 
 	<!-- JS here -->
-	<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
-	<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
-	<script src="../static/js/popper.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script src="../static/js/owl.carousel.min.js"></script>
-	<script src="../static/js/isotope.pkgd.min.js"></script>
-	<script src="../static/js/ajax-form.js"></script>
-	<script src="../static/js/waypoints.min.js"></script>
-	<script src="../static/js/jquery.counterup.min.js"></script>
-	<script src="../static/js/imagesloaded.pkgd.min.js"></script>
-	<script src="../static/js/scrollIt.js"></script>
-	<script src="../static/js/jquery.scrollUp.min.js"></script>
-	<script src="../static/js/wow.min.js"></script>
-	<script src="../static/js/nice-select.min.js"></script>
-	<script src="../static/js/jquery.slicknav.min.js"></script>
-	<script src="../static/js/jquery.magnific-popup.min.js"></script>
-	<script src="../static/js/plugins.js"></script>
-	<script src="../static/js/gijgo.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
 	
 	<!--contact js-->
-	<script src="../static/js/contact.js"></script>
-	<script src="../static/js/jquery.ajaxchimp.min.js"></script>
-	<script src="../static/js/jquery.form.js"></script>
-	<script src="../static/js/jquery.validate.min.js"></script>
-	<script src="../static/js/mail-script.js"></script>
-	<script src="../static/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 
 <script>
 	$('#datepicker').datepicker({
