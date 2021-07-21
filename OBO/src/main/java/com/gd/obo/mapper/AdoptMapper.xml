@@ -12,6 +12,7 @@
 		FROM adopt_apply AS aa, animal AS a, member AS m
 		<where>
 			aa.animal_id = a.animal_id AND aa.member_id = m.member_id AND a.shelter_id = #{shelterId}
+			AND aa.apply_reject_date IS NULL
 			AND (SELECT aa.adopt_apply_id FROM adopt AS ad WHERE ad.adopt_apply_id = aa.adopt_apply_id) IS NULL
 			<if test="searchWord != null">
 				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
@@ -93,7 +94,7 @@
 	
 	<!-- 입양 승인 -> adopt 테이블에 데이터 추가 -->
 	<insert id="insertAdopt" parameterType="java.util.Map">
-		INSERT INTO apply(
+		INSERT INTO adopt(
 			adopt_apply_id,
 			staff_id,
 			adopt_date
@@ -101,13 +102,13 @@
 			#{adoptApplyId},
 			#{staffId},
 			NOW()
-		)
+		);
 	</insert>
 	
 	<!-- 입양 거절 -> adopt_apply 테이블에 rejectdate 추가 -->
-	<update id="updateAdoptReject">
+	<update id="updateAdoptReject" parameterType="int">
 		UPDATE 
 			adopt_apply SET apply_reject_date = NOW()
-		WHERE adopt_apply_id = #{adoptApplyId}
+		WHERE adopt_apply_id = #{adoptApplyId};
 	</update>
 </mapper>

@@ -88,7 +88,7 @@ public class AdoptService {
 	}
 	
 	// staff - 입양 거절
-	public int modify() {
-		return adoptMapper.updateAdoptReject();
+	public int modifyAdoptReject(int adoptApplyId) {
+		return adoptMapper.updateAdoptReject(adoptApplyId);
 	}
 }
