@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.VolunteerMapper">
 	
-	<!-- 회원용 봉사 모집 목록 확인 -->
+	<!-- 회원용 봉사 모집 목록 확인 지금 날짜보다 봉사 날짜가 뒤인 경우를 우선 정렬.-->
 	<select id="selectVolunteerNList" resultType="java.util.Map" parameterType="java.util.Map">
 	SELECT * FROM volunteer_list
 		<where>
@@ -13,7 +13,9 @@
 				AND categoryName = #{categoryName}
 			</if>
 		</where>
-		ORDER BY recruitId DESC
+		ORDER BY 
+			CASE WHEN volunteerDate > NOW() THEN 0
+			ELSE 1 END, volunteerDate
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
@@ -59,7 +61,9 @@
 				AND categoryName = #{categoryName}
 			</if>
 		</where>
-		ORDER BY startDate DESC
+		ORDER BY 
+			CASE WHEN startDate > NOW() THEN 0
+			ELSE 1 END, startDate
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
@@ -81,7 +85,12 @@
 	
 	<!-- 회원 정기 봉사 신청 -->
 	<insert id="insertPeriocallyVolunteerApplyByMember" parameterType="java.util.Map" >
-		INSERT INTO volunteer_apply(volunteer_recruit_id, member_id, apply_date) VALUES (#{recruitId}, #{memberId}, NOW())
+		INSERT INTO periodically_volunteer_apply(periodically_volunteer_recruit_id, member_id, apply_date, determination) VALUES (#{recruitId}, #{memberId}, NOW(), #{determination})
 	</insert>
+	
+	<!-- 회원 정기 봉사 중복 검사 -->
+	<select id="selectMemberIdForCheckApplyingP" resultType="String" parameterType="java.util.Map">
+		SELECT member_id memberId FROM periodically_volunteer_apply WHERE periodically_volunteer_recruit_id=#{recruitId} AND member_id=#{memberId}
+	</select>
 	
 </mapper>
