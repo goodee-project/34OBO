@@ -43,6 +43,10 @@ $(document).ready(function(){
 		
 	});	
 	
+	$('#approvalBtn').click(function(){
+		console.log('승인버튼 밸류?'+$('#approvalBtn').val());
+	});
+	
 });
 </script>
 </head>
@@ -93,7 +97,6 @@ $(document).ready(function(){
 							<br>
 							<table class="table">
 								<tr>
-									<td>No</td>
 									<td>동물</td>
 									<td>회원ID</td>
 									<td>회원이름</td>
@@ -102,14 +105,19 @@ $(document).ready(function(){
 								</tr>
 								<c:forEach var="a" items="${adoptApplyList}">
 									<tr>
-										<td>${a.adoptApplyId}</td>
 										<td>${a.animalName}</td>
 										<td>${a.memberId}</td>
 										<td>${a.memberName}</td>
 										<td>${a.adoptApplyDocumentId}</td>
 										<td> <!-- 아이콘 클릭 시 새 창으로 열지? 아님 모달창 사용할지? -->
-											<a href=""><i class="fa fa-check-circle fa"></i></a> <!-- 승인 btn -->
-											<a href=""><i class="fa fa-times-circle fa"></i></a> <!-- 거절 btn -->
+											<!-- 승인 btn -->
+											<a id="approvalBtn" data-toggle="modal" data-target="#approval-modal">
+												<i class="fa fa-check-circle fa"></i>
+											</a>
+											<!-- 거절 btn --> 
+											<a id="rejectBtn">
+												<i class="fa fa-times-circle fa"></i>
+											</a> 
 										</td>
 									</tr>
 								</c:forEach>
@@ -144,6 +152,26 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+	<!-- 승인 확인 모달 -->
+	<div class="modal fade" id="approval-modal" role="dialog" aria-labelledby="approval-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title">입양 승인 하시겠습니까?</h4>
+					<br>
+					<br>
+					<button id="approvalCkBtn" type="button" class="genric-btn primary-border radius">확인</button>
+					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+	
+	
+	</script>
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

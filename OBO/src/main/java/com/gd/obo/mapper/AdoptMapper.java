@@ -10,4 +10,7 @@ public interface AdoptMapper {
 	List<Map<String, Object>> selectAdoptApplyList(Map<String, Object> map);
 	List<Map<String, Object>> selectAdoptApprovalList(Map<String, Object> map);
 	List<Map<String, Object>> selectAdoptRejectList(Map<String, Object> map);
+	List<Map<String, Object>> selectAdoptList(Map<String, Object> map);
+	int insertAdopt(Map<String, Object> map);
+	int updateAdoptReject();
 }

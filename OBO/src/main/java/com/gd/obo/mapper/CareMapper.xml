@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.CareMapper">
+
+	<!-- careinfo list 불러오기 -->
 	<select id="selectCareInfoList" resultType="java.util.Map">
 		SELECT
 			ci.care_info_id careInfoId,
@@ -24,4 +26,53 @@
 		ORDER BY ci.care_info_id ASC;
 	</select>
 	
+	<!-- care info 분류 선택할 때 사용 -->
+	<select id="selectCareInfoByCarePlan" parameterType="int" resultType="java.util.Map">
+		SELECT
+			care_info_id AS careInfoId,
+			CONCAT(care_sorting, '-', care_info_content) AS careSorting
+		FROM care_info
+		WHERE animal_category_id = #{animalCategoryId} AND care_sorting != '정기검진';
+	</select>
+	
+	<!-- 선택한 care info 자동 계산위한 값 -->
+	<select id="selectCarePlanDay" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			a.animal_id AS animalId,
+			ci.care_info_id AS careInfoId,
+			ci.animal_category_id AS animalCategoryId,
+			ci.care_sorting AS careSorting,
+			ci.care_info_content AS careInfoContent,
+			ci.care_time careTime,
+			DATE(ad.adopt_date) AS `입양일`,
+			DATE_ADD(date(ad.adopt_date), INTERVAL 52 week) AS `정기검진`,
+			DATE_ADD(date(ad.adopt_date), INTERVAL ci.care_time week) AS `careDate`
+		FROM animal AS a, care_info AS ci, adopt AS ad, adopt_apply AS aa
+		<where>
+			a.animal_category_id = ci.animal_category_id
+			AND ad.adopt_apply_id = aa.adopt_apply_id
+			AND aa.animal_id = a.animal_id
+			AND a.shelter_id = #{shelterId}
+			AND a.animal_id = #{animalId}
+			AND ci.care_info_id = #{careInfoId}
+		</where>
+	</select>
+	
+	<insert id="insertCarePlan" parameterType="java.util.Map">
+		INSERT INTO care_plan(
+			animal_id,
+			member_id,
+			staff_id,
+			care_info_id,
+			care_date,
+			create_date
+		) VALUE(
+			#{animalId},
+			#{memberId},
+			#{staffId},
+			#{careInfoId},
+			#{careDate},
+			NOW()
+		)
+	</insert>
 </mapper>

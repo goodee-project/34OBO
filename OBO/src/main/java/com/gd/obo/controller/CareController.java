@@ -76,10 +76,7 @@ public class CareController {
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
 		
-		String searchWord = null;
-		String selectOption = null;
-		
-		List<Map<String, Object>> adoptApprovalList = adoptService.getAdoptApprovalList(shelterId, searchWord, selectOption);
+		List<Map<String, Object>> adoptApprovalList = adoptService.getAdoptApprovalList(shelterId);
 		log.debug("●●●●▶ adoptApprovalList-> "+adoptApprovalList);
 		
 		model.addAttribute("adoptApprovalList", adoptApprovalList);
@@ -89,8 +86,14 @@ public class CareController {
 	
 	// staff - 케어 plan 작성 action
 	@PostMapping("/staff/addCarePlanInStaff")
-	public String addCarePlanInStaff (String careDate) {
-		log.debug("●●●●▶ careDate-> "+careDate);
+	public String addCarePlanInStaff (String[] careInfoId, String[] careDate) {
+		// careDate, careInfoId는 String[] 값으로 들어옴 -> 확인 완료
+		for(int i=0; i<careInfoId.length; i++) {
+			log.debug("●●●●▶ careInfoId-> "+careInfoId[i]);
+			log.debug("●●●●▶ careDate-> "+careDate[i]);
+			
+		}
+		//log.debug("●●●●▶ careInfoId-> "+careInfoId);
 		
 		
 		// return "redirect:/staff/getCarePlanInStaff";

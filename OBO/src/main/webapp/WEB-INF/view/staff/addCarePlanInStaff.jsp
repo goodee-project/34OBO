@@ -31,25 +31,33 @@
 
 <script>
 $(document).ready(function(){	
-	
+	/*
 	//plan 작성할 동물 선택
 	$('#animalId').change(function(){
-		console.log('동물선택~');
+		
+		
+		/*
+		if($('#animalId').val()==0){
+			alert('Care Plan을 작성할 동물을 선택해주세요');
+			return;
+		}
+		
 		$.ajax({
-			url: '${pageContext.request.contextPath}/getAdoptApprovalList',
+			url: '${pageContext.request.contextPath}/calCarePlanDay',
 			type: 'get',
 			data: {animalId : $('#animalId').val()},
-			success: function(jsonData){
-				console.log('ajax 성공');
+			success: function(jsonData2){
+				console.log('plan 정보 불러오기 ajax 성공');
+				$(jsonData2).each(function(index, item) {
 				
-				// for문 돌려서 정보 가져오기 -> 회원 id, 이름, 신청일, 입양일
+				});
 			}
 		});
-	});
+	});*/
 	
 	$('#addBtn').click(function(){
 		console.log('등록버튼 클릭');
-		
+		alert('아 value왜안더'+$('#careInfoId').val());
 		$('#addForm').submit();
 	});
 	
@@ -102,8 +110,8 @@ $(document).ready(function(){
 							<form id="addForm" action="" method="post">
 								<table class="table">
 									<tr>
-										<td width="25%">직원ID</td>
-										<td width="75%">
+										<td width="40%">직원ID</td>
+										<td width="60%">
 											${loginStaff.staffId}
 											<input id="staffId" class="form-control" name="staffId" type="hidden">
 										</td>
@@ -112,10 +120,8 @@ $(document).ready(function(){
 										<td>동물 선택</td>
 										<td>
 											<div class="add_form">
-												<select id="animalId" name="animalId" class="select_box">
-													<option>한글</option>
-													<option>1</option>
-													<option>1</option>
+												<select id="animalId" name="animalId" class="select_box" onchange="animalChFunction();">
+													<option value="0">==선택==</option>
 													<c:forEach var="a" items="${adoptApprovalList}">
 														<option value="${a.animalId}">${a.animalName}</option>
 													</c:forEach>
@@ -128,8 +134,8 @@ $(document).ready(function(){
 								<div>* 회원정보 *</div>
 								<table class="table">
 									<tr>
-										<td width="25%">회원ID</td>
-										<td width="75%">
+										<td width="40%">회원ID</td>
+										<td width="60%">
 											<input id="memberId" class="form-control" name="memberId" type="text" readonly>
 										</td>
 									</tr>
@@ -153,29 +159,18 @@ $(document).ready(function(){
 									</tr>
 								</table>
 								
-								<div>
-									* 실행할 Plan *
-								</div>
+								<br>
 								
-								<table class="table">
-									<tr>
-										<!-- type="date" 넘어가는 값 : 2021-07-20 -->
-										<td width="25%">정기검진</td>
-										<td width="75%">
-											<!-- 정기검진 defalut : 입양일 1년 후 -->
-											<input id="careDate" class="form-control" name="careDate" type="date" value="">
-										</td>
-									</tr>
+								<table id="planTable" class="table">
+									
 								</table>
-								<div>
-									<a id="planAddBtn" type="button"><i class="fa fa-plus-square-o fa-2x"></i></a>
-									<a id="planRemoveBtn" type="button"><i class="fa fa-minus-square-o fa-2x"></i></a>
+								<div> <!-- onclick="addFunction();" -->
+									<a id="planAddBtn" href="javascript:void(0);" onclick="addFunction();"><i class="fa fa-plus-square-o fa-2x"></i></a>
+									<a id="planRemoveBtn" href="javascript:void(0);" onclick="minusFunction();"><i class="fa fa-minus-square-o fa-2x"></i></a>
 								</div>
 								<br><br>
 								<button id="addBtn" type="button" class="genric-btn primary-border radius">Plan 작성</button>
 							</form>
-							
-							
 						</div>
 					</div>
 				</div>
@@ -188,6 +183,252 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+<script>
+	let animalCategoryId, animalId;
+	
+	// care plan 작성할 동물 선택
+	function animalChFunction(){
+		console.log('동물선택~');
+		animalId = $('#animalId').val();
+		console.log('선택한 animalId-> '+animalId);
+		let addTr = "";
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getAdoptApprovalList',
+			type: 'get',
+			data: {animalId : animalId},
+			success: function(jsonData){
+				console.log('회원&동물 정보 불러오기 ajax 성공');
+				
+				$('#planTable').empty();	//테이블 비우기
+				
+				$(jsonData).each(function(index, item) {
+					addTr += '<td width="40%">';
+					addTr += 	'<input class="form-control" type="text" value="정기검진" readonly>';
+					addTr += 	'<input id="careInfoId" name="careInfoId" type="hidden" value="'+item.careInfoId+'">';
+					addTr += '</td>';
+					addTr += '<td width="60%">';
+					addTr += 	'<input id="regularCk" class="form-control" name="careDate" type="date">';
+					addTr += '</td>';
+					
+					$('#planTable').append(addTr);
+					
+					$('#memberId').val(item.memberId);
+					$('#memberName').val(item.memberName);
+					$('#applyDate').val(item.applyDate);
+					$('#adoptDate').val(item.adoptDate);
+					$('#regularCk').val(item.regularCk);
+					$('#careInfoId').val(item.careInfoId);
+					
+					careInfoId = item.careInfoId;
+					animalCategoryId = item.animalCategoryId;
+					console.log('케어인포아이디 ㅠㅠ-> '+item.careInfoId);
+					console.log('animalCategoryId ㅠㅠ-> '+item.animalCategoryId);
+					
+				});
+			}
+		});
+	};
+
+	
+	
+	// jquery on binding
+	$(document).on('click', '#planAddBtn', function(){
+		console.log('+클릭');
+		
+		if($('#animalId').val() == 0){
+			alert('동물을 먼저 선택해주세요');
+			return;
+		}
+		
+		let addTr = "";
+		let addTr2 = "";
+		let trCnt = $('#planTable tr').length;
+		console.log('추가 전 tr 개수->'+trCnt);
+		
+		
+		// 추가 버튼 클릭과 동시에 sorting list를 불러온다. -> animalCategoryId 값을 같이 준다
+		$.ajax({
+			url: '${pageContext.request.contextPath}/careSortingList',
+			type: 'get',
+			data: {animalCategoryId : animalCategoryId},
+			success: function(jsonData){
+				console.log('sorting 리스트 불러오기 성공');
+				
+				// 최대 5개까지만!
+				if(trCnt < 6){
+					
+					addTr += '<tr>';
+					addTr += '<td>';
+					addTr += '<select id="careSorting" style="width:100%;" class="select_box" onchange="calCarePlanFunction();">';
+					addTr += '<option value="0">==선택==</option>';
+					$(jsonData).each(function(index, item){
+						addTr += '<option value="'+item.careInfoId+'">'+item.careSorting+'</option>';
+					});
+					addTr += '</select>';
+					addTr += '</td>';
+					addTr += '<td>';
+					addTr += '<div id="del">';
+					addTr += '<input class="form-control" type="date">';
+					addTr += '</div>';
+					addTr += '</td>';
+					addTr += '</tr>';
+					
+					$('#planTable').append(addTr);	// 왼쪽 td 선 추가,,
+					
+					$(document).on('change', '#careSorting', function(e){
+						let careInfoId = e.target.value;
+						
+						console.log('셀렉트박스 클릭');
+						console.log('careInfoId-> '+careInfoId);
+						
+						$('#del').removeAttr();	// 삭제해도 안 먹힘,,,
+						
+						$.ajax({
+							url: '${pageContext.request.contextPath}/calCarePlanDay',
+							type: 'get',
+							data: {animalId : animalId,
+									careInfoId : careInfoId},
+							success: function(jsonData){
+								console.log('sorting-content 선택 성공!!!!!!!');
+								$('#del').html('<input id="careDate" class="form-control" name="careDate" type="date">')
+								
+								$(jsonData).each(function(index, item){
+									$('#careDate').val(item.careDate);
+									careDate = item.careDate;
+									console.log('최종 careInfoId-> '+careInfoId);
+									console.log('찐 랏 최종 careDate-> '+careDate);
+									return;
+								});
+							}
+						});
+					});
+					
+					trCnt = $('#planTable tr').length;
+					console.log('ajax 성공 tr 개수->'+trCnt);
+				} else{
+					alert('최대 5개까지 추가 가능합니다.');
+					return;
+				}
+				
+			}
+		});
+		
+		
+	});
+	
+	
+	
+	/* onclick 함수 사용 할 때
+	
+	// [+] 클릭
+	function addFunction(){
+		let careInfoId;
+		
+		console.log('[+] 클릭직후의 케어인포-> '+$('#careInfoId').val());
+		
+		if($('#animalId').val() == 0){
+			alert('동물을 먼저 선택해주세요');
+			return;
+		}
+		
+		let addTr = "";
+		let trCnt = $('#planTable tr').length;
+		console.log('추가 전 tr 개수->'+trCnt);
+		
+		// 이슈 발견 -> 버튼 추가하면 ajax로 인해 값이 선택된 값만 보여진다,,! -> 즉 새로운 행은 값을 변경할 수 없음
+		
+		
+		// 추가 버튼 클릭과 동시에 sorting list를 불러온다. -> animalCategoryId 값을 같이 준다
+		$.ajax({
+			url: '${pageContext.request.contextPath}/careSortingList',
+			type: 'get',
+			data: {animalCategoryId : animalCategoryId},
+			success: function(jsonData){
+				console.log('sorting 리스트 불러오기 성공');
+				
+				// 최대 5개까지만!
+				if(trCnt < 6){
+					addTr += '<tr>';
+					addTr += '<td>';
+					addTr += '<select id="careSorting" style="width:100%;" class="select_box" onchange="calCarePlanFunction();">';
+					addTr += '<option value="0">==선택==</option>';
+					$(jsonData).each(function(index, item){
+						addTr += '<option value="'+item.careInfoId+'">'+item.careSorting+'</option>';
+					});
+					addTr += '</select>';
+					addTr += '<td>';
+					addTr += '<input id="careDate" class="form-control" name="careDate" type="date">';
+					addTr += '<input id="careInfoId" type="hidden" name="careInfoId" value="">';
+					addTr += '</td>';
+					addTr += '</tr>';
+					
+					$('#planTable').append(addTr);
+					
+					
+					
+					trCnt = $('#planTable tr').length;
+					console.log('ajax 성공 tr 개수->'+trCnt);
+				} else{
+					alert('최대 5개까지 추가 가능합니다.');
+					return;
+				}
+				
+			}
+		});
+		
+	};
+	
+	
+	// care plan 계산 함수! - select option 선택 후
+	function calCarePlanFunction(){
+		console.log('careplan 선택!!');
+		careInfoId = $('#careSorting').val();
+		//$('#careSorting').val(careInfoId);
+		console.log('선택한 careInfoId-> '+careInfoId);
+		console.log('선택한 val()-> '+$('#careSorting').val());
+		$('#careInfoId').val('');
+		$('#careDate').val('');
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/calCarePlanDay',
+			type: 'get',
+			data: {animalId : animalId,
+					careInfoId : careInfoId},
+			success: function(jsonData){
+				console.log('sorting-content 선택 성공!!!!!!!');
+				$(jsonData).each(function(index, item){
+					$('#careDate').val(item.careDate);
+					$('#careInfoId').val(item.careInfoId);
+					//careInfoId = item.careInfoId;
+					careDate = item.careDate;
+					console.log('최종 careInfoId-> '+item.careInfoId);
+					console.log('최종 careDate-> '+item.careDate);
+					console.log('찐 랏 최종 careDate-> '+careDate);
+					return;
+				});
+			}
+		});
+	};
+	
+	// 필요없는 내용 삭제할 때
+	function minusFunction(){
+		let trCnt = $('#planTable tr').length;
+		console.log('삭제 전 tr 개수->'+trCnt);
+		
+		if(trCnt > 1){
+			$('#planTable tr:last').remove();
+		} else{
+			alert('정기검진은 삭제 할 수 없습니다.');
+			return;
+		}
+		
+		trCnt = $('#planTable tr').length;
+		console.log('삭제 후 tr 개수->'+trCnt);
+	};
+	*/
+</script>
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

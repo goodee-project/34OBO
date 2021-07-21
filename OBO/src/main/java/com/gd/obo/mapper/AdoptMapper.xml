@@ -4,14 +4,15 @@
 	<!-- 입양 신청한 동물 리스트 -->
 	<select id="selectAdoptApplyList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			ap.adopt_apply_id adoptApplyId,
-			a.animal_name animalName,
-			ap.member_id memberId,
-			m.member_name memberName,
-			ap.adopt_apply_document_id adoptApplyDocumentId
-		FROM adopt_apply ap, animal a, member m
+			aa.adopt_apply_id AS adoptApplyId,
+			a.animal_name AS animalName,
+			aa.member_id AS memberId,
+			m.member_name AS memberName,
+			aa.adopt_apply_document_id AS adoptApplyDocumentId
+		FROM adopt_apply AS aa, animal AS a, member AS m
 		<where>
-			ap.animal_id = a.animal_id AND ap.member_id = m.member_id AND a.shelter_id = #{shelterId}
+			aa.animal_id = a.animal_id AND aa.member_id = m.member_id AND a.shelter_id = #{shelterId}
+			AND (SELECT aa.adopt_apply_id FROM adopt AS ad WHERE ad.adopt_apply_id = aa.adopt_apply_id) IS NULL
 			<if test="searchWord != null">
 				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
 			</if>
@@ -21,19 +22,19 @@
 	<!-- 입양 완료된 동물 리스트 -->
 	<select id="selectAdoptApprovalList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			ap.adopt_apply_id adoptApplyId,
-			a.animal_id animalId,
-			a.animal_name animalName,
-			ap.member_id memberId,
-			m.member_name memberName,
-			ap.adopt_apply_document_id adoptApplyDocumentId,
-			ap.apply_date applyDate,
-			ad.adopt_date adoptDate,
-			ad.staff_id staffId
-		FROM adopt ad, adopt_apply ap, animal a, member m
+			aa.adopt_apply_id AS adoptApplyId,
+			a.animal_id AS animalId,
+			a.animal_name AS animalName,
+			aa.member_id AS memberId,
+			m.member_name AS memberName,
+			aa.adopt_apply_document_id AS adoptApplyDocumentId,
+			DATE(aa.apply_date) AS applyDate,
+			DATE(ad.adopt_date) AS adoptDate,
+			ad.staff_id AS staffId
+		FROM adopt AS ad, adopt_apply AS aa, animal AS a, member AS m
 		<where>
-			ad.adopt_apply_id = ap.adopt_apply_id AND ap.animal_id = a.animal_id 
-			AND ap.member_id = m.member_id AND a.shelter_id = #{shelterId}
+			ad.adopt_apply_id = aa.adopt_apply_id AND aa.animal_id = a.animal_id 
+			AND aa.member_id = m.member_id AND a.shelter_id = #{shelterId}
 			<if test="searchWord != null and selectOption == 'animal'">
 				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
 			</if>
@@ -46,19 +47,67 @@
 	<!-- 입양 거절된 동물 리스트 -->
 	<select id="selectAdoptRejectList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			ap.adopt_apply_id adoptApplyId,
-			a.animal_name animalName,
-			ap.member_id memberId,
-			ap.adopt_apply_document_id adoptApplyDocumentId,
-			ap.apply_date applyDate,
-			ap.apply_reject_date applyRejectDate
-		FROM adopt_apply ap, animal a, member m
+			aa.adopt_apply_id AS adoptApplyId,
+			a.animal_name AS animalName,
+			aa.member_id AS memberId,
+			aa.adopt_apply_document_id AS adoptApplyDocumentId,
+			DATE(aa.apply_date) AS applyDate,
+			DATE(aa.apply_reject_date) AS applyRejectDate
+		FROM adopt_apply AS aa, animal AS a, member AS m
 		<where>
-			ap.animal_id = a.animal_id AND ap.member_id = m.member_id 
-			AND ap.apply_reject_date IS NOT NULL AND a.shelter_id = #{shelterId}
+			aa.animal_id = a.animal_id AND aa.member_id = m.member_id 
+			AND aa.apply_reject_date IS NOT NULL AND a.shelter_id = #{shelterId}
 			<if test="searchWord != null">
 				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
 			</if>
 		</where>		
 	</select>
+	
+	<!-- 입양 완료된 동물 목록 & 케어플랜 작성 안 된 동물 -->
+	<select id="selectAdoptList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			aa.adopt_apply_id AS adoptApplyId,
+			a.animal_id AS animalId,
+			a.animal_category_id AS animalCategoryId,
+			a.animal_name AS animalName,
+			aa.member_id AS memberId,
+			m.member_name AS memberName,
+			aa.adopt_apply_document_id AS adoptApplyDocumentId,
+			DATE(aa.apply_date) AS applyDate,
+			DATE(ad.adopt_date) AS adoptDate,
+			DATE_ADD(date(ad.adopt_date), INTERVAL 52 week) AS 'regularCk',
+			ci.care_info_id AS careInfoId,
+			ad.staff_id AS staffId
+		FROM adopt AS ad, adopt_apply AS aa, animal AS a, member AS m, animal_category AS ac, care_info AS ci
+		<where>
+			ad.adopt_apply_id = aa.adopt_apply_id AND aa.animal_id = a.animal_id AND aa.member_id = m.member_id 
+			AND ci.animal_category_id = ac.animal_category_id AND ac.animal_category_id = a.animal_category_id
+			AND ci.care_sorting = '정기검진'
+			AND a.shelter_id = #{shelterId}
+			AND (SELECT cp.animal_id FROM care_plan AS cp WHERE cp.animal_id = a.animal_id) IS NULL
+			<if test="animalId != null">
+				AND a.animal_id = #{animalId}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 입양 승인 -> adopt 테이블에 데이터 추가 -->
+	<insert id="insertAdopt" parameterType="java.util.Map">
+		INSERT INTO apply(
+			adopt_apply_id,
+			staff_id,
+			adopt_date
+		) VALUE(
+			#{adoptApplyId},
+			#{staffId},
+			NOW()
+		)
+	</insert>
+	
+	<!-- 입양 거절 -> adopt_apply 테이블에 rejectdate 추가 -->
+	<update id="updateAdoptReject">
+		UPDATE 
+			adopt_apply SET apply_reject_date = NOW()
+		WHERE adopt_apply_id = #{adoptApplyId}
+	</update>
 </mapper>

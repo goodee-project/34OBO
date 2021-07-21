@@ -93,7 +93,6 @@ $(document).ready(function(){
 							<br>
 							<table class="table">
 								<tr>
-									<td>No</td>
 									<td>동물</td>
 									<td>회원ID</td>
 									<td>신청서류</td> <!-- 클릭 시 다운로드 -->
@@ -102,7 +101,6 @@ $(document).ready(function(){
 								</tr>
 								<c:forEach var="a" items="${adoptRejectList}">
 									<tr>
-										<td>${a.adoptApplyId}</td>
 										<td>${a.animalName}</td>
 										<td>${a.memberId}</td>
 										<td>${a.adoptApplyDocumentId}</td>

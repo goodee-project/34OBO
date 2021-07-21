@@ -99,7 +99,6 @@ $(document).ready(function(){
 							<br>
 							<table class="table">
 								<tr>
-									<td>No</td>
 									<td>동물</td>
 									<td>회원ID</td>
 									<td>회원이름</td>
@@ -111,7 +110,6 @@ $(document).ready(function(){
 								</tr>
 								<c:forEach var="a" items="${adoptApprovalList}">
 									<tr>
-										<td>${a.adoptApplyId}</td>
 										<td>${a.animalName}</td>
 										<td>${a.memberId}</td>
 										<td>${a.memberName}</td>
