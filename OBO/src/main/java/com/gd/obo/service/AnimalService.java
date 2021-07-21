@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gd.obo.mapper.AnimalFileMapper;
 import com.gd.obo.mapper.AnimalMapper;
+import com.gd.obo.vo.AnimalFile;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 public class AnimalService {
 	@Autowired
 	AnimalMapper animalMapper;
+	@Autowired
+	AnimalFileMapper animalFileMapper;
 	
 	/*
 	// 작성자 : 남민정
@@ -38,7 +42,7 @@ public class AnimalService {
 		
 		return animalMapper.insertAnimal(map);
 	}
-	
+		
 	
 	
 	
@@ -52,7 +56,9 @@ public class AnimalService {
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalOne animalMap: " + animalMap);
 		
 		// 동물 파일 목록
-		
+		List<AnimalFile> animalFileList = animalMapper.selectAnimalFileByAnimal(animalId);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalOne animalFileList: " + animalFileList);
+			
 		// controller에서 사용할 수 있는 맵
 		Map<String, Object> map = new HashMap<>();
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalOne map: " + map);
