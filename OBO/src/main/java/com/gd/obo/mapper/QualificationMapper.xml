@@ -79,6 +79,7 @@
 			AND qv.member_id LIKE CONCAT('%',#{searchWord},'%')
 		</if>
 	</where>	
+	ORDER BY a.approval_date DESC
 	LIMIT #{beginRow}, #{rowPerPage}
 </select>
 
@@ -101,6 +102,7 @@
 			AND a.member_id LIKE CONCAT('%',#{searchWord},'%')
 		</if>
 	</where>
+	ORDER BY a.applicate_date DESC
 	LIMIT #{beginRow}, #{rowPerPage}
 </select>
 
@@ -130,12 +132,13 @@
 </select>
 
 <!-- 자격 신청 승인 -->
-<insert id="InsertApproveQualificationApplication" parameterType="java.util.Map">
-	INSERT INTO qualification_approval(qualification_volunteer_application_id, manager_id, approval_check, approval_date) VALUES (#{applicationId}, #{managerId}, 'Y', NOW());
+<insert id="insertApproveQualificationApplication" parameterType="java.util.Map">
+	INSERT INTO qualification_approval(qualification_volunteer_application_id, manager_id, approval_check, approval_date) 
+	VALUES (#{applicationId}, #{managerId}, 'Y', NOW())
 </insert>
 
 <!-- 자격 신청 거절 -->
-<insert id="InsertRejectQualificationApplication" parameterType="java.util.Map">
+<insert id="insertRejectQualificationApplication" parameterType="java.util.Map">
 	INSERT INTO qualification_approval(qualification_volunteer_application_id, manager_id, approval_check, approval_date) VALUES (#{applicationId}, #{managerId}, 'N', NOW());
 </insert>
 	

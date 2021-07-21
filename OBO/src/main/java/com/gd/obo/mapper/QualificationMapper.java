@@ -20,8 +20,8 @@ public interface QualificationMapper {
 	List<Map<String, Object>> selectQualificationVolunterrList();
 	List<Map<String, Object>> selectQualificationApprovalList(Page page);
 	List<Map<String, Object>> selectQualificationApplicationList(Page page);
-	int InsertApproveQualificationApplication(Map<String,Object> map);
-	int InsertRejectQualificationApplication(Map<String,Object> map);
+	int insertApproveQualificationApplication(Map<String,Object> map);
+	int insertRejectQualificationApplication(Map<String,Object> map);
 	int selectQualificationApplicationListTotal(Page page);
 	int selectQualificationApprovalListTotal(Page page);
 }
