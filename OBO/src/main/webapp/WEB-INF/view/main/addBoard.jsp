@@ -204,13 +204,9 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 
 <script> 
-	let checked = 1;
 
    	function setThumbnail(event){ 
-   		
-   			
-   		
-   		
+   		  		
    		for (var image of event.target.files) {
    			
    			var reader = new FileReader(); 
@@ -229,8 +225,6 @@ $(document).ready(function(){
    		}
    		
    		$('#target').prepend('<input id="imgFileUpload" name="boardFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
-   		
-   		checked
    	
    	
    	} 

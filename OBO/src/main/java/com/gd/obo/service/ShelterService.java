@@ -1,16 +1,25 @@
 // 작성자: 김선유
 // 수정자 : 남궁혜영(2021-07-16)
 // 수정자 : 이윤정(2021-07-16) ; staff 회원가입시 -> 보호소 검색용
-// 수정자 : 손영현(2021-07-17) ; 일반, 정기 후원시 -> 보호소 선택용
+// 수정자 : 손영현(2021-07-17) ; 일반, 정기 후원시 -> 보호소 선택용, 카카오 로컬 사용해서 x, y 좌표 구함
 package com.gd.obo.service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.gd.obo.mapper.AddressMapper;
 import com.gd.obo.mapper.ShelterMapper;
@@ -39,7 +48,76 @@ public class ShelterService {
 		Map<String, Object> shelterMap = shelterMapper.selectShelterOne(shelterId);
 		log.debug("@@@@@shelterMap: "+shelterMap);
 		
-		return shelterMap;
+		
+		//카카오 로컬으로x, y 좌표 구하기
+		
+		RestTemplate rt = new RestTemplate();
+		
+		//http 헤더 생성
+		HttpHeaders headers = new HttpHeaders();
+		//contents-type
+		headers.add("Authorization", "KakaoAK 535757159a398fe468b3ed3f2d2032e4");
+		
+		//header 와 body값을 담아네요 restTemplate 라이브러리를 이용하여 전송
+		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(null, headers);
+		
+		log.debug("■■■■■ kakaoTokenRequest code param : " + kakaoTokenRequest);
+		
+		//http요청하기-post 방식 - response 변수의 응답 받음
+		//exchange : HTTP 헤더를 새로 만들 수 있고 어떤 HTTP 메서드(post, get ...)도 사용가능하다
+		ResponseEntity<String> response = rt.exchange("https://dapi.kakao.com/v2/local/search/address.json?query="+ (String)shelterMap.get("doro"), HttpMethod.GET, kakaoTokenRequest, String.class);
+		
+		
+		//log.debug("■■■■■ response 로컬 : " + response);
+		//log.debug("■■■■■ response bodybody 로컬 : " + response.getBody());
+		
+		//response는 json 형식이므로 고쳐야함!
+		Map<String, Object> kakaoResponse = null;
+		
+		try {
+			kakaoResponse = new JSONParser(response.getBody()).parseObject();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		
+		log.debug("■■■■■ kakaoResponse 결과 잘 나오는지 확인: "+ kakaoResponse);
+			
+		//타입확인 - arrayList
+		//log.debug(kakaoResponse.get("documents").getClass().getName());
+		
+		List list = (List)kakaoResponse.get("documents");
+		
+		/*
+		for(Object o: list) {
+			log.debug("ooooooo :" + o);
+			log.debug(o.getClass().getName());
+		}
+		*/
+		
+		Map map = (Map)list.get(0);
+		/* key, value 확인
+		map.forEach((key, value)
+			    -> log.debug("key: " + key + ", value: " + value));
+		
+		*/
+		String x = (String)map.get("x");
+		String y = (String)map.get("y");
+		
+		log.debug("■■■■■ x 결과 잘 나오는지 확인: "+ x);
+		log.debug("■■■■■ y 결과 잘 나오는지 확인: "+ y);
+		
+		
+		//결과를 담아서 return
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		
+		returnMap.put("shelterMap", shelterMap);
+		
+		returnMap.put("x", x);
+		returnMap.put("y", y);
+		
+		return returnMap;
 	}
 	
 	// shelter 리스트,  staff 회원가입 -> 보호소 선택

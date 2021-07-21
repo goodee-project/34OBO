@@ -86,9 +86,19 @@ public class ShelterController {
 	@GetMapping("/getShelterOne")
 	public String getShelterOne(Model model,
 									@RequestParam(value="shelterId",required= true) int shelterId) {
-		Map<String, Object> shelterMap = shelterService.getShelterOne(shelterId);
-		log.debug("@@@@@ shelterMap: "+shelterMap);
-		model.addAttribute("shelterMap", shelterMap);
+		Map<String, Object> map = shelterService.getShelterOne(shelterId);
+		log.debug("@@@@@ map: "+map);
+		
+		
+		String x = (String)map.get("x");
+		String y = (String)map.get("y");
+		
+		if(x != null) {
+			model.addAttribute("x", x);
+			model.addAttribute("y", y);
+		}
+		
+		model.addAttribute("shelterMap", map.get("shelterMap"));
 		return "main/getShelterOne";
 	}
 	

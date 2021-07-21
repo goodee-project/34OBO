@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
+
 <meta charset="UTF-8">
 <title>getShelterOne</title>
 </head>
@@ -116,7 +117,7 @@
                <table class="table table-hover">
 					<tr>
 						<td>주소</td>
-						<td>${shelterMap.addressId}</td>
+						<td>${shelterMap.doro}</td>
 					</tr>
 					<tr>
 						<td>설립일</td>
@@ -154,7 +155,65 @@
             </div>
 		</div>
 	</div>
+	
+	<section class="blog_area single-post-area section-padding service_area">
+		<div class="container">
+			<div class="row">
+			
+				<div class="col-lg-10 mb-10 mb-lg-0"  >
+					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+					<div class="single_service staff_account">
+						<div class="service_content text-center">
+							<h3>찾아오는 길</h3>
+							<div class="row">
+								<div id="map" style="width:400px;height:300px;"></div>
+								<div>
+									${shelterMap.doro}
+								</div>
+							</div>
+							
+							
+							
+						</div>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+	</section>
+	
+	
+	
+	
+	<!-- 카카오 지도 api -->
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2bb162c8a9e8239a272ea493b332a37f"></script>
+	<script>
+		let x = ${x};
+		let y = ${y};
+		
+		console.log(x);
+		console.log(y);
+	
+		//카카오 지도
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(y, x), // 지도의 중심좌표
+		        level: 3, // 지도의 확대 레벨
+		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
+		    }; 
 
+		// 지도를 생성한다 
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+		// 지도에 마커를 생성하고 표시한다
+		var marker = new kakao.maps.Marker({
+		    position: new kakao.maps.LatLng(y, x), // 마커의 좌표
+		    map: map // 마커를 표시할 지도 객체
+		});
+
+	</script>
+	
+	
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->

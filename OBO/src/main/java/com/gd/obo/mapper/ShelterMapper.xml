@@ -55,17 +55,20 @@
 	
 	<select id="selectShelterOne" parameterType="Integer" resultType="java.util.Map">
 		SELECT
-			shelter_id shelterId,
-			address_id addressId,
-			shelter_name shelterName,
-			create_date createDate,
-			introduction,
-			protect_duration protectDuration,
-			shelter_phone shelterPhone,
-			account,
-			active
-		FROM shelter
-		WHERE shelter_id = #{shelterId}
+			s.shelter_id shelterId,
+			s.address_id addressId,
+			s.shelter_name shelterName,
+			DATE(s.create_date) createDate,
+			s.introduction,
+			s.protect_duration protectDuration,
+			s.shelter_phone shelterPhone,
+			s.account account,
+			s.active active,
+			a.post_code postCode,
+			a.doro doro,
+			a.detail_address detailAddress
+		FROM shelter s LEFT JOIN address a ON s.address_id = a.address_id
+		WHERE shelter_id =  #{shelterId}
 	</select>
 	
 	<select id="selectShelterName" parameterType="String" resultType="com.gd.obo.vo.Shelter">
