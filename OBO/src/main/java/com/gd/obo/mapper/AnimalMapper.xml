@@ -3,6 +3,22 @@
 <mapper namespace="com.gd.obo.mapper.AnimalMapper">
 	
 	
+	<!-- Animal 파일 리스트 -->
+	<select id="selectAnimalFileByAnimal" resultType="com.gd.obo.vo.AnimalFile" parameterType="Integer">
+		SELECT
+			animal_file_id animalFileId,
+			animal_id animalId,
+			animal_file_name animalFileName,
+			animal_file_size animalFileSize,
+			animal_file_ext animalFileExt,
+			animal_file_date animalFileDate
+		FROM
+			animal_file
+		WHERE
+			animal_id = #{animalId}		
+	</select>
+	
+	
 	<!-- Animal 수정 -->
 	<update id="updateAnimal" parameterType="java.util.Map">
 		UPDATE
@@ -16,8 +32,6 @@
 			animal_state = #{animalState}
 		WHERE animal_id = #{animalId}
 	</update>
-	
-	
 	
 	
 	<!-- 카테고리 리스트 -->

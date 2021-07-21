@@ -53,24 +53,10 @@ $(document).ready(function(){
 <body>
     <header>
         <div class="header-area ">
-        	
         	<!-- 검정 바탕 네비 바 -->
-            <div class="header-top_area">
-				<div class="container">
-					<div class="row">
-						<jsp:include page="/WEB-INF/view/manager/myMenu.jsp"></jsp:include>
-                    </div>
-                </div>
-            </div>
-            
+			<jsp:include page="/WEB-INF/view/manager/myMenu.jsp"></jsp:include>
             <!-- 흰 바탕 네비 바 -->
-            <div id="sticky-header" class="main-header-area">
-                <div class="container">
-                    <div class="row align-items-center">
-						<jsp:include page="/WEB-INF/view/manager/managerMenu.jsp"></jsp:include>
-                    </div>
-                </div>
-            </div>
+			<jsp:include page="/WEB-INF/view/manager/managerMenu.jsp"></jsp:include>
         </div>
     </header>
 
@@ -113,7 +99,8 @@ $(document).ready(function(){
                				<td>${q.memberId}</td>
                				<td>${q.volunteerCategory}</td>
                				<td>${q.qualificationType}</td>
-               				<td>${q.qualificationFile}</td>
+               				<td><a href="${pageContext.request.contextPath}/static/img/qualification/${q.qualificationFile}" target="_blank">
+               				<strong>${q.qualificationFile}</strong></a></td>
                				<td>${q.managerId}</td>
                				<td>${q.ck}</td>
                				<td>${fn:substring(q.approvalDate, 0, 11)}</td>

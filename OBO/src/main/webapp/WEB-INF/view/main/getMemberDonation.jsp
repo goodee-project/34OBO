@@ -60,7 +60,7 @@
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
 					<div class="single_service staff_account" style="height: 90%;">
 						<div class="service_content text-center">
-							<p style="text-align: right;">회원님께서 총 기부하신 금액은 <b>${totalDonation}원</b> 입니다.</p>
+							<p style="text-align: right;">회원님께서 총 기부하신 금액은 <b id="totalTarget"></b> 입니다.</p>
 							<h3>총 후원내역</h3>
 							<table class="table">
 								<thead>
@@ -163,7 +163,7 @@
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Modal Heading</h4>
+          <h4 class="modal-title">일반물품 상세보기</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -181,6 +181,10 @@
 	         	<tr>
 	         		<th>물품카테고리</th>
 	  				<td id="categoryTarget"></td>
+	         	</tr>
+	         	<tr>
+	         		<th>수량</th>
+	  				<td id="quantitiyTarget"></td>
 	         	</tr>
 	         	<tr>
 	         		<th>물품설명</th>
@@ -229,7 +233,7 @@
 					$.each(jsonData.list, function(index, data) {
 						$('#fullTarget').append('<tr>');
 						$('#fullTarget').append('<td>'+data.shelterName+'</td>');
-						$('#fullTarget').append('<td>'+data.amount+'</td>');
+						$('#fullTarget').append('<td>'+(data.amount).toLocaleString('ko-KR')+'</td>');
 						$('#fullTarget').append('<td>'+data.donationDate+'</td>');
 						$('#fullTarget').append('<td>'+data.kind+'</td>');
 						$('#fullTarget').append('</tr>');
@@ -327,7 +331,7 @@
 					$.each(result.list, function(index, table) {
 						$('#pTarget').append('<tr>');
 						$('#pTarget').append('<td>'+table.shelterName+'</td>');
-						$('#pTarget').append('<td>'+table.amount+'</td>');
+						$('#pTarget').append('<td>'+(table.amount).toLocaleString('ko-KR')+'</td>');
 						$('#pTarget').append('<td>'+table.applyDate+'</td>');
 						
 						if(table.endDate){
@@ -411,20 +415,44 @@
 		
 		//물품내역 상세보기
 		function donationItemOne(num){
+			
 			$.ajax({
 				type: 'post',
 				url: '${pageContext.request.contextPath}/member/getDonationItemOne',
 				data: {'donationItemListId': num}
 			}).done(function (jsonData) {
-		        $('#sherlterTarget').append(jsonData.shelterName);
-		        $('#nameTarget').append(jsonData.itemName);
-		        $('#categoryTarget').append(jsonData.itemCategoryName);
-		        $('#descriptionTarget').append(jsonData.itemDescription);
-		        $('#dateTarget').append(jsonData.donationDate);
+		        $('#sherlterTarget').text(jsonData.shelterName);
+		        $('#nameTarget').text(jsonData.itemName);
+		        $('#categoryTarget').text(jsonData.itemCategoryName);
+		        $('#descriptionTarget').text(jsonData.itemDescription);
+		        $('#dateTarget').text(jsonData.donationDate);
+		        $('#quantitiyTarget').text(jsonData.itemQuantity);
 		        
 		    });
 			
 		}
+		
+		$('#totalTarget').text('0원');
+		
+		//총 후원금액
+		$.ajax({
+			type: 'get',
+			url: '${pageContext.request.contextPath}/member/getTotalDonation'
+		}).done(function (jsonData){
+			//let str = String(jsonData); //숫자를 문자열로
+			//console.log(typeof str);
+			/*
+				toLocaleString() 함수는 숫자를 로컬의 language format에 맞는 문자열로 변경해 줍니다.
+
+				파라미터로 아무것도 전달되지 않으면 사용자 로컬 환경의 locale을 default로 사용합니다.
+			*/
+			
+			let change = jsonData.toLocaleString('ko-KR');
+			//console.log(change);
+			totalDonation = change
+			$('#totalTarget').text(change +'원');
+			
+		});
 		
 		
 	</script>

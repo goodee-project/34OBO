@@ -1,5 +1,4 @@
 <!-- 작성자 : 남궁혜영 -->
-<!-- 정기봉사 신청 미구현상태 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -16,24 +15,52 @@
     <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link rel="shortcut icon" type="${pageContext.request.contextPath}/static/image/x-icon" href="${pageContext.request.contextPath}/static/img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
-
-    <!-- CSS here -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
     
+    <!-- 부트스트랩 cdn -->
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	
+	<!-- CSS here -->
+	
+	<!-- 위의 cdn과 충돌로 인해 모달창 오류 발생. 주석처리함
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
+	 -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
     <!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+//rcId에다가 선택한 recruitId를 넣기 위해서 변수 선언.
+var rcId = 0;
+
+// 일반 봉사 신청하는 경우의 함수. done 은 success와 같은 역할을 하고, window.location.href는 어디로 보낼지 지정해준다.
+function applyVolunteerP(num, str){
+    $.ajax({
+        type: 'get',
+        url: '${pageContext.request.contextPath}/member/getMemberIdForCheckApplyingP',
+        data: {'recruitId': num, 'categoryName' : str}
+    }).done(function (jsonData) {
+    	rcId = num;
+    	console.log(num);
+    	console.log(jsonData);
+    	if(jsonData.ckMemberId == null && jsonData.ckQualification!=null){ //중복 없고 자격증 있으면 모달창
+			$('#myModal').modal();
+		} else if(jsonData.ckQualification==null) { //자격증 없으면 경고창
+			alert('해당하는 봉사 자격에 부합하지 않습니다.');
+		} else if(jsonData.ckMemberId != null){ //중복 있으면 경고창
+			alert('동일 날짜에 봉사 신청 이력이 존재합니다.');
+		}
+    });
+}
+
 $(document).ready(function(){
 	$('#loginBtn').click(function(){
 		console.log('login!');
@@ -47,23 +74,11 @@ $(document).ready(function(){
 		console.log('검색!');
 		$('#volunteerNList').submit();
 	});
-	/*
-	$('#applyBtn').click(function(){
+	$('#ck').click(function(){
 		console.log('신청!');
-		$.ajax({
-			type:'get',
-			url: '${pageContext.request.contextPath}/member/getMemberIdForCheckApplying',
-			data : $('#applyForm').serialize(),
-			success : function(jsonData){ 
-				if(jsonData == ''){ //중복 없으면 폼 보내기
-					$('#applyForm').submit(); 
-				} else { //중복 있으면 경고창
-					alert('동일 날짜에 봉사 신청 이력이 존재합니다.');
-				}
-			}
-		});
+		console.log(rcId);
+		window.location.href = '${pageContext.request.contextPath}/member/addVolunteerPApply?recruitId='+rcId+'&determination='+ $('#determination').val();
 	});
-	*/
 });
 </script>
 </head>
@@ -96,9 +111,7 @@ $(document).ready(function(){
     <!-- pet_care_area_start  -->
     <div class="pet_care_area">
         <div class="container">
-        <form action="${pageContext.request.contextPath}/member/addVolunteerPApply" id="applyForm">	
             <div class="row">
-            <input type="text" name="memberId" id="memberId" value="${loginMember.memberId}" hidden="hidden">
                <table class="table table-hover text-center">
                 	<thead>
                 		<tr>
@@ -120,7 +133,6 @@ $(document).ready(function(){
                				2. 신청 기간이고, 인원이 찬 경우 신청 불가 : 인원 마강 
                				3. 신청 기간이 아니면 모두 신청 불가 : 신청기간 마감 -->
                 			<c:if test="${r.recruitCount != r.applyCount && r.startDate > currentDate}">
-	               				<input type="text" name="recruitId" id="recruitId" value="${r.recruitId}" hidden="hidden">
 	               				<td>${r.recruitId}</td>
 	               				<td>${r.shelterName}</td>
 	               				<td>${r.title}</td>
@@ -129,15 +141,17 @@ $(document).ready(function(){
 	               				<td>${fn:substring(r.startDate, 0, 11)}</td>
 	               				<td>${r.recruitCount} 명</td>
 	               				<td>${r.applyCount} 명</td>
-	               				<td><a class="btn" id="applyBtn"><i class="fa fa-check-circle"></i></a></td>
+	               				<td><a class="btn" data-parameter1="${r.recruitId}" data-parameter2="${r.categoryName}"
+	               				onclick="applyVolunteerP(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'))">
+	               				<i class="fa fa-check-circle"></i></a></td>
                				</c:if> 
                				<c:if test="${r.recruitCount == r.applyCount || r.startDate <= currentDate}">
 	               				<td style="color:grey">${r.recruitId}</td>
 	               				<td style="color:grey">${r.shelterName}</td>
 	               				<td style="color:grey">${r.title}</td>
 	               				<td style="color:grey">${r.categoryName}</td>
-	               				<td>${r.volunteerCycle}요일</td>
-	               				<td>${fn:substring(r.startDate, 0, 11)}</td>
+	               				<td style="color:grey">${r.volunteerCycle}요일</td>
+	               				<td style="color:grey">${fn:substring(r.startDate, 0, 11)}</td>
 	               				<td style="color:grey">${r.recruitCount} 명</td>
 	               				<td style="color:grey">${r.applyCount} 명</td>
                				</c:if>
@@ -152,7 +166,6 @@ $(document).ready(function(){
                 	</tbody>
                 </table>
             </div>
-            </form>	
         	<!-- 페이징 -->
         	<div class="blog_left_sidebar">
 			<nav class="blog-pagination justify-content-center d-flex">
@@ -213,14 +226,44 @@ $(document).ready(function(){
     </div>
     </div>
     <!-- pet_care_area_end  -->
+   	<!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">정기 봉사 신청</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body text-center">
+        <div id="recruitIdTarget"></div>
+	       	<div> 
+	       	정기봉사는 <strong>매주</strong> 해당하는 요일에 필수적으로 참여하셔야 합니다.
+	       	<br> 이에 동의 하지 않으신다면 '취소'를 눌러주시고, 동의 하신다면 아래에 '각오(*필수)'를 작성 해주세요. 
+	       	<br> 작성해주신 내용에 따라 보호소에서 확인 후 봉사 신청이 <strong>거절</strong>될 수 있습니다.</div>
+	       	<hr>
+	        <div><input type="text" style="width:700px;height:200px" name="determination" id="determination"></div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+        	<button type="button" class="btn btn-secondary" id="ck">확인</button>
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
     
     <!-- footer_start  -->
 		<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
     <!-- footer_end  -->
-
 	<!-- JS here -->
-	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
@@ -245,6 +288,7 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+
 	
     <script>
         $('#datepicker').datepicker({

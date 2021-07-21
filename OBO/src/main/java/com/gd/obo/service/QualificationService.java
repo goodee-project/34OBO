@@ -1,18 +1,25 @@
 //작성자 : 남궁혜영
 package com.gd.obo.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.obo.mapper.QualificationMapper;
 import com.gd.obo.vo.Page;
+import com.gd.obo.vo.QualificationApplicationForm;
+import com.gd.obo.vo.QualificationFile;
+import com.gd.obo.vo.QualificationType;
+import com.gd.obo.vo.QualificationVolunteerApplication;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +28,72 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class QualificationService {
 	@Autowired QualificationMapper qualificationMapper;
+	
+	//자격 신청
+	public void addQualificationVolunteerApplication(QualificationApplicationForm qualificationApplicationForm) {
+		
+		
+		log.debug("■■■■■■■ addQVA :" + qualificationApplicationForm);
+		
+		MultipartFile m = qualificationApplicationForm.getQualificationFile();
+		
+		QualificationFile qualificationFile = new QualificationFile();
+		
+		String originalFileName = m.getOriginalFilename();
+		int p = originalFileName.lastIndexOf(".");
+		String ext = originalFileName.substring(p).toLowerCase();
+		
+		String prename = UUID.randomUUID().toString().replace("-", "");
+		
+		String fileName = prename+ext;
+		qualificationFile.setQualificationFileName(fileName);
+		qualificationFile.setQualificationFileSize(m.getSize());
+		qualificationFile.setQualificationFileExt(m.getContentType());
+		
+		log.debug("qualificationFile : "+ qualificationFile);
+		
+		File temp = new File("");
+		String path = temp.getAbsolutePath();
+		
+		String os = System.getProperty("os.name");
+		
+		try {	
+			
+			if(os.contains("Win")) { //windeow 배포전
+				m.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\qualification\\"+fileName));
+			} else {// 배포 후
+				m.transferTo(new File(path+File.separator+Paths.get("webapps", "obo", "static", "img", "qualification")+File.separator+fileName));
+			}	
+			
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		//DB에 봉사자격파일 insert
+		qualificationMapper.insertQualificationFile(qualificationFile);
+		//봉사자격
+		QualificationVolunteerApplication qualificationVolunteerApplication = qualificationApplicationForm.getQualificationVolunteerApplication();
+		
+		qualificationVolunteerApplication.setQualificationFileId(qualificationFile.getQualificationFileId());
+		
+		log.debug("■■■■■■■ addQualificationVolunteerApplication :" + qualificationVolunteerApplication);
+		
+		qualificationMapper.insertQualificationVolunteerApplication(qualificationVolunteerApplication);
+	}
+	
+	//봉사타입이 가능한 봉사
+	public List<Map<String, Object>> getVolunteerByQualificationTypeId(int qualificationTypeId){
+		return qualificationMapper.selectVolunteerByQualificationTypeId(qualificationTypeId);
+	}
+	
+	//자격 타입 목록
+	public List<QualificationType> getQualificationTypeList(){
+		return qualificationMapper.selectQualificationTypeList();
+	}
+	//자격 - 가능봉사 목록
+	public List<Map<String, Object>> getQualificationVolunterrList(){
+		return qualificationMapper.selectQualificationVolunterrList();
+	}
+	
 	//자격 승인 내역
 	public Map<String, Object> getQualificationApprovalList(int currentPage, int rowPerPage, String searchWord){
 		
@@ -72,7 +145,7 @@ public class QualificationService {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("managerId", managerId);
 		paramMap.put("applicationId", applicationId);
-		int row = qualificationMapper.InsertApproveQualificationApplication(paramMap);
+		int row = qualificationMapper.insertApproveQualificationApplication(paramMap);
 		log.debug("======자격 신청 승인 row : "+row);
 		log.debug("======자격 신청 승인 param : "+paramMap);
 		return row;
@@ -83,9 +156,10 @@ public class QualificationService {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("managerId", managerId);
 		paramMap.put("applicationId", applicationId);
-		int row = qualificationMapper.InsertRejectQualificationApplication(paramMap);
+		int row = qualificationMapper.insertRejectQualificationApplication(paramMap);
 		log.debug("======자격 신청 거절 row : "+row);
 		log.debug("======자격 신청 거절 param : "+paramMap);
 		return row;
 	}
+	
 }

@@ -85,6 +85,16 @@ public class VolunteerService {
 		return volunteerMapper.selectMemberIdForCheckApplying(paramMap);
 	}
 	
+	//회원 봉사 지원 시 자격 확인
+	public String getMemberQualification(String memberId, int recruitId, String categoryName) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("recruitId", recruitId);
+		paramMap.put("categoryName", categoryName);
+		log.debug("=====중복검사 입력 값: "+paramMap);
+		return volunteerMapper.selectMemberQualification(paramMap);
+	}
+	
 	//회원 정기봉사모집 목록
 		public Map<String,Object> getVolunteerP(int currentPage, int rowPerPage, String searchWord, String categoryName) {
 			Map<String, Object> totMap = new HashMap<>();
@@ -125,4 +135,26 @@ public class VolunteerService {
 			map.put("currentDate", currentDate);
 			return map;
 		}
+	//회원 정기봉사 지원 시 중복 확인
+	public String getMemberIdForCheckApplyingP(String memberId, int recruitId) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("recruitId", recruitId);
+		log.debug("=====중복검사 입력 값: "+paramMap);
+		return volunteerMapper.selectMemberIdForCheckApplyingP(paramMap);
+	}
+	
+	//회원 정기 봉사모집 지원
+	public int addVolunteerPApply(String memberId, int recruitId, String determination){
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("recruitId", recruitId);
+		paramMap.put("determination", determination);
+		log.debug("=====입력 값: "+paramMap);
+		
+		int row = volunteerMapper.insertPeriocallyVolunteerApplyByMember(paramMap);
+		log.debug("=====정기 봉사 신청 row: "+row);
+		
+		return row;
+	}
 }

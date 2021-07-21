@@ -26,6 +26,13 @@ public class BoardController {
 	@Autowired BoardService boardService;
 	@Autowired AnimalService animalService;
 	
+	@PostMapping("/modifyBoard")
+	public String modifyBoard(BoardForm boardForm) {
+		log.debug("@@@@@ boardForm: "+boardForm);
+		boardService.modifyBoard(boardForm);
+		return "redirect:/getBoardOne?boardId="+boardForm.getBoard().getBoardId();
+	}
+	
 	@GetMapping("/modifyBoard")
 	public String modifyBoard(Model model,
 								@RequestParam(value="boardId", required = true) int boardId) {
@@ -37,27 +44,10 @@ public class BoardController {
 		model.addAttribute("boardCategoryList",boardCategoryList);
 		model.addAttribute("map", map);
 		model.addAttribute("boardMap", map.get("boardMap"));
+		model.addAttribute("boardFileList",map.get("boardFileList"));
 		log.debug("@@@@@ animalCategoryList"+animalCategoryList);
 		log.debug("@@@@@ boardCategoryList"+boardCategoryList);
 		return "main/modifyBoard";
-	}
-	
-	// board 액션
-	@PostMapping("/removeBoard")
-	public String removeBoard(int boardId) {
-		log.debug("@@@@@ boardId: "+boardId);
-		int row = boardService.removeBoard(boardId);
-		if(row == 0) {
-			return "redirect:/getBoardOne?boardId="+boardId;
-		}
-		return "redirect:/getBoardList";
-	}
-	
-	@GetMapping("/removeBoard")
-	public String removeBoard(Model model, @RequestParam(value ="boardId", required = true) int boardId) {
-		log.debug("@@@@@ param: "+boardId);
-		model.addAttribute("boardId",boardId);
-		return "removeBoard";
 	}
 	
 	// board 추가 액션
@@ -65,7 +55,7 @@ public class BoardController {
 	public String addBoard(BoardForm boardForm) {
 		log.debug("@@@@@ boardForm: "+boardForm);
 		boardService.addBoard(boardForm);
-		return "redirect:/getBoardList";
+		return "redirect:/getBoardOne?boardId="+boardForm.getBoard().getBoardId();
 	}
 	
 	// board 추가 폼
@@ -91,8 +81,7 @@ public class BoardController {
 		model.addAttribute("boardCommentList",map.get("boardCommentList"));
 		model.addAttribute("boardFileList",map.get("boardFileList"));
 		return "main/getBoardOne";
-	}
-	
+	}	
 	
 	// board 리스트
 	@GetMapping("/getBoardList")

@@ -33,6 +33,25 @@
     <!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+// 일반 봉사 신청하는 경우의 함수. done 은 success와 같은 역할을 하고, window.location.href는 어디로 보낼지 지정해준다.
+function applyVolunteerN(num, str){
+    $.ajax({
+        type: 'get',
+        url: '${pageContext.request.contextPath}/member/getMemberIdForCheckApplying',
+        data: {'recruitId': num, 'categoryName' : str}
+    }).done(function (jsonData) {
+    	console.log(num);
+    	console.log(str);
+    	console.log(jsonData);
+		if(jsonData.ckMemberId==null && jsonData.ckQualification!=null){ //중복 없고 자격증 있으면 폼 보내기
+			window.location.href = '${pageContext.request.contextPath}/member/addVolunteerNApply?recruitId='+num;
+		} else if(jsonData.ckQualification==null) { //자격증 없으면 경고창
+			alert('해당하는 봉사 자격에 부합하지 않습니다.');
+		} else if(jsonData.ckMemberId != null){ //중복 있으면 경고창
+			alert('동일 날짜에 봉사 신청 이력이 존재합니다.');
+		}
+    });
+}
 $(document).ready(function(){
 	$('#loginBtn').click(function(){
 		console.log('login!');
@@ -45,22 +64,6 @@ $(document).ready(function(){
 	$('#searchBtn').click(function(){
 		console.log('검색!');
 		$('#volunteerNList').submit();
-	});
-
-	$('#applyBtn').click(function(){
-		console.log('신청!');
-		$.ajax({
-			type:'get',
-			url: '${pageContext.request.contextPath}/member/getMemberIdForCheckApplying',
-			data : $('#applyForm').serialize(),
-			success : function(jsonData){ 
-				if(jsonData == ''){ //중복 없으면 폼 보내기
-					$('#applyForm').submit(); 
-				} else { //중복 있으면 경고창
-					alert('동일 날짜에 봉사 신청 이력이 존재합니다.');
-				}
-			}
-		});
 	});
 });
 </script>
@@ -96,7 +99,6 @@ $(document).ready(function(){
         <div class="container">
         <form action="${pageContext.request.contextPath}/member/addVolunteerNApply" id="applyForm">	
             <div class="row">
-            <input type="text" name="memberId" id="memberId" value="${loginMember.memberId}" hidden="hidden">
                <table class="table table-hover text-center">
                 	<thead>
                 		<tr>
@@ -117,7 +119,6 @@ $(document).ready(function(){
                				2. 신청 기간이고, 인원이 찬 경우 신청 불가 : 인원 마강 
                				3. 신청 기간이 아니면 모두 신청 불가 : 신청기간 마감 -->
                 			<c:if test="${r.recruitCount != r.applyCount && r.volunteerDate > currentDate}">
-	               				<input type="text" name="recruitId" id="recruitId" value="${r.recruitId}" hidden="hidden">
 	               				<td>${r.recruitId}</td>
 	               				<td>${r.shelterName}</td>
 	               				<td>${r.title}</td>
@@ -125,7 +126,10 @@ $(document).ready(function(){
 	               				<td>${fn:substring(r.volunteerDate, 0, 11)}</td>
 	               				<td>${r.recruitCount} 명</td>
 	               				<td>${r.applyCount} 명</td>
-	               				<td><a class="btn" id="applyBtn"><i class="fa fa-check-circle"></i></a></td>
+	               				
+	               				<td><a class="btn" data-parameter1="${r.recruitId}" data-parameter2="${r.categoryName}"
+	               				onclick="applyVolunteerN(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'))">
+	               				<i class="fa fa-check-circle"></i></a></td>
                				</c:if>
                				<c:if test="${r.recruitCount == r.applyCount || r.volunteerDate <= currentDate}">
 	               				<td style="color:grey">${r.recruitId}</td>
