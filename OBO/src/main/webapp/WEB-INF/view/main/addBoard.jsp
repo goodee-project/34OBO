@@ -38,52 +38,34 @@ $(document).ready(function(){
 	$('#addBtn').click(function(){
 		console.log('addBtn 버튼 클릭!');
 		$('#imgFileUpload').remove();
-		$('#addForm').submit();
+		if($('#boardCategoryId').val() == '') {
+			alert('게시판 카테고리를 선택해주세요')
+			$('#boardCategoryId').focus();
+		}
+		else if($('#boardTitle').val() == '') {
+			alert('게시판 제목을 입력해주세요')
+			$('#boardTitle').focus();
+		}
+		else if($('#boardContent').val() == '') {
+			alert('게시판 내용을 입력해주세요')
+			$('#boardContent').focus();
+		}
+		else{
+			$('#addForm').submit();			
+		}
+		
 	});
 });
 </script>
 </head>
 <body>
 	<header>
-		<div class="header-area ">
-		
+		<div class="header-area">		
 			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
-			<div class="header-top_area">
-				<div class="container">
-					<div class="row">
-						<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>
-					</div>
-				</div>
-			</div>
-			
+			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
 			<!-- 흰색 바탕 : 메인 메뉴 -->
-			<div id="sticky-header" class="main-header-area">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-xl-3 col-lg-3">
-							<div class="logo">
-								<a href="${pageContext.request.contextPath}/main/">
-									<img src="../static/img/logo.png" alt="">
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-9 col-lg-9">
-							<div class="main-menu  d-none d-lg-block">
-								<nav>
-									<ul id="navigation">
-										<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
-									</ul>
-								</nav>
-							</div>
-						</div>
-						
-						<div class="col-12">
-							<div class="mobile_menu d-block d-lg-none"></div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
+					
 		</div>
 	</header>
 
@@ -106,31 +88,34 @@ $(document).ready(function(){
                         <form class="form-contact contact_form" action="${pageContext.request.contextPath}/addBoard" method="post" id="addForm" enctype="multipart/form-data" novalidate="novalidate">
                             <div class="row">
                             	<div class="col-12">
-                                    <div class="form-group">
+								<div class="col-lg-3">
+									<h4>
+										사진 추가<span style="color: #7fad39;">*</span>
+									</h4>
+								</div>
+								<div class="col-lg-9" style="display: inline;">
+
+									<label for="imgFileUpload"> <img
+										src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+									</label> <span id="target"></span> <input id="imgFileUpload"
+										name="boardFile" type="file" style="display: none;"
+										accept="image/*" onchange="setThumbnail(event);"
+										multiple="multiple" class="imgCheck" />
+									<div id="image_container" style="display: inline;"></div>
+									<!-- 업로드 된 이미지 미리보기 생성 -->
+								</div>
+								<div class="form-group">
                                         <input class="form-control" name="board.memberId" id="memberId" value="sunyou" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="sunyou" readonly="readonly">
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-				                	<h4>상품이미지<span style="color: #7fad39;">*</span></h4>
-				                </div>
-				                <div class="col-lg-9" style="display: inline;">
-				                	
-				                		<label for="imgFileUpload">
-									        <img src="${pageContext.request.contextPath}/static/img/imgUpload.png"/>
-									    </label>
-				                	
-				                	
-								    <span id="target"></span>
-								    <input id="imgFileUpload" name="boardFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple" class="imgCheck"/>		   	
-								    <div id="image_container" style="display: inline;"></div> <!-- 업로드 된 이미지 미리보기 생성 -->
-				                </div>
+
          						<div class="col-12">
                                     <div class="form-group">
                                         <input class="form-control" name="board.boardTitle" id="boardTitle" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Title">
                                     </div>
                                 </div>
                                 <div class="default-select col-12" id="default-select">
-									<select name="board.animalCategoryId">
+									<select name="board.animalCategoryId" >
 										<option value="">종 선택</option>
 											<c:forEach var="a" items="${animalCategoryList}">
 								    			<c:if test="${a.species == species}"> 
