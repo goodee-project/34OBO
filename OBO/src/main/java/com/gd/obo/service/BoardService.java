@@ -34,23 +34,52 @@ public class BoardService {
 	// board 수정
 	public int modifyBoard(BoardForm boardForm) {
 		Board board = boardForm.getBoard();
-		boardMapper.updateBoard(board);
+		boardMapper.updateBoard(board);		
 		Map<String, Object> map = new HashMap<String, Object>();
+		List<BoardFile> boardFileList = boardMapper.selectBoardFileByBoard(board.getBoardId());
+		log.debug("@@@@@ boardFileList: "+boardFileList);
 		map.put("boardId",board.getBoardId());
 		map.put("boardFile", boardForm.getBoardFile());
+		map.put("boardFileList", boardFileList);
 		log.debug("@@@@@ map: "+map);
+
+		List<MultipartFile> list = boardForm.getBoardFile();
+		if(list != null) {
+			for(MultipartFile f : list) {
+				BoardFile boardFile = new BoardFile();
+				boardFile.setBoardId(board.getBoardId()); // auto increment로 입력된 값
+				
+				String originalFileName = f.getOriginalFilename();
+				int p = originalFileName.lastIndexOf("."); //test.txt면 4;
+				String ext = originalFileName.substring(p).toLowerCase(); // .txt
+
+				String prename = UUID.randomUUID().toString().replace("-","");
+				
+				String filename = prename+ext;
+				boardFile.setBoardFileName(filename); // 이슈 >> 중복으로 인해 덮어쓰기 가능
+				boardFile.setBoardId(board.getBoardId());
+				boardFile.setBoardFileOriginalName(f.getOriginalFilename());
+				boardFile.setBoardFileSize(f.getSize());
+				boardFile.setBoardFileExt(f.getContentType());
+				log.debug("boardfile :"+boardFile);
+				
+				boardFileMapper.insertBoardFile(boardFile);
+				
+				try {
+					File temp = new File(""); // 프로젝트 폴더에 빈파일이 만들어진다.
+					String path = temp.getAbsolutePath(); // 프로젝트필드
+					f.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\board\\"+filename));
+				} catch (Exception e) {
+					throw new RuntimeException();
+				}
+			}
+		}
 		return board.getBoardId();
 	}
 	
 	// board 삭제
 	public int removeBoard(int boardId) {
-		// 게시판 삭제
-		int boardRow = boardMapper.deleteBoard(boardId);
-		if(boardRow == 0) {
-			return 0;
-		}
-		log.debug("@@@@@ boardRow :"+boardRow);
-		
+
 		// 댓글 삭제
 		int boardCommentRow = boardCommentMapper.deleteBoardCommentByBoard(boardId);
 		log.debug("@@@@@ boardCommentRow: "+boardCommentRow);
@@ -58,6 +87,14 @@ public class BoardService {
 		// 파일 삭제
 		int boardFileRow = boardMapper.deleteBoardFileByBoard(boardId);
 		log.debug("@@@@@ boardFileRow: "+boardFileRow);
+		
+		// 게시판 삭제
+		int boardRow = boardMapper.deleteBoard(boardId);
+		if(boardRow == 0) {
+			return 0;
+		}
+		log.debug("@@@@@ boardRow :"+boardRow);
+		
 		
 		return boardRow;
 	}

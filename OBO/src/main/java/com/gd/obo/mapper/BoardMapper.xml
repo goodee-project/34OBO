@@ -4,13 +4,13 @@
 	
 	<!-- 게시판 수정 -->
 	<update id="updateBoard" parameterType="com.gd.obo.vo.Board">
-		UPDATE Board
+		UPDATE board
 		SET
 			board_category_id=#{boardCategoryId},
 			animal_category_id=#{animalCategoryId},
 			board_title = #{boardTitle},
-			board_content = #{boardContent}
-			update_date = Now()
+			board_content = #{boardContent},
+			update_date = NOW()
 		WHERE
 			board_id=#{boardId}
 	
@@ -96,7 +96,8 @@
 			b.board_category_id=bc.board_category_id 
 		AND
 			b.animal_category_id = ac.animal_category_id
-		AND board_id=#{boardId}
+		AND 
+			board_id=#{boardId}
 
 		
 	</select>

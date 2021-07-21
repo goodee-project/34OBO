@@ -1,18 +1,24 @@
 //작성자 : 남궁혜영
+//수정자 : 손영현
 package com.gd.obo.controller;
 
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.QualificationService;
-import com.gd.obo.vo.Page;
+import com.gd.obo.vo.QualificationApplicationForm;
+import com.gd.obo.vo.QualificationType;
+import com.gd.obo.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +27,36 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class QualificationController {
 	@Autowired QualificationService qualificationService;
+	
+	
+	//main 봉사자격신청
+	@PostMapping("/membe/addQualificationVolunteerApplication")
+	public String addQualificationVolunteerApplication(QualificationApplicationForm qualificationApplicationForm) {
+		log.debug("■■■■■■ qualificationApplicationForm param: " + qualificationApplicationForm);
+		
+		qualificationService.addQualificationVolunteerApplication(qualificationApplicationForm);
+		
+		return "redirect:/member/addQualificationVolunteerApplication";
+	}
+	
+	//main 내정보 - 봉사자격신청
+	@GetMapping("/member/addQualificationVolunteerApplication")
+	public String addQualificationVolunteerApplication(Model model, HttpSession session) {
+		
+		List<Map<String, Object>> qVList = this.qualificationService.getQualificationVolunterrList();
+		List<QualificationType> qTList = qualificationService.getQualificationTypeList();
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		
+		//자격증명
+		log.debug("■■■■■ qVList : " + qVList);
+		//자격 증명종류 리스트
+		log.debug("■■■■■ qTList : " + qTList);
+		
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("qVList", qVList);
+		model.addAttribute("qTList", qTList);
+		return "main/addQualificationVolunteerApplication";
+	}
 	
 	//자격승인 내역
 	@GetMapping("/manager/getQualificationApprovalList")

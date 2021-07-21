@@ -12,11 +12,6 @@
 
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- <link rel="manifest" href="site.webmanifest"> -->
-<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-<!-- Place favicon.ico in the root directory -->
-
 <!-- CSS here -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
@@ -30,58 +25,51 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script>
 	$(document).ready(function(){
 		$('#btn').click(function(){
 			 console.log("btn click!");
-			 $('#commentForm').submit();
+			 
+			 if($('#boardCommentContent').val() == ''){
+				 alert('댓글을 입력해주세요.')
+				 $('#boardCommentContent').focus();
+			 } else{
+				 $('#commentForm').submit();
+			 }
 		});
-	});
+		
+		$('#removeBoardClick').click(function() {
+			console.log('삭제 확인');
+			$('#ckBtn').click(function(){
+				console.log('삭제 확인')
+				$.ajax({
+					url: '${pageContext.request.contextPath}/removeBoard?boardId=${boardMap.boardId}',
+					type: 'post',
+					success: function(jsonData){
+						if(jsonData != 1) {
+							alert('삭제 실패');
+							return;
+						}
+						location.href='${pageContext.request.contextPath}/getBoardList';
+					}				
+				});
+			});
+		});
+	});		
 </script>
 <meta charset="UTF-8">
 <title>getBoardOne</title>
 </head>
 <body>
 	<header>
-		<div class="header-area ">
-		
+		<div class="header-area">		
 			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
-			<div class="header-top_area">
-				<div class="container">
-					<div class="row">
-						<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>
-					</div>
-				</div>
-			</div>
-			
+			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
 			<!-- 흰색 바탕 : 메인 메뉴 -->
-			<div id="sticky-header" class="main-header-area">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-xl-3 col-lg-3">
-							<div class="logo">
-								<a href="${pageContext.request.contextPath}/main/">
-									<img src="../static/img/logo.png" alt="">
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-9 col-lg-9">
-							<div class="main-menu  d-none d-lg-block">
-								<nav>
-									<ul id="navigation">
-										<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
-									</ul>
-								</nav>
-							</div>
-						</div>
-						
-						<div class="col-12">
-							<div class="mobile_menu d-block d-lg-none"></div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
+					
 		</div>
 	</header>
 
@@ -100,16 +88,15 @@
 		<h3 class="mb-30">${boardMap.boardTitle}</h3>
 		<div class="text-right">
 		<a href="${pageContext.request.contextPath}/getBoardList">게시판으로</a>
-		<a href="${pageContext.request.contextPath}/modifyBoard">수정</a>
-		<a href="${pageContext.request.contextPath}/removeBoard">삭제</a>
+		<a href="${pageContext.request.contextPath}/modifyBoard?boardId=${boardMap.boardId}">수정</a>
+		<a href="${pageContext.request.contextPath}/removeBoard"
+					id="removeBoardClick" data-toggle="modal" data-target="#login-modal">삭제</a>
 		</div>
 		<div class="testmonial_area">
 			<div class="row">
-				<div class="col-lg-5 mb-5 mb-lg-0">
-					<c:forEach var="bf" items="${ boardFileList}">
-								<img src="static/img/board/${bf.boardFileName}" width="300" height="300" alt="">
-					</c:forEach>
-				</div>
+				<c:forEach var="bf" items="${boardFileList}">
+							<img src="static/img/board/${bf.boardFileName}" width="300" height="300" alt=""> &nbsp;&nbsp;&nbsp;
+				</c:forEach>
 			</div>
 		</div>
 		<br>
@@ -118,7 +105,7 @@
 				<table class="table table-hover">
 					<tr>
 						<td>No.</td>
-						<td>${boardMap.boardId}</td>
+						<td><div id="boardId">${boardMap.boardId}</div></td>
 					</tr>
 					<tr>
 						<td>게시판 카테고리</td>
@@ -188,7 +175,21 @@
 		</div>
 	</div>
 	</section>
+	
 	</div>
+		<!-- 삭제 확인 모달 -->
+	<div class="modal fade" id="login-modal" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h5 class="modal-title">삭제 하시겠습니까?</h5>
+					<button id="ckBtn" type="button" class="btn btn-primary">확인</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
@@ -242,5 +243,6 @@
 		format: 'HH.MM'
 	});
 </script>
+
 </body>
 </html>
