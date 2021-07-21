@@ -50,6 +50,17 @@
 		SELECT member_id memberId FROM volunteer_apply WHERE volunteer_recruit_id=#{recruitId} AND member_id=#{memberId}
 	</select>
 	
+	<!-- 회원 일반 봉사 자격 검사 -->
+	<select id="selectMemberQualification" resultType="String" parameterType="java.util.Map">
+		SELECT qa.qualification_volunteer_application_id FROM qualification_approval qa 
+			JOIN qualification_volunteer_application qva ON qva.qualification_volunteer_application_id = qa.qualification_volunteer_application_id
+			JOIN member m ON m.member_id = qva.member_id
+			JOIN volunteer_category vc ON qva.volunteer_category_id = vc.volunteer_category_id
+		<where>
+			AND m.member_id=#{memberId} AND qa.approval_check='Y' AND vc.volunteer_category_name=#{categoryName}
+		</where>
+	</select>
+	
 	<!-- 회원 정기봉사 목록 -->
 	<select id="selectVolunteerPList" resultType="java.util.Map" parameterType="java.util.Map">
 		SELECT * FROM periodically_volunteer_list

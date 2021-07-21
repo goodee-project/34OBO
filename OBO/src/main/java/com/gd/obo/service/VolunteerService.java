@@ -85,6 +85,16 @@ public class VolunteerService {
 		return volunteerMapper.selectMemberIdForCheckApplying(paramMap);
 	}
 	
+	//회원 봉사 지원 시 자격 확인
+	public String getMemberQualification(String memberId, int recruitId, String categoryName) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("recruitId", recruitId);
+		paramMap.put("categoryName", categoryName);
+		log.debug("=====중복검사 입력 값: "+paramMap);
+		return volunteerMapper.selectMemberQualification(paramMap);
+	}
+	
 	//회원 정기봉사모집 목록
 		public Map<String,Object> getVolunteerP(int currentPage, int rowPerPage, String searchWord, String categoryName) {
 			Map<String, Object> totMap = new HashMap<>();

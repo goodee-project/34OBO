@@ -115,6 +115,7 @@ public class VolunteerController {
 		model.addAttribute("categoryName",categoryName);
 		model.addAttribute("categoryNameList", map.get("categoryNameList"));
 		model.addAttribute("currentDate", map.get("currentDate"));
+		model.addAttribute("searchWord",searchWord);
 		log.debug("=====map:"+map);
 		return "main/getVolunteerN";
 	}
@@ -151,6 +152,7 @@ public class VolunteerController {
 		model.addAttribute("categoryName",categoryName);
 		model.addAttribute("categoryNameList", map.get("categoryNameList"));
 		model.addAttribute("currentDate", map.get("currentDate"));
+		model.addAttribute("searchWord",searchWord);
 		log.debug("=====map:"+map);
 		return "main/getVolunteerP";
 	}
