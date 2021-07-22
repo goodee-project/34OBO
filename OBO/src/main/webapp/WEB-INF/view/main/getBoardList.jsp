@@ -64,7 +64,8 @@
 	</div>
 	<div class="pet_care_area">
         <div class="container">
-            <div class="row align-items-center">
+          <div class="text-right"><a href="${pageContext.request.contextPath}/getBoardList">[전체보기]</a></div>
+            <div class="row align-items-center">           
                <table class="table table-hover text-center">
                 	<thead>
 						<tr>

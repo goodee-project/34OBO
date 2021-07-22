@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gd.obo.service.BoardFileService;
 import com.gd.obo.service.BoardService;
+import com.gd.obo.vo.BoardForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,5 +24,11 @@ public class BoardRestapi {
 		log.debug("@@@@@ row: "+row);
 		return row;
 	}
-	
+	@PostMapping("/removeBoardFile")
+	public int removeBoardFile(BoardForm boardForm) {
+		log.debug("@@@@@ boardForm: "+boardForm);
+		int row = boardService.removeBoard(boardForm.getBoard().getBoardId());
+		log.debug("@@@@@ row: "+row);
+		return row;
+	}
 }

@@ -51,8 +51,6 @@ $(document).ready(function(){
 			$('#modifyForm').submit();			
 		}		
 	});
-	
-	
 });
 </script>
 </head>
@@ -90,11 +88,11 @@ $(document).ready(function(){
                             	<div class="testmonial_area">
 										<div class="row">
 											<c:forEach var="bf" items="${boardFileList}">
-											<input hidden="" id="boardFileId" value="${bf.boardFileId }">
+											<input hidden="" id="boardFileId" value="${bf.boardFileId}">
 												<img src="static/img/board/${bf.boardFileName}" width="300"
 													height="300" alt=""> &nbsp;
 													<a href="${pageContext.request.contextPath}/removeBoardFile?boardFileId=${bf.boardFileId}&boardId=${bf.boardId}"
-																>삭제</a>
+															>삭제</a>
 											</c:forEach>
 										</div>
 									</div>
