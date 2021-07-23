@@ -26,35 +26,98 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<!-- Button to Open the Modal -->
-	<button type="button" class="btn" data-toggle="modal" data-target="#myModal">
-	  자격별 봉사
-	</button>
+	<header>
+		<div class="header-area">		
+			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
+			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
+			<!-- 흰색 바탕 : 메인 메뉴 -->
+			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
+					
+		</div>
+	</header>
+	
+	<!-- header_start  -->
+	<div class="bradcam_area breadcam_bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<h3>자격신청</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<section class="blog_area single-post-area section-padding service_area">
+		<div class="container">
+			<div class="row">
+				<!-- 내 페이지 메뉴 -->
+				<jsp:include page="/WEB-INF/view/main/inc/myPageMenu.jsp"></jsp:include>
+				
+				
+				
+				
+				<div class="col-lg-7 mb-5 mb-lg-0"  >
+					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+					<div class="single_service staff_account" style="height: 90%;">
+						<div class="service_content">
+							
+							
+							
+							<h3 class="text-center">봉사자격신청</h3>
+							
+							<hr>
+							
+							<form id="addQForm" action="${pageContext.request.contextPath}/membe/addQualificationVolunteerApplication" method="post" enctype="multipart/form-data" >
+								<input type="hidden" name="qualificationVolunteerApplication.memberId" id="memberId" value="${memberId}">
+								
+								<div>								<!-- 자격증명리스트 -->
+									<select name="qualificationVolunteerApplication.qualificationTypeId" id="qualificationType">
+										<option disabled="disabled" selected="selected">선택</option>
+										<c:forEach var="q" items="${qTList}">
+											<option value="${q.qualificationTypeId}">${q.qualificationTypeName}</option>
+										</c:forEach>
+									</select>
+								</div>
+								
+								<div>
+									<!-- 자격별 가능한 봉사 -->
+									<select name="qualificationVolunteerApplication.volunteerCategoryId" id="vTarget">
+									</select>
+								</div>
+								
+								<input id="imgFileUpload" name="qualificationFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple" class="imgCheck"/>		   	
+							
+								<button type="button" class="btn" data-toggle="modal" data-target="#addImg">이미지 추가</button>
+								
+								
+								<div class="text-right">
+									<button id="btn" type="button">신청하기</button>
+								</div>
+								
+							</form>							
+							
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-2" style="float: right; height: 20%;">
+					<!-- Button to Open the Modal -->
+					<button type="button" class="btn" data-toggle="modal" data-target="#myModal">
+					  자격별 봉사
+					</button>
+				</div>
+				
+				
+				
+			</div>
+		</div>
+	</section>
+	
+	
+	
+	
 
-	<h3>봉사자격신청</h3>
 	
-	<form id="addQForm" action="${pageContext.request.contextPath}/membe/addQualificationVolunteerApplication" method="post" enctype="multipart/form-data" >
-		<input type="hidden" name="qualificationVolunteerApplication.memberId" id="memberId" value="${memberId}">
-		<!-- 자격증명리스트 -->
-		<select name="qualificationVolunteerApplication.qualificationTypeId" id="qualificationType">
-			<option disabled="disabled" selected="selected">선택</option>
-			<c:forEach var="q" items="${qTList}">
-				<option value="${q.qualificationTypeId}">${q.qualificationTypeName}</option>
-			</c:forEach>
-		</select>
-		
-		<!-- 자격별 가능한 봉사 -->
-		<select name="qualificationVolunteerApplication.volunteerCategoryId" id="vTarget">
-		</select>
-		
-		<input id="imgFileUpload" name="qualificationFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple" class="imgCheck"/>		   	
-	
-		<button type="button" class="btn" data-toggle="modal" data-target="#addImg">이미지 추가</button>
-		
-		<button id="btn" type="button">신청하기</button>
-		
-		
-	</form>
 	
 
 
@@ -184,6 +247,58 @@
    	
    	} 
 </script>
+<!-- footer_start  -->
+	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
+	<!-- footer_end  -->
 
+
+	<!-- JS here -->
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
+	
+	<!--contact js-->
+	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+
+<script>
+	$('#datepicker').datepicker({
+		iconsLibrary: 'fontawesome',
+		disableDaysOfWeek: [0, 0],
+		//icons: {
+		//rightIcon: '<span class="fa fa-caret-down"></span>'
+		//}
+	});
+	
+	$('#datepicker2').datepicker({
+		iconsLibrary: 'fontawesome',
+		icons: {
+			rightIcon: '<span class="fa fa-caret-down"></span>'
+		}
+	});
+	
+	var timepicker = $('#timepicker').timepicker({
+		format: 'HH.MM'
+	});
+</script>
 </body>
 </html>

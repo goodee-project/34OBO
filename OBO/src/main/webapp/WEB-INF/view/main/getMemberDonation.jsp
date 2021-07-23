@@ -41,7 +41,7 @@
 	<div class="bradcam_area breadcam_bg">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-12 text-center">
 					<h3>후원내역</h3>
 				</div>
 			</div>
@@ -157,54 +157,54 @@
 			</div>
 			
 			<!-- The Modal -->
-  <div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">일반물품 상세보기</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-	        <table class="table">
-	         	<tr>
-	         		<th>보호소</th>
-	  				<td id="sherlterTarget"></td>
-	         	</tr>
-	         	<tr>
-	         		<th>물품이름</th>
-	  				<td id="nameTarget"></td>
-	         	</tr>
-	         	<tr>
-	         		<th>물품카테고리</th>
-	  				<td id="categoryTarget"></td>
-	         	</tr>
-	         	<tr>
-	         		<th>수량</th>
-	  				<td id="quantitiyTarget"></td>
-	         	</tr>
-	         	<tr>
-	         		<th>물품설명</th>
-	  				<td id="descriptionTarget"></td>
-	         	</tr>
-	         	<tr>
-	         		<th>후원날짜</th>
-	  				<td id="dateTarget"></td>
-	         	</tr>
-	        </table>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-        
-      </div>
-    </div>
-  </div>
+		  <div class="modal fade" id="myModal">
+		    <div class="modal-dialog modal-lg">
+		      <div class="modal-content">
+		      
+		        <!-- Modal Header -->
+		        <div class="modal-header">
+		          <h4 class="modal-title">일반물품 상세보기</h4>
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        </div>
+		        
+		        <!-- Modal body -->
+		        <div class="modal-body">
+			        <table class="table">
+			         	<tr>
+			         		<th>보호소</th>
+			  				<td id="sherlterTarget"></td>
+			         	</tr>
+			         	<tr>
+			         		<th>물품이름</th>
+			  				<td id="nameTarget"></td>
+			         	</tr>
+			         	<tr>
+			         		<th>물품카테고리</th>
+			  				<td id="categoryTarget"></td>
+			         	</tr>
+			         	<tr>
+			         		<th>수량</th>
+			  				<td id="quantitiyTarget"></td>
+			         	</tr>
+			         	<tr>
+			         		<th>물품설명</th>
+			  				<td id="descriptionTarget"></td>
+			         	</tr>
+			         	<tr>
+			         		<th>후원날짜</th>
+			  				<td id="dateTarget"></td>
+			         	</tr>
+			        </table>
+		        </div>
+		        
+		        <!-- Modal footer -->
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        </div>
+		        
+		      </div>
+		    </div>
+		  </div>
 			
 			
 			
