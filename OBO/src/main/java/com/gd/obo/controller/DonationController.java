@@ -163,47 +163,93 @@ public class DonationController {
 	
 	// staff 물품후원내역
 	@GetMapping("/staff/getDonationItemN")
-	public String getDonationItemN(Model model, HttpSession session){
+	public String getDonationItemN(Model model, HttpSession session,
+									@RequestParam(value="searchWord", required = false) String searchWord,
+									@RequestParam(value="searchSelect", required = false) String searchSelect,
+									@RequestParam(value="itemCategoryName", required = false) String itemCategoryName){
 		//세션에서 shelterId 가져오기
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
+		log.debug("●●●●▶searchWord: "+searchWord);
+		log.debug("●●●●▶searchSelect: "+searchSelect);
+		log.debug("●●●●▶itemCategoryName: "+itemCategoryName);
+		
+		//searchWord 공백 -> null 처리
+		if(searchWord != null && searchWord.equals("")) {
+			searchWord = null;
+		}
+		
+		//searchSelect 미선택 -> null 처리
+		if(searchSelect != null && searchSelect.equals("non")) {
+			searchSelect = null;
+			log.debug("●●●●▶ null 처리 후 searchSelect: "+searchSelect);
+		}
+		
+		//itemCategoryName 미선택 -> null 처리
+		if(itemCategoryName != null && itemCategoryName.equals("non")) {
+			itemCategoryName = null;
+			log.debug("●●●●▶ null 처리 후itemCategoryName: "+itemCategoryName);
+		}
 		
 		//페이징 추가
 		
-		List<DonationItemList> itemList = donationService.getDonationItemList(shelterId);
-		Map<String, Object> map = new HashMap<>();
-		model.addAttribute("itemList", itemList);
+		//service 실행
+		Map<String, Object> map = donationService.getDonationItemList(shelterId, searchWord, searchSelect, itemCategoryName);
+		
+		model.addAttribute("donationItemList", map.get("donationItemList"));
+		model.addAttribute("itemCategoryList", map.get("itemCategoryList"));
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("searchSelect", searchSelect);
+		model.addAttribute("itemCategoryName", itemCategoryName);
+		
 		return "staff/getDonationItemN";
 	}
 	
 	// staff 일반후원내역
 	@GetMapping("/staff/getDonationMoneyN")
-	public String getDonationMoneyN(Model model, HttpSession session){
+	public String getDonationMoneyN(Model model, HttpSession session,
+									@RequestParam(value="searchWord", required = false) String searchWord){
 		//세션에서 shelterId 가져오기
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
+		log.debug("●●●●▶searchWord: "+searchWord);
 		
+		
+		//searchWord 공백 -> null로 수정
+		if(searchWord != null &&searchWord.equals("")) {
+			searchWord = null;
+		}
+				
 		//페이징 추가
 		
-		List<DonationMoneyList> moneyNList = donationService.getDonationMoneyNList(shelterId);
-		Map<String, Object> map = new HashMap<>();
+		List<Map<String, Object>> moneyNList = donationService.getDonationMoneyNList(shelterId, searchWord);
+		//Map<String, Object> map = new HashMap<>();
 		model.addAttribute("moneyNList", moneyNList);
+		model.addAttribute("searchWord", searchWord);
 		
 		return "staff/getDonationMoneyN";
 	}
 	
 	// staff 정기후원 페이지
 	@GetMapping("/staff/getDonationMoneyP")
-	public String getDonationMoneyP(Model model, HttpSession session) {
+	public String getDonationMoneyP(Model model, HttpSession session,
+									@RequestParam(value="searchWord", required = false) String searchWord) {
 		//세션에서 shelterId 가져오기
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
+		log.debug("●●●●▶searchWord: "+searchWord);
+		
+		//searchWord 공백 -> null로 수정
+		if(searchWord != null &&searchWord.equals("")) {
+			searchWord = null;
+		}
 		
 		//페이징 추가
 		
-		List<PeriodicallyDonation> moneyPList = donationService.getDonationMoneyPList(shelterId);
-		Map<String, Object> map = new HashMap<>();
+		List<Map<String, Object>> moneyPList = donationService.getDonationMoneyPList(shelterId, searchWord);
+		//Map<String, Object> map = new HashMap<>();
 		model.addAttribute("moneyPList", moneyPList);
+		model.addAttribute("searchWord", searchWord);
 		
 		return "staff/getDonationMoneyP";
 	}

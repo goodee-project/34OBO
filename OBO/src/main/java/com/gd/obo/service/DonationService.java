@@ -380,17 +380,39 @@ public class DonationService {
 	}
 	
 	// staff - 물품 후원 조회
-	public List<DonationItemList> getDonationItemList(int shelterId){
-		return donationMapper.selectDonationItemList(shelterId);
+	public Map<String, Object> getDonationItemList(int shelterId, String searchWord, String searchSelect, String itemCategoryName){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("searchWord", searchWord);
+		map.put("searchSelect", searchSelect);
+		map.put("itemCategoryName", itemCategoryName);
+		log.debug("●●●●▶ 물품 후원 map-> "+map);
+		List<Map<String, Object>> donationItemList = donationMapper.selectDonationItemList(map);
+		List<ItemCategory> itemCategoryList = donationMapper.selectItemCategoryList();
+		
+		//컨트롤러로 보낼 map
+		Map<String, Object> setMap = new HashMap<>();
+		setMap.put("donationItemList", donationItemList);
+		setMap.put("itemCategoryList", itemCategoryList);
+		
+		return setMap;
 	}
 	
 	// staff - 돈 후원 조회
-	public List<DonationMoneyList> getDonationMoneyNList(int shelterId){
-		return donationMapper.selectDonationMoneyNList(shelterId);
+	public List<Map<String, Object>> getDonationMoneyNList(int shelterId, String searchWord){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("searchWord", searchWord);
+		log.debug("●●●●▶ 일반 후원 map-> "+map);
+		return donationMapper.selectDonationMoneyNList(map);
 	}
 	
 	// staff - 정기 후원 조회
-	public List<PeriodicallyDonation> getDonationMoneyPList(int shelterId){
-		return donationMapper.selectDonationMoneyPList(shelterId);
+	public List<Map<String, Object>> getDonationMoneyPList(int shelterId, String searchWord){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("searchWord", searchWord);
+		log.debug("●●●●▶ 정기 후원 map-> "+map);
+		return donationMapper.selectDonationMoneyPList(map);
 	}
 }

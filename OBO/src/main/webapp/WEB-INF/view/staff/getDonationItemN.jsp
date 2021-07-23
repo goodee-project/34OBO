@@ -73,21 +73,38 @@ $(document).ready(function(){
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
+							<div>
+								<c:if test="${itemCategoryName != null}">
+									[카테고리 - ${itemCategoryName}] 
+								</c:if>
+								<c:if test="${searchSelect == 'member'}">
+									회원정보 
+								</c:if>
+								<c:if test="${searchSelect == 'itemName'}">
+									물품명 
+								</c:if>
+								<c:if test="${searchSelect != null}">
+									"${searchWord}" 
+								</c:if>
+								<c:if test="${itemCategoryName != null || (searchSelect != null && searchWord != null)}">
+									검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getDonationItemN"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+								</c:if>
+							</div>
+							
+							<br>
 							<table class="table">
 								<tr>
-									<td>No</td>
-									<td>회원ID</td>
+									<td>회원정보</td>
 									<td>카테고리</td>
 									<td>물품명</td>
 									<td>수량</td>
 									<td>설명</td>
 									<td>후원일</td>
 								</tr>
-								<c:forEach var="d" items="${itemList}">
+								<c:forEach var="d" items="${donationItemList}">
 									<tr>
-										<td>${d.donationItemListId}</td>
-										<td>${d.memberId}</td>
-										<td>${d.itemCategoryId}</td>
+										<td>${d.memberId}(${d.memberName})</td>
+										<td>${d.itemCategoryName}</td>
 										<td>${d.itemName}</td>
 										<td>${d.itemQuantity}</td>
 										<td>${d.itemDescription}</td>
@@ -126,17 +143,36 @@ $(document).ready(function(){
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getDonationItemN">
 							<div class="form-group">
 								<div class="input-group mb-4">
-									<select id="categoryName" class="select_box">
-										<option value="0">카테고리</option>
-										<option value="searchAddress">주소</option>
+									<select id="itemCategoryName" class="select_box" name="itemCategoryName">
+										<option value="non">카테고리선택</option>
+											<c:forEach var="i" items="${itemCategoryList}">
+												<c:if test="${itemCategoryName == i.itemCategoryName}">
+													<option value="${i.itemCategoryName}" selected>${i.itemCategoryName}</option>
+												</c:if>
+												<c:if test="${itemCategoryName != i.itemCategoryName}">
+													<option value="${i.itemCategoryName}">${i.itemCategoryName}</option>
+												</c:if>
+											</c:forEach>
 									</select>
-									<select id="searchSelect" class="select_box">
-										<option value="memberId">회원ID</option>
-										<option value="itemName">물품명</option>
+									<select id="searchSelect" class="select_box" name="searchSelect">
+										<option value="non">==검색명==</option>
+										
+										<c:if test="${searchSelect == 'member'}">
+											<option value="member" selected>회원정보</option>
+										</c:if>
+										<c:if test="${searchSelect != 'member'}">
+											<option value="member">회원정보</option>
+										</c:if>
+										<c:if test="${searchSelect == 'itemName'}">
+											<option value="itemName" selected>물품명</option>
+										</c:if>
+										<c:if test="${searchSelect != 'itemName'}">
+											<option value="itemName">물품명</option>
+										</c:if>
 									</select> 
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요"
-											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
-									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요" value="${searchWord}"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = '검색어를 입력해주세요'" >
+									<button id="searchBtn" class="btn" type="button" onclick="clickFun();"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
 						</form>
@@ -152,6 +188,23 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
+
+	<script>
+	function clickFun(){
+		console.log('검색창 클릭!');
+		
+		if($('#searchSelect').val() == $('#itemCategoryName').val()){
+			alert('카테고리 혹은 검색어를 선택해주세요');
+		} else if($('#searchSelect').val() != 'non' && $('#searchWord').val() == null){
+			alert('검색어를 입력해주세요');
+		} else if($('#searchSelect').val() == 'non' && $('#itemCategoryName').val() != 'non' && $('#searchWord').val() != null){
+			alert('검색할 내역을 선택해주세요');
+		} else{
+			$('#searchForm').submit();
+		}
+	}
+	
+	</script>
 
 
 	<!-- JS here -->
