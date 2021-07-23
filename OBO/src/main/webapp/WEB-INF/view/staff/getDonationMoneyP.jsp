@@ -73,18 +73,23 @@ $(document).ready(function(){
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
+							<div>
+								<c:if test="${searchWord != null}">
+									"${searchWord}" 검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getDonationMoneyP"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+								</c:if>
+							</div>
+							
+							<br>
 							<table class="table">
 								<tr>
-									<td>No</td>
-									<td>회원ID</td>
+									<td>회원정보</td>
 									<td>기부액</td>
 									<td>후원시작일</td>
 									<td>후원종료일</td>
 								</tr>
 								<c:forEach var="d" items="${moneyPList}">
 									<tr>
-										<td>${d.periodicallyDonationId}</td>
-										<td>${d.memberId}</td>
+										<td>${d.memberId}(${d.memberName})</td>
 										<td>${d.amount}</td>
 										<td>${d.applyDate}</td>
 										<td>${d.endDate}</td>
@@ -117,12 +122,12 @@ $(document).ready(function(){
 						<hr>
 						
 						<!-- 검색 -->
-						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getDonationMoneyP" method="post">
+						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getDonationMoneyP">
 							<div class="form-group">
 								<div class="input-group mb-4"> 
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 검색"
-											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
-									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원정보를 입력하세요" value="${searchWord}"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = '회원정보를 입력하세요'" >
+									<button id="searchBtn" class="btn" type="button" onclick="clickFun();"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
 						</form>
@@ -139,6 +144,14 @@ $(document).ready(function(){
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
 
+
+	<script>
+	function clickFun(){
+		console.log('검색창 클릭!');
+		$('#searchForm').submit();
+	}
+	
+	</script>
 
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

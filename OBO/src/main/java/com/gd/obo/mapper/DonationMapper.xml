@@ -183,45 +183,131 @@
 			NOW()
 		)
 	</insert>
-	<select id="selectDonationItemList" parameterType="int" resultType="com.gd.obo.vo.DonationItemList">
+	
+	<!-- staff 일반물품 리스트 -->
+	<select id="selectDonationItemList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			donation_item_list_id donationItemListId,
-			member_id memberId,
-			shelter_id shelterId,
-			item_category_id itemCategoryId,
-			donation_date donationDate,
-			item_name itemName,
-			item_quantity itemQuantity,
-			item_description itemDescription
-		FROM donation_item_list
-		WHERE shelter_id = #{shelterId}
-		ORDER BY donation_date DESC;
+			dil.donation_item_list_id AS donationItemListId,
+			m.member_id AS memberId,
+			m.member_name AS memberName,
+			m.member_nickname AS memberNickname,
+			dil.shelter_id AS shelterId,
+			dil.item_category_id AS itemCategoryId,
+			ic.item_category_name AS itemCategoryName,
+			DATE(dil.donation_date) AS donationDate,
+			dil.item_name AS itemName,
+			dil.item_quantity AS itemQuantity,
+			dil.item_description AS itemDescription
+		FROM donation_item_list AS dil, member AS m, item_category AS ic
+		<where>
+			dil.member_id = m.member_id AND dil.item_category_id = ic.item_category_id
+			AND dil.shelter_id = #{shelterId}
+			<if test="searchWord != null and searchSelect == 'member'">
+				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+			<if test="searchWord != null and searchSelect == 'itemName'">
+				AND dil.item_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="itemCategoryName != null">
+				AND ic.item_category_name = #{itemCategoryName}
+			</if>
+		</where>
+		ORDER BY dil.donation_date DESC;
 	</select>
 	
-	<select id="selectDonationMoneyNList" parameterType="int" resultType="com.gd.obo.vo.DonationMoneyList">
+	<!-- staff 일반후원 리스트 -->
+	<select id="selectDonationMoneyNList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			donation_money_list_id donationMoneyListId,
-			member_id memberId,
-			shelter_id shelterId,
-			donation_date donationDate,
-			amount amount
-		FROM donation_money_list
-		WHERE shelter_id = #{shelterId}
-		ORDER BY donation_date DESC;
+			dml.donation_money_list_id AS donationMoneyListId,
+			m.member_id AS memberId,
+			m.member_name AS memberName,
+			m.member_nickname AS memberNickname,
+			dml.shelter_id AS shelterId,
+			DATE(dml.donation_date) AS donationDate,
+			dml.amount AS amount
+		FROM donation_money_list AS dml, member AS m
+		<where>
+			dml.member_id = m.member_id AND dml.shelter_id = #{shelterId}
+			<if test="searchWord != null">
+				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+		</where>
+		ORDER BY dml.donation_date DESC;
 	</select>
 	
-	<select id="selectDonationMoneyPList" parameterType="int" resultType="com.gd.obo.vo.PeriodicallyDonation">
+	<!-- staff 정기후원 리스트 -->
+	<select id="selectDonationMoneyPList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			periodically_donation_id periodicallyDonationId,
-			member_id memberId,
-			shelter_id shelterId,
-			end_date endDate,
-			apply_date applyDate,
-			amount amount,
-			sid sid
-		FROM periodically_donation
-		WHERE shelter_id = #{shelterId}
-		ORDER BY apply_date DESC;
+			pd.periodically_donation_id AS periodicallyDonationId,
+			m.member_id AS memberId,
+			m.member_name AS memberName,
+			m.member_nickname AS memberNickname,
+			pd.shelter_id AS shelterId,
+			DATE(pd.end_date) AS endDate,
+			DATE(pd.apply_date) AS applyDate,
+			pd.amount AS amount
+		FROM periodically_donation AS pd, member AS m
+		<where>
+			pd.member_id = m.member_id AND pd.shelter_id = #{shelterId}
+			<if test="searchWord != null">
+				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+		</where>
+		ORDER BY pd.apply_date DESC;
 	</select>
-
+	
+	<!-- 이번달 후원 받은 금액 -->
+	<select id="selectDonationMoneyThisMonth" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			shelter_id AS shelterId,
+			SUM(amount) AS 'total',
+			DATE_FORMAT(NOW(),'%Y-%m') AS 'thisMonth'
+		FROM full_money_donation_list
+		WHERE DATE_FORMAT(NOW(),'%Y%m') = DATE_FORMAT(donation_date,'%Y%m')
+			AND shelter_id = #{shelterId};
+	</select>
+	
+	<!-- 최근 후원받은 물품 5개 -->
+	<select id="selectDonationItemLast" parameterType="int" resultType="java.util.Map">
+		SELECT
+			ic.item_category_name AS itemCategoryName,
+			dil.item_quantity AS itemQuantity,
+			DATE(dil.donation_date) AS donationDate
+		FROM donation_item_list AS dil, item_category AS ic
+		WHERE dil.item_category_id = ic.item_category_id
+			AND shelter_id = #{shelterId}
+		ORDER BY dil.donation_date DESC
+		LIMIT 0, 5;
+	</select>
+	
+	<!-- 후원 금액 기간별 조회 -->
+	<select id="selectDonationMoneyByPeriod" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			DATE_FORMAT(donation_date,'%Y-%m') AS 'yearMonth',
+			SUM(amount) AS 'total'
+		FROM full_money_donation_list
+		WHERE shelter_id = #{shelterId}
+			AND #{endDate} >= DATE_FORMAT(donation_date,'%Y-%m') AND DATE_FORMAT(donation_date,'%Y-%m') >= #{startDate}
+		GROUP BY DATE_FORMAT(donation_date,'%Y-%m')
+		ORDER BY DATE_FORMAT(donation_date,'%Y-%m') DESC;
+	</select>
+	
+	<select id="selectDonationItemByPeriod" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			ic.item_category_id AS itemCategoryId,
+			ic.item_category_name AS itemCategoryName,
+			SUM(dil.item_quantity) AS 'total',
+			DATE(MAX(dil.donation_date)) AS donationDate
+		FROM donation_item_list AS dil, item_category AS ic
+		<where> 
+			dil.item_category_id = ic.item_category_id
+			AND dil.shelter_id = #{shelterId}
+			AND #{endDate} >= DATE_FORMAT(donation_date,'%Y-%m') AND DATE_FORMAT(donation_date,'%Y-%m') >= #{startDate}
+			<if test="itemCategoryName != null">
+				AND ic.item_category_name = #{itemCategoryName}
+			</if>
+		</where>
+		GROUP BY ic.item_category_id
+		ORDER BY itemCategoryName ASC;
+	</select>
 </mapper>

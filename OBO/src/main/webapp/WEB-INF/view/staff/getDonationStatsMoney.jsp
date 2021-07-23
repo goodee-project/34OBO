@@ -80,22 +80,31 @@ $(document).ready(function(){
 							</h2>
 							
 							<p>후원 받은 금액을 기간별로 조회할 수 있습니다.</p>
-							
 							<br>
+							
 							<!-- 검색 -->
-							<form id="searchForm" action="${pageContext.request.contextPath}/staff/getDonationMoneyP" method="post">
+							<form id="searchForm" action="${pageContext.request.contextPath}/staff/getDonationMoneyP" method="get">
 								<div class="form-group col-xl-8 col-lg-6">
 									<div class="input-group mb-4"> 
-										<input type="month" id="startDate" name="startDate"> 
+										<input id="startDate" type="month" name="startDate"> 
 										&nbsp;~&nbsp;
-										<input type="month" id="endDate" name="endDate"> 
+										<input id="endDate" type="month" name="endDate"> 
 										
-										&nbsp;<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+										&nbsp;<button id="searchBtn" class="btn" type="button" onclick="searchFun();"><i class="fa fa-search"></i></button>
 										&nbsp;<button class="btn" type="reset"><i class="fa fa-refresh"></i></button>
 									</div>
 								</div>
 							</form>
+							<br>
 							
+							<div>
+								<span id="input"></span>
+							</div>
+							<br>
+							
+							<table id="moneyTable" class="table" style="width:80%; text-align:center;">
+							
+							</table>
 							
 						</div>
 					</div>
@@ -112,6 +121,44 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+	<script>
+	function searchFun(){
+		console.log('조회버튼 클릭~');
+		let addTr = "";
+		let startDate = $('#startDate').val();
+		let endDate = $('#endDate').val();
+		let totalByPeriod;	// 후원받은 총 금액
+		
+		$.ajax({
+			url:'${pageContext.request.contextPath}/getDonationMoneyByPeriod',
+			type:'get',
+			data:{startDate : startDate,
+					endDate : endDate},
+			success: function(jsonData){
+				console.log('기간별 금액조회 ajax!');
+				$('#moneyTable').empty();	// 먼저 테이블 비워놓기
+				totalByPeriod = 0;	// 재 조회 할 경우
+				
+				$(jsonData).each(function(index, item){
+					addTr += '<tr>';
+					addTr += '<td width="40%">';
+					addTr += item.yearMonth;
+					addTr += '</td>';
+					addTr += '<td width="60%">';
+					addTr += item.total.toLocaleString();
+					addTr += '</td>';
+					addTr += '</tr>';
+					totalByPeriod += item.total;
+				});
+				console.log('총 후원액-> '+totalByPeriod);
+				$('#moneyTable').append(addTr);
+				$('#input').text('['+startDate+' - '+endDate+']  총 후원 받은 금액 '+totalByPeriod.toLocaleString()+'원');
+			}
+		});
+	}
+	
+	</script>
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

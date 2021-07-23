@@ -32,6 +32,55 @@
 <script>
 $(document).ready(function(){	
 	
+	// 이번 달 후원받은 금액
+	let totalArr = [];
+	let thisMonthArr = [];
+	let total, thisMonth;
+	let myChart = null;
+	
+	$.ajax({
+		url: '${pageContext.request.contextPath}/getDonationMoneyThisMonth',
+		type: 'get',
+		success: function(jsonData){
+			console.log('이번달 후원받은 금액 jsonData 얻어오기');
+			
+			$(jsonData).each(function(index, item){
+				totalArr.push(item.total);
+				thisMonthArr.push(item.thisMonth);
+			});
+			
+			// for문 안 돌리고 각 넣어서 chart 생성시 오류 발생
+			
+			total = jsonData.total;	// typeof(total) -> number
+			totals = total.toLocaleString();	// typeof(total) -> String
+			//thisMonth = jsonData.thisMonth;
+			//console.log('thisMonth-> '+thisMonth);
+			
+			console.log('total-> '+total);
+			
+			$('#total').text(totals+'원');	// 화면에 보여줄 값
+			
+			let data = {
+			  labels: thisMonthArr,
+			  datasets: [{
+					    label: 'this month',
+					    data: totalArr,
+					    backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+					    borderColor: ['rgb(255, 99, 132)'],
+					    borderWidth: 1
+			  }]
+			};
+			
+			let config = {
+					  type: 'bar',
+					  data: data,
+					  options: {plugins: {legend: {display: false}},	// 라벨 삭제 옵션, 그러나 아직 라벨 보임
+					    		scales: {y: {beginAtZero: true}}}
+			};
+			
+			myChart = new Chart(document.getElementById('myChart'), config);
+		}
+	});
 	
 });
 </script>
@@ -87,32 +136,33 @@ $(document).ready(function(){
 					<div class="row">
 						<div class="col-xl-5 col-lg-5">
 							<div class="blog_details">
-								<h4>이번 달 후원받은 금액 : @@@@@@@@</h4>
-								<h4>이번 달 후원받은 금액 : 바차트</h4>
-								<p>아름다운 이 땅에 금수강산에 단군할아버지가 터잡으시고 홍익인간 뜻으로 나라 세우니 대대손손 훌륭한 인물도 많아.
-								고구려 세운 동명왕, 백제 온조왕, 알에서 나온 혁거세. 만주벌판 달려라 광개토대왕, 신라장군 이사부.
-								백결 선생 떡방아, 삼천궁녀 의자왕. 황산벌의 계백, 맞서싸운 관창. 역사는 흐른다.</p>
+								<h4>
+									이번 달 후원받은 금액 : 
+									<span id="total"></span>
+								</h4>
+								<div>
+									<canvas id="myChart" style="width:300px; height:300px;"></canvas>
+								</div>
 							</div>
 						</div>
 						
-						<div class="col-xl-7 col-lg-7">
+						<div class="col-xl-6 col-lg-6 ml-4">
 							<div class="blog_details">
-								<h4>이번 달 후원받은 금액 : @@@@@@@@@@@@</h4>
-								<h4>이번 달 후원받은 금액 : 테이블</h4>
-								<p>아름다운 이 땅에 금수강산에 단군할아버지가 터잡으시고 홍익인간 뜻으로 나라 세우니 대대손손 훌륭한 인물도 많아.
-								고구려 세운 동명왕, 백제 온조왕, 알에서 나온 혁거세. 만주벌판 달려라 광개토대왕, 신라장군 이사부.
-								백결 선생 떡방아, 삼천궁녀 의자왕. 황산벌의 계백, 맞서싸운 관창. 역사는 흐른다.</p>
+								<h4>최근 후원받은 물품</h4>
+								<br>
 								<table class="table">
 									<tr>
-										<td>카테고리</td>
-										<td>수량</td>
-										<td>날짜</td>
+										<th>카테고리</th>
+										<th>수량</th>
+										<th>날짜</th>
 									</tr>
-									<tr>
-										<td>test</td>
-										<td>test</td>
-										<td>test</td>
-									</tr>
+									<c:forEach var="d" items="${donationItemLast}">
+										<tr>
+											<td>${d.itemCategoryName}</td>
+											<td>${d.itemQuantity}</td>
+											<td>${d.donationDate}</td>
+										</tr>
+									</c:forEach>
 								</table>
 							</div>
 						</div>
@@ -128,6 +178,9 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+	<!-- chart js -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
