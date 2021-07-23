@@ -6,9 +6,13 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gd.obo.vo.Animal;
+import com.gd.obo.vo.AnimalFile;
 
 @Mapper
 public interface AnimalMapper {
+	
+	// selectAnimalFileByAnimal -> 파일리스트
+	List<AnimalFile> selectAnimalFileByAnimal(int animalId);
 	
 	// updateAnimal -> 동물 수정
 	int updateAnimal(Map<String, Object> map);

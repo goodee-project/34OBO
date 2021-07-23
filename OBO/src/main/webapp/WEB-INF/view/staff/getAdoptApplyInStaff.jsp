@@ -93,23 +93,25 @@ $(document).ready(function(){
 							<br>
 							<table class="table">
 								<tr>
-									<td>No</td>
 									<td>동물</td>
-									<td>회원ID</td>
-									<td>회원이름</td>
+									<td>회원정보</td>
 									<td>신청서류</td> <!-- 클릭 시 다운로드 -->
 									<td>승인</td>
 								</tr>
 								<c:forEach var="a" items="${adoptApplyList}">
 									<tr>
-										<td>${a.adoptApplyId}</td>
 										<td>${a.animalName}</td>
-										<td>${a.memberId}</td>
-										<td>${a.memberName}</td>
+										<td>${a.memberName}(${a.memberId})</td>
 										<td>${a.adoptApplyDocumentId}</td>
 										<td> <!-- 아이콘 클릭 시 새 창으로 열지? 아님 모달창 사용할지? -->
-											<a href=""><i class="fa fa-check-circle fa"></i></a> <!-- 승인 btn -->
-											<a href=""><i class="fa fa-times-circle fa"></i></a> <!-- 거절 btn -->
+											<!-- 승인 btn -->
+											<a id="approvalBtn" data-toggle="modal" data-target="#approval-modal" onclick="approvalFun(${a.adoptApplyId});">
+												<i class="fa fa-check-circle fa"></i>
+											</a>
+											<!-- 거절 btn --> 
+											<a id="rejectBtn" data-toggle="modal" data-target="#reject-modal" onclick="rejectFun(${a.adoptApplyId});">
+												<i class="fa fa-times-circle fa"></i>
+											</a> 
 										</td>
 									</tr>
 								</c:forEach>
@@ -144,6 +146,97 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+	<!-- 승인 확인 모달 -->
+	<div class="modal fade" id="approval-modal" role="dialog" aria-labelledby="approval-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title">입양 승인 하시겠습니까?</h4>
+					<br>
+					<br>
+					<div><input id="input" type="hidden"></div>
+					<button id="approvalBtn" class="genric-btn primary-border radius" onclick="yesApprovalFun($('#input').val());">확인</button>
+					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 승인 거절 -->
+	<div class="modal fade" id="reject-modal" role="dialog" aria-labelledby="reject-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title">입양 거절 하시겠습니까?</h4>
+					<br>
+					<br>
+					<div><input id="input" type="hidden"></div>
+					<button id="rejectBtn" class="genric-btn primary-border radius" onclick="yesRejectFun($('#input').val());">확인</button>
+					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+
+	function approvalFun(id){
+		console.log('입양 승인 버튼 클릭');
+		console.log('넘어온 id'+id);
+		$('#input').val(id);
+		
+	}
+	
+	function rejectFun(id){
+		console.log('입양 거절 버튼 클릭');
+		console.log('넘어온 id'+id);
+		$('#input').val(id);
+	}
+	
+	function yesApprovalFun(id){
+		console.log('모달창 -> 입양 확인 버튼 클릭');
+		console.log('넘어온 id'+id);
+		
+		$.ajax({
+			type: 'post',
+			url: '${pageContext.request.contextPath}/addAdopt',
+			data: {adoptApplyId : id},
+			success: function(jsonData){
+				if(jsonData != 1){
+					alert('승인 에러!');
+					return;
+				}
+				
+				alert('입양 승인이 완료되었습니다.');
+				location.href='${pageContext.request.contextPath}/staff/getAdoptApplyInStaff';
+				
+				// 바로 plan 작성하겠냐는 창 만들어보기.
+			}
+		});
+	}
+	
+	function yesRejectFun(id){
+		console.log('모달창 -> 입양 거절 버튼 클릭');
+		console.log('넘어온 id'+id);
+		
+		$.ajax({
+			type: 'post',
+			url: '${pageContext.request.contextPath}/modifyReject',
+			data: {adoptApplyId : id},
+			success: function(jsonData){
+				if(jsonData != 1){
+					alert('거절 에러!');
+					return;
+				}
+				
+				alert('입양 거절이 완료되었습니다.');
+				location.href='${pageContext.request.contextPath}/staff/getAdoptApplyInStaff';
+			}
+		});
+	}
+	
+	</script>
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

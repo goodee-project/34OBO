@@ -145,7 +145,7 @@ public class QualificationService {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("managerId", managerId);
 		paramMap.put("applicationId", applicationId);
-		int row = qualificationMapper.InsertApproveQualificationApplication(paramMap);
+		int row = qualificationMapper.insertApproveQualificationApplication(paramMap);
 		log.debug("======자격 신청 승인 row : "+row);
 		log.debug("======자격 신청 승인 param : "+paramMap);
 		return row;
@@ -156,7 +156,7 @@ public class QualificationService {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("managerId", managerId);
 		paramMap.put("applicationId", applicationId);
-		int row = qualificationMapper.InsertRejectQualificationApplication(paramMap);
+		int row = qualificationMapper.insertRejectQualificationApplication(paramMap);
 		log.debug("======자격 신청 거절 row : "+row);
 		log.debug("======자격 신청 거절 param : "+paramMap);
 		return row;

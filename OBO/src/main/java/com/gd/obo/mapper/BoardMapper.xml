@@ -29,8 +29,7 @@
 		FROM
 			board_file
 		WHERE
-			board_id = #{boardId}
-			 
+			board_id = #{boardId}			 
 	</select>
 	
 	<!-- 게시판 삭제 -->
@@ -98,7 +97,6 @@
 			b.animal_category_id = ac.animal_category_id
 		AND 
 			board_id=#{boardId}
-
 		
 	</select>
 	<!-- 게시판 리스트 -->
@@ -113,14 +111,11 @@
 		FROM board b, animal_category ac, board_category bc
 		WHERE b.animal_category_id = ac.animal_category_id
 		AND b.board_category_id=bc.board_category_id 
-			<if test="boartTitle != null">
+			<if test="boardTitle != null">
 				AND board_title LIKE CONCAT('%',#{boardTitle},'%')
 			</if>
 			<if test="species != null">
 				AND species =#{species}
-			</if>
-			<if test="memberId != null">
-				AND member_id LIKE CONCAT('%',#{memberId},'%')
 			</if>
 		ORDER BY b.board_id DESC	
 		LIMIT #{beginRow}, #{rowPerPage}

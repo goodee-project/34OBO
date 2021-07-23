@@ -8,4 +8,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CareMapper {
 	List<Map<String, Object>> selectCareInfoList(String searchWord, String species, String careSorting);
+	List<Map<String, Object>> selectCareInfoByCarePlan(int animalCategoryId);
+	List<Map<String, Object>> selectCarePlanDay(int shelterId, int animalId, int careInfoId);
+	List<Map<String, Object>> selectCarePlanList(Map<String, Object> map);
+	List<Map<String, Object>> selectCarePlanRecordList(int shelterId);
+	int insertCarePlan(Map<String, Object> map);
 }

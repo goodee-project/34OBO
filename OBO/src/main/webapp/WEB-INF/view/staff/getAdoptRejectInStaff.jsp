@@ -93,18 +93,16 @@ $(document).ready(function(){
 							<br>
 							<table class="table">
 								<tr>
-									<td>No</td>
 									<td>동물</td>
-									<td>회원ID</td>
+									<td>회원정보</td>
 									<td>신청서류</td> <!-- 클릭 시 다운로드 -->
 									<td>신청일</td>
 									<td>거절일</td>
 								</tr>
 								<c:forEach var="a" items="${adoptRejectList}">
 									<tr>
-										<td>${a.adoptApplyId}</td>
 										<td>${a.animalName}</td>
-										<td>${a.memberId}</td>
+										<td>${a.memberName}(${a.memberId})</td>
 										<td>${a.adoptApplyDocumentId}</td>
 										<td>${a.applyDate}</td>
 										<td>${a.applyRejectDate}</td>

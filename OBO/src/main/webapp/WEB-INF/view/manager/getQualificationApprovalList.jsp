@@ -99,7 +99,8 @@ $(document).ready(function(){
                				<td>${q.memberId}</td>
                				<td>${q.volunteerCategory}</td>
                				<td>${q.qualificationType}</td>
-               				<td>${q.qualificationFile}</td>
+               				<td><a href="${pageContext.request.contextPath}/static/img/qualification/${q.qualificationFile}" target="_blank">
+               				<strong>${q.qualificationFile}</strong></a></td>
                				<td>${q.managerId}</td>
                				<td>${q.ck}</td>
                				<td>${fn:substring(q.approvalDate, 0, 11)}</td>
