@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.AnimalService;
+import com.gd.obo.service.ShelterService;
+import com.gd.obo.vo.Shelter;
+import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,8 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 
 public class AnimalController {
-	@Autowired
-	AnimalService animalService;
+	@Autowired AnimalService animalService;
+	@Autowired ShelterService shelterService;
 	
 	// 작성자 : 남민정
 	@GetMapping("/staff/addAnimal")
@@ -84,10 +89,6 @@ public class AnimalController {
 	}
 	
 	
-	
-	
-	
-	
 	// 작성자 : 남민정
 	@GetMapping("/staff/getAnimalOne")
 	public String getAnimalOne(Model model, @RequestParam(value = "animalId", required = false) int animalId) {
@@ -106,10 +107,11 @@ public class AnimalController {
 	
 	// 작성자 : 남민정
 	@GetMapping("/staff/getAnimalList")
-	public String getAnimalList(Model model, @RequestParam(value = "shelterId" , defaultValue = "1") int shelterId,
+	public String getAnimalList(Model model, HttpSession session,
 											@RequestParam(value = "searchWord", required =  false) String searchWord,
 											@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
 											@RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage ) {
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> getAnimalList shelterId: " + shelterId);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> getAnimalList searchWord: " + searchWord);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> getAnimalList currentPage: " + currentPage);
@@ -119,8 +121,9 @@ public class AnimalController {
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
-		
-		Map<String, Object> map = animalService.getAnimalList(shelterId, searchWord, currentPage, rowPerPage);
+		//회원에서 종류 쓰기 위해서 추가함. 직원은 종 검색 기능 없으므로 널 값을 넣어줬음.
+		String species = null;
+		Map<String, Object> map = animalService.getAnimalList(shelterId, searchWord, species, currentPage, rowPerPage);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> getAnimalList map: " + map);
 		model.addAttribute("animalList", map.get("animalList"));
 		model.addAttribute("shelterId", shelterId);
@@ -136,5 +139,36 @@ public class AnimalController {
 	@GetMapping("/staff/getAnimalInStaff")
 	public String getAnimalInStaff() {
 		return "staff/getAnimalInStaff";
+	}
+	
+	@GetMapping("/getAnimalList")
+	public String getAnimalListM(Model model, @RequestParam(value = "shelterId", defaultValue = "0") int shelterId,
+											@RequestParam(value = "searchWord", required =  false) String searchWord,
+											@RequestParam(value = "species", required =  false) String species,
+											@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+											@RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage ) {
+		if(searchWord != null && searchWord.equals("")) {
+			searchWord = null;
+		}
+		if(species != null && species.equals("")) {
+			species = null;
+		}
+		Map<String, Object> map = animalService.getAnimalList(shelterId, searchWord, species, currentPage, rowPerPage);
+		List<Map<String,Object>> categoryList = animalService.getAnimalCategoryList();
+		List<Shelter> shelterList = shelterService.getShelterListByDonation();
+		log.debug("===== 동물 리스트 map: " + map);
+		log.debug("===== 동물 카테고리 리스트 categoryList: " + categoryList);
+		model.addAttribute("animalList", map.get("animalList"));
+		model.addAttribute("shelterId", shelterId);
+		model.addAttribute("animalName", searchWord);
+		model.addAttribute("species", species);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("rowPerPage", rowPerPage);
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("shelterList", shelterList);
+		
+		return "main/getAnimalList";
+		
 	}
 }

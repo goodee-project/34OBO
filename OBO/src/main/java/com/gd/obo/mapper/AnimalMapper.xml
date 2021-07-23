@@ -115,14 +115,21 @@
 		    a.animal_kind animalKind,
 		    a.animal_find_place animalFindPlace,
 		    a.animal_enter_date animalEnterDate,
-		    a.animal_state animalState
+		    a.animal_state animalState,
+		    s.shelter_name shelterName
 		FROM animal AS a
     	LEFT JOIN animal_file AS af ON af.animal_id = a.animal_id
     	INNER JOIN animal_category AS ac ON ac.animal_category_id = a.animal_category_id
+    	INNER JOIN shelter s ON s.shelter_id = a. shelter_id
 		<where>
-			 a.shelter_id = 1 <!-- shelter_id 수정해야함. -->
+			<if test="shelterId != 0">
+				AND a.shelter_id = #{shelterId}
+			</if>
 			<if test = "searchWord != null">
-				AND animalName LIKE CONCAT('%', #{searchWord}, '%')
+				AND a.animal_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="species != null">
+				AND ac.species = #{species}
 			</if>
 		</where>    
 		ORDER BY animalEnterDate ASC
@@ -132,12 +139,16 @@
 	<!-- total -->
 	<select id="selectAnimalTotal" resultType="int" parameterType="java.util.Map">
 		SELECT COUNT(*)
-		FROM animal
+		FROM animal a JOIN animal_category AS ac ON ac.animal_category_id = a.animal_category_id
 		<where>
-			shelter_id = 1 <!-- shelter_id = #{shelterId}로 바꿔야함. -->
-			
-			<if test = "searchWord != null">
-				AND animalName LIKE CONCAT('%', #{searchWord}, '%')
+			<if test="shelterId != 0">
+				AND shelter_id = #{shelterId}
+			</if>
+			<if test ="searchWord != null">
+				AND a.animal_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="species != null">
+				AND ac.species = #{species}
 			</if>
 		</where>
 	</select>	
