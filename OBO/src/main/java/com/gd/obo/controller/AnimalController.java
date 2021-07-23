@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.ShelterService;
+import com.gd.obo.vo.AnimalForm;
 import com.gd.obo.vo.Shelter;
 import com.gd.obo.vo.Staff;
 
@@ -29,63 +30,25 @@ public class AnimalController {
 	@Autowired ShelterService shelterService;
 	
 	// 작성자 : 남민정
+	// 폼
 	@GetMapping("/staff/addAnimal")
 	public String addAnimal(Model model) {
 		List<Map<String, Object>> animalCategoryList = animalService.getAnimalCategoryList();
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalCategoryList: " + animalCategoryList);
 		
 		model.addAttribute("animalCategoryList", animalCategoryList);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalCategoryList: " + animalCategoryList);
 		
 		return "staff/addAnimal";
 	}
 	
-	@PostMapping("/staff/addAnimal") // 코드 수정 하기  animalIntroduce
-	public String addAnimal(Model model, 
-										@RequestParam(value = "animalCategoryId", required = false) Integer animalCategoryId,
-										@RequestParam(value = "shelterId", required = false) Integer shelterId,
-										@RequestParam(value = "animalName", required = false) String animalName,
-										@RequestParam(value = "animalAge", required = false) Integer animalAge,
-										@RequestParam(value = "animalSex", required = false) String animalSex,
-										@RequestParam(value = "animalWeight", required = false) Integer animalWeight,
-										@RequestParam(value = "animalKind", required = false) String animalKind,
-										@RequestParam(value = "animalFindPlace", required = false) String animalFindPlace,
-										@RequestParam(value = "animalNote", required = false) String animalNote,
-										@RequestParam(value = "animalState", required = false) String animalState,
-										@RequestParam(value = "animalIntroduce", required = false) String animalIntroduce) {
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalCategoryId: " + animalCategoryId);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal shelterId: " + shelterId);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalName: " + animalName);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalAge: " + animalAge);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalSex: " + animalSex);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalWeight: " + animalWeight);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalKind: " + animalKind);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalFindPlace: " + animalFindPlace);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalNote: " + animalNote);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalState: " + animalState);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalIntroduce: " + animalIntroduce);
+	// 액션
+	@PostMapping("/staff/addAnimal") 
+	public String addAnimal(AnimalForm animalForm) { 
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalForm: " + animalForm);
 		
-		Map<String, Object> map = new HashMap<>();
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal map: " + map);
+		animalService.addAnimal(animalForm);								
 		
-		map.put("animalCategoryId", animalCategoryId);
-		map.put("shelterId", shelterId);
-		map.put("animalName", animalName);
-		map.put("animalAge", animalAge);
-		map.put("animalSex", animalSex);
-		map.put("animalWeight", animalWeight);
-		map.put("animalKind", animalKind);
-		map.put("animalFindPlace", animalFindPlace);
-		map.put("animalNote", animalNote);
-		map.put("animalState", animalState);
-		map.put("animalIntroduce", animalIntroduce);
-		
-		int addAnimal = animalService.addAnimal(map);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal addAnimal: " + addAnimal);
-		
-		model.addAttribute("map", map);
-		model.addAttribute("addAnimal", addAnimal);
-		
-		return "redirect:/staff/getAnimalList";
+		return "redirect:/staff/getAnimalOne?animalId="+animalForm.getAnimal().getAnimalId();
 	}
 	
 	

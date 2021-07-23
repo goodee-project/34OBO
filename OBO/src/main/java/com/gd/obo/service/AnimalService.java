@@ -1,16 +1,21 @@
 package com.gd.obo.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.obo.mapper.AnimalFileMapper;
 import com.gd.obo.mapper.AnimalMapper;
+import com.gd.obo.vo.Animal;
 import com.gd.obo.vo.AnimalFile;
+import com.gd.obo.vo.AnimalForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,10 +42,43 @@ public class AnimalService {
 
 	// 작성자 : 남민정 
 	// animal 추가
-	public int addAnimal(Map<String, Object> map) {
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> insertAnimal map: " + map);
+	public void addAnimal(AnimalForm animalForm) {
+		// Animal 불러오기 
+		Animal animal = animalForm.getAnimal();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal-> animal animalId: " + animal.getAnimalId());
 		
-		return animalMapper.insertAnimal(map);
+		animalMapper.insertAnimal(animal);
+	
+		// File 불러오기
+		List<MultipartFile> list = animalForm.getAnimalFile();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal list: " + list);
+		if(list != null) {
+			for(MultipartFile f : list) {
+				AnimalFile animalFile = new AnimalFile();
+				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal animalFile: " + animalFile);
+				animalFile.setAnimalId(animal.getAnimalId());
+				
+				// 파일 이름
+				String prename = UUID.randomUUID().toString().replace("-","");
+				
+				String filename = prename;
+				animalFile.setAnimalFileName(filename); // 중복으로 인해 덮어쓰기 가능
+				animalFile.setAnimalId(animal.getAnimalId());
+				animalFile.setAnimalFileSize(f.getSize());
+				animalFile.setAnimalFileExt(f.getContentType());
+				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal filename: " + filename);
+				
+				animalFileMapper.insertAnimalFile(animalFile);
+				
+				try {
+					File temp = new File(""); // 프로젝트 폴더에 빈파일이 만들어진다.
+					String path = temp.getAbsolutePath(); // 프로젝트필드
+					f.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\animal\\"+filename));
+				} catch (Exception e) {
+					throw new RuntimeException();
+				}
+			}			
+		}
 	}
 		
 	

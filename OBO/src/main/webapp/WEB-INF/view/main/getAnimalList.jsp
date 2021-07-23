@@ -163,6 +163,7 @@ $(document).ready(function(){
 
 			</div>
 		</div>
+		</div>
 	</section>
 	<!--================Blog Area =================-->
 

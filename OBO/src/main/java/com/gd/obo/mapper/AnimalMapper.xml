@@ -44,7 +44,10 @@
 	
 
 	<!-- Animal 추가 --> <!-- 더 추가해야함, 기본적인것만 추가 -->
-	<insert id="insertAnimal" parameterType="java.util.Map">
+	<insert id="insertAnimal" parameterType="com.gd.obo.vo.Animal">
+		<selectKey keyProperty="animalId" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		INSERT INTO animal(
 			animal_category_id,
 			shelter_id,
