@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link rel="shortcut icon" type="../static/image/x-icon" href="../static/img/favicon.png">
+    <link rel="shortcut icon" type="${pageContext.request.contextPath}/static/image/x-icon" href="../static/img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
     <!-- 부트스트랩 cdn -->
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -33,17 +33,27 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
-    
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css"> 
     <!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-let fileName = "";
+var fileName = null;
+
+/*
+//값 받아오고, 변수에 값 넣고, 모달창 띄우기
 function viewFile(str){
 	console.log(str);
 	fileName = str;
-	$('#myModal').modal('');
+	$('#myModal').modal();
 }
+
+//모달창 안에 img 넣기
+function fileSrc(){
+	$('#qFile').append('<div>');
+	$('#qFile').append('<img src="${pageContext.request.contextPath}/static/img/qualification/'+ae9f0b6bd4164facbe785d17c31590af.jpeg+'">');
+	$('#qFile').append('</div>');
+}
+*/
 
 $(document).ready(function(){
 	$('#loginBtn').click(function(){
@@ -110,8 +120,7 @@ $(document).ready(function(){
                				<td>${q.memberId}</td>
                				<td>${q.category}</td>
                				<td>${q.qualificationType}</td>
-               				<td>
-               				<a href="${pageContext.request.contextPath}/static/img/qualification/${q.qualificationFile}" target="_blank">
+               				<td><a href="${pageContext.request.contextPath}/static/img/qualification/${q.qualificationFile}" target="_blank">
                				<strong>${q.qualificationFile}</strong></a></td>
                				<td>${fn:substring(q.date, 0, 11)}</td>
                				<td>
@@ -175,7 +184,7 @@ $(document).ready(function(){
     </div>
  </div>
     <!-- pet_care_area_end  -->
-       	<!-- The Modal -->
+       <!-- The Modal -->
   <div class="modal fade" id="myModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -198,7 +207,7 @@ $(document).ready(function(){
       </div>
     </div>
   </div>
-  
+
     <!-- footer_start  -->
 		<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
     <!-- footer_end  -->

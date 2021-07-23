@@ -72,7 +72,7 @@ public class AnimalService {
 	
 	// 작성자 : 남민정
 	// animal 리스트 (보호소마다 다름)
-	public Map<String, Object> getAnimalList(int shelterId, String searchWord, 
+	public Map<String, Object> getAnimalList(int shelterId, String searchWord, String species,
 											int currentPage, int rowPerPage) {
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList shelterId: " + shelterId);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList searchWord: " + searchWord);
@@ -87,6 +87,7 @@ public class AnimalService {
 		Map<String, Object> map = new HashMap<>();
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> getAnimalList map: " + map);
 		
+		map.put("species", species);
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("rowPerPage", rowPerPage);
