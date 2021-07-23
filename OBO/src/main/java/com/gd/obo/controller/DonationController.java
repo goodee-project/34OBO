@@ -3,7 +3,6 @@
 
 package com.gd.obo.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.DonationService;
 import com.gd.obo.service.ShelterService;
-import com.gd.obo.vo.DonationItemList;
 import com.gd.obo.vo.DonationMoneyList;
+import com.gd.obo.vo.ItemCategory;
 import com.gd.obo.vo.Member;
-import com.gd.obo.vo.PeriodicallyDonation;
 import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
@@ -257,6 +255,12 @@ public class DonationController {
 	// staff 후원 - 통계->홈 페이지 이동
 	@GetMapping("/staff/getDonationStats")
 	public String getDonationStats(Model model, HttpSession session) {
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
+		
+		List<Map<String, Object>> donationItemLast = donationService.getDonationItemLast(shelterId);
+		model.addAttribute("donationItemLast", donationItemLast);
+		
 		return "staff/getDonationStats";
 	}
 	

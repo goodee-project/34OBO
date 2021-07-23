@@ -415,4 +415,36 @@ public class DonationService {
 		log.debug("●●●●▶ 정기 후원 map-> "+map);
 		return donationMapper.selectDonationMoneyPList(map);
 	}
+	
+	// staff - 통계 - 이번달 후원 받은 금액
+	public Map<String, Object> getDonationMoneyThisMonth(int shelterId){
+		return donationMapper.selectDonationMoneyThisMonth(shelterId);
+	}
+	
+	// staff - 통계 - 최근 물품후원 내역
+	public List<Map<String, Object>> getDonationItemLast(int shelterId){
+		return donationMapper.selectDonationItemLast(shelterId);
+	}
+	
+	// staff - 통계 - 후원금액 기간 조회
+	public List<Map<String, Object>> getDonationMoneyByPeriod(int shelterId, String startDate, String endDate){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("endDate", endDate);
+		map.put("startDate", startDate);
+		log.debug("●●●●▶ 기간별 후원액 정보-> "+map);
+		return donationMapper.selectDonationMoneyByPeriod(map);
+	}
+	
+	// staff - 통계 - 후원금액 기간 조회
+	public List<Map<String, Object>> getDonationItemByPeriod(int shelterId, String startDate, String endDate, String itemCategoryName){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("endDate", endDate);
+		map.put("startDate", startDate);
+		map.put("itemCategoryName", itemCategoryName);
+		log.debug("●●●●▶ 기간별 후원물품 정보-> "+map);
+		return donationMapper.selectDonationItemByPeriod(map);
+	}
+	
 }

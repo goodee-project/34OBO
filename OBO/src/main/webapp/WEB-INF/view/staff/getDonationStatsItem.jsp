@@ -90,11 +90,32 @@ $(document).ready(function(){
 										&nbsp;~&nbsp;
 										<input type="month" id="endDate" name="endDate"> 
 										
-										&nbsp;<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+										&nbsp;<button id="searchBtn" class="btn" type="button" onclick="searchFun();"><i class="fa fa-search"></i></button>
 										&nbsp;<button class="btn" type="reset"><i class="fa fa-refresh"></i></button>
 									</div>
 								</div>
 							</form>
+							<br>
+							
+							<!-- 카테고리별 차트 -->
+							<div>
+								<canvas id="myChart" width="700" height="700"></canvas>
+								 <div id='legend-div' class="legend-div"></div>
+							</div>
+							<br><br>
+							
+							<div id="input">
+							</div>
+							<br>
+							
+							<!-- 카테고리별 테이블 -->
+							<table id="itemTable" class="table" style="width:80%; text-align:center;">
+								<thead id="itemThead">
+								</thead>
+								<tbody id="itemTbody">
+								</tbody>
+							</table>
+							
 						</div>
 					</div>
 
@@ -110,6 +131,196 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+	<script>
+	let startDate, endDate;	//검색 시작-종료일
+	let addThead, addTbody, addSelect;	//동적 테이블&셀렉트박스 추가할 때 사용
+	let myChart;	//차트 그릴 때
+	let labels = [];	//차트 그릴 때
+	let datas = [];		//차트 그릴 때
+	
+	
+	function searchFun(){
+		console.log('조회버튼 클릭!!!!!!!');
+		startDate = $('#startDate').val();
+		endDate = $('#endDate').val();
+		
+		addThead = "";
+		addTbody = "";
+		addSelect = "";
+		
+		// 차트 보여주기
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getDonationItemByPeriod',
+			type: 'get',
+			data: {startDate : startDate,
+					endDate : endDate},
+			success: function(jsonData){
+				console.log('카테고리 json가져오기');
+				
+				//이전 데이터가 있을 경우 초기화한다.
+				labels = [];
+				datas = [];
+				
+				if(myChart != null){	//기존 차트가 있으면
+					myChart.destroy();	//차트를 없애 버려라
+				}
+				
+				$(jsonData).each(function(index, item){
+					labels.push(item.itemCategoryName);
+					datas.push(item.total);
+				});
+				
+				//잘 담겼나 확인
+				console.log('labels-> '+labels);
+				console.log('datas-> '+datas);
+				
+				let data = {
+							  labels: labels,
+							  datasets: [{
+									    data: datas,
+									    backgroundColor: [
+									      'rgba(255, 99, 132, 0.2)',
+									      'rgba(255, 159, 64, 0.2)',
+									      'rgba(255, 205, 86, 0.2)',
+									      'rgba(75, 192, 192, 0.2)',
+									      'rgba(54, 162, 235, 0.2)',
+									      'rgba(153, 102, 255, 0.2)',
+									      'rgba(201, 203, 207, 0.2)',
+									      'rgba(255, 99, 132, 0.2)',
+									      'rgba(255, 159, 64, 0.2)',
+									      'rgba(255, 205, 86, 0.2)',
+									      'rgba(75, 192, 192, 0.2)',
+									      'rgba(54, 162, 235, 0.2)',
+									      'rgba(153, 102, 255, 0.2)',
+									      'rgba(201, 203, 207, 0.2)',
+									      'rgba(255, 159, 64, 0.2)'
+									    ],
+									    borderColor: [
+									      'rgb(255, 99, 132)',
+									      'rgb(255, 159, 64)',
+									      'rgb(255, 205, 86)',
+									      'rgb(75, 192, 192)',
+									      'rgb(54, 162, 235)',
+									      'rgb(153, 102, 255)',
+									      'rgb(201, 203, 207)',
+									      'rgb(255, 99, 132)',
+									      'rgb(255, 159, 64)',
+									      'rgb(255, 205, 86)',
+									      'rgb(75, 192, 192)',
+									      'rgb(54, 162, 235)',
+									      'rgb(153, 102, 255)',
+									      'rgb(201, 203, 207)',
+									      'rgb(255, 159, 64)'
+									    ],
+							  }]
+				};
+				
+				const config = {
+							  type: 'doughnut',
+							  data: data,
+							  options: {responsive: false,
+								  		cutout : '40%',
+									    plugins: {
+									    	legend: { position: 'right',}}
+							  }
+				};
+				
+				
+				myChart = new Chart(document.getElementById('myChart'), config);
+			}
+		});
+		
+		//select box 추가
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getItemCategoryList',
+			type: 'get',
+			success: function(jsonData){
+				console.log('물품 카테고리 가져오기 ajax');
+				$('#select').empty();	// input 비운다.
+				
+				// select box 추가
+				addSelect += '<select id="select" name="itemCategoryName" class="select_box" onchange="selChangeFun(this.value);">';
+				addSelect +=	'<option value="non">전체 카테고리</option>';
+				
+				$(jsonData).each(function(index, item){
+					addSelect += '<option value="'+item.itemCategoryName+'">'+item.itemCategoryName+'</option>';
+				});
+		
+				addSelect += '</select>';
+				
+				$('#input').empty();
+				$('#select').empty();
+				$('#input').append(addSelect);
+			}
+		});
+		
+		// 테이블 추가
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getDonationItemByPeriod',
+			type: 'get',
+			data:{startDate : startDate,
+					endDate : endDate},
+			success: function(jsonData){
+				console.log('기간별 물품조회 ajax!');
+				
+				addThead +=	'<tr>';
+				addThead += 	'<th width="35%">물품 카테고리</th>';
+				addThead += 	'<th width="35%">수량</th>';
+				addThead += 	'<th width="35%">최근 후원일</th>';
+				addThead += '</tr>';
+				
+				$('#itemThead').empty();	// 비우기
+				$('#itemThead').append(addThead);	//thead 추가
+				
+				$(jsonData).each(function(index, item){
+					addTbody += '<tr>';
+					addTbody += 	'<td>'+item.itemCategoryName+'</td>';
+					addTbody += 	'<td>'+item.total+'</td>';
+					addTbody += 	'<td>'+item.donationDate+'</td>';
+					addTbody += '</tr>';
+				});
+				
+				$('#itemTbody').empty();	// 비워놓기
+				$('#itemTbody').append(addTbody);	// tbody 추가
+			}
+		});
+		
+		
+	}
+	
+	function selChangeFun(category){
+		console.log('select box 변경');
+		itemCategoryName = category;
+		console.log('itemCategoryName-> '+itemCategoryName);
+		addTbody = "";
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getDonationItemByPeriod',
+			type: 'get',
+			data: {startDate : startDate,
+					endDate : endDate,
+					itemCategoryName : itemCategoryName},
+			success: function(jsonData){
+				console.log('select box 변경 후 ajax!');
+				
+				$(jsonData).each(function(index, item){
+					addTbody += '<tr>';
+					addTbody += 	'<td>'+item.itemCategoryName+'</td>';
+					addTbody += 	'<td>'+item.total+'</td>';
+					addTbody += 	'<td>'+item.donationDate+'</td>';
+					addTbody += '</tr>';
+				});
+				
+				$('#itemTbody').empty();	// 비워놓기
+				$('#itemTbody').append(addTbody);	// tbody 추가
+			}
+		});
+	}
+	</script>
+	
+	<!-- chart js -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

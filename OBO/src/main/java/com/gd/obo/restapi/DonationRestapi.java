@@ -1,6 +1,7 @@
 //작성자: 손영현
 package com.gd.obo.restapi;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gd.obo.service.DonationService;
 import com.gd.obo.vo.DonationItemList;
+import com.gd.obo.vo.ItemCategory;
 import com.gd.obo.vo.Member;
+import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +45,6 @@ public class DonationRestapi {
 		return donationService.getDonationItemOne(donationItemListId);
 	}
 	
-	
 	//내정보 -> 물품후원내역
 	@PostMapping("/member/getDonationItemByMemberId")
 	public Map<String, Object> getDonationItemByMemberId(HttpSession session,
@@ -64,7 +66,6 @@ public class DonationRestapi {
 		return result;
 	}
 	
-	
 	//내정보 -> 후원내역
 	@PostMapping("/member/getFullDonation")
 	public Map<String, Object> getFullDonation(HttpSession session,
@@ -76,8 +77,6 @@ public class DonationRestapi {
 		return map;
 	}
 	
-	
-	
 	//내정보 -> 정기후원
 	@PostMapping("/member/getPeriodicallyDonationByMemberId")
 	public Map<String, Object> getPDonationByMID(HttpSession session,
@@ -86,6 +85,57 @@ public class DonationRestapi {
 		Map<String, Object> map = donationService.getPeriodicallyDonationByMemberId(currentPage, 5, memberId);
 		
 		return map;
+	}
+	
+	// staff -> 통계 - 이번달 후원액
+	@GetMapping("/getDonationMoneyThisMonth")
+	public Map<String, Object> getDonationMoneyThisMonth(HttpSession session){
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId-> "+shelterId);
+		
+		Map<String, Object> map = donationService.getDonationMoneyThisMonth(shelterId);
+		log.debug("●●●●▶이번달 후원액 정보-> "+map);
+		
+		return donationService.getDonationMoneyThisMonth(shelterId);
+	}
+	
+	// staff - 통계 - 기간별 후원액
+	@GetMapping("/getDonationMoneyByPeriod")
+	public List<Map<String, Object>> getDonationMoneyByPeriod(HttpSession session,
+															@RequestParam(value = "startDate") String startDate,
+															@RequestParam(value = "endDate") String endDate){
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId-> "+shelterId);
+		log.debug("●●●●▶startDate-> "+startDate);
+		log.debug("●●●●▶endDate-> "+endDate);
+		
+		return donationService.getDonationMoneyByPeriod(shelterId, startDate, endDate);
+	}
+	
+	// staff - 통계 - 기간별 후원물품
+	@GetMapping("/getDonationItemByPeriod")
+	public List<Map<String, Object>> getDonationItemByPeriod(HttpSession session,
+															@RequestParam(value = "startDate") String startDate,
+															@RequestParam(value = "endDate") String endDate,
+															@RequestParam(value = "itemCategoryName", required = false) String itemCategoryName){
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId-> "+shelterId);
+		log.debug("●●●●▶startDate-> "+startDate);
+		log.debug("●●●●▶endDate-> "+endDate);
+		log.debug("●●●●▶itemCategoryName-> "+itemCategoryName);
+		
+		// itemCategoryName non일 경우 전체카테고리 선택 -> null 처리한다.
+		if(itemCategoryName != null && itemCategoryName.equals("non")) {
+			itemCategoryName = null;
+		}
+		
+		return donationService.getDonationItemByPeriod(shelterId, startDate, endDate, itemCategoryName);
+	}
+	
+	// staff - ajax로 아이템 카테고리 가져오기
+	@GetMapping("/getItemCategoryList")
+	public List<ItemCategory> getItemCategoryList(){
+		return donationService.getItemCategoryList();
 	}
 
 }

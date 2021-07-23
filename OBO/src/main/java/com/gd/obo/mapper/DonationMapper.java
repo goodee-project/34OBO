@@ -31,4 +31,8 @@ public interface DonationMapper {
 	List<Map<String, Object>> selectDonationItemList(Map<String, Object> map);
 	List<Map<String, Object>> selectDonationMoneyNList(Map<String, Object> map);
 	List<Map<String, Object>> selectDonationMoneyPList(Map<String, Object> map);
+	Map<String, Object> selectDonationMoneyThisMonth(int shelterId);
+	List<Map<String, Object>> selectDonationItemLast(int shelterId);
+	List<Map<String, Object>> selectDonationMoneyByPeriod(Map<String, Object> map);
+	List<Map<String, Object>> selectDonationItemByPeriod(Map<String, Object> map);
 }
