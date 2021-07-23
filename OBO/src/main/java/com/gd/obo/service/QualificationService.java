@@ -29,6 +29,40 @@ import lombok.extern.slf4j.Slf4j;
 public class QualificationService {
 	@Autowired QualificationMapper qualificationMapper;
 	
+	
+	//회원마다 자격승인목록
+	public List<Map<String, Object>> getQualificationApprovalByMemberId(String memberId){
+		return qualificationMapper.selectQualificationApprovalByMemberId(memberId);
+	}
+	
+	//자격신청 중복되었는지 확인
+	public String getQualificationApprovalForChecked(String memberId, int qualificationTypeId, int volunteerCategoryId){
+		log.debug("■■■■■■■ getQAFC param :" + memberId);
+		log.debug("■■■■■■■ getQAFC param :" + qualificationTypeId);
+		log.debug("■■■■■■■ getQAFC param :" + volunteerCategoryId);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("qualificationTypeId", qualificationTypeId);
+		map.put("volunteerCategoryId", volunteerCategoryId);
+		
+		String approvalDate = qualificationMapper.selectQualificationApprovalChecked(map);
+		log.debug("■■■■■■■■■■■■■ approvalDate : " + approvalDate);
+		
+		String approval = null; // null이면 자격신청 가능
+		
+		if(approvalDate != null) { //이미 승인된 경우 -> 날짜가 나온다.
+			approval = approvalDate;
+		} else if(qualificationMapper.selectQulificationApprovalByWating(map) != null) {
+			//신청중이고 허가가 되지 않은 경우 "대기중"
+			approval = "대기중";
+		}
+		
+		
+		
+		return approval;
+	}
+	
 	//자격 신청
 	public void addQualificationVolunteerApplication(QualificationApplicationForm qualificationApplicationForm) {
 		

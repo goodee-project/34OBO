@@ -51,7 +51,11 @@ public class QualificationController {
 		log.debug("■■■■■ qVList : " + qVList);
 		//자격 증명종류 리스트
 		log.debug("■■■■■ qTList : " + qTList);
-		
+		List<Map<String, Object>> list = qualificationService.getQualificationApprovalByMemberId(memberId);
+		log.debug("■■■■■ list : " + list);
+		if(!list.isEmpty()) {
+			model.addAttribute("list", list);
+		}
 		model.addAttribute("memberId", memberId);
 		model.addAttribute("qVList", qVList);
 		model.addAttribute("qTList", qTList);
