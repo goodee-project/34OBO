@@ -13,6 +13,9 @@ import com.gd.obo.vo.QualificationVolunteerApplication;
 
 @Mapper
 public interface QualificationMapper {
+	List<Map<String, Object>> selectQualificationApprovalByMemberId(String memberId);
+	String selectQulificationApprovalByWating(Map<String, Object> map);
+	String selectQualificationApprovalChecked(Map<String, Object> map);
 	int insertQualificationVolunteerApplication(QualificationVolunteerApplication qualificationVolunteerApplication);
 	int insertQualificationFile(QualificationFile qualificationFile);
 	List<Map<String, Object>> selectVolunteerByQualificationTypeId(int qualificationTypeId);

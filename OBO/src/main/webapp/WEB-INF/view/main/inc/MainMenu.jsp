@@ -17,7 +17,7 @@
 						<ul id="navigation">
 							<!-- 홈, 보호소, 동물, 봉사, 후원, 자유게시판 -->
 							<li><a href="${pageContext.request.contextPath}/home">홈</a></li>
-								<li><a href="${pageContext.request.contextPath}/getAnimallList">동물</a>
+								<li><a href="${pageContext.request.contextPath}/getAnimalList">동물</a>
 								<li><a href="${pageContext.request.contextPath}/getShelterList">보호소</a></li>
 								<li><a href="${pageContext.request.contextPath}/getVolunteer">봉사<i class="ti-angle-down"></i></a>
 									<ul class="submenu">
