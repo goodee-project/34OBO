@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gd.obo.service.AdoptService;
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.CareService;
+import com.gd.obo.vo.CarePlan;
 import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
@@ -86,18 +87,20 @@ public class CareController {
 	
 	// staff - 케어 plan 작성 action
 	@PostMapping("/staff/addCarePlanInStaff")
-	public String addCarePlanInStaff (String[] careInfoId, String[] careDate) {
+	public String addCarePlanInStaff (int animalId, String memberId, String staffId, String[] careInfoId, String[] careDate) {
 		// careDate, careInfoId는 String[] 값으로 들어옴 -> 확인 완료
+		log.debug("●●●●▶ animalId-> "+animalId);
+		log.debug("●●●●▶ memberId-> "+memberId);
+		log.debug("●●●●▶ staffId-> "+staffId);
 		for(int i=0; i<careInfoId.length; i++) {
-			log.debug("●●●●▶ careInfoId-> "+careInfoId[i]);
-			log.debug("●●●●▶ careDate-> "+careDate[i]);
-			
+			log.debug("●●●●▶ careInfoId["+i+"]-> "+careInfoId[i]);
+			log.debug("●●●●▶ careDate["+i+"]-> "+careDate[i]);
 		}
-		//log.debug("●●●●▶ careInfoId-> "+careInfoId);
 		
+		int totalCnt = careService.addCarePlan(animalId, memberId, staffId, careInfoId, careDate);
+		log.debug("●●●●▶ 성공횟수-> "+totalCnt);
 		
-		// return "redirect:/staff/getCarePlanInStaff";
-		return "staff/addCarePlanInStaff";
+		return "redirect:/staff/getCarePlanInStaff";
 	}
 	
 	// staff - 케어 plan 목록 페이지 이동

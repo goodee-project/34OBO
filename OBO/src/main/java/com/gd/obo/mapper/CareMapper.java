@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gd.obo.vo.CarePlan;
+
 @Mapper
 public interface CareMapper {
 	List<Map<String, Object>> selectCareInfoList(String searchWord, String species, String careSorting);
@@ -12,5 +14,5 @@ public interface CareMapper {
 	List<Map<String, Object>> selectCarePlanDay(int shelterId, int animalId, int careInfoId);
 	List<Map<String, Object>> selectCarePlanList(Map<String, Object> map);
 	List<Map<String, Object>> selectCarePlanRecordList(int shelterId);
-	int insertCarePlan(Map<String, Object> map);
+	int insertCarePlan(CarePlan carePlan);
 }

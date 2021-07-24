@@ -86,7 +86,7 @@
 			AND ci.animal_category_id = ac.animal_category_id AND ac.animal_category_id = a.animal_category_id
 			AND ci.care_sorting = '정기검진'
 			AND a.shelter_id = #{shelterId}
-			AND (SELECT cp.animal_id FROM care_plan AS cp WHERE cp.animal_id = a.animal_id) IS NULL
+			AND (SELECT DISTINCT(cp.animal_id) FROM care_plan AS cp WHERE cp.animal_id = a.animal_id) IS NULL
 			<if test="animalId != null">
 				AND a.animal_id = #{animalId}
 			</if>

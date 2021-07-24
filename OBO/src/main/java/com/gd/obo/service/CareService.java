@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.obo.mapper.CareMapper;
+import com.gd.obo.vo.CarePlan;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -70,7 +71,26 @@ public class CareService {
 	}
 	
 	// staff - care plan 추가
-	public int addCarePlan() {
-		return 0;
+	public int addCarePlan(int animalId, String memberId, String staffId, String[] careInfoIdArr, String[] careDate) {
+		// 형변환용
+		int[] careInfoId = new int[careInfoIdArr.length];
+		
+		// totalCnt - 성공횟수
+		int totalCnt = 0;
+		
+		CarePlan carePlan = new CarePlan();
+		carePlan.setAnimalId(animalId);
+		carePlan.setMemberId(memberId);
+		carePlan.setStaffId(staffId);
+		for(int i=0; i<careInfoIdArr.length; i++) {
+			//String -> int 형으로 바꿔야함
+			careInfoId[i] = Integer.parseInt(careInfoIdArr[i]);
+			carePlan.setCareInfoId(careInfoId[i]);
+			carePlan.setCareDate(careDate[i]);
+			
+			totalCnt = careMapper.insertCarePlan(carePlan);
+		}
+		
+		return totalCnt;
 	}
 }
