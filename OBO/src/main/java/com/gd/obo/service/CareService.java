@@ -58,17 +58,55 @@ public class CareService {
 	}
 	
 	// staff - care plan list 불러오기
-	public List<Map<String, Object>> getCarePlanList(int shelterId){
+	public List<Map<String, Object>> getCarePlanList(int shelterId, String searchWord, String selectOption){
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
+		map.put("selectOption", selectOption);
+		map.put("searchWord", searchWord);
 		log.debug("●●●●▶map-> "+map);
 		return careMapper.selectCarePlanList(map);
 	}
 	
-	// staff - care plan record list 불러오기
-	public List<Map<String, Object>> getCarePlanRecordList (int shelterId){
-		return careMapper.selectCarePlanRecordList(shelterId);
+	// staff - care record list 불러오기
+	public List<Map<String, Object>> getCareRecordList (int shelterId, String searchWord, String selectOption){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("selectOption", selectOption);
+		map.put("searchWord", searchWord);
+		log.debug("●●●●▶ map-> "+map);
+		return careMapper.selectCareRecordList(map);
 	}
+	
+	// staff - 입양간 동물의 작성된 케어 plan 보기
+	public List<Map<String, Object>> getCarePlanAnimalOne (int animalId){
+		List<Map<String, Object>> carePlanList = careMapper.selectCarePlanAnimalOne(animalId);
+		log.debug("●●●●▶ carePlanList-> "+carePlanList);
+		return carePlanList;
+	}
+	
+	// staff - 입양간 동물의 미작성 케어 plan 보기
+	public List<Map<String, Object>> getCarePlanAnimalOneNon (int animalId){
+		List<Map<String, Object>> carePlanListNon = careMapper.selectCarePlanAnimalOneNon(animalId);
+		log.debug("●●●●▶ carePlanListNon-> "+carePlanListNon);
+		return carePlanListNon;
+	}
+	
+	// staff - 케어 기록 작성 페이지에서 14일 이내 추가해야 할 동물들
+	public List<Map<String, Object>> getCarePlanOneByList(int shelterId){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		log.debug("●●●●▶ map-> "+map);
+		return careMapper.selectCarePlanOneByList(map);
+	}
+	
+	// staff - 케어 기록 작성 페이지에서 ↑ 위의 항목 선택 후 얻는 정보
+		public Map<String, Object> getCarePlanOne(int shelterId, int carePlanId){
+			Map<String, Object> map = new HashMap<>();
+			map.put("shelterId", shelterId);
+			map.put("carePlanId", carePlanId);
+			log.debug("●●●●▶ map-> "+map);
+			return careMapper.selectCarePlanOne(map);
+		}
 	
 	// staff - care plan 추가
 	public int addCarePlan(int animalId, String memberId, String staffId, String[] careInfoIdArr, String[] careDate) {
@@ -92,5 +130,15 @@ public class CareService {
 		}
 		
 		return totalCnt;
+	}
+	
+	// staff - care record 추가
+	public int addCareRecord(int carePlanId, String staffId, String features) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("carePlanId", carePlanId);
+		map.put("staffId", staffId);
+		map.put("features", features);
+		log.debug("●●●●▶ map-> "+map);
+		return careMapper.insertCareRecord(map);
 	}
 }

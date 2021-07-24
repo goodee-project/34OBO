@@ -92,7 +92,7 @@ $(document).ready(function(){
 									[${selectOption}]
 								</c:if>
 								<c:if test="${searchWord != null}">
-									"${searchWord}" 검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+									"${searchWord}" 검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getAdoptApprovalInStaff"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
 								</c:if>
 							</div>
 							
@@ -105,7 +105,7 @@ $(document).ready(function(){
 									<td>신청일</td>
 									<td>입양일</td>
 									<td>확인직원</td>
-									<td>케어Plan</td>
+									<td style="text-align:center;">케어Plan</td>
 								</tr>
 								<c:forEach var="a" items="${adoptApprovalList}">
 									<tr>
@@ -115,7 +115,11 @@ $(document).ready(function(){
 										<td>${a.applyDate}</td>
 										<td>${a.adoptDate}</td>
 										<td>${a.staffId}</td>
-										<td><a href=""><i class="fa fa-external-link"></i></a></td>
+										<td style="text-align:center;">
+											<a id="carePlanBtn" data-toggle="modal" data-target="#carePlan-modal" onclick="carePlanFunc('${a.animalName}','${a.animalId}', '${a.memberId}', '${a.adoptDate}');">
+												<i class="fa fa-external-link"></i>
+											</a>
+										</td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -181,9 +185,181 @@ $(document).ready(function(){
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
 	
+	<!-- 케어플랜 모달 -->
+	<div class="modal fade" id="carePlan-modal" role="dialog" aria-labelledby="carePlan-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title"> <span id="inputName"></span></h4>
+					<br>
+					<div>
+						<div id="inputText"></div>
+						<table id="inputTable" class="table" style="text-align:center;">
+						</table>
+						
+						<div id="inputTextNon"></div>
+						<form id="addForm" action="${pageContext.request.contextPath}/staff/addCarePlanInStaff" method="post">
+							<div id="hiddenValue"></div>
+							<table id="inputTableNon" class="table">
+							</table>
+						</form>
+					</div>
+					<span id="whichBtn"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+	function carePlanFunc(name, aniId, memId, date){
+		console.log('modal클릭');
+		let animalId = aniId;
+		let memberId = memId;
+		console.log('넘어온값 name?-> '+name);
+		console.log('넘어온값 animal id?-> '+aniId);
+		console.log('넘어온값 member id?-> '+memId);
+		console.log('넘어온값 date?-> '+date);
+		
+		$('#inputName').text(name+'의 carePlan * 입양일 '+date);
+		
+		//작성된 care plan
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getCarePlanAnimalOne',
+			type: 'get',
+			data: {animalId : animalId},
+			dataType: 'json',
+			success: function(jsonData){
+				console.log('care plan 작성목록 ajax');
+				if(jsonData == 0){	//작성된 care plan이 없음
+					console.log('작성목록 없습니다. jsonData 0');
+					
+					// 기존 값들 비우기
+					$('#inputTable').empty();
+					$('#inputTableNon').empty();
+					$('#inputTextNon').empty();
+					$('#hiddenValue').empty();
+					
+					// 제목 다시 적어주고, 다른 버튼 보여주기
+					$('#inputText').text('작성된 carePlan 없음');
+					$('#whichBtn').html(
+							'<button class="genric-btn primary-border radius" onclick="addNewCPFunc();">새로 작성</button>'
+							+' <button class="genric-btn primary-border radius" data-dismiss="modal">취소</button>'
+					);
+					return;
+				}
+				
+				console.log('작성목록 있음 json 1이상');
+				$('#inputText').text('작성된 carePlan');
+				
+				let addTable = "";
+				
+				$(jsonData).each(function(index, item){
+					addTable += '<tr>';
+					addTable += 	'<td><input class="form-control" type="text" value="'+item.careInfo+'" readonly></td>';
+					addTable +=		'<td><input class="form-control" type="date" value="'+item.careDate+'" readonly></td>';
+					addTable += '</tr>';
+				});
+
+				$('#inputTable').empty();
+				$('#inputTable').append(addTable);
+				
+				//미작성 care plan
+				$.ajax({
+					url: '${pageContext.request.contextPath}/getCarePlanAnimalOneNon',
+					type: 'get',
+					data: {animalId : animalId},
+					success: function(json){
+						console.log('care plan 미작성 불러오기');
+						if(json == 0){
+							console.log('care plan 미작성 없음~');
+							$('#inputTextNon').text('미작성 carePlan 없음');
+							$('#whichBtn').html(
+									'<button class="genric-btn primary-border radius" data-dismiss="modal">확인</button>'
+							);
+							return;
+						}
+						console.log('care plan 미작성 있음');
+						$('#inputTextNon').text('미작성 carePlan * 추가할 항목을 선택하세요');
+						let addTableNon = "";
+						
+						$(json).each(function(index, item){
+							addTableNon += '<tr>';
+							//addTableNon += 	'<td><div class="row">';
+							addTableNon += 	'<td style="padding-right:10 0em;">';
+							addTableNon += 		'<input type="checkbox" name="aboutCare" value="'+item.careDate+','+item.careInfoId+'" style="vertical-align:middle;">';
+							addTableNon +=	'</td>';
+							addTableNon += 	'<td><input class="form-control" type="text" value="'+item.careInfo+'" readonly style="float:right;"></td>';
+							//addTableNon += 	'</div></td>';
+							addTableNon +=	'<td><input class="form-control" type="date" value="'+item.careDate+'" readonly></td>';
+							addTableNon += '</tr>';
+						});
+
+						$('#inputTableNon').empty();
+						$('#inputTableNon').append(addTableNon);
+						$('#hiddenValue').html(
+								'<input id="animalId" name="animalId" value="'+animalId+'" type="hidden">'
+								+'<input id="memberId" name="memberId" value="'+memberId+'" type="hidden">'
+								+'<input id="careInfoId" name="careInfoId" type="hidden">'
+								+'<input id="careDate" name="careDate" type="hidden">'
+						);
+						$('#whichBtn').html(
+								'<button class="genric-btn primary-border radius" onclick="addOtherCPFunc();">추가</button>'
+								+' <button class="genric-btn primary-border radius" data-dismiss="modal">취소</button>'
+						);
+					}
+				}); //-미작성 care plan ajax
+			} //-ajax 성공 후
+		}); //-작성된 care plan ajax
+		
+		//ajax -> 케어 기록이 없으면 등록하러 이동 ->
+		//ajax -> 케어 기록이 있으면 간략하게 보여주고 추가할 내용 아래에 바로 추가할 수 있도록
+	}
+	
+	//care plan 새로작성
+	function addNewCPFunc(){
+		console.log('새로 작성');
+		alert('carePlan 작성 페이지로 이동합니다.');
+		//plan 작성 페이지로 이동
+		location.href='${pageContext.request.contextPath}/staff/addCarePlanInStaff';
+	}
+	
+	//care plan 기존 외 추가
+	function addOtherCPFunc(){
+		console.log('다른 내용 추가');
+		//console.log('aboutCare 값-> '+$('#aboutCare').val());
+		console.log('체크박스 선택개수?->'+$("input:checkbox[name=aboutCare]:checked").length);
+		if($("input:checkbox[name=aboutCare]:checked").length == 0){
+			alert('추가할 항목을 선택해주세요');
+			return;
+		}
+		
+		let careInfoId = [];
+		let careDate = [];
+		
+		$('input:checkbox[name=aboutCare]:checked').each(function(){
+			//console.log('값확인'+$(this).val()); //-> xxxx-xx-xx,num
+			//console.log('값확인'+$(this).val().slice(0,10)); //->xxxx-xx-xx
+			//console.log('값확인'+$(this).val().slice(11));	//->num
+			careInfoId.push($(this).val().slice(11));
+			careDate.push($(this).val().slice(0,10));
+		});
+		
+		console.log('careInfoId'+careInfoId);
+		console.log('careDate'+careDate);
+		
+		//값 설정
+		$('#careInfoId').val(careInfoId);
+		$('#careDate').val(careDate);
+		
+		
+		$('#addForm').submit();
+	}
+	
+	</script>
+	
 	<!-- JS here -->
-	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>

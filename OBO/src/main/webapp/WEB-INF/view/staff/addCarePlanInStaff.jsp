@@ -68,14 +68,11 @@
 					<div class="single-post">
 						<div class="blog_details">
 							<!-- form 형식 작성 -->
-							<form id="addForm" action="" method="post">
+							<form id="addForm" action="${pageContext.request.contextPath}/staff/addCarePlanInStaff" method="post">
 								<table class="table">
 									<tr>
 										<td width="40%">직원ID</td>
-										<td width="60%">
-											${loginStaff.staffId}
-											<input id="staffId" class="form-control" name="staffId" type="hidden" value="${loginStaff.staffId}">
-										</td>
+										<td width="60%">${loginStaff.staffId}</td>
 									</tr>
 									<tr>
 										<td>동물 선택</td>

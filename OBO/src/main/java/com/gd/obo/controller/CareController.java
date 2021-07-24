@@ -87,11 +87,17 @@ public class CareController {
 	
 	// staff - 케어 plan 작성 action
 	@PostMapping("/staff/addCarePlanInStaff")
-	public String addCarePlanInStaff (int animalId, String memberId, String staffId, String[] careInfoId, String[] careDate) {
+	public String addCarePlanInStaff (HttpSession session,
+										@RequestParam(value = "animalId") int animalId,
+										@RequestParam(value = "memberId") String memberId,
+										@RequestParam(value = "careInfoId") String[] careInfoId,
+										@RequestParam(value = "careDate") String[] careDate) {
+		String staffId = ((Staff)(session.getAttribute("loginStaff"))).getStaffId();
+		log.debug("●●●●▶staffId-> "+staffId);
+		
 		// careDate, careInfoId는 String[] 값으로 들어옴 -> 확인 완료
 		log.debug("●●●●▶ animalId-> "+animalId);
 		log.debug("●●●●▶ memberId-> "+memberId);
-		log.debug("●●●●▶ staffId-> "+staffId);
 		for(int i=0; i<careInfoId.length; i++) {
 			log.debug("●●●●▶ careInfoId["+i+"]-> "+careInfoId[i]);
 			log.debug("●●●●▶ careDate["+i+"]-> "+careDate[i]);
@@ -105,15 +111,24 @@ public class CareController {
 	
 	// staff - 케어 plan 목록 페이지 이동
 	@GetMapping("/staff/getCarePlanInStaff")
-	public String getCarePlanInStaff (Model model, HttpSession session) {
+	public String getCarePlanInStaff (Model model, HttpSession session,
+										@RequestParam(value = "searchWord", required = false) String searchWord,
+										@RequestParam(value = "selectOption", required = false) String selectOption) {
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
 		
+		//공백일 경우 null처리
+		if(searchWord != null && searchWord.equals("")) {
+			searchWord = null;
+		}
+
 		List<Map<String, Object>> carePlanDdayList = careService.getCarePlanDdayList(shelterId);
-		List<Map<String, Object>> carePlanList = careService.getCarePlanList(shelterId);
+		List<Map<String, Object>> carePlanList = careService.getCarePlanList(shelterId, searchWord, selectOption);
 		
 		model.addAttribute("carePlanDdayList", carePlanDdayList);
 		model.addAttribute("carePlanList", carePlanList);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("selectOption", selectOption);
 		
 		return "staff/getCarePlanInStaff";
 	}
@@ -131,16 +146,45 @@ public class CareController {
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
 		
-		List<Map<String, Object>> carePlanRecordList = careService.getCarePlanRecordList(shelterId);
+		List<Map<String, Object>> carePlanOne = careService.getCarePlanOneByList(shelterId);
 		
-		model.addAttribute("carePlanRecordList", carePlanRecordList);
+		model.addAttribute("carePlanOne", carePlanOne);
 		
 		return "staff/addCareRecordInStaff";
 	}
 	
+	// staff - 케어 record 작성 페이지 이동
+	@PostMapping("/staff/addCareRecordInStaff")
+	public String addCareRecordInStaff (HttpSession session, int carePlanId, String features) {
+		String staffId = ((Staff)(session.getAttribute("loginStaff"))).getStaffId();
+		log.debug("●●●●▶ carePlanId-> "+carePlanId);
+		log.debug("●●●●▶ staffId-> "+staffId);
+		log.debug("●●●●▶ features-> "+features);
+		
+		int cnt = careService.addCareRecord(carePlanId, staffId, features);
+		log.debug("●●●●▶ cnt 성공횟수-> "+cnt);
+		
+		return "redirect:/staff/getCareRecordInStaff";
+	}
+	
 	// staff - 케어 record 목록 페이지 이동
 	@GetMapping("/staff/getCareRecordInStaff")
-	public String getCareRecordInStaff (Model model) {
+	public String getCareRecordInStaff (Model model, HttpSession session,
+										@RequestParam(value = "searchWord", required = false) String searchWord,
+										@RequestParam(value = "selectOption", required = false) String selectOption) {
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
+		
+		//공백일 경우 null처리
+		if(searchWord != null && searchWord.equals("")) {
+			searchWord = null;
+		}
+		
+		List<Map<String, Object>> careRecordList = careService.getCareRecordList(shelterId, searchWord, selectOption);
+		
+		model.addAttribute("careRecordList", careRecordList);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("selectOption", selectOption);
 		
 		return "staff/getCareRecordInStaff";
 	}
