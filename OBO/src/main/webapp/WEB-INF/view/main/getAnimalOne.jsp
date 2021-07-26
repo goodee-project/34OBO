@@ -93,7 +93,7 @@
 	           </tr>
 	           <tr>
 	               <td>보호소 </td>
-	               <td><a href="${pageContext.request.contextPath}/getShelterOne?shelterId=${al.shelterId}">
+	               <td><a href="${pageContext.request.contextPath}/getShelterOne?shelterId=${shelterId}">
 						<i class="fa fa-home"></i> ${animalMap.shelterName}</a></td>
 					<td></td>
 	           </tr>

@@ -151,6 +151,7 @@ public class AnimalController {
 		
 		model.addAttribute("animalMap", map.get("animalMap"));
 		model.addAttribute("expectedDay", map.get("expectedDay"));
+		model.addAttribute("shelterId", shelterId);
 		
 		return "main/getAnimalOne";
 	}
