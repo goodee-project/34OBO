@@ -1,10 +1,11 @@
 // 작성자: 김선유
+// 수정자: 손영현
 package com.gd.obo.controller;
-
-
 
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.BoardService;
-import com.gd.obo.vo.Board;
 import com.gd.obo.vo.BoardForm;
+import com.gd.obo.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 	@Autowired BoardService boardService;
 	@Autowired AnimalService animalService;
+	
+	//내정보 -> 작성글 보기
+	@GetMapping("/member/getBoardHistory")
+	public String getBoardHistory(Model model, HttpSession session) {
+		
+		model.addAttribute("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
+		return "main/getMemberBoard";
+	}
 	
 	@PostMapping("/modifyBoard")
 	public String modifyBoard(BoardForm boardForm) {
@@ -59,10 +68,11 @@ public class BoardController {
 	}
 	
 	// board 추가 폼
-	@GetMapping("/addBoard")
-	public String addBoard(Model model) {
+	@GetMapping("/member/addBoard")
+	public String addBoard(Model model, HttpSession session) {
 		List<Map<String, Object>> animalCategoryList = animalService.getAnimalCategoryList();
 		List<Map<String, Object>> boardCategoryList = boardService.getBoardCategoryList();
+		model.addAttribute("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
 		model.addAttribute("animalCategoryList",animalCategoryList);
 		model.addAttribute("boardCategoryList",boardCategoryList);
 		log.debug("@@@@@ animalCategoryList"+animalCategoryList);

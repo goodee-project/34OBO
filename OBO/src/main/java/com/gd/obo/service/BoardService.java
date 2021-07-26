@@ -172,43 +172,43 @@ public class BoardService {
 	
 	// board 리스트
 	public Map<String, Object> getBoardList(int currentPage, int rowPerPage, String boardTitle, String species, String memberId){
-		// shelter 개수
-				Map<String, Object> totalMap = new HashMap<>();	
-				totalMap.put("boardTitle", boardTitle);
-				totalMap.put("species", species);
-				totalMap.put("memberId", memberId);
-				
-				int boardTotal = boardMapper.selectTotal(totalMap);
-				int lastPage = (int)Math.ceil((double)boardTotal/rowPerPage);
-				log.debug("@@@@@boardTotal: "+boardTotal);
-				log.debug("@@@@@lastPage:"+lastPage);
-				
-				// 페이징
-				Page page = new Page();
-				int beginRow = (currentPage-1)*rowPerPage;
-				page.setBeginRow(beginRow);
-				page.setRowPerPage(rowPerPage);
-				log.debug("@@@@@Page: "+page);
-				
-				//리스트
-				Map<String, Object> paramMap = new HashMap<String, Object>();
-				paramMap.put("paramMap", paramMap);
-				paramMap.put("currentPage", currentPage);
-				paramMap.put("rowPerPage", rowPerPage);
-				paramMap.put("beginRow", beginRow);
-				paramMap.put("boardTitle", boardTitle);
-				paramMap.put("species", species);
-				paramMap.put("memberId", memberId);
-				log.debug("@@@@@ paramMap: "+paramMap);
-				
-				List<Map<String, Object>> boardList = boardMapper.selectBoardList(paramMap);
-				
-				Map<String, Object> returnMap = new HashMap<>();
-				
-				returnMap.put("boardList", boardList);
-				returnMap.put("lastPage", lastPage);
-				log.debug("@@@@@ returnMap: "+returnMap);
-				
-				return returnMap;
+	
+		Map<String, Object> totalMap = new HashMap<>();	
+		totalMap.put("boardTitle", boardTitle);
+		totalMap.put("species", species);
+		totalMap.put("memberId", memberId);
+		
+		int boardTotal = boardMapper.selectTotal(totalMap);
+		int lastPage = (int)Math.ceil((double)boardTotal/rowPerPage);
+		log.debug("@@@@@boardTotal: "+boardTotal);
+		log.debug("@@@@@lastPage:"+lastPage);
+		
+		// 페이징
+		Page page = new Page();
+		int beginRow = (currentPage-1)*rowPerPage;
+		page.setBeginRow(beginRow);
+		page.setRowPerPage(rowPerPage);
+		log.debug("@@@@@Page: "+page);
+		
+		//리스트
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("paramMap", paramMap);
+		paramMap.put("currentPage", currentPage);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("boardTitle", boardTitle);
+		paramMap.put("species", species);
+		paramMap.put("memberId", memberId);
+		log.debug("@@@@@ paramMap: "+paramMap);
+		
+		List<Map<String, Object>> boardList = boardMapper.selectBoardList(paramMap);
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		
+		returnMap.put("boardList", boardList);
+		returnMap.put("lastPage", lastPage);
+		log.debug("@@@@@ returnMap: "+returnMap);
+		
+		return returnMap;
 	}
 }

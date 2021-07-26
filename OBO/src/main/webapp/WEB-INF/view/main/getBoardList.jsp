@@ -105,7 +105,7 @@
 					<button id="btn" type="button">검색</button>
 				</form>
             </div>
-         <div class="text-right"><a href="${pageContext.request.contextPath}/addBoard?memberId=sunyou">게시판추가</a></div>
+         <div class="text-right"><a href="${pageContext.request.contextPath}/member/addBoard?memberId=sunyou">게시판추가</a></div>
         </div>
     </div>
     

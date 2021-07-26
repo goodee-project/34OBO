@@ -1,4 +1,4 @@
-<!-- 작성자 : 김선유 -->
+<!-- 작성자 : 김선유, 수정자: 손영현 -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -122,6 +122,48 @@
             </div>
 		</div>
 	</div>
+	
+		    <!-- team_area_start  -->
+    <div class="team_area">
+        <div class="container">
+            <div class="row justify-content-center ">
+                <div class="col-lg-6 col-md-10">
+                    <div class="section_title text-center mb-95">
+                        <h3>보호중인 동물들</h3>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+            	
+            	<c:forEach items="${animalList}" var="al">
+            		
+	                <div class="col-lg-3 col-md-6">
+	                	<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=1&searchWord=&species=&shelterId=0">  
+	                    <div class="single_team">
+	                        <div class="thumb">
+	                        	
+	                            <img src="${pageContext.request.contextPath}/static/img/animal/${al.animalFileName}" class="rounded-circle" alt="">
+	                        	
+	                        </div>
+	                        <div class="member_name text-center">
+	                            <div class="mamber_inner">
+	                                <h4>${al.animalName}</h4>
+	                                <p>${al.animalKind}</p>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    </a>
+	                </div>
+	                
+	                
+                </c:forEach>
+                
+            </div>
+        </div>
+    </div>
+    <!-- team_area_start  -->
+
 	
 	<section class="blog_area single-post-area section-padding service_area">
 		<div class="container">

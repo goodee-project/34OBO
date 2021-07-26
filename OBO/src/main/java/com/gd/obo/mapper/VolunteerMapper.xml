@@ -104,4 +104,297 @@
 		SELECT member_id memberId FROM periodically_volunteer_apply WHERE periodically_volunteer_recruit_id=#{recruitId} AND member_id=#{memberId}
 	</select>
 	
+	
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ staff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	
+	<!-- 일반봉사 모집공고 volunteer recruit 리스트 -->
+	<select id="selectVolunteerRecruitListInStaff" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			vr.volunteer_recruit_id AS volunteerRecruitId,
+			vr.staff_id AS staffId,
+			vc.volunteer_category_id AS volunteerCategoryId,
+			vc.volunteer_category_name AS volunteerCategoryName,
+			DATE(vr.volunteer_date) AS volunteerDate,
+			vr.recruit_count AS recruitCount,
+			COUNT(va.volunteer_recruit_id) AS applyCount,
+			DATE(vr.register_date) AS registerDate,
+			vr.volunteer_title AS volunteerTitle
+		FROM volunteer_recruit AS vr
+		LEFT JOIN volunteer_category AS vc ON vr.volunteer_category_id = vc.volunteer_category_id
+		LEFT JOIN staff AS s ON vr.staff_id = s.staff_id
+		LEFT JOIN volunteer_apply AS va ON va.volunteer_recruit_id = vr.volunteer_recruit_id
+		<where>
+			s.shelter_id = #{shelterId}
+			<if test="searchWord != null and searchSelect == 'title'">
+				AND vr.volunteer_title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="searchWord != null and searchSelect == 'staffId'">
+				AND vr.staff_id LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="categoryName != null">
+				AND vc.volunteer_category_name = #{categoryName}
+			</if>
+		</where>
+		GROUP BY vr.volunteer_recruit_id
+		ORDER BY volunteerDate ASC,registerDate DESC
+	</select>
+	
+	<!-- 일반봉사 신청목록 volunteer apply 리스트 -->
+	<select id="selectVolunteerApplyListInStaff" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			va.volunteer_apply_id AS volunteerApplyId,
+			va.volunteer_recruit_id AS volunteerRecruitId,
+			m.member_name AS memberName,
+			m.member_id AS memberId,
+			vr.volunteer_title AS volunteerTitle,
+			vc.volunteer_category_name AS volunteerCategoryName,
+			DATE(va.apply_date) AS applyDate,
+			DATE(vr.volunteer_date) AS volunteerDate
+		FROM volunteer_apply AS va, volunteer_recruit AS vr, volunteer_category AS vc, staff AS s, member AS m
+		<where>
+			vr.volunteer_category_id = vc.volunteer_category_id
+			AND va.volunteer_recruit_id = vr.volunteer_recruit_id
+			AND va.member_id = m.member_id
+			AND vr.staff_id = s.staff_id
+			AND s.shelter_id = #{shelterId}
+			AND va.volunteer_apply_id NOT IN (SELECT volunteer_apply_id FROM volunteer_check)
+			<if test="searchWord != null and searchSelect == 'title'">
+				AND vr.volunteer_title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="searchWord != null and searchSelect == 'member'">
+				AND (m.member_name LIKE CONCAT('%', #{searchWord}, '%') OR m.member_id LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+		</where>
+		ORDER BY volunteerDate ASC
+	</select>
+	
+	<!-- 일반봉사 확인목록 volunteer check 리스트 -->
+	<select id="selectVolunteerCheckListInStaff" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			va.volunteer_apply_id AS volunteerApplyId,
+			m.member_name AS memberName,
+			m.member_id AS memberId,
+			vc.volunteer_category_name AS volunteerCategoryName,
+			vr.volunteer_title AS volunteerTitle,
+			HOUR(vck.end_time-vck.start_time) AS volunteerTime,
+			DATE_FORMAT(vck.start_time, '%H:%i') AS startTime,
+			DATE_FORMAT(vck.start_time, '%H:%i') AS endTime,
+			DATE(vr.volunteer_date) AS volunteerDate,
+			DATE(vck.check_date) AS checkDate,
+			vck.staff_id_check AS staffId
+		FROM volunteer_check AS vck, volunteer_apply AS va, volunteer_recruit AS vr, volunteer_category AS vc, staff AS s, member AS m
+		<where>
+			vck.volunteer_apply_id = va.volunteer_apply_id
+			AND va.volunteer_recruit_id = vr.volunteer_recruit_id
+			AND vr.volunteer_category_id = vc.volunteer_category_id
+			AND va.member_id = m.member_id
+			AND vck.staff_id_check = s.staff_id
+			AND s.shelter_id = #{shelterId}
+			<if test="searchWord != null and searchSelect == 'member'">
+				AND (m.member_name LIKE CONCAT('%', #{searchWord}, '%') OR m.member_id LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+			<if test="categoryName != null">
+				AND vc.volunteer_category_name = #{categoryName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 정기봉사 모집공고 period- volunteer recruit리스트 -->
+	<select id="selectPeriodVolunteerRecruitListInStaff" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			vc.volunteer_category_id AS volunteerCategoryId,
+			vc.volunteer_category_name AS volunteerCategoryName,
+			pvr.title AS title,
+			pvr.recruit_count AS recruitCount,
+			COUNT(pva.periodically_volunteer_apply_id) AS applyCount,
+			DATE(pvr.periodically_volunteer_start_date) AS startDate,
+			DATE(pvr.register_date) AS registerDate,
+			pvr.volunteer_cycle AS volunteerCycle,
+			pvr.staff_id AS staffId
+		FROM periodically_volunteer_recruit AS pvr
+		LEFT JOIN volunteer_category AS vc ON pvr.volunteer_category_id = vc.volunteer_category_id
+		LEFT JOIN staff AS s ON pvr.staff_id = s.staff_id
+		LEFT JOIN periodically_volunteer_apply AS pva ON pva.periodically_volunteer_recruit_id = pvr.periodically_volunteer_recruit_id
+		<where>
+			s.shelter_id = #{shelterId}
+			<if test="searchWord != null and searchSelect == 'title'">
+				AND pvr.volunteer_title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="searchWord != null and searchSelect == 'staffId'">
+				AND pvr.staff_id LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="categoryName != null">
+				AND vc.volunteer_category_name = #{categoryName}
+			</if>
+		</where>
+		GROUP BY pvr.periodically_volunteer_recruit_id
+		ORDER BY registerDate DESC	
+	</select>
+	
+	<!-- 정기봉사 신청목록 period- volunteer apply 리스트 -->
+	<select id="selectPeriodVolunteerApplyListInStaff" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			m.member_name AS memberName,
+			m.member_id AS memberId,
+			pvr.title AS title,
+			vc.volunteer_category_name AS volunteerCategoryName,
+			pvr.volunteer_cycle AS volunteerCycle,
+			pva.periodically_volunteer_apply_id AS periodVolunteerApplyId,
+			pva.periodically_volunteer_recruit_id AS periodVolunteerRecruitId,
+			DATE(pva.apply_date) AS applyDate
+		FROM periodically_volunteer_apply AS pva, periodically_volunteer_recruit AS pvr,
+		volunteer_category AS vc, member AS m, staff AS s
+		<where> 
+			pva.periodically_volunteer_recruit_id = pvr.periodically_volunteer_recruit_id
+			AND pvr.volunteer_category_id = vc.volunteer_category_id
+			AND pva.member_id = m.member_id
+			AND pvr.staff_id = s.staff_id
+			AND s.shelter_id = #{shelterId}
+			<if test="searchWord != null and searchSelect == 'title'">
+				AND pvr.volunteer_title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="searchWord != null and searchSelect == 'member'">
+				AND (m.member_name LIKE CONCAT('%', #{searchWord}, '%') OR m.member_id LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+		</where>
+		ORDER BY applyDate DESC	
+	</select>
+	
+	<!-- 정기봉사 확인목록 period- volunteer check리스트 -->
+	<select id="selectPeriodVolunteerCheckListInStaff" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			m.member_name AS memberName,
+			m.member_id AS memberId,
+			vc.volunteer_category_name AS volunteerCategoryName,
+			pvr.title AS title,
+			DATE(pvc.volunteer_date) AS volunteerDate,
+			DATE(pvc.check_date) AS checkDate,
+			pvc.staff_id_check AS staffId,
+			pvc.periodically_volunteer_apply_id AS periodVolunteerApplyId
+		FROM periodically_volunteer_check AS pvc, periodically_volunteer_apply AS pva,
+			periodically_volunteer_recruit AS pvr, staff AS s, member AS m, volunteer_category AS vc
+		<where>
+			pvc.periodically_volunteer_apply_id = pva.periodically_volunteer_apply_id
+			AND pva.periodically_volunteer_recruit_id = pvr.periodically_volunteer_recruit_id
+			AND vc.volunteer_category_id = pvr.volunteer_category_id
+			AND pvc.staff_id_check = s.staff_id
+			AND pva.member_id = m.member_id
+			AND s.shelter_id = #{shelterId}
+			<if test="searchWord != null and searchSelect == 'member'">
+				AND (m.member_name LIKE CONCAT('%', #{searchWord}, '%') OR m.member_id LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+			<if test="categoryName != null">
+				AND vc.volunteer_category_name = #{categoryName}
+			</if>
+		</where>	
+	</select>
+	
+	<!-- 위에있는건 name만 받아와서 id까지 받는걸로 하나 더 만들었음 -->
+	<select id="selectVolunteerCategoryList" resultType="java.util.Map">
+		SELECT 
+			volunteer_category_id AS categoryId,
+			volunteer_category_name AS categoryName
+		FROM volunteer_category
+	</select>
+	
+	<!-- 일반봉사 모집공고 한개 불러오기 -->
+	<select id="selectVolunteerRecruitOne" parameterType="int" resultType="java.util.Map">
+		SELECT
+			vc.volunteer_category_name AS volunteerCategoryName,
+			DATE(vr.volunteer_date) AS volunteerDate,
+			vr.recruit_count AS recruitCount,
+			COUNT(va.volunteer_recruit_id) AS applyCount
+		FROM volunteer_recruit AS vr
+		LEFT JOIN volunteer_category AS vc ON vr.volunteer_category_id = vc.volunteer_category_id
+		LEFT JOIN volunteer_apply AS va ON va.volunteer_recruit_id = vr.volunteer_recruit_id
+		WHERE vr.volunteer_recruit_id = #{volunteerRecruitId}
+		GROUP BY va.volunteer_recruit_id;
+	</select>
+	
+	<!-- 정기봉사 모집공고 한개 불러오기 -->
+	<select id="selectPeriodVolunteerRecruitOne" parameterType="int" resultType="java.util.Map">
+		SELECT
+			vc.volunteer_category_name AS volunteerCategoryName,
+			pvr.recruit_count AS recruitCount,
+			COUNT(pva.periodically_volunteer_apply_id) AS applyCount,
+			pvr.volunteer_cycle AS volunteerCycle
+		FROM periodically_volunteer_recruit AS pvr
+		LEFT JOIN volunteer_category AS vc ON pvr.volunteer_category_id = vc.volunteer_category_id
+		LEFT JOIN periodically_volunteer_apply AS pva ON pva.periodically_volunteer_recruit_id = pvr.periodically_volunteer_recruit_id
+		WHERE pvr.periodically_volunteer_recruit_id = #{periodVolunteerRecruitId}
+		GROUP BY pvr.periodically_volunteer_recruit_id;
+	</select>
+	
+	<!-- 일반봉사 모집공고 등록 -->
+	<insert id="insertVolunteerRecruit" parameterType="com.gd.obo.vo.VolunteerRecruit">
+		INSERT INTO volunteer_recruit(
+			staff_id,
+			volunteer_category_id,
+			volunteer_date,
+			recruit_count,
+			register_date,
+			volunteer_title
+		) VALUE(
+			#{staffId},
+			#{volunteerCategoryId},
+			#{volunteerDate},
+			#{recruitCount},
+			NOW(),
+			#{volunteerTitle}
+		)	
+	</insert>
+	
+	<!-- 정기봉사 모집공고 등록 -->
+	<insert id="insertPeriodVolunteerRecruit" parameterType="com.gd.obo.vo.PeriodVolunteerRecruit">
+		INSERT INTO periodically_volunteer_recruit(
+			staff_id,
+			volunteer_category_id,
+			periodically_volunteer_start_date,
+			recruit_count,
+			register_date,
+			title,
+			volunteer_cycle
+		) VALUE(
+			#{staffId},
+			#{volunteerCategoryId},
+			#{periodVolunteerStartDate},
+			#{recruitCount},
+			NOW(),
+			#{title},
+			#{volunteerCyle}
+		)	
+	</insert>
+	
+	<!-- 일반봉사 확인완료 -->
+	<insert id="insertVolunteerCheck" parameterType="com.gd.obo.vo.VolunteerCheck">
+		INSERT INTO volunteer_check(
+			volunteer_apply_id,
+			staff_id_check,
+			start_time,
+			end_time,
+			check_date,
+		) VALUE(
+			#{volunteerApplyId},
+			#{staffId},
+			#{startTime},
+			#{endTime},
+			NOW()
+		)	
+	</insert>
+	
+	<!-- 정기봉사 확인완료 -->
+	<insert id="insertPeriodVolunteerCheck" parameterType="com.gd.obo.vo.PeriodVolunteerCheck">
+		INSERT INTO periodically_volunteer_check(
+			periodically_volunteer_apply_id,
+			staff_id_check,
+			volunteer_date,
+			check_date
+		) VALUE(
+			#{periodVolunteerApplyId},
+			#{staffId},
+			#{volunteerDate},
+			NOW()
+		)	
+	</insert>
+	
 </mapper>

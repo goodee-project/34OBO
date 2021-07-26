@@ -76,23 +76,23 @@ $(document).ready(function(){
 						<div class="blog_details">
 							<table class="table">
 								<tr>
-									<td>No</td>
-									<td>제목</td>
-									<td>회원ID</td>
-									<td>확인직원</td>
-									<td>봉사시간</td>
-									<td>봉사일</td>
-									<td>확인일</td>
+									<th>회원정보</th> <!-- 이름(아이디) -->
+									<th>카테고리</th>
+									<th>제목</th>
+									<th>봉사시간</th>
+									<th>봉사일</th>
+									<th>확인일</th>
+									<th>확인직원</th>
 								</tr>
 								<c:forEach var="v" items="${volunteerCheckN}">
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td>${v.memberName}(${v.memberId})</td>
+										<td>${v.volunteerCategoryName}</td>
+										<td>${v.volunteerTitle}</td>
+										<td>${v.volunteerTime}</td>
+										<td>${v.volunteerDate}</td>
+										<td>${v.checkDate}</td>
+										<td>${v.staffId}</td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -125,9 +125,29 @@ $(document).ready(function(){
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getVolunteerCheckN">
 							<div class="form-group">
 								<div class="input-group mb-4">
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
-											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
-									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+									<select id="categoryName" class="select_box" name="categoryName">
+										<option value="">카테고리</option>
+										<c:forEach var="c" items="${categoryNameList}">
+											<c:if test="${categoryName == c.categoryName}">
+												<option value="${c.categoryName}" selected>${c.categoryName}</option>
+											</c:if>
+											<c:if test="${categoryName != c}">
+												<option value="${c.categoryName}">${c.categoryName}</option>
+											</c:if>
+										</c:forEach>
+									</select>
+									<select id="searchSelect" class="select_box" name="searchSelect">
+										<option value="">==검색명==</option>
+										<c:if test="${searchSelect == 'member'}">
+											<option value="member" selected>회원정보</option>
+										</c:if>
+										<c:if test="${searchSelect != 'member'}">
+											<option value="member">회원정보</option>
+										</c:if>
+									</select>
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = '검색어를 입력해주세요'" >
+									<button id="searchBtn" class="btn" type="button" onclick="searchFunc();"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
 						</form>
@@ -143,6 +163,24 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+	<script>
+	// 검색어
+	function searchFunc(){
+		console.log('검색어 클릭');
+		
+		if($('#categoryName').val() == $('#searchSelect').val() && $('#searchWord').val() == ''){
+			alert('카테고리 혹은 검색어를 선택해주세요');
+		} else if($('#searchSelect').val() != '' && $('#searchWord').val() == ''){
+			alert('해당 검색어를 입력해주세요!');
+		} else if($('#searchSelect').val() == '' && $('#searchWord').val() != ''){
+			alert('검색할 내역을 선택해주세요!');
+		} else{
+			$('#searchForm').submit();
+		}
+	}
+	</script>
+	
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

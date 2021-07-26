@@ -188,24 +188,22 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
-
+	
 	<script>
 	function clickFun(){
-		console.log('검색창 클릭!');
+		console.log('검색어 클릭');
 		
-		if($('#searchSelect').val() == $('#itemCategoryName').val()){
+		if($('#categoryName').val() == $('#searchSelect').val() && $('#searchWord').val() == ''){
 			alert('카테고리 혹은 검색어를 선택해주세요');
-		} else if($('#searchSelect').val() != 'non' && $('#searchWord').val() == null){
-			alert('검색어를 입력해주세요');
-		} else if($('#searchSelect').val() == 'non' && $('#itemCategoryName').val() != 'non' && $('#searchWord').val() != null){
-			alert('검색할 내역을 선택해주세요');
+		} else if($('#searchSelect').val() != 'non' && $('#searchWord').val() == ''){
+			alert('해당 검색어를 입력해주세요!');
+		} else if($('#searchSelect').val() == 'non' && $('#searchWord').val() != ''){
+			alert('검색할 내역을 선택해주세요!');
 		} else{
 			$('#searchForm').submit();
 		}
 	}
-	
 	</script>
-
 
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

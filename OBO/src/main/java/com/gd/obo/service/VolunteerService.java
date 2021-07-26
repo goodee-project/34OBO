@@ -3,7 +3,6 @@ package com.gd.obo.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.obo.mapper.VolunteerMapper;
-import com.gd.obo.vo.Page;
+import com.gd.obo.vo.PeriodVolunteerCheck;
+import com.gd.obo.vo.PeriodVolunteerRecruit;
+import com.gd.obo.vo.VolunteerCheck;
+import com.gd.obo.vo.VolunteerRecruit;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -156,5 +158,107 @@ public class VolunteerService {
 		log.debug("=====정기 봉사 신청 row: "+row);
 		
 		return row;
+	}
+	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ staff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	
+	// 일반봉사 모집공고
+	public List<Map<String, Object>> getVolunteerRecruitListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("searchWord", searchWord);
+		map.put("searchSelect", searchSelect);
+		map.put("categoryName", categoryName);
+		log.debug("●●●●▶ 일반봉사 모집공고-> "+map);
+		return volunteerMapper.selectVolunteerRecruitListInStaff(map);
+	}
+	
+	// 일반봉사 신청목록
+	public List<Map<String, Object>> getVolunteerApplyListInStaff(int shelterId, String searchWord, String searchSelect){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("searchWord", searchWord);
+		map.put("searchSelect", searchSelect);
+		log.debug("●●●●▶ 일반봉사 신청목록-> "+map);
+		return volunteerMapper.selectVolunteerApplyListInStaff(map);
+	}
+	
+	// 일반봉사 확인목록
+	public List<Map<String, Object>> getVolunteerCheckListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("searchWord", searchWord);
+		map.put("searchSelect", searchSelect);
+		map.put("categoryName", categoryName);
+		log.debug("●●●●▶ 일반봉사 확인목록-> "+map);
+		return volunteerMapper.selectVolunteerCheckListInStaff(map);
+	}
+	
+	
+	// 정기봉사 모집공고
+	public List<Map<String, Object>> getPeriodVolunteerRecruitListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("searchWord", searchWord);
+		map.put("searchSelect", searchSelect);
+		map.put("categoryName", categoryName);
+		log.debug("●●●●▶ 정기봉사 모집공고-> "+map);
+		return volunteerMapper.selectPeriodVolunteerRecruitListInStaff(map);
+	}
+	
+	// 정기봉사 신청목록
+	public List<Map<String, Object>> getPeriodVolunteerApplyListInStaff(int shelterId, String searchWord, String searchSelect){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("searchWord", searchWord);
+		map.put("searchSelect", searchSelect);
+		log.debug("●●●●▶ 정기봉사 신청목록-> "+map);
+		return volunteerMapper.selectPeriodVolunteerApplyListInStaff(map);
+	}
+	
+	// 정기봉사 확인목록
+	public List<Map<String, Object>> getPeriodVolunteerCheckListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("searchWord", searchWord);
+		map.put("searchSelect", searchSelect);
+		map.put("categoryName", categoryName);
+		log.debug("●●●●▶ 정기봉사 확인목록-> "+map);
+		return volunteerMapper.selectPeriodVolunteerCheckListInStaff(map);
+	}
+	
+	// 봉사 카테고리 목록
+	public List<Map<String, Object>> getVolunteerCategoryList(){
+		return volunteerMapper.selectVolunteerCategoryList();
+	}
+	
+	// 일반봉사 모집공고 상세보기
+	public List<Map<String, Object>> getVolunteerRecruitOne(int volunteerRecruitId){
+		return volunteerMapper.selectVolunteerRecruitOne(volunteerRecruitId);
+	}
+	
+	// 정기봉사 모집공고 상세보기
+	public List<Map<String, Object>> getPeriodVolunteerRecruitOne(int periodVolunteerRecruitId){
+		return volunteerMapper.selectPeriodVolunteerRecruitOne(periodVolunteerRecruitId);
+	}
+	
+	// 일반봉사 모집공고 등록
+	public int addVolunteerRecruit(VolunteerRecruit recruit) {
+		return volunteerMapper.insertVolunteerRecruit(recruit);
+	}
+	
+	// 정기봉사 모집공고 등록
+	public int addPeriodVolunteerRecruit(PeriodVolunteerRecruit recruit) {
+		return volunteerMapper.insertPeriodVolunteerRecruit(recruit);
+	}
+	
+	// 일반봉사 확인완료
+	public int addVolunteerCheck(VolunteerCheck check) {
+		return volunteerMapper.insertVolunteerCheck(check);
+	}
+	
+	// 정기봉사 확인완료
+	public int addPeriodVolunteerCheck(PeriodVolunteerCheck check) {
+		return volunteerMapper.insertPeriodVolunteerCheck(check);
 	}
 }

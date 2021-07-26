@@ -111,7 +111,7 @@
 	<!-- 직원이 자기 보호소 Animal 리스트 조회 --> <!-- 직원 로그인 후 쿼리 수정. -->
 	<select id="selectAnimalList" resultType="java.util.Map" parameterType="java.util.Map"> 
 		SELECT 
-   		a.animal_id animalId,
+   			a.animal_id animalId,
 		    a.shelter_id shelterId,
 		    af.animal_file_name animalFileName,
 		    ac.species species,
