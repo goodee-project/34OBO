@@ -18,7 +18,7 @@ public interface AnimalMapper {
 	int updateAnimal(Map<String, Object> map);
 	
 	// insertAnimal -> 동물 추가
-	int insertAnimal(Map<String, Object> map);
+	int insertAnimal(Animal animal);
 	
 	// selectAnimalOne -> 동물 상세보기
 	Map<String, Object> selectAnimalOne(int animalId);

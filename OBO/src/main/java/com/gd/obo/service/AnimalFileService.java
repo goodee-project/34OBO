@@ -28,15 +28,11 @@ public class AnimalFileService {
 		// 프로젝트 경로
 		String path = temp.getAbsolutePath();
 		
-		// 확장자
-		int p = multipartFile.getOriginalFilename().lastIndexOf(".");
-		String ext = multipartFile.getOriginalFilename().substring(p);
-		
 		// 파일 이름
 		String prename = UUID.randomUUID().toString().replace("-", "");
 		
 		// 파일 저장 위치
-		File file = new File(path+"\\src\\main\\webapp\\static\\img\\animal\\"+prename+ext);
+		File file = new File(path+"\\src\\main\\webapp\\static\\img\\animal\\"+prename);
 		
 		try {
 			multipartFile.transferTo(file);
@@ -47,7 +43,7 @@ public class AnimalFileService {
 		// DB 저장
 		AnimalFile animalFile = new AnimalFile();
 		animalFile.setAnimalId(animalId);
-		animalFile.setAnimalFileName(prename+ext);
+		animalFile.setAnimalFileName(prename);
 		animalFile.setAnimalFileSize(multipartFile.getSize());
 		animalFile.setAnimalFileExt(multipartFile.getContentType());
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalFileService-> addAnimalFile animalFile: " + animalFile);
