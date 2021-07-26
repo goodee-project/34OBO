@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.ShelterService;
 import com.gd.obo.service.StaffService;
 import com.gd.obo.vo.Address;
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ShelterController {
 	@Autowired ShelterService shelterService;
 	@Autowired StaffService staffService;
+	@Autowired AnimalService animalService;
 	
 	// shelter 리스트
 	@GetMapping("/getShelterList")
@@ -98,6 +100,8 @@ public class ShelterController {
 			model.addAttribute("y", y);
 		}
 		
+		//shelter에서 보호중인 동물 리스트
+		model.addAttribute("animalList", animalService.getAnimalListM(shelterId, null, null, 1, 4).get("animalList"));
 		model.addAttribute("shelterMap", map.get("shelterMap"));
 		return "main/getShelterOne";
 	}

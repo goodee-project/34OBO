@@ -12,6 +12,7 @@ import com.gd.obo.vo.PeriodicallyDonation;
 
 @Mapper
 public interface DonationMapper {
+	long selectTotalDonationByMonth(int month);
 	Map<String, Object> selectDonationItemOne(int donationItemListId);
 	int selectDonationItemByMemberIdTotal(String memberId);
 	List<Map<String, Object>> selectDonationItemByMemberId(Map<String, Object> map);

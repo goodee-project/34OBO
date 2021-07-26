@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.DonationMapper">
+	<!-- 달별 후원금 구하기 -->
+	<select id="selectTotalDonationByMonth" parameterType="int" resultType="long">
+		SELECT SUM(amount) FROM full_money_donation_list WHERE MONTH(donation_date) = #{month}
+	</select>
 	<!-- 내정보 / 후원내역/ 물품후원 목록 / 상세보기 -->
 	<select id="selectDonationItemOne" parameterType="int" resultType="java.util.Map">
 		SELECT 
