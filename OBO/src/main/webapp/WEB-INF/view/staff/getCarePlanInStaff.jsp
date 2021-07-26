@@ -31,7 +31,7 @@
 
 <script>
 $(document).ready(function(){	
-	
+
 	
 });
 </script>
@@ -85,12 +85,12 @@ $(document).ready(function(){
 								</tr>
 								<c:forEach var="c" items="${carePlanDdayList}">
 									<tr>
-										<td>${c.dDay}</td>
+										<td>D-${c.dDay}</td>
 										<td>${c.animalName}</td>
 										<td>${c.careInfo}</td>
 										<td>${c.memberName}(${c.memberId})</td>
 										<td>${c.careDate}</td>
-										<td><a href=""><i class="fa fa-external-link"></i></a></td>
+										<td style="text-align:center;"><a href=""><i class="fa fa-external-link"></i></a></td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -100,15 +100,31 @@ $(document).ready(function(){
 					<div class="single-post">
 						<h3>Care Plan</h3>
 						<div class="blog_details">
-							<div>"검색어" 검색결과 (@건)</div>
+							<!-- 검색결과 -->
+							<div>
+								<c:if test="${selectOption == 'animal' && searchWord != null}">
+									[동물이름]
+								</c:if>
+								<c:if test="${selectOption == 'care' && searchWord != null}">
+									[케어Info]
+								</c:if>
+								<c:if test="${selectOption == 'member' && searchWord != null}">
+									[회원정보]
+								</c:if>
+								<c:if test="${searchWord != null}">
+									"${searchWord}" 검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getCarePlanInStaff"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+								</c:if>
+							</div>
+							<br>
+							
 							<table class="table">
 								<tr>
 									<td>이름</td> <!-- care_info & animal_category 조인 -->
 									<td>케어Info</td>
 									<td>회원정보</td> <!-- 이름(아이디) -->
 									<td>작성직원</td>
-									<td>입양일</td>
 									<td>케어일</td>
+									<td>작성일</td>
 									<td>Record</td>
 								</tr>
 								<c:forEach var="c" items="${carePlanList}">
@@ -117,9 +133,9 @@ $(document).ready(function(){
 										<td>${c.careInfo}</td>
 										<td>${c.memberName}(${c.memberId})</td>
 										<td>${c.staffId}</td>
-										<td>${c.adoptDate}</td>
 										<td>${c.careDate}</td>
-										<td><a href=""><i class="fa fa-external-link"></i></a></td>
+										<td>${c.createDate}</td>
+										<td style="text-align:center;"><a href=""><i class="fa fa-external-link"></i></a></td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -152,7 +168,7 @@ $(document).ready(function(){
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getCarePlanInStaff">
 							<div class="form-group">
 								<div class="input-group mb-4">
-									<select id="searchSelect" class="select_box" name="selectOption">
+									<select id="selectOption" class="select_box" name="selectOption">
 										<c:if test="${selectOption == 'animal'}">
 											<option value="animal" selected>동물이름</option>
 										</c:if>
@@ -166,15 +182,15 @@ $(document).ready(function(){
 											<option value="care">케어Info</option>
 										</c:if>
 										<c:if test="${selectOption == 'member'}">
-											<option value="member" selected>회원ID</option>
+											<option value="member" selected>회원정보</option>
 										</c:if>
 										<c:if test="${selectOption != 'member'}">
-											<option value="member">회원ID</option>
+											<option value="member">회원정보</option>
 										</c:if>
 									</select> 
 									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요"
 											onfocus="this.placeholder = ''" onblur="this.placeholder = '검색어를 입력해주세요'" >
-									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+									<button id="searchBtn" class="btn" type="button" onclick="searchFunc();"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
 						</form>
@@ -190,6 +206,19 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+	<script>
+	// 검색어 버튼 클릭
+	function searchFunc(){
+		console.log('검색버튼 클릭');
+		if($('#searchWord').val() == ''){
+			alert('검색어를 입력해주세요');
+		} else{
+			$('#searchForm').submit();
+		}
+	}
+	
+	</script>
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

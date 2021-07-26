@@ -74,6 +74,23 @@ $(document).ready(function(){
 					
 					<div class="single-post">
 						<div class="blog_details">
+							<!-- 검색결과 -->
+							<div>
+								<c:if test="${selectOption == 'animal' && searchWord != null}">
+									[동물이름]
+								</c:if>
+								<c:if test="${selectOption == 'care' && searchWord != null}">
+									[케어Info]
+								</c:if>
+								<c:if test="${selectOption == 'member' && searchWord != null}">
+									[회원정보]
+								</c:if>
+								<c:if test="${searchWord != null}">
+									"${searchWord}" 검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getCareRecordInStaff"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+								</c:if>
+							</div>
+							<br>
+							
 							<table class="table">
 								<tr>
 									<td>동물</td>
@@ -83,7 +100,7 @@ $(document).ready(function(){
 									<td>작성직원</td>
 									<td>기록일</td>
 								</tr>
-								<c:forEach var="c" items="${carePlanRecordList}">
+								<c:forEach var="c" items="${careRecordList}">
 									<tr>
 										<td>${c.animalName}</td>
 										<td>${c.memberName}(${c.memberId})</td>
@@ -120,17 +137,32 @@ $(document).ready(function(){
 						<hr>
 						
 						<!-- 검색 -->
-						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getAdoptApplyInStaff">
+						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getCareRecordInStaff">
 							<div class="form-group">
 								<div class="input-group mb-4">
-									<select id="searchSelect" class="select_box">
-										<option value="">회원ID</option>
-										<option value="">직원ID</option>
-										<option value="">동물</option>
-									</select>
-									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="회원ID 입력해주세요."
-											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
-									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+									<select id="selectOption" class="select_box" name="selectOption">
+										<c:if test="${selectOption == 'animal'}">
+											<option value="animal" selected>동물이름</option>
+										</c:if>
+										<c:if test="${selectOption != 'animal'}">
+											<option value="animal">동물이름</option>
+										</c:if>
+										<c:if test="${selectOption == 'care'}">
+											<option value="care" selected>케어Plan</option>
+										</c:if>
+										<c:if test="${selectOption != 'care'}">
+											<option value="care">케어Plan</option>
+										</c:if>
+										<c:if test="${selectOption == 'member'}">
+											<option value="member" selected>회원정보</option>
+										</c:if>
+										<c:if test="${selectOption != 'member'}">
+											<option value="member">회원정보</option>
+										</c:if>
+									</select> 
+									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = '검색어를 입력해주세요'" >
+									<button id="searchBtn" class="btn" type="button" onclick="searchFunc();"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
 						</form>
@@ -146,6 +178,17 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+	<script>
+	function searchFunc(){
+		console.log('검색버튼 클릭');
+		if($('#searchWord').val() == ''){
+			alert('검색어를 입력해주세요');
+		} else{
+			$('#searchForm').submit();
+		}
+	}
+	</script>
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

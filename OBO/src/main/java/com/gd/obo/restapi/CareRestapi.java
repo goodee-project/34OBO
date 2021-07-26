@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CareRestapi {
 	@Autowired CareService careService;
 	
+	// staff - care plan 계산
 	@GetMapping("/calCarePlanDay")
 	public List<Map<String, Object>> calCarePlanDay(HttpSession session,
 													@RequestParam(value = "animalId") int animalId,
@@ -32,19 +33,35 @@ public class CareRestapi {
 		return careService.getCarePlanDay(shelterId, animalId, careInfoId);
 	}
 	
+	// staff - careinfo 불러오기
 	@GetMapping("/careSortingList")
 	public List<Map<String, Object>> careSortingList(@RequestParam(value = "animalCategoryId", required = true) int animalCategoryId){
 		log.debug("●●●●▶animalCategoryId-> "+animalCategoryId);
 		return careService.getCareInfoByCarePlan(animalCategoryId);
 	}
 	
-	/*
-	@GetMapping("/careContentList")
-	public List<Map<String, Object>> careContentList(@RequestParam(value = "animalCategoryId") int animalCategoryId,
-														@RequestParam(value = "careSorting") String careSorting){
-		log.debug("●●●●▶animalCategoryId-> "+animalCategoryId);
-		log.debug("●●●●▶careSorting-> "+careSorting);
-		return careService.getCareInfoByCarePlan(animalCategoryId, careSorting);
-	}*/
+	// staff - 작성된 care plan
+	@GetMapping("/getCarePlanAnimalOne")
+	public List<Map<String, Object>> getCarePlanAnimalOne(@RequestParam(value = "animalId") int animalId){
+		log.debug("●●●●▶animalId-> "+animalId);
+		return careService.getCarePlanAnimalOne(animalId);
+	}
+	
+	// staff - 미작성 care plan
+	@GetMapping("/getCarePlanAnimalOneNon")
+	public List<Map<String, Object>> getCarePlanAnimalOneNon(@RequestParam(value = "animalId") int animalId){
+		log.debug("●●●●▶animalId-> "+animalId);
+		return careService.getCarePlanAnimalOneNon(animalId);
+	}
+
+	// staff - care record 작성 페이지에서 onchange 이벤트 발생시
+	@GetMapping("/getCarePlanOne")
+	public Map<String, Object> getCarePlanOne(HttpSession session,
+													@RequestParam(value = "carePlanId") int carePlanId){
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId-> "+shelterId);
+		log.debug("●●●●▶carePlanId-> "+carePlanId);
+		return careService.getCarePlanOne(shelterId, carePlanId);
+	}
 	
 }

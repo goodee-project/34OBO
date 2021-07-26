@@ -29,45 +29,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 
-<script>
-$(document).ready(function(){	
-	/*
-	//plan 작성할 동물 선택
-	$('#animalId').change(function(){
-		
-		
-		/*
-		if($('#animalId').val()==0){
-			alert('Care Plan을 작성할 동물을 선택해주세요');
-			return;
-		}
-		
-		$.ajax({
-			url: '${pageContext.request.contextPath}/calCarePlanDay',
-			type: 'get',
-			data: {animalId : $('#animalId').val()},
-			success: function(jsonData2){
-				console.log('plan 정보 불러오기 ajax 성공');
-				$(jsonData2).each(function(index, item) {
-				
-				});
-			}
-		});
-	});*/
-	
-	$('#addBtn').click(function(){
-		console.log('등록버튼 클릭');
-		alert('아 value왜안더'+$('#careInfoId').val());
-		$('#addForm').submit();
-	});
-	
-	$('#checkBtn').click(function(){
-		console.log('아이콘클릭 ㅠ');
-		
-	});
-	
-});
-</script>
 </head>
 <body>
 	<header>
@@ -107,14 +68,11 @@ $(document).ready(function(){
 					<div class="single-post">
 						<div class="blog_details">
 							<!-- form 형식 작성 -->
-							<form id="addForm" action="" method="post">
+							<form id="addForm" action="${pageContext.request.contextPath}/staff/addCarePlanInStaff" method="post">
 								<table class="table">
 									<tr>
 										<td width="40%">직원ID</td>
-										<td width="60%">
-											${loginStaff.staffId}
-											<input id="staffId" class="form-control" name="staffId" type="hidden">
-										</td>
+										<td width="60%">${loginStaff.staffId}</td>
 									</tr>
 									<tr>
 										<td>동물 선택</td>
@@ -130,8 +88,7 @@ $(document).ready(function(){
 										</td>
 									</tr>
 								</table>
-								
-								<div>* 회원정보 *</div>
+								<br>
 								<table class="table">
 									<tr>
 										<td width="40%">회원ID</td>
@@ -169,7 +126,7 @@ $(document).ready(function(){
 									<a id="planRemoveBtn" href="javascript:void(0);" onclick="minusFunction();"><i class="fa fa-minus-square-o fa-2x"></i></a>
 								</div>
 								<br><br>
-								<button id="addBtn" type="button" class="genric-btn primary-border radius">Plan 작성</button>
+								<button id="addBtn" type="button" class="genric-btn primary-border radius" onclick="submitFun();">Plan 작성</button>
 							</form>
 						</div>
 					</div>
@@ -185,7 +142,9 @@ $(document).ready(function(){
 	<!-- footer_end  -->	
 	
 <script>
-	let animalCategoryId, animalId;
+	let animalCategoryId, animalId; //animalChFunction() & addFunction()에서 사용
+	let cnt = 0;	//careInfoId & careDate 수를 알기 위한 값
+	let careInfoIdArr,careDateArr;
 	
 	// care plan 작성할 동물 선택
 	function animalChFunction(){
@@ -193,6 +152,9 @@ $(document).ready(function(){
 		animalId = $('#animalId').val();
 		console.log('선택한 animalId-> '+animalId);
 		let addTr = "";
+		
+		careInfoIdArr = [];
+		careDateArr = [];
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/getAdoptApprovalList',
@@ -209,7 +171,7 @@ $(document).ready(function(){
 					addTr += 	'<input id="careInfoId" name="careInfoId" type="hidden" value="'+item.careInfoId+'">';
 					addTr += '</td>';
 					addTr += '<td width="60%">';
-					addTr += 	'<input id="regularCk" class="form-control" name="careDate" type="date">';
+					addTr += 	'<input id="regularCk" class="form-control" name="careDate" type="date" readonly>';
 					addTr += '</td>';
 					
 					$('#planTable').append(addTr);
@@ -220,125 +182,42 @@ $(document).ready(function(){
 					$('#adoptDate').val(item.adoptDate);
 					$('#regularCk').val(item.regularCk);
 					$('#careInfoId').val(item.careInfoId);
+					cnt = 1;
 					
-					careInfoId = item.careInfoId;
-					animalCategoryId = item.animalCategoryId;
-					console.log('케어인포아이디 ㅠㅠ-> '+item.careInfoId);
-					console.log('animalCategoryId ㅠㅠ-> '+item.animalCategoryId);
+					// 배열에 값 설정
+					careInfoIdArr.push(item.careInfoId);
+					careDateArr.push(item.regularCk);
 					
+					animalCategoryId = item.animalCategoryId;	// [+]버튼 클릭 시 필요한 값
+					
+					//console.log('cnt-> '+cnt);
+					//console.log('careInfoIdArr 배열 !-> '+careInfoIdArr);
+					//console.log('careDateArr 배열 !-> '+careDateArr);
+					//console.log('animalCategoryId-> '+item.animalCategoryId);
 				});
 			}
 		});
 	};
 
-	
-	
-	// jquery on binding
-	$(document).on('click', '#planAddBtn', function(){
-		console.log('+클릭');
-		
-		if($('#animalId').val() == 0){
-			alert('동물을 먼저 선택해주세요');
-			return;
-		}
-		
-		let addTr = "";
-		let addTr2 = "";
-		let trCnt = $('#planTable tr').length;
-		console.log('추가 전 tr 개수->'+trCnt);
-		
-		
-		// 추가 버튼 클릭과 동시에 sorting list를 불러온다. -> animalCategoryId 값을 같이 준다
-		$.ajax({
-			url: '${pageContext.request.contextPath}/careSortingList',
-			type: 'get',
-			data: {animalCategoryId : animalCategoryId},
-			success: function(jsonData){
-				console.log('sorting 리스트 불러오기 성공');
-				
-				// 최대 5개까지만!
-				if(trCnt < 6){
-					
-					addTr += '<tr>';
-					addTr += '<td>';
-					addTr += '<select id="careSorting" style="width:100%;" class="select_box" onchange="calCarePlanFunction();">';
-					addTr += '<option value="0">==선택==</option>';
-					$(jsonData).each(function(index, item){
-						addTr += '<option value="'+item.careInfoId+'">'+item.careSorting+'</option>';
-					});
-					addTr += '</select>';
-					addTr += '</td>';
-					addTr += '<td>';
-					addTr += '<div id="del">';
-					addTr += '<input class="form-control" type="date">';
-					addTr += '</div>';
-					addTr += '</td>';
-					addTr += '</tr>';
-					
-					$('#planTable').append(addTr);	// 왼쪽 td 선 추가,,
-					
-					$(document).on('change', '#careSorting', function(e){
-						let careInfoId = e.target.value;
-						
-						console.log('셀렉트박스 클릭');
-						console.log('careInfoId-> '+careInfoId);
-						
-						$('#del').removeAttr();	// 삭제해도 안 먹힘,,,
-						
-						$.ajax({
-							url: '${pageContext.request.contextPath}/calCarePlanDay',
-							type: 'get',
-							data: {animalId : animalId,
-									careInfoId : careInfoId},
-							success: function(jsonData){
-								console.log('sorting-content 선택 성공!!!!!!!');
-								$('#del').html('<input id="careDate" class="form-control" name="careDate" type="date">')
-								
-								$(jsonData).each(function(index, item){
-									$('#careDate').val(item.careDate);
-									careDate = item.careDate;
-									console.log('최종 careInfoId-> '+careInfoId);
-									console.log('찐 랏 최종 careDate-> '+careDate);
-									return;
-								});
-							}
-						});
-					});
-					
-					trCnt = $('#planTable tr').length;
-					console.log('ajax 성공 tr 개수->'+trCnt);
-				} else{
-					alert('최대 5개까지 추가 가능합니다.');
-					return;
-				}
-				
-			}
-		});
-		
-		
-	});
-	
-	
-	
-	/* onclick 함수 사용 할 때
-	
 	// [+] 클릭
 	function addFunction(){
-		let careInfoId;
-		
 		console.log('[+] 클릭직후의 케어인포-> '+$('#careInfoId').val());
-		
 		if($('#animalId').val() == 0){
 			alert('동물을 먼저 선택해주세요');
 			return;
 		}
 		
+		if($('#careSorting'+cnt+'').val() == 0){
+			alert('Plan 선택 후 다시 추가해주세요');
+			return;
+		}
+		
+		// 기존에 하나 추가하고 다시 [+] 눌렀을 때 기존 선택내역은 수정못하게 막아버리자
+		$('#careSorting'+cnt+'').attr('disabled', 'true');
+		
 		let addTr = "";
 		let trCnt = $('#planTable tr').length;
-		console.log('추가 전 tr 개수->'+trCnt);
-		
-		// 이슈 발견 -> 버튼 추가하면 ajax로 인해 값이 선택된 값만 보여진다,,! -> 즉 새로운 행은 값을 변경할 수 없음
-		
+		//console.log('추가 전 tr 개수->'+trCnt);
 		
 		// 추가 버튼 클릭과 동시에 sorting list를 불러온다. -> animalCategoryId 값을 같이 준다
 		$.ajax({
@@ -349,47 +228,68 @@ $(document).ready(function(){
 				console.log('sorting 리스트 불러오기 성공');
 				
 				// 최대 5개까지만!
-				if(trCnt < 6){
+				if(trCnt < 5){
+					cnt += 1; // [+] 클릭 후 table 추가 시 cnt 추가된다!!
+					
 					addTr += '<tr>';
 					addTr += '<td>';
-					addTr += '<select id="careSorting" style="width:100%;" class="select_box" onchange="calCarePlanFunction();">';
+					addTr += '<select id="careSorting'+cnt+'" style="width:100%;" class="select_box" onchange="calCarePlanFunction(this.value);">';
 					addTr += '<option value="0">==선택==</option>';
 					$(jsonData).each(function(index, item){
 						addTr += '<option value="'+item.careInfoId+'">'+item.careSorting+'</option>';
 					});
 					addTr += '</select>';
 					addTr += '<td>';
-					addTr += '<input id="careDate" class="form-control" name="careDate" type="date">';
-					addTr += '<input id="careInfoId" type="hidden" name="careInfoId" value="">';
+					addTr += '<input id="careDate'+cnt+'" class="form-control" name="careDate" type="date" readonly>';
 					addTr += '</td>';
 					addTr += '</tr>';
 					
 					$('#planTable').append(addTr);
 					
-					
-					
 					trCnt = $('#planTable tr').length;
-					console.log('ajax 성공 tr 개수->'+trCnt);
+					
+					//console.log('ajax 성공 tr 개수->'+trCnt);
+					//console.log('+ -> ajax 후 cnt-> '+cnt);
 				} else{
 					alert('최대 5개까지 추가 가능합니다.');
 					return;
 				}
-				
-			}
-		});
-		
-	};
+			}//-success
+		});	//-ajax
+	};//-addFunction();
 	
 	
 	// care plan 계산 함수! - select option 선택 후
-	function calCarePlanFunction(){
+	function calCarePlanFunction(id){
 		console.log('careplan 선택!!');
-		careInfoId = $('#careSorting').val();
-		//$('#careSorting').val(careInfoId);
-		console.log('선택한 careInfoId-> '+careInfoId);
-		console.log('선택한 val()-> '+$('#careSorting').val());
-		$('#careInfoId').val('');
-		$('#careDate').val('');
+		careInfoId = id;	// String
+		console.log('받은 인자값-> '+careInfoId);
+		console.log('careInfoIdArr 배열 !-> '+careInfoIdArr);
+		//console.log('careDateArr 배열 !-> '+careDateArr);
+		
+		console.log('배열길이-> '+careInfoIdArr.length);
+		console.log('cnt-> '+cnt);
+		
+		// 기존 셀렉트를 변경할 경우 arr 값 수정 -> 끝에서 두번째 값이 지워져야 한다.
+		if(careInfoIdArr.length == cnt){
+			careInfoIdArr.splice(careInfoIdArr.length-1,1);
+			careDateArr.splice(careDateArr.length-1,1);
+			console.log('careInfoIdArr 배열 !-> '+careInfoIdArr);
+			console.log('careDateArr 배열 !-> '+careDateArr);
+		}
+		
+		// 이미 선택한 값 골랐을 경우 -> id는 String, careInfoIdArr는 number이므로 형변환 해야한다.
+		//console.log('type number-> '+careInfoIdArr.includes(parseInt(careInfoId)));
+		//console.log('type String-> '+typeof(id));
+		if(careInfoIdArr.includes(parseInt(careInfoId))){
+			alert('이미 선택된 항목입니다.');
+			$('#careSorting'+cnt+'').val(0);	// 선택된 값 -> ==선택==으로 변경
+			$('#careDate'+cnt+'').val('');	// 선택된 값 -> 초기화
+			console.log('careInfoIdArr 배열 !-> '+careInfoIdArr);
+			console.log('careDateArr 배열 !-> '+careDateArr);
+			
+			return;
+		}
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/calCarePlanDay',
@@ -399,26 +299,36 @@ $(document).ready(function(){
 			success: function(jsonData){
 				console.log('sorting-content 선택 성공!!!!!!!');
 				$(jsonData).each(function(index, item){
-					$('#careDate').val(item.careDate);
-					$('#careInfoId').val(item.careInfoId);
-					//careInfoId = item.careInfoId;
-					careDate = item.careDate;
-					console.log('최종 careInfoId-> '+item.careInfoId);
-					console.log('최종 careDate-> '+item.careDate);
-					console.log('찐 랏 최종 careDate-> '+careDate);
+					careInfoIdArr.push(item.careInfoId);
+					careDateArr.push(item.careDate);
+					//$('.careDate').val(item.careDate); //class 사용할 경우 위에만 바뀌는게 아니라 전부 다 같이 바뀜
+					//$('.careInfoId').val(item.careInfoId);
+					
+					$('#careDate'+cnt+'').val(item.careDate);
+					console.log('최종 careInfoIdArr 배열 !-> '+careInfoIdArr);
+					console.log('최종 careDateArr 배열 !-> '+careDateArr);
+					//console.log('select변경 후 cnt-> '+cnt);
+					//console.log('careInfoId-> '+item.careInfoId);
+					//console.log('careDate-> '+item.careDate);
 					return;
 				});
 			}
 		});
 	};
 	
-	// 필요없는 내용 삭제할 때
+	// [-] 버튼 클릭 - 필요없는 내용 삭제할 때
 	function minusFunction(){
 		let trCnt = $('#planTable tr').length;
-		console.log('삭제 전 tr 개수->'+trCnt);
+		//console.log('삭제 전 tr 개수->'+trCnt);
 		
-		if(trCnt > 1){
+		if(trCnt > 0){
 			$('#planTable tr:last').remove();
+			cnt -= 1;	// [-] 클릭하면 숫자 빼기
+			careInfoIdArr.pop();
+			careDateArr.pop();
+			console.log('-클릭 후 cnt-> '+cnt);
+			console.log('careInfoIdArr 배열 !-> '+careInfoIdArr);
+			console.log('careDateArr 배열 !-> '+careDateArr);
 		} else{
 			alert('정기검진은 삭제 할 수 없습니다.');
 			return;
@@ -427,7 +337,21 @@ $(document).ready(function(){
 		trCnt = $('#planTable tr').length;
 		console.log('삭제 후 tr 개수->'+trCnt);
 	};
-	*/
+	
+	//form 제출 함수
+	function submitFun(){
+		console.log('등록버튼 클릭');
+		if($('#animalId').val() == 0){
+			alert('동물을 먼저 선택해주세요');
+			return;
+		}
+		
+		$('#careInfoId').val(careInfoIdArr);
+		$('#careDate').val(careDateArr);
+		
+		$('#addForm').submit();
+	}
+	
 </script>
 	
 	<!-- JS here -->

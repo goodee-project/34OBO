@@ -67,7 +67,7 @@
 			m.member_id AS memberId,
 			m.member_name AS memberName,
 			cp.staff_id AS staffId,
-			DATE(ad.adopt_date) AS adoptDate,
+			DATE(cp.create_date) AS createDate,
 			DATE(cp.care_date) AS careDate
 		FROM care_plan AS cp, care_info AS ci, member AS m, animal AS a,
 			adopt_apply AS aa, adopt AS ad
@@ -76,14 +76,52 @@
 			AND cp.member_id = m.member_id AND aa.animal_id = a.animal_id
 			AND ad.adopt_apply_id = aa.adopt_apply_id
 			AND a.shelter_id = #{shelterId}
-			<if test="limitDate != 14">
+			<if test="limitDate == 14">
 				AND DATEDIFF(cp.care_date, NOW()) <![CDATA[<]]>= 14
 			</if>
+			<if test="searchWord != null and selectOption == 'animal'">
+				AND a.animal_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="searchWord != null and selectOption == 'care'">
+				AND (ci.care_sorting LIKE CONCAT('%', #{searchWord}, '%') OR ci.care_info_content LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+			<if test="searchWord != null and selectOption == 'member'">
+				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
 		</where>	
-		ORDER BY careDate ASC;
+		ORDER BY createDate DESC;
 	</select>
 	
-	<select id="selectCarePlanRecordList" parameterType="int" resultType="java.util.Map">
+	<!-- 케어플랜 보기 -> 작성한 케이플랜 -->
+	<select id="selectCarePlanAnimalOne" parameterType="int" resultType="java.util.Map">
+		SELECT
+			CONCAT(ci.care_sorting, '-', ci.care_info_content) AS careInfo,
+			DATE(cp.care_date) AS careDate
+		FROM care_plan AS cp, care_info AS ci
+		WHERE
+			cp.care_info_id = ci.care_info_id 
+			AND cp.animal_id = #{animalId}
+	</select>
+	
+	<!-- 케어플랜 보기 -> 작성하지 않은 케어플랜 -->
+	<select id="selectCarePlanAnimalOneNon" parameterType="int" resultType="java.util.Map">
+		SELECT
+			a.animal_id AS animalId,
+			aa.member_id AS memberId,
+			ci.care_info_id AS careInfoId,
+			DATE(ad.adopt_date) AS `입양일`,
+			CONCAT(ci.care_sorting, '-', ci.care_info_content) AS careInfo,
+			DATE_ADD(date(ad.adopt_date), INTERVAL ci.care_time week) AS careDate
+		FROM animal AS a, care_info AS ci, adopt AS ad, adopt_apply AS aa
+		WHERE
+			a.animal_category_id = ci.animal_category_id
+			AND ad.adopt_apply_id = aa.adopt_apply_id
+			AND aa.animal_id = a.animal_id
+			AND a.animal_id = #{animalId}
+			AND ci.care_info_id NOT IN (SELECT care_info_id FROM care_plan WHERE animal_id = #{animalId});
+	</select>
+	
+	<select id="selectCareRecordList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			a.animal_name AS animalName,
 			CONCAT(ci.care_sorting, '-', ci.care_info_content) AS careInfo,
@@ -94,14 +132,55 @@
 			cr.features AS features
 		FROM care_plan AS cp, care_info AS ci, member AS m, animal AS a,
 			adopt_apply AS aa, adopt AS ad, care_record AS cr
-		WHERE cp.care_info_id = ci.care_info_id AND cp.animal_id = a.animal_id
+		<where> 
+			cp.care_info_id = ci.care_info_id AND cp.animal_id = a.animal_id
 			AND cp.member_id = m.member_id AND aa.animal_id = a.animal_id
 			AND cp.care_plan_id = cr.care_plan_id
 			AND ad.adopt_apply_id = aa.adopt_apply_id
 			AND a.shelter_id = #{shelterId}
+			<if test="searchWord != null and selectOption == 'animal'">
+				AND a.animal_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="searchWord != null and selectOption == 'care'">
+				AND (ci.care_sorting LIKE CONCAT('%', #{searchWord}, '%') OR ci.care_info_content LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+			<if test="searchWord != null and selectOption == 'member'">
+				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+		</where>
 		ORDER BY recordDate DESC;
 	</select>
 	
+	<select id="selectCarePlanOneByList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			a.animal_name AS animalName,
+			CONCAT(a.animal_name, ' : ', ci.care_sorting, '-', ci.care_info_content) AS carePlan,
+			cp.care_plan_id AS carePlanId,
+			DATE(cp.care_date) AS careDate
+		FROM care_plan AS cp, care_info AS ci, animal AS a
+		<where>
+			cp.care_info_id = ci.care_info_id AND cp.animal_id = a.animal_id
+			AND a.shelter_id = #{shelterId}
+			AND cp.care_plan_id NOT IN (SELECT cr.care_plan_id FROM care_record AS cr)
+			<!-- AND DATEDIFF(cp.care_date , NOW()) <![CDATA[<]]>= 7 : 개발 중엔 기한 상관없이 보이도록 한다. -->
+		</where>
+	</select>
+	
+	<select id="selectCarePlanOne" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			a.animal_name AS animalName,
+			m.member_id AS memberId,
+			m.member_name AS memberName,
+			CONCAT(ci.care_sorting, '-', ci.care_info_content) AS careInfo,
+			DATE(cp.care_date) AS careDate
+		FROM care_plan AS cp, care_info AS ci, member AS m, animal AS a
+		WHERE cp.care_info_id = ci.care_info_id AND cp.animal_id = a.animal_id
+			AND cp.member_id = m.member_id
+			AND a.shelter_id = #{shelterId}
+			AND cp.care_plan_id = #{carePlanId}
+	</select>
+	
+	<!-- 케어플랜 추가 -->
 	<insert id="insertCarePlan" parameterType="java.util.Map">
 		INSERT INTO care_plan(
 			animal_id,
@@ -117,6 +196,21 @@
 			#{careInfoId},
 			#{careDate},
 			NOW()
+		)
+	</insert>
+	
+	<!-- 케어기록 추가 -->
+	<insert id="insertCareRecord" parameterType="java.util.Map">
+		INSERT care_record(
+			care_plan_id,
+			staff_id_check,
+			record_date,
+			features
+		) VALUE(
+			#{carePlanId},
+			#{staffId},
+			NOW(),
+			#{features}
 		)
 	</insert>
 </mapper>
