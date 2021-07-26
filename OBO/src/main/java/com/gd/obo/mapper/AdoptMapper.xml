@@ -113,4 +113,32 @@
 			adopt_apply SET apply_reject_date = NOW()
 		WHERE adopt_apply_id = #{adoptApplyId};
 	</update>
+	
+	<!-- 입양 신청 서류 등록 -->
+	<insert id="insertAdoptDocument">
+		INSERT INTO adopt_apply_document() VALUES()
+	</insert>
+	
+	<!-- 입양 신청 서류 내용 저장 -->
+	<insert id="insertAdoptForm" parameterType="java.util.Map">
+		<selectKey resultType="int" keyProperty="documentId" order="BEFORE">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO adopt_apply_answer(adopt_apply_document_id, adopt_apply_question_id, answer)
+		VALUES (#{documentId}, #{questionId}, #{answer})
+	</insert>
+	
+	<!-- 입양 신청 -->
+	<insert id="insertAdoptByMember" parameterType="java.util.Map">
+		<selectKey resultType="int" keyProperty="documentId" order="BEFORE">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO adopt_apply(member_id, animal_id, adopt_apply_document_id, apply_date)
+		VALUES (#{memberId}, #{animalId}, #{documentId}, NOW())
+	</insert>
+	
+	<!-- 입양 서류 내용 조회용 -->
+	<select id="selectAdoptDocumentByMember" parameterType="String" resultType="java.util.Map">
+		SELECT * FROM adopt_document_list WHERE memberId=#{memberId}
+	</select>
 </mapper>

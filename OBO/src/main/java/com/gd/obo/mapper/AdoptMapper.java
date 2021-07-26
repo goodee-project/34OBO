@@ -13,4 +13,8 @@ public interface AdoptMapper {
 	List<Map<String, Object>> selectAdoptList(Map<String, Object> map);
 	int insertAdopt(Map<String, Object> map);
 	int updateAdoptReject(int adoptApplyId);
+	int insertAdoptForm(Map<String, Object> map);
+	int insertAdoptByMember(Map<String, Object> map);
+	Map<String, Object> selectAdoptDocumentByMember(String memberId);
+	int insertAdoptDocument();
 }
