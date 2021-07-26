@@ -5,7 +5,10 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.gd.obo.vo.Page;
+import com.gd.obo.vo.PeriodVolunteerCheck;
+import com.gd.obo.vo.PeriodVolunteerRecruit;
+import com.gd.obo.vo.VolunteerCheck;
+import com.gd.obo.vo.VolunteerRecruit;
 
 @Mapper
 public interface VolunteerMapper {
@@ -19,4 +22,15 @@ public interface VolunteerMapper {
 	int insertPeriocallyVolunteerApplyByMember(Map<String, Object> map);
 	String selectMemberIdForCheckApplyingP(Map<String, Object> map); 
 	String selectMemberQualification(Map<String, Object> map);
+	
+	List<Map<String, Object>> selectVolunteerRecruitListInStaff(Map<String, Object> map);
+	List<Map<String, Object>> selectVolunteerApplyListInStaff(Map<String, Object> map);
+	List<Map<String, Object>> selectVolunteerCheckListInStaff(Map<String, Object> map);
+	List<Map<String, Object>> selectPeriodVolunteerRecruitListInStaff(Map<String, Object> map);
+	List<Map<String, Object>> selectPeriodVolunteerApplyListInStaff(Map<String, Object> map);
+	List<Map<String, Object>> selectPeriodVolunteerCheckListInStaff(Map<String, Object> map);
+	int insertVolunteerRecruit(VolunteerRecruit recruit);
+	int insertPeriodVolunteerRecruit(PeriodVolunteerRecruit recruit);
+	int insertVolunteerCheck(VolunteerCheck check);
+	int insertPeriodVolunteerCheck(PeriodVolunteerCheck check);
 }

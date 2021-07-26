@@ -76,23 +76,19 @@ $(document).ready(function(){
 						<div class="blog_details">
 							<table class="table">
 								<tr>
-									<td>No</td>
+									<td>회원정보</td> <!-- 이름/아이디 -->
 									<td>제목</td>
-									<td>회원ID</td>
-									<td>확인직원</td>
-									<td>봉사시간</td>
 									<td>봉사일</td>
 									<td>확인일</td>
+									<td>확인직원</td>
 								</tr>
 								<c:forEach var="v" items="${volunteerCheckP}">
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td>${v.volunteerCategoryName}</td>
+										<td>${v.title}</td>
+										<td>${v.volunteerDate}</td>
+										<td>${v.checkDate}</td>
+										<td>${v.staffId}</td>
 									</tr>
 								</c:forEach>
 							</table>

@@ -76,19 +76,24 @@ $(document).ready(function(){
 						<div class="blog_details">
 							<table class="table">
 								<tr>
-									<td>회원ID</td>
-									<td>회원이름</td>
-									<td>phone</td>
+									<td>회원정보</td> <!-- 이름(아이디) -->
+									<td>모집공고</td>
 									<td>신청날짜</td>
+									<td>봉사주기</td>
 									<td>확인</td>
 								</tr>
 								<c:forEach var="v" items="${volunteerApplyP}">
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td>${v.memberName}(${v.memberId})</td>
+										<td>${v.title}</td>
+										<td>${v.applyDate}</td>
+										<td>${v.volunteerCycle}</td>
+										<td>
+											<!-- 확인 btn -->
+											<a id="checkBtn" data-toggle="modal" data-target="#approval-modal" onclick="checkFun(${v.periodVolunteerApplyId});">
+												<i class="fa fa-check-circle fa"></i>
+											</a>
+										</td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -122,13 +127,31 @@ $(document).ready(function(){
 							<div class="form-group">
 								<div class="input-group mb-4">
 									<select id="categoryName" class="select_box">
-										<option value="0">카테고리</option>
-										<option value="">카테리스트</option>
+										<option value="non">카테고리</option>
+										<c:forEach var="c" items="${categoryNameList}">
+											<c:if test="${categoryName == c}">
+												<option value="${c}" selected>${c}</option>
+											</c:if>
+											<c:if test="${categoryName != c}">
+												<option value="${c}">${c}</option>
+											</c:if>
+										</c:forEach>
 									</select>
 									<select id="searchSelect" class="select_box">
-										<option value="memberId">직원ID</option>
-										<option value="itemName">제목</option>
-									</select> 
+										<option value="non">==검색명==</option>
+										<c:if test="${searchSelect == 'title'}">
+											<option value="title" selected>제목</option>
+										</c:if>
+										<c:if test="${searchSelect != 'title'}">
+											<option value="title">제목</option>
+										</c:if>
+										<c:if test="${searchSelect == 'member'}">
+											<option value="member" selected>회원정보</option>
+										</c:if>
+										<c:if test="${searchSelect != 'member'}">
+											<option value="member">회원정보</option>
+										</c:if>
+									</select>
 									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요"
 											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
 									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
