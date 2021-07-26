@@ -122,7 +122,7 @@ $(document).ready(function(){
 							    <p><strong>보호 종료 날짜 : ${fn:substring(al.expectedDay, 0, 10)}</strong></p>
 							    <p class="card-text"><a href="${pageContext.request.contextPath}/getShelterOne?shelterId=${al.shelterId}">
 							    	<i class="fa fa-home"></i> ${al.shelterName}</a></p>
-							    <a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=${currentPage}&searchWord=${animalName}&species=${species}&shelterId=${shelterId}">
+							    <a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=${currentPage}&searchWord=${animalName}&species=${species}&shelterId=${al.shelterId}">
 							    보러 가기 <i class="fa fa-arrow-right"></i></a>
 							  </div>
 						</div>

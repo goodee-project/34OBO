@@ -2,6 +2,7 @@
 
 package com.gd.obo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,5 +91,28 @@ public class AdoptService {
 	// staff - 입양 거절
 	public int modifyAdoptReject(int adoptApplyId) {
 		return adoptMapper.updateAdoptReject(adoptApplyId);
+	}
+	
+	// 회원 입양 폼
+	public int addAdoptForm(String memberId, int animalId, String q1, String q3, String q8, String q14, String q16, String q17, String q18, String q19, String q20, String q21, String q23, String q24, String q25, String q27, String q29, String q34, String q35) {
+		adoptMapper.insertAdoptDocument();
+		int row = 0;
+		int[] questionId = {1, 3, 8, 14, 16, 17, 18, 19, 20, 21, 23, 24, 25, 27, 29, 34, 35};
+		String[] answer = {q1, q3, q8, q14, q16, q17, q18, q19, q20, q21, q23, q24, q25, q27, q29, q34, q35};
+		log.debug("===== questionId:"+questionId);
+		Map<String, Object> paramMap = new HashMap<>();
+		for(int i=0; i<=questionId.length-1; i++) {
+			paramMap.put("questionId",questionId[i]);
+			paramMap.put("answer",answer[i]);
+			row = adoptMapper.insertAdoptForm(paramMap);
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("animalId", animalId);
+		int row2 = adoptMapper.insertAdoptByMember(map);
+		log.debug("===== map:"+map);
+		log.debug("===== row:"+row);
+		log.debug("===== row2:"+row2);
+		return row;
 	}
 }
