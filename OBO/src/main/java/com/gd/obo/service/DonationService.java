@@ -39,6 +39,15 @@ public class DonationService {
 	private String tid;//kakao 결제준비 -> 결제승인으로 갈때 필요한것... (get방식이라 보내기 힘들어서 위에 만들었습니다.)
 	private String sid;
 	
+	//main home에 달에 들어온 전체 후원금 구하기
+	public long getTotalDonationByMonth(int month) {
+		log.debug("■■■■■ getTotalDonationByMonth month param : " + month);
+		long totalDonation = donationMapper.selectTotalDonationByMonth(month);
+		log.debug("■■■■■ getTotalDonationByMonth totalDonation : " + totalDonation);
+		
+		return totalDonation;
+	}
+	
 	//내정보 물품내역 자세히 보기
 	public Map<String, Object> getDonationItemOne(int donationItemListId){
 		log.debug("■■■■■ getDonationItemOne param : " + donationItemListId);

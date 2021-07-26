@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- 작성자: 손영현 -->
 <!DOCTYPE html>
 <html>
@@ -66,7 +68,76 @@
 		</div>
 	</div>
 	<!-- slider_area_end -->
-
+	
+    <!-- team_area_start  -->
+    <div class="team_area">
+        <div class="container">
+            <div class="row justify-content-center ">
+                <div class="col-lg-6 col-md-10">
+                    <div class="section_title text-center mb-95">
+                    	<a href="${pageContext.request.contextPath}/getAnimalList">
+	                        <h3>보호중인 동물들</h3>
+	                        <p></p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+            	
+            	<c:forEach items="${animalList}" var="al">
+            		
+	                <div class="col-lg-3 col-md-6">
+	                	<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=1&searchWord=&species=&shelterId=0">  
+	                    <div class="single_team">
+	                        <div class="thumb">
+	                        	
+	                            <img src="${pageContext.request.contextPath}/static/img/animal/${al.animalFileName}" class="rounded-circle" alt="">
+	                        	
+	                        </div>
+	                        <div class="member_name text-center">
+	                            <div class="mamber_inner">
+	                                <h4>${al.animalName}</h4>
+	                                <p>${al.animalKind}</p>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    </a>
+	                </div>
+	                            
+                </c:forEach>
+                
+            </div>
+        </div>
+    </div>
+    <!-- team_area_start  -->			
+	
+	<section class="blog_area single-post-area section-padding service_area">
+		<div class="container">
+			<div class="row">
+				
+				<!--이번달 총 후원금-->		
+				<div class="col-lg-6 mb-5 mb-lg-0" >
+					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+					<a href="${pageContext.request.contextPath}/getDonation">
+						<div class="single_service staff_account" style="height: 90%">
+							<div class="service_content">					
+								
+								<h3>이번달 후원금</h3>
+															
+								<br>
+								<h2 style="text-align: right;">
+									총 <fmt:formatNumber value="${totalDonation}" pattern="#,###"/>원 입니다.
+								</h2>
+								
+							</div>
+						</div>
+					</a>	
+				</div>
+							
+			</div>
+		</div>
+	</section>		
+	
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->

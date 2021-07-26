@@ -140,7 +140,7 @@
 				tbody += '<tr>';
 				tbody += '<td>'+data.boardId+'</td>';
 				tbody += '<td>'+data.boardCategoryName+'</td>';
-				tbody += '<td>'+data.boardTitle+'</td>';
+				tbody += '<td><a href="${pageContext.request.contextPath}/getBoardOne?boardId='+data.boardId+'">'+data.boardTitle+'</a></td>';
 				tbody += '<td>'+data.memberId+'</td>';
 				tbody += '<td>'+data.createDate+'</td>';
 				tbody += '</tr>';
