@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+
 <style>
 	th{
 		width: 30%;
@@ -84,6 +85,12 @@
 								
 								
 								</table>
+								<div id="google_recaptha">
+									<script src='https://www.google.com/recaptcha/api.js'></script>
+									<div class="g-recaptcha" data-sitekey="6LdGerYbAAAAABbvuXggPlqem93nw9QNgREOXHE5"></div>
+								</div>
+								
+								
 								<button id="modifyMemberPwFormBtn" type="button" class="genric-btn primary-border radius">비밀번호 수정</button>
 							</form>
 						</div>

@@ -198,6 +198,14 @@ $(document).ready(function(){
 						</tr>
 							<!-- 로봇이 아닙니다. google 보안기능 넣기 -->	
 					</table>
+					
+					<div class="text-center">
+						<div id="google_recaptha">
+							<script src='https://www.google.com/recaptcha/api.js'></script>
+							<div class="g-recaptcha" data-sitekey="6LdGerYbAAAAABbvuXggPlqem93nw9QNgREOXHE5"></div>
+						</div>
+					</div>
+					
 					<button id="addMemberFormBtn" type="button" class="genric-btn primary-border radius">회원가입</button>
 					<button type="reset" class="genric-btn primary-border radius">리셋</button>
 				</form>

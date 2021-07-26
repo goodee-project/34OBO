@@ -2,6 +2,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -114,12 +115,15 @@ $(document).ready(function(){
 					<div class="row">
 						<c:forEach var="al" items="${animalList}">
 						<div class="col-xl-3 col-lg-3 card align-items-center" style="margin:30px">
-							<img class="card-img-top" src="${pageContext.request.contextPath}/static/img/animal/${al.animalFileName}" alt="">
+						<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=${currentPage}&searchWord=${animalName}&species=${species}&shelterId=${shelterId}">
+							<img class="card-img-top" src="${pageContext.request.contextPath}/static/img/animal/${al.animalFileName}" alt=""></a>
 							<div class="card-body">
 							    <h4 class="card-title text-center">${al.animalName}</h4>
+							    <p><strong>보호 종료 날짜 : ${fn:substring(al.expectedDay, 0, 10)}</strong></p>
 							    <p class="card-text"><a href="${pageContext.request.contextPath}/getShelterOne?shelterId=${al.shelterId}">
 							    	<i class="fa fa-home"></i> ${al.shelterName}</a></p>
-							    <a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}">보러 가기 <i class="fa fa-arrow-right"></i></a>
+							    <a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=${currentPage}&searchWord=${animalName}&species=${species}&shelterId=${shelterId}">
+							    보러 가기 <i class="fa fa-arrow-right"></i></a>
 							  </div>
 						</div>
 						</c:forEach>

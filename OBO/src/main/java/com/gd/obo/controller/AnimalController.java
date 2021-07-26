@@ -104,19 +104,20 @@ public class AnimalController {
 		return "staff/getAnimalInStaff";
 	}
 	
+	//회원용 동물 리스트
 	@GetMapping("/getAnimalList")
 	public String getAnimalListM(Model model, @RequestParam(value = "shelterId", defaultValue = "0") int shelterId,
 											@RequestParam(value = "searchWord", required =  false) String searchWord,
 											@RequestParam(value = "species", required =  false) String species,
 											@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-											@RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage ) {
+											@RequestParam(value = "rowPerPage", defaultValue = "9") int rowPerPage ) {
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
 		if(species != null && species.equals("")) {
 			species = null;
 		}
-		Map<String, Object> map = animalService.getAnimalList(shelterId, searchWord, species, currentPage, rowPerPage);
+		Map<String, Object> map = animalService.getAnimalListM(shelterId, searchWord, species, currentPage, rowPerPage);
 		List<Map<String,Object>> categoryList = animalService.getAnimalCategoryList();
 		List<Shelter> shelterList = shelterService.getShelterListByDonation();
 		log.debug("===== 동물 리스트 map: " + map);
@@ -133,5 +134,24 @@ public class AnimalController {
 		
 		return "main/getAnimalList";
 		
+	}
+	
+	//회원용 동물 상세보기
+	@GetMapping("/getAnimalOne")
+	public String getAnimalOneM(Model model, @RequestParam(value = "animalId", required = true) int animalId,
+											@RequestParam(value = "searchWord", required =  false) String searchWord,
+											@RequestParam(value = "species", required =  false) String species,
+											@RequestParam(value = "shelterId", required = false) int shelterId,
+											@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+											@RequestParam(value = "rowPerPage", defaultValue = "9") int rowPerPage) {
+		log.debug("===== 동물 상세보기 animalId: " + animalId);
+		
+		Map<String, Object> map = animalService.getAnimalOne(animalId);
+		log.debug("===== 동물 상세보기: " + map);
+		
+		model.addAttribute("animalMap", map.get("animalMap"));
+		model.addAttribute("expectedDay", map.get("expectedDay"));
+		
+		return "main/getAnimalOne";
 	}
 }

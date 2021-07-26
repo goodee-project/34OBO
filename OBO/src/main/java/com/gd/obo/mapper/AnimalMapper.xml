@@ -96,10 +96,13 @@
 		    a.animal_exit_date animalExitDate,
 		    a.animal_introduce animalIntroduce,
 		    a.animal_state animalState,
-		    af.animal_file_name animalFileName
+		    af.animal_file_name animalFileName,
+		    s.shelter_name shelterName,
+		    s.protect_duration duration
 		FROM animal AS a
     	LEFT JOIN animal_file AS af ON af.animal_id = a.animal_id
     	INNER JOIN animal_category AS ac ON ac.animal_category_id = a.animal_category_id
+    	INNER JOIN shelter s ON a.shelter_id = s.shelter_id
     	WHERE
     		a.animal_id = #{animalId} 
 	</select>	
@@ -107,7 +110,7 @@
 	<!-- 직원이 자기 보호소 Animal 리스트 조회 --> <!-- 직원 로그인 후 쿼리 수정. -->
 	<select id="selectAnimalList" resultType="java.util.Map" parameterType="java.util.Map"> 
 		SELECT 
-   			a.animal_id animalId,
+   		a.animal_id animalId,
 		    a.shelter_id shelterId,
 		    af.animal_file_name animalFileName,
 		    ac.species species,
@@ -119,7 +122,9 @@
 		    a.animal_find_place animalFindPlace,
 		    a.animal_enter_date animalEnterDate,
 		    a.animal_state animalState,
-		    s.shelter_name shelterName
+		    s.shelter_name shelterName,
+		    s.protect_duration duration,
+		    (DATE_ADD(a.animal_enter_date, INTERVAL s.protect_duration DAY)) expectedDay
 		FROM animal AS a
     	LEFT JOIN animal_file AS af ON af.animal_id = a.animal_id
     	INNER JOIN animal_category AS ac ON ac.animal_category_id = a.animal_category_id
@@ -135,7 +140,45 @@
 				AND ac.species = #{species}
 			</if>
 		</where>    
-		ORDER BY animalEnterDate ASC
+		ORDER BY expectedDay
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+		<!-- 회원용 동물 리스트, 입양 갔거나 보호 종료된 애들은 안 띄워주기 위해서 새로 만듦.-->
+	<select id="selectMemberAnimalList" resultType="java.util.Map" parameterType="java.util.Map"> 
+		SELECT 
+   		a.animal_id animalId,
+		    a.shelter_id shelterId,
+		    af.animal_file_name animalFileName,
+		    ac.species species,
+		    a.animal_name animalName,
+		    a.animal_age animalAge,
+		    a.animal_sex animalSex,
+		    a.animal_weight animalWeight,
+		    a.animal_kind animalKind,
+		    a.animal_find_place animalFindPlace,
+		    a.animal_enter_date animalEnterDate,
+		    a.animal_state animalState,
+		    s.shelter_name shelterName,
+		    s.protect_duration duration,
+		    (DATE_ADD(a.animal_enter_date, INTERVAL s.protect_duration DAY)) expectedDay
+		FROM animal AS a
+    	LEFT JOIN animal_file AS af ON af.animal_id = a.animal_id
+    	INNER JOIN animal_category AS ac ON ac.animal_category_id = a.animal_category_id
+    	INNER JOIN shelter s ON s.shelter_id = a. shelter_id
+		<where>
+			a.animal_state='보호중' AND (DATE_ADD(a.animal_enter_date, INTERVAL s.protect_duration DAY)) > NOW()
+			<if test="shelterId != 0">
+				AND a.shelter_id = #{shelterId}
+			</if>
+			<if test = "searchWord != null">
+				AND a.animal_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="species != null">
+				AND ac.species = #{species}
+			</if>
+		</where>    
+		ORDER BY expectedDay
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
