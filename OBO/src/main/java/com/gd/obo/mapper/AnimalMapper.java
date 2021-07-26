@@ -31,4 +31,6 @@ public interface AnimalMapper {
 	
 	//selectCategoryList
 	List<Map<String, Object>> selectAnimalCategoryList();
+	
+	List<Map<String,Object>> selectMemberAnimalList(Map<String, Object> map);
 }
