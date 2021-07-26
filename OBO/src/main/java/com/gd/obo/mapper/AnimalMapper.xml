@@ -20,8 +20,9 @@
 	
 	
 	<!-- Animal 수정 -->
-	<update id="updateAnimal" parameterType="java.util.Map">
-		UPDATE
+	<update id="updateAnimal" parameterType="com.gd.obo.vo.Animal">
+		UPDATE animal
+		SET
 			animal_name = #{animalName},
 			animal_age = #{animalAge},
 			animal_sex = #{animalSex},

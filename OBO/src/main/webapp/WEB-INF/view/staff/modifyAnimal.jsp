@@ -101,6 +101,133 @@
                     </div>
                 </div>
             </div>
+            
+            
+            
+            <div class="container text-center">
+        
+				<form id="addAnimal" action="${pageContext.request.contextPath}/staff/modifyAnimal" method="post">
+					
+						<table>
+							
+							<tr>
+								<td>동물 종</td>
+								<td>
+									<select name="animalCategoryId" class="form-control">
+									<option value="">==종 선택==</option>
+										<c:forEach var="a" items="${animalCategoryList}">
+							    			<c:if test="${a.species == species}"> 
+							    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
+							    			</c:if>
+							    			<c:if test="${a.species != species}"> 
+							    				<option value="${a.animalCategoryId}">${a.species}</option>
+							    			</c:if>
+							    		</c:forEach>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>보호소 번호</td>
+								<td>
+									<input class="form-control" id="shelterId" type="text" name="shelterId" >
+								</td>
+							</tr>
+							<tr>
+								<td>동물 이름</td>
+								<td>
+									<input class="form-control" id="animalName" type="text" name="animalName">
+								</td>
+							</tr>
+							<tr>
+								<td>동물 나이(개월)</td>
+								<td>
+									<div>
+										<input class="form-control" id="animalAge" type="text" name="animalAge">
+									</div>
+									
+								</td>
+							</tr>
+							<tr>
+								<td>동물 성별</td>
+								<td>
+									<select class="form-control" id="animalSex" name="animalSex">
+										<option value="">==성별 선택==</option>
+					                    <option value="수컷">수컷</option>
+					                    <option value="암컷">암컷</option>
+					                    <option value="수컷(중성화)">수컷(중성화)</option>
+					                    <option value="암컷(중성화)">암컷(중성화)</option>
+					                   
+				                  	</select>
+								</td>
+							</tr>
+							<tr>
+								<td>동물 무게</td>
+								<td>
+									<div>
+										<input class="form-control" id="animalWeight" type="text" name="animalWeight">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>동물 종류</td>
+								<td>
+									<input class="form-control" id="animalKind" type="text" name="animalKind">
+								</td>
+							</tr>
+							<tr>
+								<td>발견한 장소</td>
+								<td>
+									<input class="form-control" id="animalFindPlace" type="text" name="animalFindPlace">
+								</td>
+							</tr>
+							<tr>
+								<td>동물 상세정보(회원 보여줄 노트)</td>
+								<td>
+									<div>
+										<textarea class="form-control" name="animalNote" id="animalNote" rows="5" cols="50"></textarea>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>동물 상태</td>
+								<td>
+				                  	<input class="form-control" id="animalState" type="text" name="animalState" value="보호중">
+								</td>
+							</tr>
+							<tr>
+								<td>동물 소개</td>
+								<td>
+									<div>
+										<textarea class="form-control" name="animalIntroduce" id="animalIntroduce" rows="5" cols="50"></textarea>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>동물 사진</td>
+								<td>
+									<div class="col-lg-9" style="display: inline;">
+
+									<label for="imgFileUpload"> <img
+										src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+									</label> <span id="target"></span> <input id="imgFileUpload"
+										name="animalFile" type="file" style="display: none;"
+										accept="image/*" onchange="setThumbnail(event);"
+										multiple="multiple" class="imgCheck" />
+									<div id="image_container" style="display: inline;"></div>
+									<!-- 업로드 된 이미지 미리보기 생성 -->
+								</div>
+								</td>
+							</tr>
+					</table>
+		
+				
+				<div>
+					<input id="addBtn" type="button" value="등록">
+					<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button">뒤로가기</button></a>
+				</div>
+		</form>
+	</div>
+            
 		</div>
 	</div>
 	

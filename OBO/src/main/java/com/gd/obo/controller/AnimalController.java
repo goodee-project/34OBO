@@ -29,6 +29,38 @@ public class AnimalController {
 	@Autowired AnimalService animalService;
 	@Autowired ShelterService shelterService;
 	
+	
+	// 폼
+	@GetMapping("/staff/modifyAnimal")
+	public String modifyAnimal(Model model, @RequestParam(value = "animalId", required = true) int animalId) {
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> modifyAnimal animalId: " + animalId);
+		
+		List<Map<String, Object>> animalCategoryList = animalService.getAnimalCategoryList();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> modifyAnimal animalCategoryList: " + animalCategoryList);
+		
+		Map<String, Object> map = animalService.getAnimalOne(animalId);
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> modifyAnimal map: " + map);
+		
+		model.addAttribute("animalCategoryList", animalCategoryList);
+		model.addAttribute("map", map);
+		model.addAttribute("animalMap", map.get("animalMap"));
+		model.addAttribute("animalFileList", map.get("animalFileList"));
+		
+		return "staff/modifyAnimal";
+	}
+	
+	// 액션
+	@PostMapping("/staff/modifyAnimal")
+	public String modifyAnimal(AnimalForm animalForm) {
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> modifyAnimal animalForm: " + animalForm);
+		
+		animalService.modifyAnimal(animalForm);
+		
+		return "redirect:/getAnimalOne?animalId="+animalForm.getAnimal().getAnimalId();
+	}
+	
+	
+	
 	// 작성자 : 남민정
 	// 폼
 	@GetMapping("/staff/addAnimal")
