@@ -160,10 +160,10 @@ $(document).ready(function(){
 											<option value="animal">동물 이름</option>
 										</c:if>
 										<c:if test="${selectOption == 'member'}">
-											<option value="member" selected>회원 이름</option>
+											<option value="member" selected>회원정보</option>
 										</c:if>
 										<c:if test="${selectOption != 'member'}">
-											<option value="member">회원 이름</option>
+											<option value="member">회원정보</option>
 										</c:if>
 									</select>
 									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요"

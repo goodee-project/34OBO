@@ -167,8 +167,8 @@ $(document).ready(function(){
 										</td>
 									</tr>
 								</table>
-								
-								<button id="addBtn" type="button" class="genric-btn primary-border radius" onclick="addRecordFunc();">Record 작성</button>
+								<br>
+								<button id="addBtn" type="button" class="genric-btn primary-border radius" onclick="addRecordFunc();" style="float:right;">Record 작성</button>
 							</form>
 						</div>
 					</div>

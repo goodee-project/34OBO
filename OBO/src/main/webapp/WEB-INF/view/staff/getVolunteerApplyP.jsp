@@ -84,7 +84,11 @@ $(document).ready(function(){
 								</tr>
 								<c:forEach var="v" items="${volunteerApplyP}">
 									<tr>
-										<td>${v.memberName}(${v.memberId})</td>
+										<td>
+											<a href="javascript:void(0);" data-toggle="modal" data-target="#member-modal" onclick="memberOneFunc('${v.memberName}','${v.memberId}','${v.determination}');"> 
+											${v.memberName}(${v.memberId})
+											</a>
+										</td>
 										<td>
 											<a href="javascript:void(0);" data-toggle="modal" data-target="#title-modal" onclick="titleOneFunc('${v.periodVolunteerRecruitId}','${v.title}');"> 
 											${v.title}
@@ -131,7 +135,6 @@ $(document).ready(function(){
 							<div class="form-group">
 								<div class="input-group mb-4">
 									<select id="searchSelect" class="select_box" name="searchSelect">
-										<option value="">==검색명==</option>
 										<c:if test="${searchSelect == 'member'}">
 											<option value="member" selected>회원정보</option>
 										</c:if>
@@ -164,6 +167,26 @@ $(document).ready(function(){
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
 	
+	<!-- 멤버 클릭 모달 -->
+	<div class="modal fade" id="member-modal" role="dialog" aria-labelledby="member-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title" style="text-align:center;"><span id="memberOne"></span>님의 한 마디</h4>
+					<br>
+						<table class="table" style="text-align:center;">
+							<tr>
+								<td width="60%"><span id="deterOne"></span></td>
+							</tr>
+						</table>
+					<br>
+					
+					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal" style="float:right;">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!-- 제목클릭 모달 -->
 	<div class="modal fade" id="title-modal" role="dialog" aria-labelledby="title-modal" aria-hidden="true">
 		<div class="modal-dialog">
@@ -191,7 +214,7 @@ $(document).ready(function(){
 						</table>
 					<br>
 					
-					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">확인</button>
+					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal" style="float:right;">확인</button>
 				</div>
 			</div>
 		</div>
@@ -202,7 +225,7 @@ $(document).ready(function(){
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
-					<h4 class="modal-title">*<span id="name"></span>* 님의 봉사 신청을 확인하시겠습니까?</h4>
+					<h3 class="modal-title">*<span id="name"></span>* 님의 봉사 신청을 확인하시겠습니까?</h3>
 					<br><br>
 					<form id="addForm" action="${pageContext.request.contextPath}/staff/addVolunteerCheckP" method="post">
 						<table class="table" style="text-align:center;">
@@ -238,6 +261,14 @@ $(document).ready(function(){
 	</div>
 	
 	<script>
+	// member 클릭
+	function memberOneFunc(name, id, deter){
+		console.log('멤버 정보 클릭');
+		
+		$('#memberOne').text(name+"("+id+")");
+		$('#deterOne').text(deter);
+	}
+	
 	// 봉사 제목 클릭
 	function titleOneFunc(id, title){
 		console.log('제목 클릭');
@@ -293,6 +324,7 @@ $(document).ready(function(){
 		console.log('volunteerDate->'+$('#volunteerDate').val());
 		console.log('periodVolunteerApplyId->'+$('#periodVolunteerApplyId').val());
 		
+		alert('봉사 확인이 완료 되었습니다.');
 		$('#addForm').submit();	//form - volunteerDate, volunteerApplyId  넘어가는지 확인
 		
 	}
@@ -301,10 +333,8 @@ $(document).ready(function(){
 	function searchFunc(){
 		console.log('검색어 클릭');
 		
-		if($('#searchSelect').val() == ''){
-			alert('검색할 내역을 선택해주세요!');
-		} else if($('#searchWord').val() == ''){
-			alert('해당 검색어를 입력해주세요!');
+		if($('#searchWord').val() == ''){
+			alert('검색어를 입력해주세요!');
 		} else{
 			$('#searchForm').submit();
 		}

@@ -125,6 +125,16 @@ $(document).ready(function(){
 	<script>
 	function searchFun(){
 		console.log('조회버튼 클릭~');
+		
+		if($('#startDate').val() == ''){
+			alert('시작 년/월을 선택해주세요.');
+			return;
+		} 
+		if($('#endDate').val() == ''){
+			alert('종료 년/월을 선택해주세요.');
+			return;
+		} 
+		
 		let addTr = "";
 		let startDate = $('#startDate').val();
 		let endDate = $('#endDate').val();

@@ -22,11 +22,12 @@ public class AdoptService {
 	@Autowired AdoptMapper adoptMapper;
 	
 	// staff - 입양 신청 리스트
-	public List<Map<String, Object>> getAdoptApplyList(int shelterId, String searchWord){
+	public List<Map<String, Object>> getAdoptApplyList(int shelterId, String searchWord, String selectOption){
 		// map 변환
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
+		map.put("selectOption", selectOption);
 		log.debug("●●●●▶adoptApply map-> "+map);
 		
 		return adoptMapper.selectAdoptApplyList(map);

@@ -131,7 +131,6 @@ $(document).ready(function(){
 							<div class="form-group">
 								<div class="input-group mb-4" >
 									<select id="searchSelect" class="select_box" name="searchSelect">
-										<option value="">==검색명==</option>
 										<c:if test="${searchSelect == 'member'}">
 											<option value="member" selected>회원정보</option>
 										</c:if>
@@ -191,7 +190,7 @@ $(document).ready(function(){
 						</table>
 					<br>
 					
-					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">확인</button>
+					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal" style="float:right;">확인</button>
 				</div>
 			</div>
 		</div>
@@ -305,6 +304,7 @@ $(document).ready(function(){
 		console.log('startTime->'+$('#startTime').val());
 		console.log('endTime->'+$('#endTime').val());
 		
+		alert('봉사 확인이 완료 되었습니다.');
 		$('#addForm').submit();	//form - volunteerDate, volunteerApplyId, startTime, endTime 넘어가는지 확인
 		
 	}
@@ -313,10 +313,8 @@ $(document).ready(function(){
 	function searchFunc(){
 		console.log('검색어 클릭');
 		
-		if($('#searchSelect').val() == ''){
-			alert('검색할 내역을 선택해주세요!');
-		} else if($('#searchWord').val() == ''){
-			alert('해당 검색어를 입력해주세요!');
+		if($('#searchWord').val() == ''){
+			alert('검색어를 입력해주세요!');
 		} else{
 			$('#searchForm').submit();
 		}

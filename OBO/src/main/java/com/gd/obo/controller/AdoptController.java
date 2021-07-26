@@ -34,17 +34,19 @@ public class AdoptController {
 	// staff - 입양 신청 목록 이동
 	@GetMapping("/staff/getAdoptApplyInStaff")
 	public String getAdoptApplyInStaff (HttpSession session, Model model,
-										@RequestParam(value = "searchWord", required = false) String searchWord) {
+										@RequestParam(value = "searchWord", required = false) String searchWord,
+										@RequestParam(value = "selectOption", required = false) String selectOption) {
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId-> "+shelterId);
 		log.debug("●●●●▶searchWord-> "+searchWord);
+		log.debug("●●●●▶selectOption-> "+selectOption);
 		
 		// searchWord null 처리
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
 		
-		List<Map<String, Object>> adoptApplyList = adoptService.getAdoptApplyList(shelterId, searchWord);
+		List<Map<String, Object>> adoptApplyList = adoptService.getAdoptApplyList(shelterId, searchWord, selectOption);
 		log.debug("●●●●▶ adoptApplyList-> "+adoptApplyList);
 		
 		model.addAttribute("adoptApplyList", adoptApplyList);

@@ -34,7 +34,7 @@
 $(document).ready(function(){	
 	$('#searchBtn').click(function(){
 		console.log('검색어 입력 후 버튼 클릭!');
-		if(($('#species').val() == '0') && ($('#careSorting').val() == '0') && ($('#searchWord').val() == '')){
+		if(($('#species').val() == '') && ($('#careSorting').val() == '') && ($('#searchWord').val() == '')){
 			alert('검색할 항목을 선택 혹은 입력해주세요!');
 		} else{
 			$('#searchForm').submit();

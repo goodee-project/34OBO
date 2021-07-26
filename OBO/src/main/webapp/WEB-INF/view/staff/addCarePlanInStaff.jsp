@@ -126,7 +126,7 @@
 									<a id="planRemoveBtn" href="javascript:void(0);" onclick="minusFunction();"><i class="fa fa-minus-square-o fa-2x"></i></a>
 								</div>
 								<br><br>
-								<button id="addBtn" type="button" class="genric-btn primary-border radius" onclick="submitFun();">Plan 작성</button>
+								<button id="addBtn" type="button" class="genric-btn primary-border radius" onclick="submitFun();" style="float:right;">Plan 작성</button>
 							</form>
 						</div>
 					</div>

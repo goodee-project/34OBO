@@ -148,6 +148,10 @@ $(document).ready(function(){
 	<script>
 	function clickFun(){
 		console.log('검색창 클릭!');
+		if($('#searchWord').val() == ''){
+			alert('검색어를 입력해주세요.');
+			return;
+		}
 		$('#searchForm').submit();
 	}
 	

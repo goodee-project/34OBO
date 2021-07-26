@@ -178,7 +178,7 @@ $(document).ready(function(){
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
-					<h4 class="modal-title">일반 봉사 모집 공고 등록</h4>
+					<h4 class="modal-title">정기 봉사 모집 공고 등록</h4>
 					<br><br>
 					<form id="addForm" action="${pageContext.request.contextPath}/staff/addVolunteerRecruitP" method="post">
 						<table class="table">

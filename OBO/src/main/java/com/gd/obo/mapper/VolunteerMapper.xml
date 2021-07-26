@@ -236,6 +236,7 @@
 		SELECT
 			m.member_name AS memberName,
 			m.member_id AS memberId,
+			pva.determination AS determination,
 			pvr.title AS title,
 			vc.volunteer_category_name AS volunteerCategoryName,
 			pvr.volunteer_cycle AS volunteerCycle,

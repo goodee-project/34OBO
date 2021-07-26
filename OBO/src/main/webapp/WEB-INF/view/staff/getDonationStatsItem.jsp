@@ -145,6 +145,15 @@ $(document).ready(function(){
 		startDate = $('#startDate').val();
 		endDate = $('#endDate').val();
 		
+		if($('#startDate').val() == ''){
+			alert('시작 년/월을 선택해주세요.');
+			return;
+		} 
+		if($('#endDate').val() == ''){
+			alert('종료 년/월을 선택해주세요.');
+			return;
+		} 
+		
 		addThead = "";
 		addTbody = "";
 		addSelect = "";

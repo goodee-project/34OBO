@@ -94,12 +94,12 @@ $(document).ready(function(){
 							<br>
 							<table class="table">
 								<tr>
-									<td>회원정보</td>
+									<td width="14%">회원정보</td>
 									<td>카테고리</td>
 									<td>물품명</td>
 									<td>수량</td>
-									<td>설명</td>
-									<td>후원일</td>
+									<td width="14%">후원일</td>
+									<td style="text-align:center;">상세보기</td>
 								</tr>
 								<c:forEach var="d" items="${donationItemList}">
 									<tr>
@@ -107,8 +107,11 @@ $(document).ready(function(){
 										<td>${d.itemCategoryName}</td>
 										<td>${d.itemName}</td>
 										<td>${d.itemQuantity}</td>
-										<td>${d.itemDescription}</td>
 										<td>${d.donationDate}</td>
+										<td style="text-align:center;">
+											<a href="javascript:void(0);" data-toggle="modal" data-target="#item-modal" onclick="descriptionFunc('${d.memberId}','${d.memberName}','${d.itemCategoryName}','${d.itemName}','${d.itemQuantity}','${d.itemDescription}');">
+											<i class="fa fa-external-link"></i></a>
+										</td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -189,11 +192,44 @@ $(document).ready(function(){
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
 	
+	<!-- 후원 물품 모달 -->
+	<div class="modal fade" id="item-modal" role="dialog" aria-labelledby="item-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h3 class="modal-title" style="text-align:center;"><span id="memberOne"></span>님의 후원 내역</h3>
+					<br>
+					<table class="table" style="text-align:center;">
+						<tr>
+							<td width="40%">카테고리</td>
+							<td width="60%"><span id="categoryOne"></span></td>
+						</tr>
+						<tr>
+							<td>물품명</td>
+							<td><span id="itemOne"></span></td>
+						</tr>
+						<tr>
+							<td>수량</td>
+							<td><span id="quantityOne"></span></td>
+						</tr>
+						<tr>
+							<td>설명</td>
+							<td><span id="descOne"></span></td>
+						</tr>
+					</table>
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<script>
 	function clickFun(){
 		console.log('검색어 클릭');
 		
-		if($('#categoryName').val() == $('#searchSelect').val() && $('#searchWord').val() == ''){
+		if($('#itemCategoryName').val() == $('#searchSelect').val() && $('#searchWord').val() == ''){
 			alert('카테고리 혹은 검색어를 선택해주세요');
 		} else if($('#searchSelect').val() != 'non' && $('#searchWord').val() == ''){
 			alert('해당 검색어를 입력해주세요!');
@@ -202,6 +238,15 @@ $(document).ready(function(){
 		} else{
 			$('#searchForm').submit();
 		}
+	}
+	
+	// 설명 클릭
+	function descriptionFunc(id, name, category, item, quantity, desc){
+		$('#memberOne').text(id+"("+name+")");
+		$('#categoryOne').text(category);
+		$('#itemOne').text(item);
+		$('#quantityOne').text(quantity);
+		$('#descOne').text(desc);
 	}
 	</script>
 

@@ -176,10 +176,6 @@ public class VolunteerController {
 			searchWord = null;
 		}
 		
-		if(searchSelect != null && searchSelect.equals("")) {
-			searchSelect = null;
-		}
-		
 		log.debug("●●●●▶searchWord-> "+searchWord);
 		log.debug("●●●●▶searchSelect-> "+searchSelect);
 		
@@ -290,10 +286,6 @@ public class VolunteerController {
 		// null 처리
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
-		}
-		
-		if(searchSelect != null && searchSelect.equals("")) {
-			searchSelect = null;
 		}
 		
 		log.debug("●●●●▶searchWord-> "+searchWord);

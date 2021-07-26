@@ -71,7 +71,7 @@ $(document).ready(function(){
 			alert('인증 번호가 전송되었습니다.');
 			
 			$('#emailCk').append(
-				'<input id="staffEmailCk" type="text" placeholder="숫자 6자리 입력"> '
+				'<input id="staffEmailCk" type="text" placeholder="숫자 6자리 입력" class="form-control" style="width:50%; display:inline-block"> '
 				+'<button id="emailCkBtn" type="button" class="genric-btn default-border radius">확인</button>'
 				+'<span id="emailCkInfo"></span>'
 			)
@@ -190,14 +190,14 @@ $(document).ready(function(){
 									<tr>
 										<td width="25%">이름</td>
 										<td width="75%">
-											<input id="staffName" type="text" name="staffName" value="${staffOne.staffName}">
+											<input id="staffName" type="text" name="staffName" value="${staffOne.staffName}" class="form-control" style="width:50%;">
 										</td>
 									</tr>
 									<tr>
 										<td>ID</td>
 										<td>
 											<div>
-												${staffOne.staffId}
+												&nbsp;${staffOne.staffId}
 												<input id="staffId" type="hidden" name="staffId" value="${staffOne.staffId}">
 											</div>
 										</td>
@@ -205,14 +205,14 @@ $(document).ready(function(){
 									<tr>
 										<td>PW</td>
 										<td>
-											<input id="staffPw" type="password" name="staffPw" placeholder="변경 시 입력해주세요">
+											<input id="staffPw" type="password" name="staffPw" placeholder="변경 시 입력해주세요" class="form-control" style="width:50%;">
 										</td>
 									</tr>
 									<tr>
 										<td>PW 확인</td>
 										<td>
 											<div>
-												<input id="staffPwCk" type="password" name="" placeholder="변경 시 입력해주세요">
+												<input id="staffPwCk" type="password" name="" placeholder="변경 시 입력해주세요" class="form-control" style="width:50%;">
 											</div>
 											<div>
 												<span id="pwCheck"></span>
@@ -222,26 +222,23 @@ $(document).ready(function(){
 									<tr>
 										<td>연락처</td>
 										<td>
-											<input id="staffPhone" type="text" name="staffPhone" value="${staffOne.staffPhone}">
+											<input id="staffPhone" type="text" name="staffPhone" value="${staffOne.staffPhone}" class="form-control" style="width:50%;">
 										</td>
 									</tr>
 									<tr>
 										<td>이메일</td>
 										<td>
-											<div>
-												<input id="staffEmail" type="text" name="staffEmail" placeholder="example@gmail.coom" value="${staffOne.staffEmail}">
-												<button id="emailBtn" type="button" class="genric-btn default-border radius">인증</button>
-											</div>
+											<input id="staffEmail" type="text" name="staffEmail" placeholder="example@gmail.coom" value="${staffOne.staffEmail}" class="form-control" style="width:50%; display:inline-block">
+											<button id="emailBtn" type="button" class="genric-btn default-border radius">인증</button>
 											<div id="emailCk">
 											</div>
 										</td>
 									</tr>
 								</table>
-								
+								<br>
 								<button id="modifyBtn" type="button" class="genric-btn primary-border radius">수정</button>
 								<a href="${pageContext.request.contextPath}/staff/getStaffAccount"><button type="button" class="genric-btn primary-border radius">취소</button></a>
 							</form>
-						
 						</div>
 					</div>
 				</div>

@@ -35,13 +35,16 @@
 			ad.staff_id AS staffId
 		FROM adopt AS ad, adopt_apply AS aa, animal AS a, member AS m
 		<where>
-			ad.adopt_apply_id = aa.adopt_apply_id AND aa.animal_id = a.animal_id 
-			AND aa.member_id = m.member_id AND a.shelter_id = #{shelterId}
-			<if test="searchWord != null and selectOption == 'animal'">
+			ad.adopt_apply_id = aa.adopt_apply_id 
+			AND aa.animal_id = a.animal_id 
+			AND aa.member_id = m.member_id 
+			AND ad.adopt_apply_id IN (SELECT adopt_apply_id FROM adopt)
+			AND a.shelter_id = #{shelterId}
+			<if test="selectOption == 'animal'">
 				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
 			</if>
-			<if test="searchWord != null and selectOption == 'member'">
-				AND m.member_name LIKE CONCAT('%', #{searchWord},'%');
+			<if test="selectOption == 'member'">
+				AND (m.member_name LIKE CONCAT('%', #{searchWord},'%') OR m.member_id LIKE CONCAT('%', #{searchWord},'%'));
 			</if>
 		</where>
 	</select>

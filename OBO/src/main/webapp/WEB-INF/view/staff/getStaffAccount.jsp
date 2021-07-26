@@ -173,8 +173,10 @@ $(document).ready(function(){
 					<h5 class="modal-title">비밀번호를 입력하세요</h5>
 					<br>
 					<input id="staffPw" class="form-control" type="password"  name="password" placeholder="PW 입력" required="required"> <br />
-					<button id="ckBtn" type="button" class="btn btn-primary">확인</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+						<button id="ckBtn" type="button" class="genric-btn primary-border radius">확인</button>
+					</div>
 				</div>
 			</div>
 		</div>
