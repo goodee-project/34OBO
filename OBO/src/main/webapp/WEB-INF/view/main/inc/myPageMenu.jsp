@@ -23,7 +23,7 @@
 					<a href="${pageContext.request.contextPath}/member/addQualificationVolunteerApplication" class="d-flex"><p>봉사자격신청</p></a>									
 				</li>
 				<li>								
-					<a href="${pageContext.request.contextPath}/" class="d-flex"><p>작성글</p></a>									
+					<a href="${pageContext.request.contextPath}/member/getBoardHistory" class="d-flex"><p>작성글</p></a>									
 				</li>
 			</ul>
 		</aside>

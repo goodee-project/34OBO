@@ -105,7 +105,7 @@ $(document).ready(function(){
 									<!-- 업로드 된 이미지 미리보기 생성 -->
 								</div>
 								<div class="form-group">
-                                        <input class="form-control" name="board.memberId" id="memberId" value="sunyou" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="sunyou" readonly="readonly">
+                                        <input class="form-control" name="board.memberId" id="memberId" value="${memberId}" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="sunyou" readonly="readonly">
                                     </div>
                                 </div>
 

@@ -99,6 +99,7 @@
 			board_id=#{boardId}
 		
 	</select>
+	
 	<!-- 게시판 리스트 -->
 	<select id="selectBoardList" resultType="java.util.Map" parameterType="java.util.Map">
 		SELECT
@@ -107,22 +108,41 @@
 			b.animal_category_id animalCategoryId,
 			ac.species,
 			b.board_title boardTitle,
-			bc.board_category_name boardCategoryName
+			bc.board_category_name boardCategoryName,
+			b.create_date createDate
 		FROM board b, animal_category ac, board_category bc
-		WHERE b.animal_category_id = ac.animal_category_id
-		AND b.board_category_id=bc.board_category_id 
+		<where>
+			b.animal_category_id = ac.animal_category_id
+			AND b.board_category_id=bc.board_category_id 
 			<if test="boardTitle != null">
-				AND board_title LIKE CONCAT('%',#{boardTitle},'%')
+				AND b.board_title LIKE CONCAT('%',#{boardTitle},'%')
 			</if>
 			<if test="species != null">
-				AND species =#{species}
+				AND ac.species =#{species}
 			</if>
+			<if test="memberId != null">
+				AND b.member_id = #{memberId}
+			</if>
+		</where>
 		ORDER BY b.board_id DESC	
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
-	<select id="selectTotal" resultType="Integer">
+	<select id="selectTotal" resultType="Integer" parameterType="java.util.Map">
 		SELECT COUNT(*) 
-		FROM board
+		FROM board b, animal_category ac, board_category bc
+		<where>
+			b.animal_category_id = ac.animal_category_id
+			AND b.board_category_id=bc.board_category_id 
+			<if test="boardTitle != null">
+				AND b.board_title LIKE CONCAT('%',#{boardTitle},'%')
+			</if>
+			<if test="species != null">
+				AND ac.species =#{species}
+			</if>
+			<if test="memberId != null">
+				AND b.member_id = #{memberId}
+			</if>
+		</where>
 	</select>
 </mapper>
