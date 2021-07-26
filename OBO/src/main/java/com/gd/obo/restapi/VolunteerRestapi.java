@@ -1,6 +1,7 @@
 package com.gd.obo.restapi;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -63,5 +64,24 @@ public class VolunteerRestapi {
 		return map;
 	}
 	
+	//봉사 카테고리 리스트 가져오기
+	@GetMapping("/getVolCategoryList")
+	public List<Map<String, Object>> getVolCategoryList(){
+		return volunteerService.getVolunteerCategoryList();
+	}
+	
+	@GetMapping("/getVolnteerRecruitOneN")
+	// 일반봉사 모집공고 상세보기
+	public List<Map<String, Object>> getVolunteerRecruitOne(int volunteerRecruitId){
+		log.debug("●●●●▶volunteerRecruitId-> "+volunteerRecruitId);
+		return volunteerService.getVolunteerRecruitOne(volunteerRecruitId);
+	}
+	
+	@GetMapping("/getVolnteerRecruitOneP")
+	// 정기봉사 모집공고 상세보기
+	public List<Map<String, Object>> getPeriodVolunteerRecruitOne(int periodVolunteerRecruitId){
+		log.debug("●●●●▶periodVolunteerRecruitId-> "+periodVolunteerRecruitId);
+		return volunteerService.getPeriodVolunteerRecruitOne(periodVolunteerRecruitId);
+	}
 	
 }

@@ -10,5 +10,5 @@ public class PeriodVolunteerRecruit {
 	private String registerDate;
 	private int recruitCount;
 	private String title;
-	private String volunteerCyle;
+	private String volunteerCycle;
 }

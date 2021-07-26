@@ -73,18 +73,19 @@ $(document).ready(function(){
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					
 					<div class="single-post">
-						<a href="${pageContext.request.contextPath}/staff/addVolunteerRecruitN"><button type="button" class="genric-btn primary-border radius">등록</button></a>
-						
+						<a href="javascript:void(0);" data-toggle="modal" data-target="#add-modal" onclick="clickAddFunc();">
+							<button type="button" class="genric-btn primary-border radius">등록</button>
+						</a>
 						<div class="blog_details">
 							<table class="table">
 								<tr>
-									<td>직원</td> <!-- 이름 혹은 이름,ID로 수정 시 쿼리 수정 필수 -->
-									<td>카테고리</td>
-									<td>제목</td>
-									<td>모집인원</td>
-									<td>신청인원</td>
-									<td>봉사요일</td>
-									<td>등록일</td>
+									<th>직원</th>
+									<th>카테고리</th>
+									<th>제목</th>
+									<th>모집인원</th>
+									<th>신청인원</th>
+									<th>봉사주기</th>
+									<th>등록일</th>
 								</tr>
 								<c:forEach var="v" items="${volunteerRecruitP}">
 									<tr>
@@ -127,35 +128,35 @@ $(document).ready(function(){
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getVolunteerRecruitP">
 							<div class="form-group">
 								<div class="input-group mb-4">
-									<select id="categoryName" class="select_box">
-										<option value="non">카테고리</option>
+									<select id="categoryName" class="select_box" name="categoryName">
+										<option value="">카테고리</option>
 										<c:forEach var="c" items="${categoryNameList}">
-											<c:if test="${categoryName == c}">
-												<option value="${c}" selected>${c}</option>
+											<c:if test="${categoryName == c.categoryName}">
+												<option value="${c.categoryName}" selected>${c.categoryName}</option>
 											</c:if>
-											<c:if test="${categoryName != c}">
-												<option value="${c}">${c}</option>
+											<c:if test="${categoryName != c.categoryName}">
+												<option value="${c.categoryName}">${c.categoryName}</option>
 											</c:if>
 										</c:forEach>
 									</select>
-									<select id="searchSelect" class="select_box">
-										<option value="non">==검색명==</option>
-										<c:if test="${searchSelect == 'title'}">
-											<option value="title" selected>제목</option>
-										</c:if>
-										<c:if test="${searchSelect != 'title'}">
-											<option value="title">제목</option>
-										</c:if>
+									<select id="searchSelect" class="select_box" name="searchSelect">
+										<option value="">==검색명==</option>
 										<c:if test="${searchSelect == 'staffId'}">
 											<option value="staffId" selected>직원ID</option>
 										</c:if>
 										<c:if test="${searchSelect != 'staffId'}">
 											<option value="staffId">직원ID</option>
 										</c:if>
+										<c:if test="${searchSelect == 'title'}">
+											<option value="title" selected>제목</option>
+										</c:if>
+										<c:if test="${searchSelect != 'title'}">
+											<option value="title">제목</option>
+										</c:if>
 									</select>
 									<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요"
 											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" >
-									<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+									<button id="searchBtn" class="btn" type="button" onclick="searchFunc();"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
 						</form>
@@ -171,6 +172,131 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+	<!-- 공고 등록 모달 -->
+	<div class="modal fade" id="add-modal" role="dialog" aria-labelledby="add-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title">일반 봉사 모집 공고 등록</h4>
+					<br><br>
+					<form id="addForm" action="${pageContext.request.contextPath}/staff/addVolunteerRecruitP" method="post">
+						<table class="table">
+							<tr>
+								<td>제목</td>
+								<td>
+									<input id="title" name="title" type="text" class="form-control">
+								</td>
+							</tr>
+							<tr>
+								<td>카테고리</td>
+								<td>
+									<select id="volunteerCategory" name="volunteerCategoryId" class="select_box">
+										<option value="">==선택==</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>시작일</td>
+								<td>
+									<input id="periodVolunteerStartDate" name="periodVolunteerStartDate" type="date" class="form-control">
+								</td>
+							</tr>
+							<tr>
+								<td>봉사주기</td>
+								<td>
+									<select name="volunteerCycle" class="select_box">
+										<option value="일">일</option>
+										<option value="월">월</option>
+										<option value="화">화</option>
+										<option value="수">수</option>
+										<option value="목">목</option>
+										<option value="금">금</option>
+										<option value="토">토</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>모집인원</td>
+								<td>
+									<input id="recruitCount" name="recruitCount" type="number" min="1" class="form-control" value="숫자만 입력해주세요">
+								</td>
+							</tr>
+						</table>
+						<br>
+						<div style="float:right;">
+							<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+							<button type="button" class="genric-btn primary-border radius" onclick="addVolunteerFunc();">확인</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+	// 공고 등록 버튼
+	function clickAddFunc(){
+		console.log('등록 버튼 클릭');
+		let addSelect = "";
+		
+		//카테고리 리스트 불러오기
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getVolCategoryList',
+			type: 'get',
+			success: function(jsonData){
+				console.log('카테고리 가져오기 성공');
+				addSelect += '<option value="">==선택==</option>';
+				
+				$(jsonData).each(function(index, item){
+					addSelect += '<option value="'+item.categoryId+'">'+item.categoryName+'</option>';
+				})
+				
+				$('#volunteerCategory').empty();
+				$('#volunteerCategory').append(addSelect);
+			}
+		});
+	}
+	
+	// 등록 확인 버튼
+	function addVolunteerFunc(){
+		console.log('공고 등록 action-');
+		
+		
+		if($('#title').val() == ''){
+			alert('제목을 입력하세요');
+			$('#title').focus();
+		} else if($('#volunteerCategoryId').val() == ''){
+			alert('카테고리를 선택하세요');
+			$('#volunteerCategoryId').focus();
+		} else if($('#periodVolunteerStartDate').val() == ''){
+			alert('시작일을 선택하세요');
+			$('#periodVolunteerStartDate').focus();
+		} else if($('#volunteerCycle').val() == ''){
+			alert('봉사주기를 선택하세요');
+			$('#volunteerCycle').focus();
+		} else if($('#recruitCount').val() == ''){
+			alert('모집인원을 입력하세요');
+			$('#recruitCount').focus();
+		}
+		
+		$('#addForm').submit();
+	}
+	
+	function searchFunc(){
+		console.log('검색어 클릭');
+		
+		if($('#categoryName').val() == $('#searchSelect').val() && $('#searchWord').val() == ''){
+			alert('카테고리 혹은 검색어를 선택해주세요');
+		} else if($('#searchSelect').val() != '' && $('#searchWord').val() == ''){
+			alert('해당 검색어를 입력해주세요!');
+		} else if($('#searchSelect').val() == '' && $('#searchWord').val() != ''){
+			alert('검색할 내역을 선택해주세요!');
+		} else{
+			$('#searchForm').submit();
+		}
+	}
+	</script>
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

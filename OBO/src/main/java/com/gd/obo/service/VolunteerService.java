@@ -174,20 +174,22 @@ public class VolunteerService {
 	}
 	
 	// 일반봉사 신청목록
-	public List<Map<String, Object>> getVolunteerApplyListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
+	public List<Map<String, Object>> getVolunteerApplyListInStaff(int shelterId, String searchWord, String searchSelect){
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("searchSelect", searchSelect);
-		map.put("categoryName", categoryName);
 		log.debug("●●●●▶ 일반봉사 신청목록-> "+map);
 		return volunteerMapper.selectVolunteerApplyListInStaff(map);
 	}
 	
 	// 일반봉사 확인목록
-	public List<Map<String, Object>> getVolunteerCheckListInStaff(int shelterId, String searchWord){
+	public List<Map<String, Object>> getVolunteerCheckListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
+		map.put("searchWord", searchWord);
+		map.put("searchSelect", searchSelect);
+		map.put("categoryName", categoryName);
 		log.debug("●●●●▶ 일반봉사 확인목록-> "+map);
 		return volunteerMapper.selectVolunteerCheckListInStaff(map);
 	}
@@ -205,28 +207,39 @@ public class VolunteerService {
 	}
 	
 	// 정기봉사 신청목록
-	public List<Map<String, Object>> getPeriodVolunteerApplyListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
+	public List<Map<String, Object>> getPeriodVolunteerApplyListInStaff(int shelterId, String searchWord, String searchSelect){
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("searchSelect", searchSelect);
-		map.put("categoryName", categoryName);
 		log.debug("●●●●▶ 정기봉사 신청목록-> "+map);
 		return volunteerMapper.selectPeriodVolunteerApplyListInStaff(map);
 	}
 	
 	// 정기봉사 확인목록
-	public List<Map<String, Object>> getPeriodVolunteerCheckListInStaff(int shelterId, String searchWord){
+	public List<Map<String, Object>> getPeriodVolunteerCheckListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
+		map.put("searchSelect", searchSelect);
+		map.put("categoryName", categoryName);
 		log.debug("●●●●▶ 정기봉사 확인목록-> "+map);
 		return volunteerMapper.selectPeriodVolunteerCheckListInStaff(map);
 	}
 	
 	// 봉사 카테고리 목록
-	public List<String> getCategoryNameList(){
-		return volunteerMapper.selectVolunteerCategory();
+	public List<Map<String, Object>> getVolunteerCategoryList(){
+		return volunteerMapper.selectVolunteerCategoryList();
+	}
+	
+	// 일반봉사 모집공고 상세보기
+	public List<Map<String, Object>> getVolunteerRecruitOne(int volunteerRecruitId){
+		return volunteerMapper.selectVolunteerRecruitOne(volunteerRecruitId);
+	}
+	
+	// 정기봉사 모집공고 상세보기
+	public List<Map<String, Object>> getPeriodVolunteerRecruitOne(int periodVolunteerRecruitId){
+		return volunteerMapper.selectPeriodVolunteerRecruitOne(periodVolunteerRecruitId);
 	}
 	
 	// 일반봉사 모집공고 등록

@@ -29,6 +29,9 @@ public interface VolunteerMapper {
 	List<Map<String, Object>> selectPeriodVolunteerRecruitListInStaff(Map<String, Object> map);
 	List<Map<String, Object>> selectPeriodVolunteerApplyListInStaff(Map<String, Object> map);
 	List<Map<String, Object>> selectPeriodVolunteerCheckListInStaff(Map<String, Object> map);
+	List<Map<String, Object>> selectVolunteerCategoryList();
+	List<Map<String, Object>> selectVolunteerRecruitOne(int volunteerRecruitId);
+	List<Map<String, Object>> selectPeriodVolunteerRecruitOne(int periodVolunteerRecruitId);
 	int insertVolunteerRecruit(VolunteerRecruit recruit);
 	int insertPeriodVolunteerRecruit(PeriodVolunteerRecruit recruit);
 	int insertVolunteerCheck(VolunteerCheck check);
