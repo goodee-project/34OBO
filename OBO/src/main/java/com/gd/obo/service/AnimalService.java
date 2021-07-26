@@ -33,14 +33,57 @@ public class AnimalService {
 	@Autowired
 	AnimalFileMapper animalFileMapper;
 	
-	/*
-	// 작성자 : 남민정
+
 	// animal 수정
-	public int updateAnimal(Map<String, Object> map) {
+	public int modifyAnimal(AnimalForm animalForm) {
+		Animal animal = animalForm.getAnimal();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> modifyAnimal-> animal animalId: " + animal.getAnimalId());
 		
-		return ;
+		animalMapper.updateAnimal(animal);
+		
+		List<AnimalFile> animalFileList = animalMapper.selectAnimalFileByAnimal(animal.getAnimalId());
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> modifyAnimal animalFileList: " + animalFileList);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> modifyAnimal map: " + map);
+		
+		map.put("animalId", animal.getAnimalId());
+		map.put("animalFile", animalForm.getAnimalFile());
+		map.put("animalFileList", animalFileList);
+		
+		// File 불러오기
+		List<MultipartFile> list = animalForm.getAnimalFile();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal list: " + list);
+		if(list != null) {
+			for(MultipartFile f : list) {
+				AnimalFile animalFile = new AnimalFile();
+				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal animalFile: " + animalFile);
+				animalFile.setAnimalId(animal.getAnimalId());
+				
+				// 파일 이름
+				String prename = UUID.randomUUID().toString().replace("-","");
+				
+				String filename = prename;
+				animalFile.setAnimalFileName(filename); // 중복으로 인해 덮어쓰기 가능
+				animalFile.setAnimalId(animal.getAnimalId());
+				animalFile.setAnimalFileSize(f.getSize());
+				animalFile.setAnimalFileExt(f.getContentType());
+				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal filename: " + filename);
+				
+				animalFileMapper.insertAnimalFile(animalFile);
+				
+				try {
+					File temp = new File(""); // 프로젝트 폴더에 빈파일이 만들어진다.
+					String path = temp.getAbsolutePath(); // 프로젝트필드
+					f.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\animal\\"+filename));
+				} catch (Exception e) {
+					throw new RuntimeException();
+				}
+			}			
+		}
+		return animal.getAnimalId();
 	}
-	*/
+	
 	
 	
 	

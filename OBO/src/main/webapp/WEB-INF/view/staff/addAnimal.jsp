@@ -178,6 +178,22 @@
 									</div>
 								</td>
 							</tr>
+							<tr>
+								<td>동물 사진</td>
+								<td>
+									<div class="col-lg-9" style="display: inline;">
+
+									<label for="imgFileUpload"> <img
+										src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+									</label> <span id="target"></span> <input id="imgFileUpload"
+										name="animalFile" type="file" style="display: none;"
+										accept="image/*" onchange="setThumbnail(event);"
+										multiple="multiple" class="imgCheck" />
+									<div id="image_container" style="display: inline;"></div>
+									<!-- 업로드 된 이미지 미리보기 생성 -->
+								</div>
+								</td>
+							</tr>
 					</table>
 		
 				
@@ -222,6 +238,35 @@
 <script src="../static/js/jquery.validate.min.js"></script>
 <script src="../static/js/mail-script.js"></script>
 <script src="../static/js/main.js"></script>
+
+<script> 
+
+   	function setThumbnail(event){ 
+   		  		
+   		for (var image of event.target.files) {
+   			
+   			var reader = new FileReader(); 
+   			
+   			reader.onload = function(event) {
+   				var img = document.createElement("img"); 
+   				img.setAttribute("src", event.target.result);
+   				img.setAttribute("width", 203);
+   				img.setAttribute("height", 203);
+   				img.setAttribute("style", "margin-right: 4.5px; border: 1px solid rgb(220, 219, 228);");
+   				document.querySelector("div#image_container").appendChild(img); 
+   			};
+   			
+   			console.log(image); 
+   			reader.readAsDataURL(image); 
+   		}
+   		
+		$('#target').prepend('<input id="imgFileUpload" name="boardFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
+   	
+   	
+   	} 
+</script>
+
+
 
 <script>
 	$('#datepicker').datepicker({
