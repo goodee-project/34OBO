@@ -122,7 +122,7 @@
 				
 				
 				
-				<div class="col-lg-9 mb-5 mb-lg-0">
+				<div class="col-lg-9 mb-5 mb-lg-0 offset-3">
 					<div class="single-post">
 						<div class="blog_details">
 							<h3 class="text-center">봉사자격신청</h3>
