@@ -94,6 +94,20 @@
 		ORDER BY careDate ASC;
 	</select>
 	
+	<select id="selectCarePlanInCal" parameterType="int" resultType="java.util.Map">
+		SELECT
+			cp.care_plan_id AS carePlanId,
+			a.animal_name AS animalName,
+			DATE(cp.care_date) AS careDate,
+			DATE_FORMAT(cp.care_date, '%Y-%m') AS yearMonth,
+			YEAR(cp.care_date) AS year,
+			MONTH(cp.care_date) AS month,
+			DAY(cp.care_date) AS day
+		FROM care_plan AS cp, animal AS a
+		WHERE cp.animal_id = a.animal_id
+			AND a.shelter_id = #{shelterId}
+	</select>
+	
 	<!-- 케어플랜 보기 -> 작성한 케이플랜 -->
 	<select id="selectCarePlanAnimalOne" parameterType="int" resultType="java.util.Map">
 		SELECT

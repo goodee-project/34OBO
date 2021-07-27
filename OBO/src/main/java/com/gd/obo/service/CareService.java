@@ -36,17 +36,6 @@ public class CareService {
 		return careMapper.selectCareInfoByCarePlan(animalCategoryId);
 	}
 	
-	/*
-	// staff - care info -> content 리스트 불러오기
-	public List<Map<String, Object>> getCareInfoByCarePlan(int animalCategoryId, String careSorting) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("animalCategoryId", animalCategoryId);
-		map.put("careSorting", careSorting);
-		log.debug("●●●●▶content 리스트-> "+map);
-		
-		return careMapper.selectCareInfoByCarePlan(map);
-	}*/
-	
 	// staff - care plan dday list 불러오기
 	public List<Map<String, Object>> getCarePlanDdayList(int shelterId){
 		int limitDate = 14;
@@ -65,6 +54,11 @@ public class CareService {
 		map.put("searchWord", searchWord);
 		log.debug("●●●●▶map-> "+map);
 		return careMapper.selectCarePlanList(map);
+	}
+	
+	// staff - care plan 달력에서 보여줄 list
+	public List<Map<String, Object>> getCarePlanInCal (int shelterId){
+		return careMapper.selectCarePlanInCal(shelterId);
 	}
 	
 	// staff - care record list 불러오기
