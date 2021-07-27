@@ -110,6 +110,11 @@ public class VolunteerController {
 		return "redirect:/member/getVolunteerP";
 	}
 	
+	//회원 내정보
+	@GetMapping("/member/getMemberVolunteer")
+	public String getMemberVolunteerByMember() {
+		return "main/getMemberVolunteer";
+	}
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ staff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
