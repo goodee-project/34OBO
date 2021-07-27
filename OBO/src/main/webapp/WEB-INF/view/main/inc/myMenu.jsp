@@ -12,7 +12,7 @@
 	<div class="container">
 		<div class="row">
 			<c:if test="${loginMember == null}"><!-- 로그인 전 -->
-				<div class="col-lg-10 col-md-8">
+				<div class="col-lg-8 col-md-8">
 					<div class="short_contact_list">
 						<form id="memberLoginForm" method="post">
 							<ul>
@@ -30,10 +30,14 @@
 							</ul>
 							
 						</form>
-						
 					</div>
 				</div>
-				
+				<div class="col-lg-4 col-md-4">
+					<div class="social_media_links">
+						<a href="${pageContext.request.contextPath}/staff/">직원페이지</a>
+						<a href="${pageContext.request.contextPath}/manager/">관리자페이지</a>
+					</div>
+				</div>
 			</c:if>
 			
 			
