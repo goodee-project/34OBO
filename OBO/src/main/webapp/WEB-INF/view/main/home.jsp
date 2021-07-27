@@ -109,7 +109,58 @@
             </div>
         </div>
     </div>
-    <!-- team_area_start  -->			
+    <!-- team_area_start  -->
+    
+    
+    <!-- 보호중 동물, 입양안락사 이번달  --> 
+    <div class="adapt_area">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-lg-5">
+                    <div class="adapt_help">
+                        <div class="section_title">
+                            <h3><span>우리 아이들과</span>
+                                <br>함께해주세요</h3>
+                            <p>지금도 많은 동물들이...</p>
+                            <a href="${pageContext.request.contextPath}/getAnimalList" class="boxed-btn3">입양하러 가기</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="adapt_about">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="single_adapt text-center">
+                                    <img src="${pageContext.request.contextPath}/static/img/adapt_icon/1.png" alt="">
+                                    <div class="adapt_content">
+                                        <h3 class="counter">${protect}</h3>
+                                        <p>보호중</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="single_adapt text-center">
+                                    <img src="${pageContext.request.contextPath}/static/img/adapt_icon/3.png" alt="">
+                                    <div class="adapt_content">
+                                        <h3><span class="counter">${adopt}</span>+</h3>
+                                        <p>입양</p>
+                                    </div>
+                                </div>
+                                <div class="single_adapt text-center">
+                                    <img src="${pageContext.request.contextPath}/static/img/adapt_icon/2.png" alt="">
+                                    <div class="adapt_content">
+                                        <h3><span class="counter">${euthanasia}</span>+</h3>
+                                        <p>안락사</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    	
 	
 	<section class="blog_area single-post-area section-padding service_area">
 		<div class="container">
@@ -133,11 +184,92 @@
 						</div>
 					</a>	
 				</div>
+				
+				<div class="col-lg-6 mb-5 mb-lg-0" >
+					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+					<a href="${pageContext.request.contextPath}/getDonation">
+						<div class="single_service staff_account" style="height: 90%">
+							<div class="service_content">					
+								
+								<h3>보호중인 동물종</h3>
+															
+								<br>
+								<div class="pet_thumb">
+			                         <canvas id="myChart"></canvas>
+			                    </div>
+								
+							</div>
+						</div>
+					</a>	
+				</div>
 							
 			</div>
 		</div>
 	</section>		
 	
+	<!-- 차트 -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
+	<script>
+		//보호중인 동물 종별로 통계하기...
+		let i = 0;
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getAnimalSpeciesCount',
+			type: 'get'
+		}).done(function(jsonData){
+			console.log(jsonData);
+			
+			let species = jsonData.map(item => item.species);
+			let cnt = jsonData.map(item => item.cnt);
+			
+			
+			console.log(species);
+			console.log(cnt);
+			
+			//차트 그리기....
+			/*
+			const DATA_COUNT = 5;
+			const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100};
+			*/
+			const color = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(102, 204, 153)', 'rgb(255, 153, 102)', 'rgb(255, 153, 102)']
+
+			const data = {
+			  labels: species,
+			  datasets: [
+				 
+			    {
+			      label: species,
+			      data: cnt,
+			      backgroundColor: color,
+			    }
+			  ]
+			};
+			
+			const config = {
+					  type: 'doughnut',
+					  data: data,
+					  options: {
+					    responsive: true,
+					    plugins: {
+					      legend: {
+					        position: 'top',
+					      },
+					      title: {
+					        display: true,
+					        text: '보호중인 동물종'
+					      }
+					    }
+					  },
+					};
+			
+			 var myChart = new Chart(
+					    document.getElementById('myChart'),
+					    config
+					  );
+		})
+	
+	</script>
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->

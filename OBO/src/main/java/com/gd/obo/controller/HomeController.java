@@ -37,6 +37,13 @@ public class HomeController {
 		
 		long totalDonation = donationService.getTotalDonationByMonth(month);
 		
+		
+		//보호중인 동물수, 이번달 안락사&입양 동물수 
+		Map<String, Object> animalMap = animalService.getAnimalStateCountByMonth(month, 0);
+		
+		model.addAttribute("protect", animalMap.get("protect"));
+		model.addAttribute("adopt", animalMap.get("adopt"));
+		model.addAttribute("euthanasia", animalMap.get("euthanasia"));
 		model.addAttribute("totalDonation", totalDonation);
 		model.addAttribute("animalList", map.get("animalList"));
 		return "/main/home";
