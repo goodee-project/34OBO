@@ -373,7 +373,7 @@
 			staff_id_check,
 			start_time,
 			end_time,
-			check_date,
+			check_date
 		) VALUE(
 			#{volunteerApplyId},
 			#{staffId},
