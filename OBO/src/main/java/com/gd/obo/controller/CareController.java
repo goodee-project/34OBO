@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gd.obo.service.AdoptService;
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.CareService;
-import com.gd.obo.vo.CarePlan;
 import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
@@ -153,7 +152,7 @@ public class CareController {
 		return "staff/addCareRecordInStaff";
 	}
 	
-	// staff - 케어 record 작성 페이지 이동
+	// staff - 케어 record 작성 페이지에서 record 등록
 	@PostMapping("/staff/addCareRecordInStaff")
 	public String addCareRecordInStaff (HttpSession session, int carePlanId, String features) {
 		String staffId = ((Staff)(session.getAttribute("loginStaff"))).getStaffId();
@@ -165,6 +164,20 @@ public class CareController {
 		log.debug("●●●●▶ cnt 성공횟수-> "+cnt);
 		
 		return "redirect:/staff/getCareRecordInStaff";
+	}
+	
+	// staff - 케어 plan 모달창에서 record 등록
+	@PostMapping("/staff/getCarePlanInStaff")
+	public String getCarePlanInStaff (HttpSession session, int carePlanId, String features) {
+		String staffId = ((Staff)(session.getAttribute("loginStaff"))).getStaffId();
+		log.debug("●●●●▶ carePlanId-> "+carePlanId);
+		log.debug("●●●●▶ staffId-> "+staffId);
+		log.debug("●●●●▶ features-> "+features);
+		
+		int cnt = careService.addCareRecord(carePlanId, staffId, features);
+		log.debug("●●●●▶ cnt 성공횟수-> "+cnt);
+		
+		return "redirect:/staff/getCarePlanInStaff";
 	}
 	
 	// staff - 케어 record 목록 페이지 이동

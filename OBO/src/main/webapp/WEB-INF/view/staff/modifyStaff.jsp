@@ -108,7 +108,7 @@ $(document).ready(function(){
 		console.log('modifyBtn 버튼 클릭!');
 		
 		// pw 수정 후 일치하지 않을 때
-		if(!pwCheck && ($('#staffEmail').val() != '')){
+		if(!pwCheck && ($('#staffPwCk').val() != '')){
 			console.log('pw != pw확인 : 둘 다름');
 			alert('PW가 일치하지 않습니다.');
 			return;

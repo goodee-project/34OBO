@@ -156,8 +156,10 @@ $(document).ready(function(){
 					<br>
 					<br>
 					<div><input id="input" type="hidden"></div>
-					<button id="approvalBtn" class="genric-btn primary-border radius" onclick="yesApprovalFun($('#input').val());">확인</button>
-					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+						<button id="approvalBtn" class="genric-btn primary-border radius" onclick="yesApprovalFun($('#input').val());">확인</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -172,8 +174,10 @@ $(document).ready(function(){
 					<br>
 					<br>
 					<div><input id="input" type="hidden"></div>
-					<button id="rejectBtn" class="genric-btn primary-border radius" onclick="yesRejectFun($('#input').val());">확인</button>
-					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+						<button id="rejectBtn" class="genric-btn primary-border radius" onclick="yesRejectFun($('#input').val());">확인</button>
+					</div>
 				</div>
 			</div>
 		</div>

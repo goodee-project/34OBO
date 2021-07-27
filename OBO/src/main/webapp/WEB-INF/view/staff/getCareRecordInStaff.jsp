@@ -105,9 +105,13 @@ $(document).ready(function(){
 										<td>${c.animalName}</td>
 										<td>${c.memberName}(${c.memberId})</td>
 										<td>${c.careInfo}</td>
-										<td>${c.features}</td>
-										<td>${c.recordDate}</td>
+										<td>
+											<a href="javascript:(0);" data-toggle="modal" data-target="#features-modal" data-parameter="${c.features}" onclick="featuresFunc('${c.animalName}','${c.careInfo}',this.getAttribute('data-parameter'));">
+												내용 확인
+											</a>
+										</td>
 										<td>${c.staffId}</td>
+										<td>${c.recordDate}</td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -179,6 +183,32 @@ $(document).ready(function(){
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
 	
+	<!-- 멤버 클릭 모달 -->
+	<div class="modal fade" id="features-modal" role="dialog" aria-labelledby="features-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h3 class="modal-title" style="text-align:center;"><span id="animalName"></span>의 특이사항</h3>
+					<br>
+					<h4 class="modal-title" style="text-align:center;"><span id="careInfo"></span></h4>
+					<br>
+					<table class="table" style="text-align:center;">
+						<tr>
+							<td>
+								<textarea rows="5" cols="80" id="features" class="form-control"></textarea>
+							</td>
+						</tr>
+					</table>
+					
+					<br>
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<script>
 	function searchFunc(){
 		console.log('검색버튼 클릭');
@@ -187,6 +217,15 @@ $(document).ready(function(){
 		} else{
 			$('#searchForm').submit();
 		}
+	}
+	
+	function featuresFunc(name, info, features){
+		console.log('특이사항 자세히보기');
+		
+		$('#animalName').text(name);
+		$('#careInfo').text(info);
+		$('#features').val(features);
+		
 	}
 	</script>
 	
