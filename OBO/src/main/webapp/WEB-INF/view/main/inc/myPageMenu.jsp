@@ -11,7 +11,7 @@
 					<a href="${pageContext.request.contextPath}/member/getMemberDonation" class="d-flex"><p>후원내역</p></a>									
 				</li>
 				<li>								
-					<a href="${pageContext.request.contextPath}/" class="d-flex"><p>봉사내역</p></a>									
+					<a href="${pageContext.request.contextPath}/member/getMemberVolunteer" class="d-flex"><p>봉사내역</p></a>									
 				</li>
 				<li>								
 					<a href="${pageContext.request.contextPath}/" class="d-flex"><p>입양&케어</p></a>									

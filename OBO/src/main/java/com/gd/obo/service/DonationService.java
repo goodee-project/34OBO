@@ -39,6 +39,20 @@ public class DonationService {
 	private String tid;//kakao 결제준비 -> 결제승인으로 갈때 필요한것... (get방식이라 보내기 힘들어서 위에 만들었습니다.)
 	private String sid;
 	
+	//년도의 달별 후원 받은 돈
+	public List<Map<String, Object>> getFullDonationTotalByMonth(int year, int shelterId, String memberId) {
+		log.debug("■■■■■ getFullDonationTotalByMonth year param : " + year);
+		log.debug("■■■■■ getFullDonationTotalByMonth shelterId param : " + shelterId);
+		log.debug("■■■■■ getFullDonationTotalByMonth memberId param : " + memberId);
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("year", year);
+		paramMap.put("shelterId", shelterId);
+		paramMap.put("memberId", memberId);
+		
+		return donationMapper.selectFullDonationTotalByMonth(paramMap);
+	}
+	
 	//main home에 달에 들어온 전체 후원금 구하기
 	public long getTotalDonationByMonth(int month) {
 		log.debug("■■■■■ getTotalDonationByMonth month param : " + month);

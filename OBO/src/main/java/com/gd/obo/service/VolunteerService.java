@@ -159,6 +159,36 @@ public class VolunteerService {
 		
 		return row;
 	}
+	//회원 내정보 전체 봉사 시간
+	public int getTotalVolunteerTimeByMember(String memberId) {
+		int time = volunteerMapper.selectTotalVolunteerTimeByMember(memberId);
+		log.debug("=====봉사 시간: "+time);
+		return time;
+	}
+	
+	//회원 내정보 전체 봉사 리스트
+	public Map<String,Object> getFullVolunteerListByMember(int currentPage, int rowPerPage, String memberId) {
+		int total =  volunteerMapper.selectFullVolunteerListByMemberTotal(memberId);
+		
+		int lastPage = (int)Math.ceil((double)total/rowPerPage);
+		log.debug("=====total: "+total);
+		log.debug("=====lastPage:"+lastPage);
+		
+		// 페이징
+		int beginRow = (currentPage-1)*rowPerPage;
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("memberId", memberId);
+		
+		List<Map<String, Object>> list = volunteerMapper.selectFullVolunteerListByMember(paramMap);
+		log.debug("=====list: "+list);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("lastPage", lastPage);
+		map.put("list", list);
+		return map;
+	}
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ staff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	

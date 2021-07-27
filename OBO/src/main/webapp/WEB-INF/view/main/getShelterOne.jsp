@@ -33,6 +33,7 @@
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
 
+
 <meta charset="UTF-8">
 <title>getShelterOne</title>
 </head>
@@ -123,7 +124,7 @@
 		</div>
 	</div>
 	
-		    <!-- team_area_start  -->
+	<!-- team_area_start  -->
     <div class="team_area">
         <div class="container">
             <div class="row justify-content-center ">
@@ -163,8 +164,38 @@
         </div>
     </div>
     <!-- team_area_start  -->
-
 	
+	<!-- 뭔가 여러가지 통계 넣기... -->	
+	<!-- pet_care_area_start  -->
+    <div class="pet_care_area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 col-md-6">
+                    <div class="pet_thumb">
+                         <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-6 offset-lg-1 col-md-6">
+                    <div class="pet_info">
+                        <div class="section_title">
+                            <h3><span>보호중인 동물</span> <br>
+                                통계</h3>
+                            <p> 보호중인 동물 수: ${protect}
+                            	<br> 이번달 입양 : ${adopt}
+                            	<br> 이번달 안락사 : ${euthanasia}
+                            <p>
+                            <a href="${pageContext.request.contextPath}/getAnimalList?shelterId=${shelterMap.shelterId}" class="boxed-btn3">입양하러 가기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- pet_care_area_end  -->
+	
+	
+	
+	<!-- 찾아오시는걸 -->
 	<section class="blog_area single-post-area section-padding service_area">
 		<div class="container">
 			<div class="row">
@@ -219,9 +250,74 @@
 		    position: new kakao.maps.LatLng(y, x), // 마커의 좌표
 		    map: map // 마커를 표시할 지도 객체
 		});
+		
 
 	</script>
 	
+	<!-- 차트 -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
+	<script>
+		//보호중인 동물 종별로 통계하기...
+		let i = 0;
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getAnimalSpeciesCount',
+			type: 'get',
+			data: {shelterId: '${shelterMap.shelterId}'}
+		}).done(function(jsonData){
+			console.log(jsonData);
+			
+			let species = jsonData.map(item => item.species);
+			let cnt = jsonData.map(item => item.cnt);
+			
+			
+			console.log(species);
+			console.log(cnt);
+			
+			//차트 그리기....
+			/*
+			const DATA_COUNT = 5;
+			const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100};
+			*/
+			const color = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(102, 204, 153)', 'rgb(255, 153, 102)', 'rgb(255, 153, 102)']
+
+			const data = {
+			  labels: species,
+			  datasets: [
+				 
+			    {
+			      label: species,
+			      data: cnt,
+			      backgroundColor: color,
+			    }
+			  ]
+			};
+			
+			const config = {
+					  type: 'doughnut',
+					  data: data,
+					  options: {
+					    responsive: true,
+					    plugins: {
+					      legend: {
+					        position: 'top',
+					      },
+					      title: {
+					        display: true,
+					        text: '보호중인 동물종'
+					      }
+					    }
+					  },
+					};
+			
+			 var myChart = new Chart(
+					    document.getElementById('myChart'),
+					    config
+					  );
+		})
+	
+	</script>
 	
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>

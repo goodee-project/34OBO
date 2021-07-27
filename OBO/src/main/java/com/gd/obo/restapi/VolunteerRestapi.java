@@ -64,6 +64,25 @@ public class VolunteerRestapi {
 		return map;
 	}
 	
+	//회원 봉사 시간
+	@GetMapping("/member/getTotalVolunteerTime")
+	public int getTotalVolunteerTime(HttpSession session) {
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		int time = volunteerService.getTotalVolunteerTimeByMember(memberId);
+		log.debug("=====봉사 시간: "+time);
+		return time;
+	}
+	
+	//내정보 총 봉사내역
+	@GetMapping("/member/getFullVolunteer")
+	public Map<String, Object> getFullVolunteer(HttpSession session, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage){
+		int rowPerPage = 5;
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		Map<String, Object> map = volunteerService.getFullVolunteerListByMember(currentPage, rowPerPage, memberId);
+		log.debug("=====총 봉사 내역 map: "+map);
+		return map;
+	}
+	
 	//봉사 카테고리 리스트 가져오기
 	@GetMapping("/getVolCategoryList")
 	public List<Map<String, Object>> getVolCategoryList(){
@@ -83,5 +102,6 @@ public class VolunteerRestapi {
 		log.debug("●●●●▶periodVolunteerRecruitId-> "+periodVolunteerRecruitId);
 		return volunteerService.getPeriodVolunteerRecruitOne(periodVolunteerRecruitId);
 	}
+	
 	
 }
