@@ -7,9 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gd.obo.vo.Shelter;
 import com.gd.obo.vo.ShelterAddress;
+import com.gd.obo.vo.ShelterFile;
 
 @Mapper
 public interface ShelterMapper {
+	List<ShelterFile> selectShelterFileByShelter(int shelterId);
+	int updateShelter(Shelter shelter);
 	List<Shelter> selectShelterListByDonation();
 	List<ShelterAddress> selectShelterList(Map<String, Object> map);
 	int selectTotal(Map<String, Object> totalMap);

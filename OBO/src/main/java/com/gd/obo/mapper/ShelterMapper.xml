@@ -2,6 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.ShelterMapper">
 
+
+	<!-- 보호소 파일 리스트 -->
+	<select id="selectShelterFileByShelter" resultType="com.gd.obo.vo.ShelterFile" parameterType="Integer">
+		SELECT
+			shelter_file_id shelterFileId,
+			shelter_id shelterId,
+			shelter_file_name shelterFileName,
+			shelter_file_size shelterFileSize,
+			shelter_file_ext shelterFileExt,
+			upload_date uploadDate
+		FROM 
+			shelter_file
+		WHERE
+			shelter_id = #{shelterId}		
+	</select>	
+	
+	
+	<!-- 보호소 수정 -->
+	<update id="updateShelter" parameterType="com.gd.obo.vo.Shelter">
+		UPDATE shelter
+		SET
+			introduction = #{introduction},
+			protect_duration = #{protectDuration},
+			shelter_phone = #{shelterPhone},
+			account = #{account},
+			active = #{active}
+		WHERE shelter_id = {shelterId}	
+	</update>
+	
+	
 	<!-- 후원용 쉘터 목록 -->
 	<select id="selectShelterListByDonation" resultType="com.gd.obo.vo.Shelter">
 		SELECT 
