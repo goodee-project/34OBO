@@ -271,4 +271,24 @@ public class AnimalService {
 	public List<Map<String,Object>> getAnimalCategoryList() {
 		return animalMapper.selectAnimalCategoryList();
 	}
+	
+	//회원 동물 좋아요
+	public int addAnimalLike(String memberId, int animalId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("animalId", animalId);
+		int row = animalMapper.insertAnimalLike(map);
+		log.debug("===== 동물 좋아요 row:"+row);
+		log.debug("===== 동물 좋아요 동물:"+animalId);
+		return row;
+	}
+	
+	//동물 좋아요 중복 확인
+	public int getAnimalLikeByMember(String memberId, int animalId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("animalId", animalId);
+		int ck = animalMapper.selectAnimalLikeByMember(map);
+		return ck;
+	}
 }

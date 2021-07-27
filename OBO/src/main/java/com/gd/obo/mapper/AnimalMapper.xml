@@ -199,4 +199,14 @@
 			</if>
 		</where>
 	</select>	
+	
+	<!-- 동물 좋아요 -->
+	<insert id="insertAnimalLike" parameterType="java.util.Map">
+		INSERT INTO animal_like(animal_id, member_id, update_date) VALUES (#{animalId}, #{memberId}, NOW())
+	</insert>
+	
+	<!-- 동물 좋아요 중복조회 -->
+	<select id="selectAnimalLikeByMember" resultType="int" parameterType="java.util.Map">
+		SELECT COUNT(*) FROM animal_like WHERE member_id=#{memberId} AND animal_id=#{animalId}
+	</select>
 </mapper>

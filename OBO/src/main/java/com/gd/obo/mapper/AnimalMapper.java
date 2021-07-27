@@ -33,4 +33,6 @@ public interface AnimalMapper {
 	List<Map<String, Object>> selectAnimalCategoryList();
 	
 	List<Map<String,Object>> selectMemberAnimalList(Map<String, Object> map);
+	int insertAnimalLike(Map<String, Object> map);
+	int selectAnimalLikeByMember(Map<String, Object> map);
 }
