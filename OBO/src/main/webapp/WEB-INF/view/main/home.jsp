@@ -108,7 +108,7 @@
                 
             </div>
         </div>
-    </div>
+  	</div>
     <!-- team_area_start  -->
     
     
@@ -179,6 +179,14 @@
 								<h2 style="text-align: right;">
 									총 <fmt:formatNumber value="${totalDonation}" pattern="#,###"/>원 입니다.
 								</h2>
+								<br>
+								<br>
+								<br>
+								<br>
+								<div class="pet_thumb">
+			                         <canvas id="myChart2"></canvas>
+			                    </div>
+								
 								
 							</div>
 						</div>
@@ -187,7 +195,7 @@
 				
 				<div class="col-lg-6 mb-5 mb-lg-0" >
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
-					<a href="${pageContext.request.contextPath}/getDonation">
+					<a href="${pageContext.request.contextPath}/getAnimalList">
 						<div class="single_service staff_account" style="height: 90%">
 							<div class="service_content">					
 								
@@ -212,20 +220,19 @@
 	
 	<script>
 		//보호중인 동물 종별로 통계하기...
-		let i = 0;
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/getAnimalSpeciesCount',
 			type: 'get'
 		}).done(function(jsonData){
-			console.log(jsonData);
+			//console.log(jsonData);
 			
 			let species = jsonData.map(item => item.species);
 			let cnt = jsonData.map(item => item.cnt);
 			
 			
-			console.log(species);
-			console.log(cnt);
+			//console.log(species);
+			//console.log(cnt);
 			
 			//차트 그리기....
 			/*
@@ -268,7 +275,63 @@
 					    config
 					  );
 		})
-	
+		
+		// 이번년도 달별로 후원금 꺾은선 그래프 그리기
+		var now = new Date();	// 현재 날짜 및 시간
+		var year = now.getFullYear();	// 연도
+		console.log('연도 : ', year);
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getFullDonationTotalByMonth',
+			type: 'get',
+			data: {year: year}
+		}).done(function(jsonData){
+			console.log(jsonData);
+			
+			let month = jsonData.map(item => item.month);
+			let amount = jsonData.map(item => item.amount);
+			
+			console.log(month);
+			console.log(amount);
+			
+			//const DATA_COUNT = 7;
+			//const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
+
+			//const labels = ;
+			const data = {
+			  labels: month,
+			  datasets: [
+			    {
+			      label: '월별 후원금',
+			      data: amount,
+			      borderColor: 'rgb(255, 153, 102)',
+			      backgroundColor: 'rgb(255, 153, 102)',
+			    }
+			  ]
+			};
+			
+			const config = {
+					  type: 'line',
+					  data: data,
+					  options: {
+					    responsive: true,
+					    plugins: {
+					      legend: {
+					        position: 'top',
+					      },
+					      title: {
+					        display: false,
+					        text: '월별 후원금'
+					      }
+					    }
+					  },
+					};
+			 var myChart = new Chart(
+					    document.getElementById('myChart2'),
+					    config
+					  );
+			
+		})
 	</script>
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>

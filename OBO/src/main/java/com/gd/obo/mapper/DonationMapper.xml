@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.DonationMapper">
+	<!-- 년도의 달별 /후원 회원이나 보호소 넣을 수 있음.... -->
+	<select id="selectFullDonationTotalByMonth" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			SUM(amount) amount, 
+			MONTH(donation_date) month 
+		FROM full_money_donation_list 
+		<where>
+			YEAR(donation_date) = #{year}
+			<if test="shelterId != 0">
+				AND shelter_id = #{shelterId}
+			</if>
+			<if test="memberId != null">
+				AND member_id = #{memberId}
+			</if>
+		</where>	
+		GROUP BY YEAR(donation_date), MONTH(donation_date)
+	</select>
 	<!-- 달별 후원금 구하기 -->
 	<select id="selectTotalDonationByMonth" parameterType="int" resultType="long">
 		SELECT SUM(amount) FROM full_money_donation_list WHERE MONTH(donation_date) = #{month}
