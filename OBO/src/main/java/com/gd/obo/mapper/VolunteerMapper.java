@@ -22,6 +22,9 @@ public interface VolunteerMapper {
 	int insertPeriocallyVolunteerApplyByMember(Map<String, Object> map);
 	String selectMemberIdForCheckApplyingP(Map<String, Object> map); 
 	String selectMemberQualification(Map<String, Object> map);
+	List<Map<String, Object>> selectFullVolunteerListByMember(Map<String, Object> map);
+	int selectTotalVolunteerTimeByMember(String memberId);
+	int selectFullVolunteerListByMemberTotal(String memberId);
 	
 	List<Map<String, Object>> selectVolunteerRecruitListInStaff(Map<String, Object> map);
 	List<Map<String, Object>> selectVolunteerApplyListInStaff(Map<String, Object> map);

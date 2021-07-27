@@ -5,6 +5,7 @@
 
 package com.gd.obo.controller;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -99,6 +100,17 @@ public class ShelterController {
 			model.addAttribute("x", x);
 			model.addAttribute("y", y);
 		}
+		
+		//보호중인 동물수, 이번달 안락사&입양 동물수 
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH) + 1; //이번달
+		log.debug("■■■■■■ getHome month 이번달 : "+month);
+		
+		Map<String, Object> animalMap = animalService.getAnimalStateCountByMonth(month, shelterId);
+		
+		model.addAttribute("protect", animalMap.get("protect"));
+		model.addAttribute("adopt", animalMap.get("adopt"));
+		model.addAttribute("euthanasia", animalMap.get("euthanasia"));
 		
 		//shelter에서 보호중인 동물 리스트
 		model.addAttribute("animalList", animalService.getAnimalListM(shelterId, null, null, 1, 4).get("animalList"));

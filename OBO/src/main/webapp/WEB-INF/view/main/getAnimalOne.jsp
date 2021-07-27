@@ -38,6 +38,23 @@
     <!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+	/// ${pageContext.request.contextPath}/addAnimalLike?animalId=${animalMap.animalId}&currentPage=${currentPage}&searchWord=${searchWord}&species=${species}&shelterId=${shelterId}"
+	function addAnimalLike(animalId, currentPage, searchWord, species, shelterId){
+		$.ajax({
+			type:'get',
+			url: '${pageContext.request.contextPath}/getAnimalLikeByMember',
+			data: {'animalId':animalId}
+		}).done(function (jsonData){
+			console.log(animalId);
+			console.log(jsonData);
+			if(jsonData==0){
+				window.location.href='${pageContext.request.contextPath}/addAnimalLike?animalId='+animalId+'&currentPage='+currentPage+'&searchWord='+searchWord+'&species='+species+'&shelterId='+shelterId;
+			} else {
+				alert('이미 좋아요한 동물입니다.');
+			}
+		});
+	};
+			
 	$(document).ready(function(){
 	});
 </script>
@@ -85,7 +102,9 @@
 	               <h4>성별 : ${animalMap.animalSex} </h4><br>
 	               <h4>동물 종 : ${animalMap.species} / ${animalMap.animalKind} </h4><br>
 	               <!-- 동물 좋아요 아직 구현 안 함. -->
-	               <h4><a href="${pageContext.request.contextPath}/animalLike?animalId=${animalMap.animalId}"><i class="fa fa-heart" style="size:9x"></i></a>&nbsp;&nbsp;
+	               <h4><a class="btn" data-parameter1="${animalMap.animalId}" data-parameter2="${currentPage}" data-parameter3="${searchWord}" data-parameter4="${species}" data-parameter5="${shelterId}"
+	               		onclick="addAnimalLike(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'), this.getAttribute('data-parameter3'), this.getAttribute('data-parameter4'), this.getAttribute('data-parameter5'))">
+	               		<i class="fa fa-heart" style="size:9x"></i></a>&nbsp;&nbsp;
 	               <a href="${pageContext.request.contextPath}/addAdoptForm?animalId=${animalMap.animalId}" 
 	               		class="genric-btn primary-border circle arrow medium"
 	               		onclick="return confirm('동물을 입양 하시겠습니까?')"> &emsp; 입양 &emsp;</a></h4>

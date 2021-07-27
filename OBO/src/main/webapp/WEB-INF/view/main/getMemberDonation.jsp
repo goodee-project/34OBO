@@ -88,7 +88,7 @@
 					</div>
 				</div>
 				
-				<div class="col-lg-8 mb-5 mb-lg-0">
+				<div class="col-lg-9 mb-5 mb-lg-0 offset-3">
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
 					<div class="single_service staff_account" style="height: 90%;">
 						<div class="service_content text-center">
@@ -121,7 +121,7 @@
 				</div>
 				
 				<!-- 물품후원 내역 -->
-				<div class="col-lg-9 mb-5 mb-lg-0">
+				<div class="col-lg-9 mb-5 mb-lg-0 offset-3">
 					<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
 					<div class="single_service staff_account" style="height: 90%;">
 						<div class="service_content text-center">

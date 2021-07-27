@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.obo.mapper.ShelterFileMapper">
+
+	<!-- shelter 파일 추가 -->
+	<insert id="insertShelterFile" parameterType="com.gd.obo.vo.ShelterFile">
+	INSERT INTO
+		shelter_file
+		(
+			shelter_id,
+			shelter_file_name,
+			shelter_file_size,
+			shelter_file_ext,
+			upload_date
+		) VALUES (
+			#{shelterId},
+			#{shelterFileName},
+			#{shelterFileSize},
+			#{shelterFileExt},
+			NOW()
+		)
+	</insert>
+</mapper>

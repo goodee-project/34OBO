@@ -28,7 +28,7 @@ public class AnimalFileController {
 		animalFileService.addAnimalFile(animalFile, animalId);
 		
 		// redirect
-		return "redirect:/getAnimalOne?animalId="+animalId;
+		return "redirect:/staff/getAnimalOne?animalId="+animalId;
 	}
 	
 }

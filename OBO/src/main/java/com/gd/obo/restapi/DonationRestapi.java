@@ -26,6 +26,18 @@ public class DonationRestapi {
 	@Autowired
 	DonationService donationService;
 	
+	//이번년도의 달별 후원 받은 돈 - 쉘터별, 멤버벨 가능...
+	@GetMapping("/getFullDonationTotalByMonth")
+	public List<Map<String, Object>> getFullDonationTotalByMonth(@RequestParam(value="year", required = true)int year,
+															@RequestParam(value="shelterId", required = false, defaultValue = "0")int shelterId,
+															@RequestParam(value = "memberId", required = false)String memberId){
+		log.debug("■■■■■ getFullDonationTotalByMonth year : "+ year);
+		log.debug("■■■■■ getFullDonationTotalByMonth shelterId : "+ shelterId);
+		log.debug("■■■■■ getFullDonationTotalByMonth memberId : "+ memberId);
+		
+		return donationService.getFullDonationTotalByMonth(year, shelterId, memberId);
+	}
+	
 	//내정보 -> 내 후원금액
 	@GetMapping("/member/getTotalDonation")
 	public int getTotalDonation(HttpSession session) {

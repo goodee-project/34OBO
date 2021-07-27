@@ -4,9 +4,11 @@
 // 수정자 : 손영현(2021-07-17) ; 일반, 정기 후원시 -> 보호소 선택용, 카카오 로컬 사용해서 x, y 좌표 구함
 package com.gd.obo.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
@@ -20,13 +22,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.obo.mapper.AddressMapper;
+import com.gd.obo.mapper.ShelterFileMapper;
 import com.gd.obo.mapper.ShelterMapper;
 import com.gd.obo.vo.Address;
+import com.gd.obo.vo.AnimalFile;
 import com.gd.obo.vo.Page;
 import com.gd.obo.vo.Shelter;
 import com.gd.obo.vo.ShelterAddress;
+import com.gd.obo.vo.ShelterFile;
+import com.gd.obo.vo.ShelterForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +43,58 @@ import lombok.extern.slf4j.Slf4j;
 public class ShelterService {
 	@Autowired ShelterMapper shelterMapper;
 	@Autowired AddressMapper addressMapper;
+	@Autowired ShelterFileMapper shelterFileMapper;
+	
+	
+	// 직원 보호소 수정
+	public int modifyShelter(ShelterForm shelterForm) {
+		Shelter shelter = shelterForm.getShelter();
+		log.debug("%>%>%>%>%>%>%>%>%> ShelterService-> modifyShelter-> shelter shelterlId: " + shelter.getShelterId());
+		
+		shelterMapper.updateShelter(shelter);
+		
+		List<ShelterFile> shelterFileList = shelterMapper.selectShelterFileByShelter(shelter.getShelterId());
+		log.debug("%>%>%>%>%>%>%>%>%> ShelterService-> modifyShelter shelterFileList: " + shelterFileList);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		log.debug("%>%>%>%>%>%>%>%>%> ShelterService-> modifyShelter map: " + map);
+		
+		map.put("shelterId", shelter.getShelterId());
+		map.put("shelterFile", shelterForm.getShelterFile());
+		map.put("shelterFileList", shelterFileList);
+		
+		// File 불러오기
+		List<MultipartFile> list = shelterForm.getShelterFile();
+		log.debug("%>%>%>%>%>%>%>%>%> ShelterService-> modifyShelter list: " + list);
+		if(list != null) {
+			for(MultipartFile f : list) {
+				ShelterFile shelterFile = new ShelterFile();
+				log.debug("%>%>%>%>%>%>%>%>%> ShelterService-> modifyShelter shelterFile: " + shelterFile);
+				shelterFile.setShelterId(shelter.getShelterId());
+				
+				// 파일 이름
+				String prename = UUID.randomUUID().toString().replace("-","");
+				
+				String filename = prename;
+				log.debug("%>%>%>%>%>%>%>%>%> ShelterService-> modifyShelter filename: " + filename);
+				shelterFile.setShelterFileName(filename);
+				shelterFile.setShelterId(shelter.getShelterId());
+				shelterFile.setShelterFileSize(f.getSize());
+				shelterFile.setShelterFileExt(f.getContentType());
+				
+				shelterFileMapper.insertShelterFile(shelterFile);
+				
+				try {
+					File temp = new File(""); // 프로젝트 폴더에 빈파일이 만들어진다.
+					String path = temp.getAbsolutePath(); // 프로젝트필드
+					f.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\shelter\\"+filename));
+				} catch (Exception e) {
+					throw new RuntimeException();
+				}
+			}			
+		}
+		return shelter.getShelterId();
+	}
 	
 	
 	// 후원: 쉘터 선택용 리스트

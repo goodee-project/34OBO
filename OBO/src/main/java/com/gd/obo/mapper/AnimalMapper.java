@@ -10,6 +10,22 @@ import com.gd.obo.vo.AnimalFile;
 
 @Mapper
 public interface AnimalMapper {
+	//쉘터별 보호중인 동물종 수
+	List<Map<String, Object>> selectAnimalSpeciesCount(int shelterId);
+	//달별 안락사 동물
+	int selectEuthanasiaAnimalCountByMonth(Map<String, Object> map);
+	
+	//달별 입양 동물
+	int selectAdoptAnimalCountByMonth(Map<String, Object> map);
+	
+	//보호중인 동물의 수
+	int selectAnimalCountByProtect(int shelterId);
+	
+	//안락사 실행...
+	int updateAnimalByEuthanasia(List<Integer> animalId);
+	
+	//안락사 리스트 뽑기
+	List<Integer> selectAnimalListByEuthanasia();
 	
 	// selectAnimalFileByAnimal -> 파일리스트
 	List<AnimalFile> selectAnimalFileByAnimal(int animalId);
@@ -33,4 +49,6 @@ public interface AnimalMapper {
 	List<Map<String, Object>> selectAnimalCategoryList();
 	
 	List<Map<String,Object>> selectMemberAnimalList(Map<String, Object> map);
+	int insertAnimalLike(Map<String, Object> map);
+	int selectAnimalLikeByMember(Map<String, Object> map);
 }

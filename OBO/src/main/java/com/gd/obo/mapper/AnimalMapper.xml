@@ -1,7 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.AnimalMapper">
-	
+	<!-- 쉘터별 보호중인 동물의 종수 -->
+	<select id="selectAnimalSpeciesCount" parameterType="int" resultType="java.util.Map">
+		SELECT 
+			COUNT(*) cnt, 
+			ac.species species
+		FROM animal a
+			INNER JOIN animal_category ac ON a.animal_category_id=ac.animal_category_id
+		<where>
+			a.animal_state = '보호중'
+			<if test="shelterId != 0">
+				AND shelter_id = #{shelterId}
+			</if>
+		</where>		
+		GROUP BY ac.animal_category_id
+	</select>
+	<!-- 이번달의 안락사 동물 -->
+	<select id="selectEuthanasiaAnimalCountByMonth" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM animal 
+		<where> 
+			animal_state = '안락사'
+			AND MONTH(animal_exit_date)= #{month}
+			<if test="shelterId != 0">
+				AND shelter_id = #{shelterId}
+			</if>
+		</where>
+	</select>
+	<!-- 이번달의 입양 동물 -->
+	<select id="selectAdoptAnimalCountByMonth" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM animal 
+		<where> 
+			animal_state = '입양'
+			AND MONTH(animal_exit_date)= #{month}
+			<if test="shelterId != 0">
+				AND shelter_id = #{shelterId}
+			</if>
+		</where>
+	</select>
+	<!-- 보호중인 동물의 수 -->
+	<select id="selectAnimalCountByProtect" parameterType="int" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM animal 
+		<where> 
+			animal_state = '보호중' 
+			<if test="shelterId != 0">
+				AND shelter_id = #{shelterId}
+			</if>
+		</where>
+	</select>
+	<!-- 안락사 실행 -->
+   <update id="updateAnimalByEuthanasia" parameterType="java.util.List">
+      UPDATE 
+         animal SET animal_state = '안락사',
+         animal_exit_date= NOW() 
+      WHERE animal_id IN
+          <foreach item="animalId" collection="animalId" open="(" separator="," close=")">
+                #{animalId}
+           </foreach>
+   </update>
+   <!-- 안락사 리스트 뽑기 -->
+   <select id="selectAnimalListByEuthanasia" resultType="int">
+       SELECT 
+            a.animal_id animalId
+      FROM animal AS a
+          INNER JOIN shelter s ON s.shelter_id = a. shelter_id
+       WHERE (DATE_ADD(date(a.animal_enter_date), INTERVAL s.protect_duration DAY)) = DATE(NOW())
+   </select>
 	
 	<!-- Animal 파일 리스트 -->
 	<select id="selectAnimalFileByAnimal" resultType="com.gd.obo.vo.AnimalFile" parameterType="Integer">
@@ -199,4 +269,14 @@
 			</if>
 		</where>
 	</select>	
+	
+	<!-- 동물 좋아요 -->
+	<insert id="insertAnimalLike" parameterType="java.util.Map">
+		INSERT INTO animal_like(animal_id, member_id, update_date) VALUES (#{animalId}, #{memberId}, NOW())
+	</insert>
+	
+	<!-- 동물 좋아요 중복조회 -->
+	<select id="selectAnimalLikeByMember" resultType="int" parameterType="java.util.Map">
+		SELECT COUNT(*) FROM animal_like WHERE member_id=#{memberId} AND animal_id=#{animalId}
+	</select>
 </mapper>

@@ -33,6 +33,49 @@ public class AnimalService {
 	@Autowired
 	AnimalFileMapper animalFileMapper;
 	
+	//쉘터별 또는 전체 보호중인 동물의 수
+	public List<Map<String, Object>> getAnimalSpeciesCount(int shelterId){
+		log.debug("■■■■■■ 보호소아이디 getAnimalSpeciesCount param: "+ shelterId);
+		
+		return animalMapper.selectAnimalSpeciesCount(shelterId);
+	}
+	
+	//보호중인 동물의 수, 달별 입양&안락사 동물
+	public Map<String, Object> getAnimalStateCountByMonth(int month, int shelterId){
+		Map<String, Object> result = new HashMap<>();
+		//보호중인 동물의 수
+		result.put("protect", animalMapper.selectAnimalCountByProtect(shelterId));
+		
+		log.debug("■■■■■■ getAnimalStateCountByMonth param: "+ month);
+		log.debug("■■■■■■ getAnimalStateCountByMonth param: "+ shelterId);
+		
+		
+		//파라미터
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("month", month);
+		paramMap.put("shelterId", shelterId);
+		
+		//이번달 입양 동물
+		result.put("adopt", animalMapper.selectAdoptAnimalCountByMonth(paramMap));
+		//이번달 안락사 동물
+		result.put("euthanasia", animalMapper.selectEuthanasiaAnimalCountByMonth(paramMap));
+		
+		log.debug("■■■■■■ 보호동물, 입양동물, 안락사 수 getAnimalStateCount: "+ result);
+		
+		return result;
+	}
+	
+	//animal 안락사 실행
+	public void modifyAnimalByEuthanasia(List<Integer> animalId) {
+		log.debug("■■■■■■ animalId modifyAnimalByEuthanasia param : "+ animalId);
+		
+		animalMapper.updateAnimalByEuthanasia(animalId);
+	}
+	
+	// animal 안락사 리스트 실행
+	public List<Integer> getAnimalListByEuthanasia(){
+		return animalMapper.selectAnimalListByEuthanasia();
+	}
 
 	// animal 수정
 	public int modifyAnimal(AnimalForm animalForm) {
@@ -270,5 +313,25 @@ public class AnimalService {
 	// 사용자 : 이윤정 -> staff care info
 	public List<Map<String,Object>> getAnimalCategoryList() {
 		return animalMapper.selectAnimalCategoryList();
+	}
+	
+	//회원 동물 좋아요
+	public int addAnimalLike(String memberId, int animalId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("animalId", animalId);
+		int row = animalMapper.insertAnimalLike(map);
+		log.debug("===== 동물 좋아요 row:"+row);
+		log.debug("===== 동물 좋아요 동물:"+animalId);
+		return row;
+	}
+	
+	//동물 좋아요 중복 확인
+	public int getAnimalLikeByMember(String memberId, int animalId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("animalId", animalId);
+		int ck = animalMapper.selectAnimalLikeByMember(map);
+		return ck;
 	}
 }

@@ -104,6 +104,22 @@
 		SELECT member_id memberId FROM periodically_volunteer_apply WHERE periodically_volunteer_recruit_id=#{recruitId} AND member_id=#{memberId}
 	</select>
 	
+	<!-- 내정보 총 봉사 내역 -->
+	<select id="selectFullVolunteerListByMember" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT memberId, volunteerDate, shelterName, categoryName, volunteerTime FROM full_volunteer_check_list 
+		WHERE memberId=#{memberId} ORDER BY volunteerDate DESC LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 내정보 총 봉사 시간 -->
+	<select id="selectTotalVolunteerTimeByMember" resultType="int" parameterType="String">
+		SELECT SUM(volunteerTime) FROM full_volunteer_check_list WHERE memberId=#{memberId}
+	</select>
+	
+	<!-- 내정보 총 봉사 수 -->
+	<select id="selectFullVolunteerListByMemberTotal" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM full_volunteer_check_list WHERE memberId=#{memberId}
+	</select>
+	
 	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ staff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	
