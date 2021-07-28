@@ -247,8 +247,10 @@ $(document).ready(function(){
 					<h4 class="modal-title">계정 승인 하시겠습니까?</h4>
 					<br>
 					<br>
-					<button id="levelCkBtn" type="button" class="genric-btn primary-border radius">확인</button>
-					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+						<button id="levelCkBtn" type="button" class="genric-btn primary-border radius">확인</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -269,8 +271,11 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<br>
-					<button id="activeCkBtn" type="button" class="genric-btn primary-border radius">확인</button>
-					<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+					
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+						<button id="activeCkBtn" type="button" class="genric-btn primary-border radius">확인</button>
+					</div>
 				</div>
 			</div>
 		</div>

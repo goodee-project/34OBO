@@ -2,6 +2,11 @@
 
 package com.gd.obo.controller;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gd.obo.service.AdoptService;
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.CareService;
-import com.gd.obo.vo.CarePlan;
 import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
@@ -135,7 +139,70 @@ public class CareController {
 	
 	// staff - 케어 plan 달력 보기 페이지 이동
 	@GetMapping("/staff/getCarePlanCalInStaff")
-	public String getCarePlanCalInStaff (Model model) {
+	public String getCarePlanCalInStaff (Model model, HttpSession session) {
+		//오늘의 정보
+		Map<String, Object> aboutToday = new HashMap<>();
+		Calendar today = Calendar.getInstance();
+		int thisYear = today.get(Calendar.YEAR);		//이번년도
+		int thisMonth = today.get(Calendar.MONTH);		//이번달
+		//today.set(Calendar.DAY_OF_WEEK, 1);	//1일로 설정
+		today.set(thisYear, thisMonth, 1);
+		int fBlankThisMonth = today.get(Calendar.DAY_OF_WEEK)-1;		//1일의 요일 이전까지가 블랭크이다.
+		int endDateThisMonth = today.getActualMaximum(Calendar.DATE);	//date상의 최고 일자
+		int total = fBlankThisMonth+endDateThisMonth;
+		int eBlankThisMonth = 0;	//초기 블랭크는 0으로
+		
+		if(total%7 != 0) {
+			eBlankThisMonth = 7-(total%7);
+		}
+		
+		String pattern = "yyyy-MM";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		String date = simpleDateFormat.format(new Date());
+		
+		aboutToday.put("thisYear", thisYear);
+		aboutToday.put("thisMonth", thisMonth+1);
+		aboutToday.put("fBlankThisMonth", fBlankThisMonth);
+		aboutToday.put("endDateThisMonth", endDateThisMonth);
+		aboutToday.put("eBlankThisMonth", eBlankThisMonth);
+		aboutToday.put("total", total);
+		aboutToday.put("date", date);
+		
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
+		
+		List<Map<String, Object>> carePlanList = careService.getCarePlanInCal(shelterId);
+		
+		model.addAttribute("aboutToday", aboutToday);
+		model.addAttribute("carePlanList", carePlanList);
+		
+		/*
+		//원하는 날의 정보
+		Map<String, Object> theDay = new HashMap<>();
+		Calendar setOne = Calendar.getInstance();
+		int setYear = 2021;	//내가 찾는 연
+		int setMonth = 1;	//내가 찾는 월
+
+		setOne.set(setYear, setMonth-1, 1);
+		int firstDate = setOne.get(Calendar.DAY_OF_WEEK);		//내가 찾는 월의 1일의 요일 -> 1:일, 2:월, 3:화, 4:수, 5:목, 6:금, 7:토
+		int firstBlank = setOne.get(Calendar.DAY_OF_WEEK)-1;	//1일의 DAY_OF_WEEK-1 값이 달력의 앞의 블랭크이다.
+		int endDate = setOne.getActualMaximum(Calendar.DATE);	//월의 마지막 일
+		int endBlank = 0;
+		
+		// endBlank는 firstBlank + endDate를 7로 나눈 나머지 값을 7에서 빼준다. 만약 나머지 0이라면 추가하는 블랭크 없음.
+		if((firstBlank+endDate)%7 != 0) {
+			endBlank = 7-((firstBlank+endDate)%7);
+		}
+		
+		theDay.put("setYear", setYear);
+		theDay.put("setMonth", setMonth);
+		theDay.put("targetMonth", setOne.get(Calendar.MONTH));
+		theDay.put("firstDate", firstDate);
+		theDay.put("firstBlank", firstBlank);
+		theDay.put("endDate", endDate);
+		theDay.put("endBlank", endBlank);
+		model.addAttribute("theDay", theDay);
+		*/
 		
 		return "staff/getCarePlanCalInStaff";
 	}
@@ -153,7 +220,7 @@ public class CareController {
 		return "staff/addCareRecordInStaff";
 	}
 	
-	// staff - 케어 record 작성 페이지 이동
+	// staff - 케어 record 작성 페이지에서 record 등록
 	@PostMapping("/staff/addCareRecordInStaff")
 	public String addCareRecordInStaff (HttpSession session, int carePlanId, String features) {
 		String staffId = ((Staff)(session.getAttribute("loginStaff"))).getStaffId();
@@ -165,6 +232,20 @@ public class CareController {
 		log.debug("●●●●▶ cnt 성공횟수-> "+cnt);
 		
 		return "redirect:/staff/getCareRecordInStaff";
+	}
+	
+	// staff - 케어 plan 모달창에서 record 등록
+	@PostMapping("/staff/getCarePlanInStaff")
+	public String getCarePlanInStaff (HttpSession session, int carePlanId, String features) {
+		String staffId = ((Staff)(session.getAttribute("loginStaff"))).getStaffId();
+		log.debug("●●●●▶ carePlanId-> "+carePlanId);
+		log.debug("●●●●▶ staffId-> "+staffId);
+		log.debug("●●●●▶ features-> "+features);
+		
+		int cnt = careService.addCareRecord(carePlanId, staffId, features);
+		log.debug("●●●●▶ cnt 성공횟수-> "+cnt);
+		
+		return "redirect:/staff/getCarePlanInStaff";
 	}
 	
 	// staff - 케어 record 목록 페이지 이동

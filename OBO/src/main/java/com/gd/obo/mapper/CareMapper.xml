@@ -62,6 +62,7 @@
 	<select id="selectCarePlanList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			DATEDIFF(cp.care_date, NOW()) AS dDay,
+			cp.care_plan_id AS carePlanId,
 			a.animal_name AS animalName,
 			CONCAT(ci.care_sorting, '-', ci.care_info_content) AS careInfo,
 			m.member_id AS memberId,
@@ -69,12 +70,13 @@
 			cp.staff_id AS staffId,
 			DATE(cp.create_date) AS createDate,
 			DATE(cp.care_date) AS careDate
-		FROM care_plan AS cp, care_info AS ci, member AS m, animal AS a,
-			adopt_apply AS aa, adopt AS ad
+		FROM care_plan AS cp
+		LEFT JOIN care_info AS ci ON cp.care_info_id = ci.care_info_id
+		LEFT JOIN member AS m ON cp.member_id = m.member_id
+		LEFT JOIN animal AS a ON cp.animal_id = a.animal_id
+		LEFT JOIN care_record AS cr ON cr.care_plan_id = cp.care_plan_id
 		<where>
-			cp.care_info_id = ci.care_info_id AND cp.animal_id = a.animal_id
-			AND cp.member_id = m.member_id AND aa.animal_id = a.animal_id
-			AND ad.adopt_apply_id = aa.adopt_apply_id
+			cp.care_plan_id NOT IN (SELECT care_plan_id FROM care_record)
 			AND a.shelter_id = #{shelterId}
 			<if test="limitDate == 14">
 				AND DATEDIFF(cp.care_date, NOW()) <![CDATA[<]]>= 14
@@ -89,7 +91,21 @@
 				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
 			</if>
 		</where>	
-		ORDER BY createDate DESC;
+		ORDER BY careDate ASC;
+	</select>
+	
+	<select id="selectCarePlanInCal" parameterType="int" resultType="java.util.Map">
+		SELECT
+			cp.care_plan_id AS carePlanId,
+			a.animal_name AS animalName,
+			DATE(cp.care_date) AS careDate,
+			DATE_FORMAT(cp.care_date, '%Y-%m') AS yearMonth,
+			YEAR(cp.care_date) AS year,
+			MONTH(cp.care_date) AS month,
+			DAY(cp.care_date) AS day
+		FROM care_plan AS cp, animal AS a
+		WHERE cp.animal_id = a.animal_id
+			AND a.shelter_id = #{shelterId}
 	</select>
 	
 	<!-- 케어플랜 보기 -> 작성한 케이플랜 -->

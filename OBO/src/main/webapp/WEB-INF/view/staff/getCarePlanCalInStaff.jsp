@@ -32,7 +32,6 @@
 <script>
 $(document).ready(function(){	
 	
-	
 });
 </script>
 </head>
@@ -74,38 +73,52 @@ $(document).ready(function(){
 					<div class="single-post">
 						<div class="blog_details">
 							<!--  달력 설정 -->
-							<h1>
-								<span style="text-align:center;">
-									<a href=""><i class="fa fa-arrow-circle-o-left"></i></a>
-									월.일
-									<a href=""><i class="fa fa-arrow-circle-o-right"></i></a>
+							<h2 style="text-align:center;">
+								<span style="float:center;">
+									<a href="javascript:void(0);" onclick="lastMonthFunc();"><i class="fa fa-arrow-circle-o-left"></i></a>
+									<input id="date" class="form-control" type="month" value="${aboutToday.date}" onchange="chDateFunc();" style="display:inline-block; width:20%">
+									<!-- ${aboutToday.thisYear}년 / ${aboutToday.thisMonth}월 -->
+									<a href="javascript:void(0);" onclick="nextMonthFunc();"><i class="fa fa-arrow-circle-o-right"></i></a>
 								</span>
 								
 								<span style="float:right;">
-									<a href="">오늘</a>
+									<a href="${pageContext.request.contextPath}/staff/getCarePlanCalInStaff">오늘</a>
 								</span>
-							</h1>
+							</h2>
+							<br><br>
 							<table class="table">
-								<tr>
-									<td>일</td>
-									<td>월</td>
-									<td>화</td>
-									<td>수</td>
-									<td>목</td>
-									<td>금</td>
-									<td>토</td>
-								</tr>
-								<c:forEach var="c" items="${carePlanCal}">
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+								<thead>
+									<tr style="text-align:center;">
+										<th>일</th>
+										<th>월</th>
+										<th>화</th>
+										<th>수</th>
+										<th>목</th>
+										<th>금</th>
+										<th>토</th>
 									</tr>
-								</c:forEach>
+								</thead>
+								<tbody id="day" height="500">
+									<tr>
+									<c:forEach var="i" begin="1" end="${aboutToday.fBlankThisMonth}" step="1">
+										<td>&nbsp;</td>
+									</c:forEach>
+									<c:forEach var="i" begin="1" end="${aboutToday.endDateThisMonth}" step="1">
+										<td>
+											<div>${i}</div>
+											<div>일정1</div>
+											<div>일정2</div>
+											<div>일정3</div>
+										</td>
+										<c:if test="${(aboutToday.fBlankThisMonth+i)%7 == 0}">
+											</tr><tr>
+										</c:if>
+									</c:forEach>
+									<c:forEach var="i" begin="1" end="${aboutToday.eBlankThisMonth}" step="1">
+										<td>&nbsp;</td>
+									</c:forEach>
+									</tr>
+								</tbody>
 							</table>
 						</div>
 					</div>
@@ -119,6 +132,202 @@ $(document).ready(function(){
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
+	
+	<script>
+	// 이전 달
+	function lastMonthFunc(){
+		console.log('이전 월 클릭');
+		console.log('기존 년/월?'+$('#date').val());
+		let year = $('#date').val().slice(0,4);
+		let month = $('#date').val().slice(5,7);
+		
+		//string to int
+		if(month == 1){
+			year = Number(year)-1;
+			month = 12;
+		} else{
+			year = Number(year);
+			month = Number(month)-1;
+		}
+		
+		let addTable = "";
+		let setYear, setMonth, firstDate, firstBlank, endDate, endBlank;
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getCalendar',
+			type: 'get',
+			data: {year : year,
+					month : month},
+			success: function(jsonData){
+				console.log('달력불러오기 ajax');
+				console.log('직접 선택 -> 달력불러오기 ajax');
+				setYear = jsonData.setYear;
+				setMonth = jsonData.setMonth;
+				firstDate = jsonData.firstDate;
+				firstBlank = jsonData.firstBlank;
+				endDate = jsonData.endDate;
+				endBlank = jsonData.endBlank;
+				
+				if(setMonth<10){	//#date에 값 넣기 위한 설정
+					$('#date').val(setYear+'-0'+setMonth);
+				} else{
+					$('#date').val(setYear+'-'+setMonth);
+				}
+				
+				addTable += '<tr>';
+				for(let i = 1; i <= firstBlank; i++){
+					addTable += '<td>&nbsp;</td>';
+				}
+				for(let i = 1; i <= endDate; i++){
+					addTable += '<td>';
+					addTable += '<div>'+i+'</div>';
+					addTable += '<div>일정1</div>';
+					addTable += '<div>일정2</div>';
+					addTable += '<div>일정3</div>';
+					addTable += '</td>';
+					if((firstBlank+i)%7 == 0){
+						addTable += '</tr><tr>';
+					}
+				}
+				for(let i = 1; i <= endBlank; i++){
+					addTable += '<td>&nbsp;</td>';
+				}
+				addTable += '</tr>';
+			
+				$('#day').empty();
+				$('#day').append(addTable);
+				
+			}
+		});
+	}
+
+	// 다음 달
+	function nextMonthFunc() {
+		console.log('다음 월 클릭');
+		let year = $('#date').val().slice(0,4);
+		let month = $('#date').val().slice(5,7);
+
+		//string to int & 12월-1월 변경
+		if(month == 12){
+			year = Number(year)+1;
+			month = 1;
+		} else{
+			year = Number(year);
+			month = Number(month)+1;
+		}
+		
+		let addTable = "";
+		let setYear, setMonth, firstDate, firstBlank, endDate, endBlank;
+
+		$.ajax({
+			url : '${pageContext.request.contextPath}/getCalendar',
+			type : 'get',
+			data : {
+				year : year,
+				month : month
+			},
+			success : function(jsonData) {
+				console.log('달력불러오기 ajax');
+				console.log('직접 선택 -> 달력불러오기 ajax');
+				
+				setYear = jsonData.setYear;
+				setMonth = jsonData.setMonth;
+				firstDate = jsonData.firstDate;
+				firstBlank = jsonData.firstBlank;
+				endDate = jsonData.endDate;
+				endBlank = jsonData.endBlank;
+				
+				if(setMonth<10){	
+					$('#date').val(setYear+'-0'+setMonth);
+				} else{
+					$('#date').val(setYear+'-'+setMonth);
+				}
+				
+				addTable += '<tr>';
+				for(let i = 1; i <= firstBlank; i++){
+					addTable += '<td>&nbsp;</td>';
+				}
+				for(let i = 1; i <= endDate; i++){
+					addTable += '<td>';
+					addTable += '<div>'+i+'</div>';
+					addTable += '<div>일정1</div>';
+					addTable += '<div>일정2</div>';
+					addTable += '<div>일정3</div>';
+					addTable += '</td>';
+					if((firstBlank+i)%7 == 0){
+						addTable += '</tr><tr>';
+					}
+				}
+				for(let i = 1; i <= endBlank; i++){
+					addTable += '<td>&nbsp;</td>';
+				}
+				addTable += '</tr>';
+			
+				$('#day').empty();
+				$('#day').append(addTable);
+			}
+		});
+	}
+	
+	// 년/월 직접 선택
+	function chDateFunc(){
+		console.log('날짜클릭');
+		console.log('클릭한 년/월?'+$('#date').val());
+		let year = $('#date').val().slice(0,4);
+		let month = $('#date').val().slice(5,7);
+		
+		//string to int
+		year = Number(year);
+		month = Number(month);
+		console.log('year->'+year);
+		console.log('month->'+month);
+		
+		let addTable = "";
+		let setYear, setMonth, firstDate, firstBlank, endDate, endBlank;
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getCalendar',
+			type: 'get',
+			data: {year : year,
+					month : month},
+			success: function(jsonData){
+				console.log('직접 선택 -> 달력불러오기 ajax');
+				setYear = jsonData.setYear;
+				setMonth = jsonData.setMonth;
+				firstDate = jsonData.firstDate;
+				firstBlank = jsonData.firstBlank;
+				endDate = jsonData.endDate;
+				endBlank = jsonData.endBlank;
+				
+				addTable += '<tr>';
+				for(let i = 1; i <= firstBlank; i++){
+					addTable += '<td>&nbsp;</td>';
+				}
+				for(let i = 1; i <= endDate; i++){
+					addTable += '<td>';
+					addTable += '<div>'+i+'</div>';
+					addTable += '<div>일정1</div>';
+					addTable += '<div>일정2</div>';
+					addTable += '<div>일정3</div>';
+					addTable += '</td>';
+					if((firstBlank+i)%7 == 0){
+						addTable += '</tr><tr>';
+					}
+				}
+				for(let i = 1; i <= endBlank; i++){
+					addTable += '<td>&nbsp;</td>';
+				}
+				addTable += '</tr>';
+			
+				$('#day').empty();
+				$('#day').append(addTable);
+			}
+		});
+	}
+
+	</script>
+	
+	
 	
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

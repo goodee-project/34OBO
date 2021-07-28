@@ -324,7 +324,7 @@ $(document).ready(function(){
 		console.log('volunteerDate->'+$('#volunteerDate').val());
 		console.log('periodVolunteerApplyId->'+$('#periodVolunteerApplyId').val());
 		
-		alert('봉사 확인이 완료 되었습니다.');
+		alert('봉사 확인이 완료 되었습니다. 정기 봉사 확인 페이지로 이동합니다.');
 		$('#addForm').submit();	//form - volunteerDate, volunteerApplyId  넘어가는지 확인
 		
 	}

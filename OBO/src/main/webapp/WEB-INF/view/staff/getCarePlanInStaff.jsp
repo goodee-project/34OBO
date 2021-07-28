@@ -135,7 +135,11 @@ $(document).ready(function(){
 										<td>${c.staffId}</td>
 										<td>${c.careDate}</td>
 										<td>${c.createDate}</td>
-										<td style="text-align:center;"><a href=""><i class="fa fa-external-link"></i></a></td>
+										<td style="text-align:center;">
+											<a href="javascript:void(0);" data-toggle="modal" data-target="#record-modal" onclick="addRecordFunc('${c.animalName}','${c.careInfo}','${c.memberName}','${c.memberId}','${c.careDate}','${c.carePlanId}');">
+												<i class="fa fa-external-link"></i>
+											</a>
+										</td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -207,6 +211,54 @@ $(document).ready(function(){
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
 	
+	<!-- 멤버 클릭 모달 -->
+	<div class="modal fade" id="record-modal" role="dialog" aria-labelledby="record-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title" style="text-align:center;"><span id="animalName"></span>의 Care Plan</h4>
+					<br>
+					<form id="addForm" action="${pageContext.request.contextPath}/staff/getCarePlanInStaff" method="post">
+						<table class="table" style="text-align:center;">
+							<tr>
+								<td width="30%">케어Info</td>
+								<td>
+									<input id="careInfo" class="form-control" name="careInfo" type="text" readonly>
+								</td>
+							</tr>
+							<tr>
+								<td>케어일</td>
+								<td>
+									<input id="careDate" class="form-control" name="careDate" type="date" readonly>
+								</td>
+							</tr>
+							<tr>
+								<td>회원정보</td>
+								<td>
+									<input id="member" class="form-control" name="member" type="text" readonly>
+								</td>
+							</tr>
+							<tr>
+								<td>특이사항</td>
+								<td>
+									<input id="carePlanId" name="carePlanId" type="hidden">
+									<textarea rows="5" cols="80" id="features" class="form-control" name="features"></textarea>
+								</td>
+							</tr>
+						</table>
+						
+						<br>
+						<div style="float:right;">
+							<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+							<button type="button" class="genric-btn primary-border radius" onclick="addFunc();">확인</button>
+						</div>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<script>
 	// 검색어 버튼 클릭
 	function searchFunc(){
@@ -216,6 +268,35 @@ $(document).ready(function(){
 		} else{
 			$('#searchForm').submit();
 		}
+	}
+	
+	// record 아이콘 클릭 -> 모달창
+	function addRecordFunc(aNama, info, mName, mId, date, planId){
+		console.log('모달창 클릭');
+		console.log('aNama->'+aNama);
+		console.log('info->'+info);
+		console.log('mName->'+mName);
+		console.log('mId->'+mId);
+		console.log('date->'+date);
+		console.log('planId->'+planId);
+		
+		$('#animalName').text(aNama);
+		$('#careInfo').val(info);
+		$('#careDate').val(date);
+		$('#member').val(mName+"("+mId+")");
+		$('#carePlanId').val(planId);
+	}
+	
+	// record 작성 모달 -> 모달창에서 확인
+	function addFunc(){
+		console.log('작성 확인');
+		if($('#features').val() == ''){
+			alert('특이사항을 입력해주세요.');
+			return;
+		}
+		alert('Care Plan 작성 완료 되었습니다');
+		$('#addForm').submit();
+		
 	}
 	
 	</script>

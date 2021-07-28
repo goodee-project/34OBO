@@ -274,7 +274,7 @@ $(document).ready(function(){
 							console.log('care plan 미작성 없음~');
 							$('#inputTextNon').text('미작성 carePlan 없음');
 							$('#whichBtn').html(
-									'<button class="genric-btn primary-border radius" data-dismiss="modal">확인</button>'
+									'<button class="genric-btn primary-border radius" data-dismiss="modal" style="float:right;">확인</button>'
 							);
 							return;
 						}
@@ -303,8 +303,10 @@ $(document).ready(function(){
 								+'<input id="careDate" name="careDate" type="hidden">'
 						);
 						$('#whichBtn').html(
-								'<button class="genric-btn primary-border radius" onclick="addOtherCPFunc();">추가</button>'
-								+' <button class="genric-btn primary-border radius" data-dismiss="modal">취소</button>'
+								'<div style="float:right;">'
+								+'<button class="genric-btn primary-border radius" data-dismiss="modal">취소</button>'
+								+' <button class="genric-btn primary-border radius" onclick="addOtherCPFunc();">추가</button>'
+								+'</div>'
 						);
 					}
 				}); //-미작성 care plan ajax

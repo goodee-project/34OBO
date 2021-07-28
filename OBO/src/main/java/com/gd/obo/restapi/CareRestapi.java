@@ -1,5 +1,7 @@
 package com.gd.obo.restapi;
 
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +64,46 @@ public class CareRestapi {
 		log.debug("●●●●▶shelterId-> "+shelterId);
 		log.debug("●●●●▶carePlanId-> "+carePlanId);
 		return careService.getCarePlanOne(shelterId, carePlanId);
+	}
+	
+	// staff - care plan calendar
+	@GetMapping("/getCalendar")
+	public Map<String, Object> getCalendar(int year, int month){
+		log.debug("●●●●▶원하는 year-> "+year);
+		log.debug("●●●●▶원하는 month-> "+month);
+		//원하는 날의 정보
+		Map<String, Object> theDay = new HashMap<>();
+		Calendar setOne = Calendar.getInstance();
+		int setYear = year;	//내가 찾는 연
+		int setMonth = month;	//내가 찾는 월
+
+		setOne.set(setYear, setMonth-1, 1);
+		int firstDate = setOne.get(Calendar.DAY_OF_WEEK);		//내가 찾는 월의 1일의 요일 -> 1:일, 2:월, 3:화, 4:수, 5:목, 6:금, 7:토
+		int firstBlank = setOne.get(Calendar.DAY_OF_WEEK)-1;	//1일의 DAY_OF_WEEK-1 값이 달력의 앞의 블랭크이다.
+		int endDate = setOne.getActualMaximum(Calendar.DATE);	//월의 마지막 일
+		int endBlank = 0;
+		
+		// endBlank는 firstBlank + endDate를 7로 나눈 나머지 값을 7에서 빼준다. 만약 나머지 0이라면 추가하는 블랭크 없음.
+		if((firstBlank+endDate)%7 != 0) {
+			endBlank = 7-((firstBlank+endDate)%7);
+		}
+		
+		
+		theDay.put("setYear", setYear);
+		theDay.put("setMonth", setMonth);
+		theDay.put("firstDate", firstDate);
+		theDay.put("firstBlank", firstBlank);
+		theDay.put("endDate", endDate);
+		theDay.put("endBlank", endBlank);
+		
+		log.debug("●●●●▶ setYear-> "+setYear);
+		log.debug("●●●●▶ setMonth-> "+setMonth);
+		log.debug("●●●●▶ firstDate-> "+firstDate);
+		log.debug("●●●●▶ firstBlank-> "+firstBlank);
+		log.debug("●●●●▶ endDate-> "+endDate);
+		log.debug("●●●●▶ endBlank-> "+endBlank);
+		
+		return theDay;
 	}
 	
 }

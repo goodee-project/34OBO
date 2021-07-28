@@ -13,6 +13,7 @@ public interface CareMapper {
 	List<Map<String, Object>> selectCareInfoByCarePlan(int animalCategoryId);
 	List<Map<String, Object>> selectCarePlanDay(int shelterId, int animalId, int careInfoId);
 	List<Map<String, Object>> selectCarePlanList(Map<String, Object> map);
+	List<Map<String, Object>> selectCarePlanInCal(int shelterId);
 	List<Map<String, Object>> selectCareRecordList(Map<String, Object> map);
 	List<Map<String, Object>> selectCarePlanAnimalOne(int animalId);
 	List<Map<String, Object>> selectCarePlanAnimalOneNon(int animalId);
