@@ -66,11 +66,14 @@ public class CareRestapi {
 		return careService.getCarePlanOne(shelterId, carePlanId);
 	}
 	
-	// staff - care plan calendar
-	@GetMapping("/getCalendar")
-	public Map<String, Object> getCalendar(int year, int month){
+	// staff - care plan calendar : 달력설정 + 일정
+	@GetMapping("/getCalendarAndList")
+	public Map<String, Object> getCalendarAndList(HttpSession session, int year, int month){
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId-> "+shelterId);
 		log.debug("●●●●▶원하는 year-> "+year);
 		log.debug("●●●●▶원하는 month-> "+month);
+		
 		//원하는 날의 정보
 		Map<String, Object> theDay = new HashMap<>();
 		Calendar setOne = Calendar.getInstance();
@@ -88,7 +91,6 @@ public class CareRestapi {
 			endBlank = 7-((firstBlank+endDate)%7);
 		}
 		
-		
 		theDay.put("setYear", setYear);
 		theDay.put("setMonth", setMonth);
 		theDay.put("firstDate", firstDate);
@@ -96,14 +98,25 @@ public class CareRestapi {
 		theDay.put("endDate", endDate);
 		theDay.put("endBlank", endBlank);
 		
-		log.debug("●●●●▶ setYear-> "+setYear);
-		log.debug("●●●●▶ setMonth-> "+setMonth);
-		log.debug("●●●●▶ firstDate-> "+firstDate);
-		log.debug("●●●●▶ firstBlank-> "+firstBlank);
-		log.debug("●●●●▶ endDate-> "+endDate);
-		log.debug("●●●●▶ endBlank-> "+endBlank);
+		log.debug("●●●●▶ 원하는 년/월의 정보-> "+theDay);
 		
-		return theDay;
+		// 가져올 care plan list
+		List<Map<String, Object>> carePlanList = careService.getCarePlanInCal(shelterId, year, month);
+		log.debug("●●●●▶ 원하는 년/월의 carePlanList-> "+carePlanList);
+		
+		// 한번에 보내주기 위한 map 다시 만들어준다.
+		Map<String, Object> map = new HashMap<>();
+		map.put("theDay", theDay);
+		map.put("carePlanList", carePlanList);
+		
+		return map;
+	}
+	
+	// care plan 전체 다 보기 -> record 있으나 없으나 그냥 다 보기
+	@GetMapping("/getCarePlanOneWithRecord")
+	public Map<String, Object> getCarePlanOneWithRecord(int carePlanId){
+		log.debug("●●●●▶얻은 carePlanId-> "+carePlanId);
+		return careService.getCarePlanOneWithRecord(carePlanId);
 	}
 	
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.CareMapper">
 
-	<!-- careinfo list 불러오기 -->
+	<!-- care info list 보기 -->
 	<select id="selectCareInfoList" resultType="java.util.Map">
 		SELECT
 			ci.care_info_id careInfoId,
@@ -26,7 +26,7 @@
 		ORDER BY ci.care_info_id ASC;
 	</select>
 	
-	<!-- care info 분류 선택할 때 사용 -->
+	<!-- care info list : 분류 선택할 때 사용 -->
 	<select id="selectCareInfoByCarePlan" parameterType="int" resultType="java.util.Map">
 		SELECT
 			care_info_id AS careInfoId,
@@ -36,7 +36,7 @@
 		ORDER BY care_sorting, care_info_content ASC;
 	</select>
 	
-	<!-- 선택한 care info 자동 계산위한 값 -->
+	<!-- care plan 계산 : 선택한 care info 자동 계산위한 값 -->
 	<select id="selectCarePlanDay" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			a.animal_id AS animalId,
@@ -59,6 +59,7 @@
 		</where>
 	</select>
 	
+	<!-- care plan list 보기 -->
 	<select id="selectCarePlanList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			DATEDIFF(cp.care_date, NOW()) AS dDay,
@@ -94,7 +95,8 @@
 		ORDER BY careDate ASC;
 	</select>
 	
-	<select id="selectCarePlanInCal" parameterType="int" resultType="java.util.Map">
+	<!-- 달력에서 care plan list 보기 : 해당 년/월에 맞는 list만 출력 -->
+	<select id="selectCarePlanInCal" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			cp.care_plan_id AS carePlanId,
 			a.animal_name AS animalName,
@@ -104,11 +106,14 @@
 			MONTH(cp.care_date) AS month,
 			DAY(cp.care_date) AS day
 		FROM care_plan AS cp, animal AS a
-		WHERE cp.animal_id = a.animal_id
+		<where> 
+			cp.animal_id = a.animal_id
 			AND a.shelter_id = #{shelterId}
+			AND DATE_FORMAT(cp.care_date, '%Y-%m') = #{setDate}
+		</where>
 	</select>
 	
-	<!-- 케어플랜 보기 -> 작성한 케이플랜 -->
+	<!-- 작성한 care plan list 보기 : 동물 클릭 시 추가된 내용 한번에 보기 위해 -->
 	<select id="selectCarePlanAnimalOne" parameterType="int" resultType="java.util.Map">
 		SELECT
 			CONCAT(ci.care_sorting, '-', ci.care_info_content) AS careInfo,
@@ -119,7 +124,7 @@
 			AND cp.animal_id = #{animalId}
 	</select>
 	
-	<!-- 케어플랜 보기 -> 작성하지 않은 케어플랜 -->
+	<!-- 미작성 care plan list 보기 : 한번에 추가 위한 list -->
 	<select id="selectCarePlanAnimalOneNon" parameterType="int" resultType="java.util.Map">
 		SELECT
 			a.animal_id AS animalId,
@@ -137,6 +142,7 @@
 			AND ci.care_info_id NOT IN (SELECT care_info_id FROM care_plan WHERE animal_id = #{animalId});
 	</select>
 	
+	<!-- care record list 보기 -->
 	<select id="selectCareRecordList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			a.animal_name AS animalName,
@@ -167,6 +173,7 @@
 		ORDER BY recordDate DESC;
 	</select>
 	
+	<!-- 미작성 record의 care plan one 보기 -->
 	<select id="selectCarePlanOneByList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			a.animal_name AS animalName,
@@ -182,6 +189,7 @@
 		</where>
 	</select>
 	
+	<!-- 작성한 care plan one 보기 -->
 	<select id="selectCarePlanOne" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			a.animal_name AS animalName,
@@ -196,7 +204,25 @@
 			AND cp.care_plan_id = #{carePlanId}
 	</select>
 	
-	<!-- 케어플랜 추가 -->
+	<!-- record 보이는 care plan one 보기 -->
+	<select id="selectCarePlanOneWithRecord" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			a.animal_name AS animalName,
+			m.member_id AS memberId,
+			m.member_name AS memberName,
+			CONCAT(ci.care_sorting, '-', ci.care_info_content) AS careInfo,
+			DATE(cp.care_date) AS careDate,
+			cr.features AS features
+		FROM care_plan AS cp
+		LEFT JOIN care_record AS cr ON cr.care_plan_id = cp.care_plan_id
+		LEFT JOIN animal AS a ON a.animal_id = cp.animal_id
+		LEFT JOIN member AS m ON m.member_id = cp.member_id
+		LEFT JOIN care_info AS ci ON ci.care_info_id = cp.care_info_id
+		WHERE 
+			cp.care_plan_id = #{carePlanId};
+	</select>
+	
+	<!-- care plan 추가 -->
 	<insert id="insertCarePlan" parameterType="java.util.Map">
 		INSERT INTO care_plan(
 			animal_id,
@@ -215,7 +241,7 @@
 		)
 	</insert>
 	
-	<!-- 케어기록 추가 -->
+	<!-- care record 추가 -->
 	<insert id="insertCareRecord" parameterType="java.util.Map">
 		INSERT care_record(
 			care_plan_id,

@@ -211,12 +211,12 @@ $(document).ready(function(){
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
 	
-	<!-- 멤버 클릭 모달 -->
+	<!-- 케어 record 작성 모달 -->
 	<div class="modal fade" id="record-modal" role="dialog" aria-labelledby="record-modal" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
-					<h4 class="modal-title" style="text-align:center;"><span id="animalName"></span>의 Care Plan</h4>
+					<h4 class="modal-title" style="text-align:center;"><span id="animalName"></span>의 Care Plan 작성하기</h4>
 					<br>
 					<form id="addForm" action="${pageContext.request.contextPath}/staff/getCarePlanInStaff" method="post">
 						<table class="table" style="text-align:center;">
@@ -253,7 +253,6 @@ $(document).ready(function(){
 							<button type="button" class="genric-btn primary-border radius" onclick="addFunc();">확인</button>
 						</div>
 					</form>
-					
 				</div>
 			</div>
 		</div>

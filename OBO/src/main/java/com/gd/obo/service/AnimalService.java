@@ -334,4 +334,10 @@ public class AnimalService {
 		int ck = animalMapper.selectAnimalLikeByMember(map);
 		return ck;
 	}
+	
+	//회원이 동물좋아요한 동물 리스트 보여주기
+	public List<Map<String,Object>> getAnimalLikeListByMember(String memberId){
+		List<Map<String,Object>> list = animalMapper.selectAnimalLikeListByMember(memberId);
+		return list;
+	}
 }

@@ -57,8 +57,19 @@ public class CareService {
 	}
 	
 	// staff - care plan 달력에서 보여줄 list
-	public List<Map<String, Object>> getCarePlanInCal (int shelterId){
-		return careMapper.selectCarePlanInCal(shelterId);
+	public List<Map<String, Object>> getCarePlanInCal (int shelterId, int year, int month){
+		String setDate = "";
+		setDate = year+"-"+month;
+		
+		if(month<10) {
+			setDate = year+"-0"+month;
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("setDate", setDate);
+		log.debug("●●●●▶map-> "+map);
+		return careMapper.selectCarePlanInCal(map);
 	}
 	
 	// staff - care record list 불러오기
@@ -94,13 +105,21 @@ public class CareService {
 	}
 	
 	// staff - 케어 기록 작성 페이지에서 ↑ 위의 항목 선택 후 얻는 정보
-		public Map<String, Object> getCarePlanOne(int shelterId, int carePlanId){
-			Map<String, Object> map = new HashMap<>();
-			map.put("shelterId", shelterId);
-			map.put("carePlanId", carePlanId);
-			log.debug("●●●●▶ map-> "+map);
-			return careMapper.selectCarePlanOne(map);
-		}
+	public Map<String, Object> getCarePlanOne(int shelterId, int carePlanId){
+		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
+		map.put("carePlanId", carePlanId);
+		log.debug("●●●●▶ map-> "+map);
+		return careMapper.selectCarePlanOne(map);
+	}
+	
+	// staff - 달력에서 care plan 전체 확인
+	public Map<String, Object> getCarePlanOneWithRecord(int carePlanId){
+		Map<String, Object> map = new HashMap<>();
+		map.put("carePlanId", carePlanId);
+		log.debug("●●●●▶ map-> "+map);
+		return careMapper.selectCarePlanOneWithRecord(map);
+	}
 	
 	// staff - care plan 추가
 	public int addCarePlan(int animalId, String memberId, String staffId, String[] careInfoIdArr, String[] careDate) {

@@ -279,4 +279,13 @@
 	<select id="selectAnimalLikeByMember" resultType="int" parameterType="java.util.Map">
 		SELECT COUNT(*) FROM animal_like WHERE member_id=#{memberId} AND animal_id=#{animalId}
 	</select>
+	
+	<!-- 회원의 동물 좋아요 목록 -->
+	<select id="selectAnimalLikeListByMember" resultType="java.util.Map" parameterType="String">
+		SELECT a.animal_id animalId, a.animal_name animalName, a.shelter_id shelterId, s.shelter_name shelterName, af.animal_file_name animalFileName FROM animal_like al 
+		JOIN animal a ON a.animal_id=al.animal_id 
+		JOIN shelter s ON s.shelter_id=a.shelter_id
+		JOIN animal_file af ON af.animal_id=a.animal_id
+		WHERE a.animal_state='보호중' AND al.member_id=#{memberId}
+	</select>
 </mapper>
