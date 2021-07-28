@@ -7,8 +7,10 @@
 <meta charset="UTF-8">
 <title>일반후원</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 <!-- CSS here -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
@@ -101,6 +103,23 @@
 	</div>
 	<!--================Blog Area =================-->
 	
+	<!-- pw 모달 -->
+	<div class="modal fade" id="login-modal" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h5 class="modal-title">비밀번호를 입력하세요</h5>
+					<br>
+					<input id="pw" class="form-control" type="password"  name="password" placeholder="PW 입력" required="required"> <br />
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+						<button id="ckBtn" type="button" onclick="checkedPw(pw.value)" class="genric-btn primary-border radius">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	
 
 <script>
@@ -119,6 +138,7 @@
     console.log(device);
     $('#target').append('<input type="hidden" name="device" value="'+device+'">');
 	
+    
 	//후원하기 버튼 클릭
 	function addDonationBtn(){
 		console.log('버튼 click');
@@ -131,8 +151,14 @@
 			$('#shelter').focus();
 		} else {
 			console.log('비밀번호 검사 시작합니다.');
-			//비밀번호 검사
-			let checkPw = prompt('비밀번호를 입력하시오.');
+			//비밀번호 검사 - 모달창 열기
+			//let checkPw = prompt('비밀번호를 입력하시오.');
+			 $('#login-modal').modal();
+			 
+		}		
+	}
+	
+		function checkedPw(checkPw){
 			
 			$.ajax({
 				type: 'post',
@@ -145,13 +171,13 @@
 					//true면 성공, false면 실패
 					if(jsonData == false){
 						alert('비밀번호가 틀렸습니다.');
+						$('#pw').val('');
 					} else {//회원 정보 수정 페이지로 이동하기 
 						$('#donationForm').submit();
 					}
 				}
-			})
-		}		
-	}
+			})				
+		}
 </script>
 <!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
@@ -186,25 +212,6 @@
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 
-<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
-	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>
+
 </body>
 </html>

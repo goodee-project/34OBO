@@ -201,4 +201,13 @@ public class AnimalController {
 		animalService.addAnimalLike(memberId, animalId);
 		return "redirect:/getAnimalOne?animalId="+animalId+"&currentPage="+currentPage+"&searchWord="+searchWord+"&species="+species+"&shelterId="+shelterId;
 	}
+	
+	//회원 내정보 동물 좋아요 보여주기
+	@GetMapping("/member/getMemberAnimalLike")
+	public String getAnimalLikeListByMember(HttpSession session, Model model) {
+		String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+		List<Map<String,Object>> animalList = animalService.getAnimalLikeListByMember(memberId);
+		model.addAttribute("animalList", animalList);
+		return "main/getMemberAnimalLike";
+	}
 }

@@ -147,31 +147,35 @@ public class CareController {
 		int thisMonth = today.get(Calendar.MONTH);		//이번달
 		//today.set(Calendar.DAY_OF_WEEK, 1);	//1일로 설정
 		today.set(thisYear, thisMonth, 1);
-		int fBlankThisMonth = today.get(Calendar.DAY_OF_WEEK)-1;		//1일의 요일 이전까지가 블랭크이다.
-		int endDateThisMonth = today.getActualMaximum(Calendar.DATE);	//date상의 최고 일자
-		int total = fBlankThisMonth+endDateThisMonth;
-		int eBlankThisMonth = 0;	//초기 블랭크는 0으로
+		int thisFirstBlank = today.get(Calendar.DAY_OF_WEEK)-1;		//1일의 요일 이전까지가 블랭크이다.
+		int thisEndDate = today.getActualMaximum(Calendar.DATE);	//date상의 최고 일자
+		int thisEndBlank = 0;	//초기 블랭크는 0으로
 		
+		int total = thisFirstBlank+thisEndDate;
 		if(total%7 != 0) {
-			eBlankThisMonth = 7-(total%7);
+			thisEndBlank = 7-(total%7);
 		}
 		
+		// 해당 년/월을 출력하기 위한 날짜 포맷값
 		String pattern = "yyyy-MM";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		String date = simpleDateFormat.format(new Date());
 		
 		aboutToday.put("thisYear", thisYear);
 		aboutToday.put("thisMonth", thisMonth+1);
-		aboutToday.put("fBlankThisMonth", fBlankThisMonth);
-		aboutToday.put("endDateThisMonth", endDateThisMonth);
-		aboutToday.put("eBlankThisMonth", eBlankThisMonth);
-		aboutToday.put("total", total);
+		aboutToday.put("thisFirstBlank", thisFirstBlank);
+		aboutToday.put("thisEndDate", thisEndDate);
+		aboutToday.put("thisEndBlank", thisEndBlank);
 		aboutToday.put("date", date);
 		
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
 		
-		List<Map<String, Object>> carePlanList = careService.getCarePlanInCal(shelterId);
+		int setMonth = thisMonth + 1;
+		log.debug("●●●●▶setMonth: "+setMonth);
+		
+		List<Map<String, Object>> carePlanList = careService.getCarePlanInCal(shelterId, thisYear, setMonth);
+		log.debug("●●●●▶carePlanList: "+carePlanList);
 		
 		model.addAttribute("aboutToday", aboutToday);
 		model.addAttribute("carePlanList", carePlanList);
