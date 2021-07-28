@@ -9,8 +9,10 @@
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 <!-- CSS here -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
@@ -46,40 +48,54 @@
 		</div>
 	</div>
 	
+	
+	
 	<section class="blog_area single-post-area section-padding service_area">
 		<div class="container">
 			<div class="row">
 				<!-- 내 페이지 메뉴 -->
 				<jsp:include page="/WEB-INF/view/main/inc/myPageMenu.jsp"></jsp:include>
 				
-				
-				<div class="col-lg-9 mb-5 mb-lg-0">
-					<div class="single-post">
-						<div class="blog_details">
-							<h3 class="text-center">내 작성글</h3>
-							<!-- 자격승인목록 -->
-							<table class="table">
-								<thead id="thead">
-								</thead>
-								<tbody id="tbody">
+				<!-- Nav tabs -->
+				<div  class="col-lg-9 mb-5 mb-lg-0">
+					<ul class="nav nav-tabs">
+					  <li class="nav-item">
+					    <a class="nav-link active" href="javascript:void(0);">내 작성글</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" href="javascript:void(0);">관심글</a>
+					  </li>
+					</ul>
+					
+					
+			  		<div>
+						<div class="single-post">
+							<div class="blog_details">
+								<h3 class="text-center">내 작성글</h3>
+								<!-- 자격승인목록 -->
+								<table class="table">
+									<thead id="thead">
+									</thead>
+									<tbody id="tbody">
+									
+									</tbody>
+								</table>
 								
-								</tbody>
-							</table>
-							
-							<!-- 페이징 -->
-							<div class="blog_left_sidebar">
-								<nav class="blog-pagination justify-content-center d-flex">
-									<ul class="pagination" id="paging">
-										
-										
-									</ul>
-								</nav>
+								<!-- 페이징 -->
+								<div class="blog_left_sidebar">
+									<nav class="blog-pagination justify-content-center d-flex">
+										<ul class="pagination" id="paging">
+											
+											
+										</ul>
+									</nav>
+								</div>
+								
 							</div>
-							
-
 						</div>
 					</div>
-				</div>
+					
+				</div>	
 				
 			</div>
 		</div>
@@ -90,6 +106,7 @@
 	
 	
 <script>
+
 	let boardPage = 1;
 	
 	myBoardTable();
@@ -103,6 +120,7 @@
 
 	//내 작성글 목록 누르기....
 	function myBoardTable(){
+		boardPage = 1;
 		$('#thead').empty();
 		let thead;
 		thead += '<tr>';
