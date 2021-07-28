@@ -121,7 +121,7 @@
                         <div class="section_title">
                             <h3><span>우리 아이들과</span>
                                 <br>함께해주세요</h3>
-                            <p>지금도 많은 동물들이...</p>
+                            <p>지금도 많은 많은 사람들이 동물을 유기하고 있습니다.</p>
                             <a href="${pageContext.request.contextPath}/getAnimalList" class="boxed-btn3">입양하러 가기</a>
                         </div>
                     </div>
