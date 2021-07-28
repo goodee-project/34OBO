@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import com.gd.obo.service.ShelterService;
 import com.gd.obo.service.StaffService;
 import com.gd.obo.vo.Address;
 import com.gd.obo.vo.Shelter;
+import com.gd.obo.vo.ShelterForm;
 import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +36,8 @@ public class ShelterController {
 	@Autowired ShelterService shelterService;
 	@Autowired StaffService staffService;
 	@Autowired AnimalService animalService;
+	
+	
 	
 	// shelter 리스트
 	@GetMapping("/getShelterList")
@@ -131,9 +136,33 @@ public class ShelterController {
 	}
 	
 	// staff 보호소 내용 수정
+	// 폼
 	@GetMapping("/staff/modifyShelter")
-	public String modifyShelter() {
+	public String modifyShelter(Model model, HttpSession session) {
+		log.debug("%>%>%>%>%>%>%>%>%> ShelterController-> modifyShelter session: " + session);
+		
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("%>%>%>%>%>%>%>%>%> ShelterController-> modifyShelter shelterId: " + shelterId);
+		
+		Map<String, Object> map = shelterService.getShelterOne(shelterId);
+		log.debug("%>%>%>%>%>%>%>%>%> ShelterController-> modifyShelter map: " + map);
+		
+		model.addAttribute("shelterId", shelterId);
+		model.addAttribute("map", map);
+		model.addAttribute("shelterMap", map.get("shelterMap"));
+		model.addAttribute("shelterFileList", map.get("shelterFileList"));
+		
 		return "staff/modifyShelter";
+	}
+	
+	// 액션
+	@PostMapping("/staff/modifyShelter")
+	public String modifyShelter(ShelterForm shelterForm) {
+		log.debug("%>%>%>%>%>%>%>%>%> ShelterController-> modifyShelter shelterForm: " + shelterForm);
+		
+		shelterService.modifyShelter(shelterForm);
+		
+		return "redirect:/staff/shelterIntro?shelterId="+shelterForm.getShelter().getShelterId();
 	}
 	
 	// 보호소 등록

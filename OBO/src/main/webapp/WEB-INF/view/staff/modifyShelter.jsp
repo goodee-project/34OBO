@@ -32,7 +32,33 @@
 <script>
 $(document).ready(function(){	
 	
-	
+	$('#modifyBtn').click(function(){
+		console.log('addBtn 버튼 클릭!');
+		$('#imgFileUpload').remove();
+		if($('#shelterName').val() == '') {
+			alert('보호소 이름을 작성해주세요.')
+			$('#shelterName').focus();
+		}
+		else if($('#introduction').val() == '') {
+			alert('보호소 소개를 입력해주세요')
+			$('#introduction').focus();
+		}
+		else if($('#protectDuration').val() == '') {
+			alert('보호소 보호 기간을 입력해주세요')
+			$('#protectDuration').focus();
+		}
+		else if($('#shelterPhone').val() == '') {
+			alert('보호소 번호를 입력해주세요')
+			$('#shelterPhone').focus();
+		}
+		else if($('#account').val() == '') {
+			alert('보호소 계좌를 입력해주세요')
+			$('#account').focus();
+		}
+		else{
+			$('#modifyForm').submit();			
+		}		
+	});
 });
 </script>
 </head>
@@ -73,22 +99,86 @@ $(document).ready(function(){
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
-							<h2>Second divided from form fish beast made every of seas
-								all gathered us saying he our</h2>
-							<ul class="blog-info-link mt-3 mb-4">
-								<li><a href="#"><i class="fa fa-user"></i> Travel,
-										Lifestyle</a></li>
-								<li><a href="#"><i class="fa fa-comments"></i> 03
-										Comments</a></li>
-							</ul>
-							
-							
-							<p>MCSE boot camps have its supporters and its detractors.
-								Some people do not understand why you should have to spend money
-								on boot camp when you can get the MCSE study materials yourself
-								at a fraction of the camp price. However, who has the willpower
-							</p>
-						
+						<div class="col-lg-8">
+                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/modifyShelter" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
+
+                         	<input type="hidden" name="shelterId" value="${shelterId}">
+                            	<div class="col-12">
+                            	<div class="testmonial_area">
+										<div class="row">
+											<c:forEach var="bf" items="${shelterFileList}">
+											<input hidden="" id="shelterFileId" value="${sf.shelterFileId}">
+												<img src="static/img/shelter/${sf.shelterFileName}" width="300"
+													height="300" alt=""> &nbsp;		
+											</c:forEach>
+										</div>
+									</div>
+								<div class="col-lg-3">
+									<h4>사진 추가<span style="color: #7fad39;">*</span></h4>
+								</div>
+								<div class="col-lg-9" style="display: inline;">
+
+									<label for="imgFileUpload"> <img
+										src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+									</label> <span id="target"></span> <input id="imgFileUpload"
+										name="shelterFile" type="file" style="display: none;"
+										accept="image/*" onchange="setThumbnail(event);"
+										multiple="multiple" class="imgCheck" />
+									<div id="image_container" style="display: inline;"></div>
+									<!-- 업로드 된 이미지 미리보기 생성 -->
+								</div>
+
+         						<div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="shelter.shelterName" id="shelterName" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '보호소 이름'" placeholder="${shelterMap.shelterName}">
+                                    </div>
+                                </div>
+                             	
+         						<div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="shelter.introduction" id="introduction" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = '소개'" placeholder="${shelterMap.introduction}"></textarea>
+                                    </div>
+                                </div>
+                                
+         						<div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="shelter.protectDuration" id="protectDuration" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '보호기간'" placeholder="${shelterMap.protectDuration}">
+                                    </div>
+                                </div>
+                             	
+                             	<div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="shelter.shelterPhone" id="shelterPhone" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '번호'" placeholder="${shelterMap.shelterPhone}">
+                                    </div>
+                                </div>
+                             	
+                             	<div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="shelter.account" id="account" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '계좌'" placeholder="${shelterMap.account}">
+                                    </div>
+                                </div>
+                             	
+                                <div class="default-select col-12" id="default-select">
+									<select name="shelter.active" >
+											<c:forEach var="s" items="${shelterList}">
+								    			<c:if test="${a.species == species}"> 
+								    				<option value="${s.shelterList}" id="shelterList" selected="selected">${s.active}</option>
+								    			</c:if>
+								    			<c:if test="${s.active != active}"> 
+								    				<option value="${s.shelterList}">${s.active}</option>
+								    			</c:if>
+								    		</c:forEach>
+									</select>
+								</div>
+
+                                
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="button" id="modifyBtn" class="button button-contactForm boxed-btn">등록</button>
+                            </div>
+                        </form>
+                    </div>	
+				
 						</div>
 					</div>
 				</div>
@@ -129,5 +219,55 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+	
+	
+<script> 
+
+   	function setThumbnail(event){ 
+   		  		
+   		for (var image of event.target.files) {
+   			
+   			var reader = new FileReader(); 
+   			
+   			reader.onload = function(event) {
+   				var img = document.createElement("img"); 
+   				img.setAttribute("src", event.target.result);
+   				img.setAttribute("width", 203);
+   				img.setAttribute("height", 203);
+   				img.setAttribute("style", "margin-right: 4.5px; border: 1px solid rgb(220, 219, 228);");
+   				document.querySelector("div#image_container").appendChild(img); 
+   			};
+   			
+   			console.log(image); 
+   			reader.readAsDataURL(image); 
+   		}
+   		
+   		$('#target').prepend('<input id="imgFileUpload" name="shelterFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
+   	
+   	
+   	} 
+</script>
+
+	<script>
+	$('#datepicker').datepicker({
+		iconsLibrary: 'fontawesome',
+		disableDaysOfWeek: [0, 0],
+		//icons: {
+		//rightIcon: '<span class="fa fa-caret-down"></span>'
+		//}
+	});
+	
+	$('#datepicker2').datepicker({
+		iconsLibrary: 'fontawesome',
+		icons: {
+			rightIcon: '<span class="fa fa-caret-down"></span>'
+		}
+	});
+	
+	var timepicker = $('#timepicker').timepicker({
+		format: 'HH.MM'
+	});
+</script>	
+	
 </body>
 </html>

@@ -232,6 +232,87 @@
 	</div>
 	
 	
+	<!-- footer_start  -->
+	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
+	<!-- footer_end  -->
 
+
+	<!-- JS here -->
+	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
+	
+	<!--contact js-->
+	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+
+<script> 
+
+   	function setThumbnail(event){ 
+   		  		
+   		for (var image of event.target.files) {
+   			
+   			var reader = new FileReader(); 
+   			
+   			reader.onload = function(event) {
+   				var img = document.createElement("img"); 
+   				img.setAttribute("src", event.target.result);
+   				img.setAttribute("width", 203);
+   				img.setAttribute("height", 203);
+   				img.setAttribute("style", "margin-right: 4.5px; border: 1px solid rgb(220, 219, 228);");
+   				document.querySelector("div#image_container").appendChild(img); 
+   			};
+   			
+   			console.log(image); 
+   			reader.readAsDataURL(image); 
+   		}
+   		
+   		$('#target').prepend('<input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
+   	
+   	
+   	} 
+</script>
+
+	<script>
+	$('#datepicker').datepicker({
+		iconsLibrary: 'fontawesome',
+		disableDaysOfWeek: [0, 0],
+		//icons: {
+		//rightIcon: '<span class="fa fa-caret-down"></span>'
+		//}
+	});
+	
+	$('#datepicker2').datepicker({
+		iconsLibrary: 'fontawesome',
+		icons: {
+			rightIcon: '<span class="fa fa-caret-down"></span>'
+		}
+	});
+	
+	var timepicker = $('#timepicker').timepicker({
+		format: 'HH.MM'
+	});
+</script>
+</body>
+</html>
 </body>
 </html>
