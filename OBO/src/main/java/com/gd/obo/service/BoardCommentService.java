@@ -21,10 +21,10 @@ public class BoardCommentService {
 		
 		return row;
 	}
-	public int deleteBoardComment(int boardId) {
-		log.debug("@@@@@ boardId: "+boardId);
+	public int deleteBoardComment(int boardCommentId) {
+		log.debug("@@@@@ boardCommentId: "+boardCommentId);
 		
-		int row = boardCommentMapper.deleteBoardComment(boardId);
+		int row = boardCommentMapper.deleteBoardComment(boardCommentId);
 		
 		return row;
 	}

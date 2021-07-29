@@ -27,6 +27,13 @@ public class BoardController {
 	@Autowired BoardService boardService;
 	@Autowired AnimalService animalService;
 	
+	@GetMapping("/addBoardLike")
+	public String addBoardLike(HttpSession session, @RequestParam(value = "boardId", required = true) int boardId) {
+		String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+		boardService.addBoardLike(boardId, memberId);
+		return "redirect:/getBoardOne?boardId="+boardId;
+	}
+	
 	//내정보 -> 작성글 보기
 	@GetMapping("/member/getBoardHistory")
 	public String getBoardHistory(Model model, HttpSession session) {

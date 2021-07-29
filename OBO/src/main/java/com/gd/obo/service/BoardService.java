@@ -31,6 +31,28 @@ public class BoardService {
 	@Autowired BoardCommentMapper boardCommentMapper;
 	@Autowired BoardFileMapper boardFileMapper;
 	
+	// 게시판 좋아요
+	public int addBoardLike(int boardId, String memberId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("boardId", boardId);
+		int row = boardMapper.insertBoardLike(map);
+		log.debug("@@@@@ row: "+row);
+		log.debug("@@@@@ boardId: "+boardId);
+		return row;
+	}
+	
+	// 좋아요 중복 확인
+	public int getBoardLikeByMember(String memberId, int boardId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("boardId", boardId);
+		int ck = boardMapper.selectBoardLikeByMember(map);
+		log.debug("@@@@@ boardId: "+boardId);
+		log.debug("@@@@@ ck: "+ck);
+		return ck;
+	}
+	
 	// board 수정
 	public int modifyBoard(BoardForm boardForm) {
 		Board board = boardForm.getBoard();
