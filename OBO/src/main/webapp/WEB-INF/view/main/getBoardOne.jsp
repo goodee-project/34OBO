@@ -28,6 +28,22 @@
 <!-- 부트스트랩 cdn -->
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script>
+	function addBoardLike(boardId){
+		$.ajax({
+			type:'get',
+			url: '${pageContext.request.contextPath}/getBoardLikeByMember',
+			data: {'boardId':boardId}
+		}).done(function (jsonData){
+			console.log(boardId);
+			console.log(jsonData);
+			if(jsonData==0){
+				window.location.href='${pageContext.request.contextPath}/addBoardLike?boardId='+boardId;
+			} else {
+				alert('이미 좋아요한 게시판입니다.');
+			}
+		});
+	};
+
 	$(document).ready(function(){
 		$('#btn').click(function(){
 			 console.log("btn click!");
@@ -45,7 +61,7 @@
 			$('#ckBtn').click(function(){
 				console.log('삭제 확인')
 				$.ajax({
-					url: '${pageContext.request.contextPath}/removeBoard?boardId=${boardMap.boardId}',
+					url: '${pageContext.request.contextPath}/member/removeBoard?boardId=${boardMap.boardId}',
 					type: 'post',
 					success: function(jsonData){
 						if(jsonData != 1) {
@@ -56,6 +72,26 @@
 					}				
 				});
 			});
+		});
+		
+		$('#removeBoardCommentClick').click(function() {
+			console.log('댓글 삭제 확인')
+			let comment = $("#boardCommentId").val(); 
+			$('#ckBtn2').click(function() {
+				console.log('삭제 확인')
+				$.ajax({
+					url: '${pageContext.request.contextPath}/member/removeBoardComment',
+					data: {'boardCommentId':comment},
+					type: 'post',
+					success: function(jsonData) {
+						if(jsonData != 1) {
+							alert('삭제 실패');
+							return;
+						}
+						location.href='${pageContext.request.contextPath}/getBoardOne?boardId=${boardMap.boardId}';
+					}
+				});
+			});			
 		});
 	});		
 </script>
@@ -91,6 +127,11 @@
 		<a href="${pageContext.request.contextPath}/modifyBoard?boardId=${boardMap.boardId}">수정</a>
 		<a href="${pageContext.request.contextPath}/removeBoard"
 					id="removeBoardClick" data-toggle="modal" data-target="#login-modal">삭제</a>
+		</div>
+		<div class="text-right">
+			<a class="btn" data-parameter1="${boardMap.boardId}"
+	               		onclick="addBoardLike(this.getAttribute('data-parameter1'))">
+	               		<i class="fa fa-heart" style="size:9x"></i></a>
 		</div>
 		<div class="testmonial_area">
 			<div class="row">
@@ -145,12 +186,15 @@
 							<div class="single-comment justify-content-between d-flex">
 								<div class="user justify-content-between d-flex">
 									<div class="desc">
-										<p class="comment">${b.boardCommentContent}</p>
+										<input type="hidden" id="boardCommentId" value="${b.boardCommentId}">
+										<p class="comment" >${b.boardCommentContent}</p>
 										<div class="d-flex justify-content-between">
 											<div class="d-flex align-items-center">
 												<h5>${b.memberId}</h5>
-												<p class="date">${b.createDate }</p>
-												<a href="${pageContext.request.contextPath}/removeBoardComment?boardCommentId=${b.boardCommentId}&boardId=${boardMap.boardId}"><button type="button">삭제</button></a>
+												<p class="date">${b.createDate}</p>
+														<a href="${pageContext.request.contextPath}/removeBoardComment"
+															id="removeBoardCommentClick" data-toggle="modal"
+															data-target="#login-modal2">삭제</a> 
 											</div>
 										</div>
 									</div>
@@ -182,8 +226,21 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
-					<h5 class="modal-title">삭제 하시겠습니까?</h5>
+					<h5 class="modal-title">게시판을 삭제 하시겠습니까?</h5>
 					<button id="ckBtn" type="button" class="btn btn-primary">확인</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+			<!-- 삭제 확인 모달 -->
+	<div class="modal fade" id="login-modal2" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h5 class="modal-title">댓글을 삭제 하시겠습니까?</h5>
+					<button id="ckBtn2" type="button" class="btn btn-primary">확인</button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 				</div>
 			</div>

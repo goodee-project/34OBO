@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.BoardMapper">
 	
+	<!-- 게시판 좋아요 -->
+	<insert id="insertBoardLike" parameterType="java.util.Map">
+		INSERT INTO board_like VALUES (#{boardId}, #{memberId}, NOW())
+	</insert>
+	
+	<!-- 게시판 좋아요 중복조회 -->
+	<select id="selectBoardLikeByMember" resultType="int" parameterType="java.util.Map">
+		SELECT COUNT(*) 
+		FROM board_like 
+		WHERE member_id=#{memberId} 
+			AND board_id=#{boardId}
+	</select>
+	
 	<!-- 게시판 수정 -->
 	<update id="updateBoard" parameterType="com.gd.obo.vo.Board">
 		UPDATE board
