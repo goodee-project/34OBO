@@ -60,10 +60,10 @@
 				<div  class="col-lg-9 mb-5 mb-lg-0">
 					<ul class="nav nav-tabs">
 					  <li class="nav-item">
-					    <a class="nav-link active" href="javascript:void(0);">내 작성글</a>
+					    <a class="nav-link active" href="javascript:void(0);" onclick="myBoardTbody(1)">내 작성글</a>
 					  </li>
 					  <li class="nav-item">
-					    <a class="nav-link" href="javascript:void(0);">관심글</a>
+					    <a class="nav-link" href="javascript:void(0);" onclick="myBoardLikeTbody(1)">관심글</a>
 					  </li>
 					</ul>
 					
@@ -71,10 +71,17 @@
 			  		<div>
 						<div class="single-post">
 							<div class="blog_details">
-								<h3 class="text-center">내 작성글</h3>
+								<h3 id="target" class="text-center">내 작성글</h3>
 								<!-- 자격승인목록 -->
 								<table class="table">
-									<thead id="thead">
+									<thead>
+										<tr>
+											<th>No.</th>
+											<th>카테고리</th>
+											<th>제목</th>
+											<th>작성자</th>
+											<th>등록일</th>											
+										</tr>
 									</thead>
 									<tbody id="tbody">
 									
@@ -108,8 +115,9 @@
 <script>
 
 	let boardPage = 1;
+	let likePage = 1;
 	
-	myBoardTable();
+	myBoardTbody(boardPage)
 	
 	
 	
@@ -117,8 +125,14 @@
 		boardPage = boardPage+no;
 		myBoardTbody(boardPage);
 	}
-
-	//내 작성글 목록 누르기....
+	
+	function moveLikePage(no){
+		likePage = likePage+no;
+		myBoardLikeTbody(likePage);
+	}
+	
+	/*
+	//내 작성글 목록 누르기.... 필요업음 ㅠㅠㅠ
 	function myBoardTable(){
 		boardPage = 1;
 		$('#thead').empty();
@@ -134,9 +148,12 @@
 		
 		myBoardTbody(boardPage);
 	}
+	*/
 	
 	//내 작성글 tbody
 	function myBoardTbody(page){
+		$('#target').text('내 작성글');
+		
 		$.ajax({
 			type: 'post',
 			url: '${pageContext.request.contextPath}/member/getBoardHistory',
@@ -181,6 +198,59 @@
 			if(nextPage <= jsonData.lastPage){						
 				$('#paging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveMyBoard(1)">'+nextPage+'</button></li>');
 				$('#paging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveMyBoard(1)"><i class="ti-angle-right"></i></button></li>');
+			}
+			
+		})
+	}
+	
+	//내 좋아요 tbody
+	function myBoardLikeTbody(page){
+		$('#target').text('관심글');
+		$.ajax({
+			type: 'post',
+			url: '${pageContext.request.contextPath}/member/getBoardLikeByMemberId',
+			data: {'memberId': '${memberId}', 'currentPage': page}
+		}).done(function(jsonData){
+			//console.log(jsonData);
+			
+			prePage = page-1;
+			nextPage = page+1;
+			
+			$('#tbody').empty();
+			$('#paging').empty();
+			
+			
+			//tbody 그리기
+			let tbody;
+			
+			$.each(jsonData.likeList, function(index,data){
+				console.log(data);
+				tbody += '<tr>';
+				tbody += '<td>'+data.boardId+'</td>';
+				tbody += '<td>'+data.boardCategoryName+'</td>';
+				tbody += '<td><a href="${pageContext.request.contextPath}/getBoardOne?boardId='+data.boardId+'">'+data.boardTitle+'</a></td>';
+				tbody += '<td>'+data.memberId+'</td>';
+				tbody += '<td>'+data.createDate+'</td>';
+				tbody += '</tr>';
+			})
+			
+			$('tbody').append(tbody);
+			
+			//페이징
+			
+			//이전
+			if(prePage > 0){
+				$('#paging').append('<li class="page-item"><button type="buttn" class="page-link" onclick="moveLikePage(-1)"><i class="ti-angle-left"></i></button></li>');
+				$('#paging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveLikePage(-1)">'+prePage+'</button></li>');
+			}
+			
+			//현재
+			$('#paging').append('<li class="page-item active"><button type="button" class="page-link">'+page+'</button></li>');
+			
+			//다음
+			if(nextPage <= jsonData.lastPage){						
+				$('#paging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveLikePage(1)">'+nextPage+'</button></li>');
+				$('#paging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveLikePage(1)"><i class="ti-angle-right"></i></button></li>');
 			}
 			
 		})

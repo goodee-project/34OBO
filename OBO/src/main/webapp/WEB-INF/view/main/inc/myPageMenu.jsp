@@ -14,7 +14,7 @@
 					<a href="${pageContext.request.contextPath}/member/getMemberVolunteer" class="d-flex"><p>봉사내역</p></a>									
 				</li>
 				<li>								
-					<a href="${pageContext.request.contextPath}/" class="d-flex"><p>입양&케어</p></a>									
+					<a href="${pageContext.request.contextPath}/member/getMemberAdoptAndCare" class="d-flex"><p>입양&케어</p></a>									
 				</li>
 				<li>								
 					<a href="${pageContext.request.contextPath}/member/getMemberAnimalLike" class="d-flex"><p>관심동물</p></a>									
@@ -23,7 +23,7 @@
 					<a href="${pageContext.request.contextPath}/member/addQualificationVolunteerApplication" class="d-flex"><p>봉사자격신청</p></a>									
 				</li>
 				<li>								
-					<a href="${pageContext.request.contextPath}/member/getBoardHistory" class="d-flex"><p>작성글</p></a>									
+					<a href="${pageContext.request.contextPath}/member/getMemberBoard" class="d-flex"><p>작성글</p></a>									
 				</li>
 			</ul>
 		</aside>
