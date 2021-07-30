@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>입양 케어</title>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- 부트스트랩 cdn -->
@@ -26,6 +28,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+
 
 <style>
   /* Make the image fully responsive */
@@ -138,10 +141,10 @@ $(document).ready(function(){
 										  	 
 										  	<!-- Left and right controls 화살표 색깔 바꾸기.... ㅎㅎ.... -->
 											  <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
-											    <span class="carousel-control-prev-icon"></span>
+											    <i class="fa fa-angle-double-left fa-2x black" aria-hidden="true"></i>
 											  </a>
 											  <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-											    <span class="carousel-control-next-icon"></span>
+											    <i class="fa fa-angle-double-right fa-2x black" aria-hidden="true"></i>
 											  </a> 
 										  	 
 							  			 </div>
@@ -203,7 +206,7 @@ $(document).ready(function(){
 									<div class="service_content">
 										<!-- 고민.... -->
 										<span style="text-align: right;">
-											<a href="javascript:void(0);">오늘</a>
+											<a href="javascript:void(0);" onclick="moveThisMonth()">이번달 보기</a>
 										</span>
 										<h3 class="text-center" style="margin-top: 2%;">케어달력</h3>
 											
@@ -316,14 +319,25 @@ $(document).ready(function(){
 <script>
 	let now = new Date();	// 현재 날짜 및 시간
 	let year = now.getFullYear();	// 연도
-	console.log('연도 : ', year);
+	//console.log('연도 : ', year);
 	
 	let month = now.getMonth() + 1;	// 월
-	console.log('월 : ', month);
+	//console.log('월 : ', month);
 	
 	calendar(year,month);
 	
+	//오늘 날짜
+	let thisYear = now.getFullYear();
+	let thisMonth = now.getMonth()+1;
+	let today = now.getDate();
+	console.log('오늘 : ', thisYear, thisMonth ,toaday);
 	
+	//이번달로 이동
+	function moveThisMonth(){
+		year = thisYear;
+		month = thisMonth;
+		calendar();
+	}
 	
 	//년월 바꾸기
 	function changeCal(y, m){
@@ -352,7 +366,7 @@ $(document).ready(function(){
 		
 		let day = year + '-' + m + '-01';
 		
-		console.log('확인!!!!!!!!! day 첫째날 블랭크 구하기'+ day);
+		//console.log('확인!!!!!!!!! day 첫째날 블랭크 구하기'+ day);
 		return new Date(day).getDay();
 	}
 	
@@ -371,6 +385,8 @@ $(document).ready(function(){
 		
 		return endB;
 	}
+	
+
 
 	//달력 다른 달로 바꾸기 y: 년도 , m: 월
 	function calendar(){
@@ -413,14 +429,18 @@ $(document).ready(function(){
 			//달력 셋팅
 			//첫번째 블랭크 수, 요일
 			let firstDay = firstDate();
-			console.log(firstDay);
+			//console.log(firstDay);
 			//마지막 일
 			let end = endDate();
-			console.log(end);
+			//console.log(end);
 			//마지막 블랭크 수
 			let endB = endBlank(firstDay, end);
-			console.log(endB);
+			//console.log(endB);
 			
+			//첫번째 토요일
+			let sat = 7 - firstDay;
+			
+			//전체 칸 수
 			let totalCell = firstDay+end+endB;
 			
 			let addTable = "";
@@ -435,13 +455,24 @@ $(document).ready(function(){
 				// if-> 1~n일		else-> 앞뒤 블랭크
 				if(i>firstDay && i<=(firstDay+end)){
 					//n일
-					addTable += '<div>'+day+'</div>';
 					
+					
+					if(i%7 == 0){//토요일
+						addTable += '<div style="color: blue;">'+day+'</div>';
+					} else if(i%7 == 1){//일요일
+						addTable += '<div style="color: red;">'+day+'</div>';
+					} else{//평일
+						addTable += '<div>'+day+'</div>';
+					}
+					
+					if(thisYear == year && thisMonth == month && day == today){
+						addTable += '<span style="color:#92B3B7">오늘</span>';
+					}
 					//n일에 해당하는 일정 등록, 그 외에는 일만 뜨도록 함.
 					$(jsonData).each(function(index, item){
 						if(day == item.day){
 							addTable += '<div><a href="javascript:void(0);" data-parameter="'+item.carePlanId+'" data-toggle="modal" data-target="#plan-modal" onclick="planOneFunc(this.getAttribute(\'data-parameter\'));">'
-										+item.animalName+'-'+item.careSorting+'</a></div>';
+										+item.careSorting+'<br>('+item.animalName+')'+'</a></div>';
 						}
 					});
 				} else{	//1~n일 제외한 블랭크
