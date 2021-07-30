@@ -10,6 +10,8 @@ import com.gd.obo.vo.BoardFile;
 
 @Mapper
 public interface BoardMapper {
+	int selectBoardLikeTotalByMemberId(String Object);
+	List<Map<String, Object>> selectBoardLikeByMemberId(Map<String, Object> map);
 	Map<String, Object> selectBoardOne(int boardId);
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 	int selectTotal(Map<String,Object> totalMap);

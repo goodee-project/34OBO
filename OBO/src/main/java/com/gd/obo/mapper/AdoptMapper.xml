@@ -144,4 +144,37 @@
 	<select id="selectAdoptDocumentByMember" parameterType="String" resultType="java.util.Map">
 		SELECT * FROM adopt_document_list WHERE memberId=#{memberId}
 	</select>
+	
+	<!-- 멤버별 입양동물 조회 -->
+	<select id="selectAdoptListByMemberId" parameterType="java.lang.String" resultType="java.util.Map">
+		SELECT
+			al.animal_name animalName,
+			al.animal_id animalId, 
+			al.species species, 
+			s.shelter_name shelterName, 
+			s.shelter_id shelterId, 
+			DATE(al.adopt_date) adoptDate, 
+			af.animal_file_name animalFileName
+		FROM adopt_list al 
+			INNER JOIN shelter s ON al.shelter_id=s.shelter_id
+			LEFT JOIN animal_file af ON al.animal_id=af.animal_id
+		WHERE al.member_id = #{memberId}
+	</select>
+	
+	<!-- 입양신청내역 멤버별 -->
+	<select id="selectAdoptApplyListByMemberId" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			a.animal_id animalId, 
+			a.animal_name animalName, 
+			DATE(aa.apply_date) applyDate, 
+			s.shelter_id shelterId,
+			s.shelter_name shelterName,
+			case when aa.apply_reject_date IS NOT NULL then '거부' when a.animal_state = '입양' then '승인' ELSE '대기중' END 'checked',
+			COUNT(*) over() AS total
+		FROM animal a
+			INNER JOIN adopt_apply aa ON aa.animal_id=a.animal_id
+			INNER JOIN shelter s ON a.shelter_id=s.shelter_id
+		WHERE aa.member_id = #{memberId}
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
 </mapper>

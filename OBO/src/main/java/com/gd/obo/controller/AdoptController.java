@@ -2,6 +2,7 @@
 
 package com.gd.obo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AdoptController {
 	@Autowired AdoptService adoptService;
+	
+	//내정보 - 입양&케어 페이지
+	@GetMapping("/member/getMemberAdoptAndCare")
+	public String getMemberAdoptAndCare(HttpSession session, Model model) {
+		String memberId = ((Member) session.getAttribute("loginMember")).getMemberId();
+		
+		model.addAttribute("adoptList", adoptService.getAdoptListByMemberId(memberId));
+		return "main/getMemberAdoptAndCare";
+	}
 	
 	// staff - 입양&케어 페이지 이동
 	@GetMapping("/staff/getAdoptAndCareInStaff")
