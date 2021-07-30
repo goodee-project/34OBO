@@ -210,11 +210,11 @@ $(document).ready(function(){
 											<!--  달력 설정 -->
 											<h2 class="text-center">
 												<span>
-													<a href="javascript:void(0);" onclick="changeMonth(-1)"><i class="fa fa-arrow-circle-o-left"></i></a>
+													<a href="javascript:void(0);" onclick="moveMonth(-1)"><i class="fa fa-arrow-circle-o-left"></i></a>
 													<input id="date" class="form-control" type="month" style="display:inline-block; width:25%;"
 															onchange="changeCal(Number(document.getElementById('date').value.slice(0,4)), Number(document.getElementById('date').value.slice(5,7)));">
 													<!-- ${aboutToday.thisYear}년 / ${aboutToday.thisMonth}월 -->
-													<a href="javascript:void(0);" onclick="changeMonth(+1)"><i class="fa fa-arrow-circle-o-right"></i></a>
+													<a href="javascript:void(0);" onclick="moveMonth(+1)"><i class="fa fa-arrow-circle-o-right"></i></a>
 												</span>	
 											</h2>
 											<br><br>
@@ -231,37 +231,7 @@ $(document).ready(function(){
 													</tr>
 												</thead>
 												<tbody id="day">
-													<tr style="height:130px;">
-														<c:forEach var="i" begin="1" end="${aboutToday.totalTd}" step="1">
-														<c:set var="day" value="${i-aboutToday.thisFirstBlank}" />
-															<td>
-																<!-- 1~n일의 달력 -->
-																<c:if test="${i>aboutToday.thisFirstBlank && i<=(aboutToday.thisFirstBlank+aboutToday.thisEndDate)}">
-																	<!-- n일 -->
-																	<div>${day}</div>
-																	<!-- n일에 해당하는 일정 -->
-																	<c:forEach var="c" items="${carePlanList}">
-																		<c:if test="${day == c.day}">
-																			<div>
-																				<a href="javascript:void(0);" data-parameter="${c.carePlanId}" data-toggle="modal" data-target="#plan-modal" 
-																					onclick="planOneFunc(this.getAttribute('data-parameter'));">${c.animalName}</a>
-																			</div>
-																		</c:if>
-																	</c:forEach>
-																</c:if>
-																
-																<!-- 1~n일 제외한 블랭크 -->
-																<c:if test="${i<=aboutToday.thisFirstBlank || i>(aboutToday.thisFirstBlank+aboutToday.thisEndDate)}">
-																	<div>&nbsp;</div>
-																</c:if>
-															</td>
-														
-															<!-- 줄바꾸기 -->
-															<c:if test="${i%7 == 0 && day<aboutToday.thisEndDate}">
-																</tr><tr style="height:130px;">
-															</c:if>
-														</c:forEach>
-													</tr>
+													
 												</tbody>
 											</table>
 									</div>
@@ -353,21 +323,57 @@ $(document).ready(function(){
 	
 	calendar(year,month);
 	
+	
+	
+	//년월 바꾸기
 	function changeCal(y, m){
 		year = y;
 		month = m;
-		calendar(year,month);
+		calendar();
 		
 	}
 	
 	//월 받아서 바꾸기
-	function changeMonth(m){
+	function moveMonth(m){
 		month = month + m
-		calendar(year,month);
+		calendar();
+	}
+	
+	//달의 첫재날 무슨 주일?
+	//new Date('2020-01-01').getDay();
+	// 0이 일요일... 6이 토요일 = 앞의 블랭크의 수와 같음
+	function firstDate(){
+		let m;
+		if(month<10){	
+			m = '0'+month;
+		} else{
+			m = month;
+		}
+		
+		let day = year + '-' + m + '-01';
+		
+		console.log('확인!!!!!!!!! day 첫째날 블랭크 구하기'+ day);
+		return new Date(day).getDay();
+	}
+	
+	//var lastDate = new Date(2019, 2, 0).getDate();
+	//console.log(lastDate);
+	function endDate(){
+		return new Date(year, month, 0).getDate();
+	}
+	
+	// endBlank는 firstBlank + endDate를 7로 나눈 나머지 값을 7에서 빼준다. 만약 나머지 0이라면 추가하는 블랭크 없음.
+	function endBlank(first, end){
+		let endB = 0;
+		if((first+end)%7 != 0) {
+			endB = 7-((first+end)%7);
+		}
+		
+		return endB;
 	}
 
 	//달력 다른 달로 바꾸기 y: 년도 , m: 월
-	function calendar(y, m){
+	function calendar(){
 		
 		//1월 -> 12월
 		if(month<1){
@@ -387,10 +393,78 @@ $(document).ready(function(){
 			$('#date').val(year+'-'+month);
 		}
 		
-		console.log('바뀐 년/월?'+$('#date').val());
+		//console.log('바뀐 년/월?'+$('#date').val());
+		
+		
 		
 		//바뀐 년월 불러오기...
+		//구해야될거 달의 첫날 요일, 첫번째 블랭크 , 마지막날, 마지막 블랭크
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/member/getCarePlanListByMemberId',
+			type: 'get',
+			data: {year: year, month: month}
+		}).done(function(jsonData){
+			console.log(jsonData);
+			
+			
+			//10월 11월 12월은 나오지 않는 이슈?
+			
+			//달력 셋팅
+			//첫번째 블랭크 수, 요일
+			let firstDay = firstDate();
+			console.log(firstDay);
+			//마지막 일
+			let end = endDate();
+			console.log(end);
+			//마지막 블랭크 수
+			let endB = endBlank(firstDay, end);
+			console.log(endB);
+			
+			let totalCell = firstDay+end+endB;
+			
+			let addTable = "";
+			
+			addTable += '<tr style="height:130px;">';
+			
+			
+			for(let i = 1; i <= totalCell; i++){
+				day = i-firstDay;	//blank+1이 1부터 시작하도록!
+				addTable += '<td>'
+			
+				// if-> 1~n일		else-> 앞뒤 블랭크
+				if(i>firstDay && i<=(firstDay+end)){
+					//n일
+					addTable += '<div>'+day+'</div>';
+					
+					//n일에 해당하는 일정 등록, 그 외에는 일만 뜨도록 함.
+					$(jsonData).each(function(index, item){
+						if(day == item.day){
+							addTable += '<div><a href="javascript:void(0);" data-parameter="'+item.carePlanId+'" data-toggle="modal" data-target="#plan-modal" onclick="planOneFunc(this.getAttribute(\'data-parameter\'));">'
+										+item.animalName+'-'+item.careSorting+'</a></div>';
+						}
+					});
+				} else{	//1~n일 제외한 블랭크
+					addTable += '<div>&nbsp;<div>';
+				}
+				
+				addTable += '</td>';
+				
+				//줄 바꾸기
+				if(i%7 == 0 && day<end){
+					addTable += '</tr><tr style="height:130px;">';
+				}
+			}
+			
+			addTable += '</tr>';
+			
+			$('#day').empty();
+			$('#day').append(addTable);
+			
+			
+		})
 	}
+	
 </script>
 </body>
 </html>

@@ -265,4 +265,21 @@
 			#{features}
 		)
 	</insert>
+	
+	<!-- member별 케어 플랜 달력 -->
+	<select id="selectCarePlanListByMemberId" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			cp.care_plan_id AS carePlanId,
+			a.animal_name AS animalName,
+			DAY(cp.care_date) AS day,
+			ci.care_sorting AS careSorting
+		FROM care_plan AS cp
+			INNER JOIN animal a ON cp.animal_id=a.animal_id
+			INNER JOIN care_info ci ON cp.care_info_id=ci.care_info_id
+		<where>
+			YEAR(cp.care_date) = #{year}
+			AND MONTH(cp.care_date) = #{month}
+			AND cp.member_id = #{memberId}
+		</where>
+	</select>
 </mapper>
