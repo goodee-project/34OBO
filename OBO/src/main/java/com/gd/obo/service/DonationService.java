@@ -420,11 +420,17 @@ public class DonationService {
 		List<Map<String, Object>> donationItemList = donationMapper.selectDonationItemList(map);
 		List<ItemCategory> itemCategoryList = donationMapper.selectItemCategoryList();
 
-		int totalRow = Integer.parseInt(donationItemList.get(0).get("totalRow").toString());
+		//lastPage 구하기
+		int totalRow = 0;
+		if(donationItemList.size() != 0) {
+			totalRow = Integer.parseInt(donationItemList.get(0).get("totalRow").toString());
+		}
 		int lastPage = totalRow/rowPerPage;
 		if(totalRow % rowPerPage != 0) {
 			lastPage += 1;
 		}
+		log.debug("●●●●▶ totalRow: "+totalRow);
+		log.debug("●●●●▶ lastPage: "+lastPage);
 		
 		//컨트롤러로 보낼 map
 		Map<String, Object> setMap = new HashMap<>();

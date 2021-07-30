@@ -232,12 +232,16 @@ public class DonationController {
 		List<Map<String, Object>> moneyNList = donationService.getDonationMoneyNList(shelterId, searchWord, currentPage, rowPerPage);
 
 		//lastPage 구하기
-		//long totalRow = ((Map)moneyNList.get("totalRow"));
-		int totalRow = Integer.parseInt(moneyNList.get(0).get("totalRow").toString());
+		int totalRow = 0;
+		if(moneyNList.size() != 0) {
+			totalRow = Integer.parseInt(moneyNList.get(0).get("totalRow").toString());
+		}
 		int lastPage = totalRow/rowPerPage;
 		if(totalRow % rowPerPage != 0) {
 			lastPage += 1;
 		}
+		log.debug("●●●●▶ totalRow: "+totalRow);
+		log.debug("●●●●▶ lastPage: "+lastPage);
 		
 		model.addAttribute("moneyNList", moneyNList);
 		model.addAttribute("searchWord", searchWord);
@@ -269,11 +273,16 @@ public class DonationController {
 		List<Map<String, Object>> moneyPList = donationService.getDonationMoneyPList(shelterId, searchWord, currentPage, rowPerPage);
 		
 		//lastPage 구하기
-		int totalRow = Integer.parseInt(moneyPList.get(0).get("totalRow").toString());
+		int totalRow = 0;
+		if(moneyPList.size() != 0) {
+			totalRow = Integer.parseInt(moneyPList.get(0).get("totalRow").toString());
+		}
 		int lastPage = totalRow/rowPerPage;
 		if(totalRow % rowPerPage != 0) {
 			lastPage += 1;
 		}
+		log.debug("●●●●▶ totalRow: "+totalRow);
+		log.debug("●●●●▶ lastPage: "+lastPage);
 		
 		model.addAttribute("moneyPList", moneyPList);
 		model.addAttribute("searchWord", searchWord);

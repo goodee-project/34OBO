@@ -37,11 +37,9 @@ public class CareController {
 	@GetMapping("/staff/getCareInfoInStaff")
 	public String getCareInfoInStaff (Model model, @RequestParam(value = "searchWord", required = false) String searchWord,
 													@RequestParam(value = "species", required = false) String species,
-													@RequestParam(value = "careSorting", required = false) String careSorting) {
-		log.debug("●●●●▶ searchWord-> "+searchWord);
-		log.debug("●●●●▶ species-> "+species);
-		log.debug("●●●●▶ careSorting-> "+careSorting);
-		
+													@RequestParam(value = "careSorting", required = false) String careSorting,
+													@RequestParam(value= "currentPage", defaultValue = "1") int currentPage,
+													@RequestParam(value= "rowPerPage", defaultValue = "10") int rowPerPage) {
 		// searchWord null 처리
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
@@ -56,8 +54,28 @@ public class CareController {
 			careSorting = null;
 		}
 		
-		List<Map<String, Object>> careInfoList = careService.getCareInfoList(searchWord, species, careSorting);
+		// 디버깅
+		log.debug("●●●●▶ searchWord-> "+searchWord);
+		log.debug("●●●●▶ species-> "+species);
+		log.debug("●●●●▶ careSorting-> "+careSorting);
+		log.debug("●●●●▶ currentPage-> "+currentPage);
+		log.debug("●●●●▶ rowPerPage-> "+rowPerPage);
+		
+		List<Map<String, Object>> careInfoList = careService.getCareInfoList(searchWord, species, careSorting, currentPage, rowPerPage);
 		log.debug("●●●●▶ careInfoList-> "+careInfoList);
+		
+		//lastPage 구하기
+		int totalRow = 0;
+		if(careInfoList.size() != 0) {
+			totalRow = Integer.parseInt(careInfoList.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶ totalRow: "+totalRow);
+		log.debug("●●●●▶ lastPage: "+lastPage);
+		
 		
 		// 동물카테고리 리스트
 		List<Map<String,Object>> animalCategoryList = animalService.getAnimalCategoryList();
@@ -71,6 +89,9 @@ public class CareController {
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("species", species);
 		model.addAttribute("careSorting", careSorting);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("currentPage", currentPage);
 		
 		return "staff/getCareInfoInStaff";
 	}
@@ -79,7 +100,7 @@ public class CareController {
 	@GetMapping("/staff/addCarePlanInStaff")
 	public String addCarePlanInStaff (Model model, HttpSession session) {
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
+		log.debug("●●●●▶ shelterId: "+shelterId);
 		
 		List<Map<String, Object>> adoptApprovalList = adoptService.getAdoptApprovalList(shelterId);
 		log.debug("●●●●▶ adoptApprovalList-> "+adoptApprovalList);
@@ -117,22 +138,44 @@ public class CareController {
 	@GetMapping("/staff/getCarePlanInStaff")
 	public String getCarePlanInStaff (Model model, HttpSession session,
 										@RequestParam(value = "searchWord", required = false) String searchWord,
-										@RequestParam(value = "selectOption", required = false) String selectOption) {
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
+										@RequestParam(value = "selectOption", required = false) String selectOption,
+										@RequestParam(value= "currentPage", defaultValue = "1") int currentPage,
+										@RequestParam(value= "rowPerPage", defaultValue = "10") int rowPerPage) {
 		
 		//공백일 경우 null처리
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
+		
+		//디버깅
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶ shelterId: "+shelterId);
+		log.debug("●●●●▶ searchWord: "+searchWord);
+		log.debug("●●●●▶ currentPage: "+currentPage);
+		log.debug("●●●●▶ rowPerPage: "+rowPerPage);
 
 		List<Map<String, Object>> carePlanDdayList = careService.getCarePlanDdayList(shelterId);
-		List<Map<String, Object>> carePlanList = careService.getCarePlanList(shelterId, searchWord, selectOption);
+		List<Map<String, Object>> carePlanList = careService.getCarePlanList(shelterId, searchWord, selectOption, currentPage, rowPerPage);
+		
+		//lastPage 구하기
+		int totalRow = 0;
+		if(carePlanList.size() != 0) {
+			totalRow = Integer.parseInt(carePlanList.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶ totalRow: "+totalRow);
+		log.debug("●●●●▶ lastPage: "+lastPage);
 		
 		model.addAttribute("carePlanDdayList", carePlanDdayList);
 		model.addAttribute("carePlanList", carePlanList);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("selectOption", selectOption);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("currentPage", currentPage);
 		
 		return "staff/getCarePlanInStaff";
 	}
@@ -169,19 +212,19 @@ public class CareController {
 		aboutToday.put("thisEndBlank", thisEndBlank);
 		aboutToday.put("totalTd", totalTd);
 		aboutToday.put("date", date);
-		log.debug("●●●●▶aboutToday: "+aboutToday);
+		log.debug("●●●●▶ aboutToday: "+aboutToday);
 		
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
+		log.debug("●●●●▶ shelterId: "+shelterId);
 		
 		int setMonth = thisMonth + 1;
-		log.debug("●●●●▶setMonth: "+setMonth);
+		log.debug("●●●●▶ setMonth: "+setMonth);
 		
 		List<Map<String, Object>> carePlanList = careService.getCarePlanInCal(shelterId, thisYear, setMonth);
-		log.debug("●●●●▶carePlanList: "+carePlanList);
+		log.debug("●●●●▶ carePlanList: "+carePlanList);
 		
-		model.addAttribute("aboutToday", aboutToday);
-		model.addAttribute("carePlanList", carePlanList);
+		model.addAttribute("aboutToday", aboutToday);		//달력정보
+		model.addAttribute("carePlanList", carePlanList);	//플랜정보
 		
 		return "staff/getCarePlanCalInStaff";
 	}
@@ -231,20 +274,41 @@ public class CareController {
 	@GetMapping("/staff/getCareRecordInStaff")
 	public String getCareRecordInStaff (Model model, HttpSession session,
 										@RequestParam(value = "searchWord", required = false) String searchWord,
-										@RequestParam(value = "selectOption", required = false) String selectOption) {
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
-		
+										@RequestParam(value = "selectOption", required = false) String selectOption,
+										@RequestParam(value= "currentPage", defaultValue = "1") int currentPage,
+										@RequestParam(value= "rowPerPage", defaultValue = "10") int rowPerPage) {
 		//공백일 경우 null처리
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
 		
-		List<Map<String, Object>> careRecordList = careService.getCareRecordList(shelterId, searchWord, selectOption);
+		//디버깅
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶ shelterId: "+shelterId);
+		log.debug("●●●●▶ searchWord: "+searchWord);
+		log.debug("●●●●▶ currentPage: "+currentPage);
+		log.debug("●●●●▶ rowPerPage: "+rowPerPage);
+		
+		List<Map<String, Object>> careRecordList = careService.getCareRecordList(shelterId, searchWord, selectOption, currentPage, rowPerPage);
+		
+		//lastPage 구하기
+		int totalRow = 0;
+		if(careRecordList.size() != 0) {
+			totalRow = Integer.parseInt(careRecordList.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶ totalRow: "+totalRow);
+		log.debug("●●●●▶ lastPage: "+lastPage);
 		
 		model.addAttribute("careRecordList", careRecordList);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("selectOption", selectOption);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("currentPage", currentPage);
 		
 		return "staff/getCareRecordInStaff";
 	}
