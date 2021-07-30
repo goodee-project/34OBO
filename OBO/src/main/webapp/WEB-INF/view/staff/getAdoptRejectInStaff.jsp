@@ -103,7 +103,11 @@ $(document).ready(function(){
 									<tr>
 										<td>${a.animalName}</td>
 										<td>${a.memberName}(${a.memberId})</td>
-										<td>${a.adoptApplyDocumentId}</td>
+										<td>
+											<a href="javascript:void(0);" data-toggle="modal" data-parameter="${a.adoptApplyDocumentId}" data-target="#document-modal" onclick="adoptDocuFunc(this.getAttribute('data-parameter'));">
+												<i class="fa fa-file-text-o"></i>
+											</a>
+										</td>
 										<td>${a.applyDate}</td>
 										<td>${a.applyRejectDate}</td>
 									</tr>
@@ -120,16 +124,30 @@ $(document).ready(function(){
 						<nav class="blog-pagination justify-content-center d-flex">
 							<ul class="pagination">
 								<!-- 이전 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
-								</li>
-								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
-								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
+								<c:if test="${currentPage > 1}">
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff?currentPage=${currentPage-1}
+										&searchWord=${searchWord}" class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i>
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff?currentPage=${currentPage-1}
+										&searchWord=${searchWord}" class="page-link">${currentPage-1}
+									</a></li>
+								</c:if>
+								<c:if test="${currentPage == 1}">
+									<!-- 이전 페이지 보이지 않음 -->
+								</c:if>
 								
+								<!-- 현재 페이지 setting -->
+								<li class="page-item active"><a href="javascript:void(0);" class="page-link">${currentPage}</a></li>
+									
 								<!-- 다음 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
-								</li>
+								<c:if test="${currentPage < lastPage}"> <!-- currentPage+1 <= lastPage -->
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff?currentPage=${currentPage+1}
+										&searchWord=${searchWord}" class="page-link" aria-label="Next">${currentPage+1}
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getAdoptRejectInStaff?currentPage=${currentPage+1}
+										&searchWord=${searchWord}" class="page-link" aria-label="Next"><i class="ti-angle-right"></i>
+									</a></li>
+								</c:if>
 							</ul>
 						</nav>
 						<hr>
@@ -157,6 +175,67 @@ $(document).ready(function(){
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->	
 	
+	<!-- 신청 서류 모달 -->
+	<div class="modal fade" id="document-modal" role="dialog" aria-labelledby="document-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h3 class="modal-title" style="text-align:center;">*<span id="animalName"></span>* 신청 서류</h3>
+					<br>
+					<h4 class="modal-title" style="text-align:center;">입양 신청자 : <span id="member"></span></h4>
+					<br>
+					<div id="document" style="text-align:center;">
+					
+					</div>
+					
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+	//입양 신청 서류 보기
+	function adoptDocuFunc(id){
+		console.log('입양서류 id->'+id);
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getDocument',
+			type: 'get',
+			data: {documentId : id},
+			success: function(jsonData){
+				if(jsonData == 0){
+					console.log('신청 서류 없음');
+					return;
+				}
+				
+				let animalName, memberId, memberName;
+				$('#document').empty();
+				
+				let addDocu = "";
+				
+				$(jsonData).each(function(index, item){
+					animalName = item.animalName;
+					memberId = item.memberId;
+					memberName = item.memberName;
+					
+					addDocu += '<hr>';
+					addDocu += '<div> Q.'+item.question+'</div>';
+					addDocu += '<br>';
+					addDocu += '<div> A.'+item.answer+'</div>';
+					
+				});
+				
+				$('#animalName').text(animalName);
+				$('#member').text(memberName+'('+memberId+')');
+				$('#document').append(addDocu);
+			}
+		});
+	}
+	</script>
+
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
