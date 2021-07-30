@@ -90,7 +90,11 @@ $(document).ready(function(){
 										<td>${c.careInfo}</td>
 										<td>${c.memberName}(${c.memberId})</td>
 										<td>${c.careDate}</td>
-										<td style="text-align:center;"><a href=""><i class="fa fa-external-link"></i></a></td>
+										<td style="text-align:center;">
+											<a href="javascript:void(0);" data-toggle="modal" data-target="#record-modal" onclick="addRecordFunc('${c.animalName}','${c.careInfo}','${c.memberName}','${c.memberId}','${c.careDate}','${c.carePlanId}');">
+												<i class="fa fa-external-link"></i>
+											</a>
+										</td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -98,8 +102,10 @@ $(document).ready(function(){
 					</div>
 					<br><br>
 					<div class="single-post">
-						<h3>Care Plan</h3>
 						<div class="blog_details">
+						<div class="row">
+						&emsp;<h3>Care Plan</h3> <span>&emsp;*미작성 record만 확인 가능합니다.*</span>
+						</div>
 							<!-- 검색결과 -->
 							<div>
 								<c:if test="${selectOption == 'animal' && searchWord != null}">
@@ -118,30 +124,34 @@ $(document).ready(function(){
 							<br>
 							
 							<table class="table">
-								<tr>
-									<td>이름</td> <!-- care_info & animal_category 조인 -->
-									<td>케어Info</td>
-									<td>회원정보</td> <!-- 이름(아이디) -->
-									<td>작성직원</td>
-									<td>케어일</td>
-									<td>작성일</td>
-									<td>Record</td>
-								</tr>
-								<c:forEach var="c" items="${carePlanList}">
+								<thead>
 									<tr>
-										<td>${c.animalName}</td>
-										<td>${c.careInfo}</td>
-										<td>${c.memberName}(${c.memberId})</td>
-										<td>${c.staffId}</td>
-										<td>${c.careDate}</td>
-										<td>${c.createDate}</td>
-										<td style="text-align:center;">
-											<a href="javascript:void(0);" data-toggle="modal" data-target="#record-modal" onclick="addRecordFunc('${c.animalName}','${c.careInfo}','${c.memberName}','${c.memberId}','${c.careDate}','${c.carePlanId}');">
-												<i class="fa fa-external-link"></i>
-											</a>
-										</td>
+										<th>이름</th> <!-- care_info & animal_category 조인 -->
+										<th>케어Info</th>
+										<th>회원정보</th> <!-- 이름(아이디) -->
+										<th>작성직원</th>
+										<th>케어일</th>
+										<th>작성일</th>
+										<th>Record</th>
 									</tr>
-								</c:forEach>
+								</thead>
+								<tbody>
+									<c:forEach var="c" items="${carePlanList}">
+										<tr>
+											<td>${c.animalName}</td>
+											<td>${c.careInfo}</td>
+											<td>${c.memberName}(${c.memberId})</td>
+											<td>${c.staffId}</td>
+											<td>${c.careDate}</td>
+											<td>${c.createDate}</td>
+											<td style="text-align:center;">
+												<a href="javascript:void(0);" data-toggle="modal" data-target="#record-modal" onclick="addRecordFunc('${c.animalName}','${c.careInfo}','${c.memberName}','${c.memberId}','${c.careDate}','${c.carePlanId}');">
+													<i class="fa fa-external-link"></i>
+												</a>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
 							</table>
 						</div>
 					</div>
@@ -154,16 +164,30 @@ $(document).ready(function(){
 						<nav class="blog-pagination justify-content-center d-flex">
 							<ul class="pagination">
 								<!-- 이전 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
-								</li>
-								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
-								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
+								<c:if test="${currentPage > 1}">
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getCarePlanInStaff?currentPage=${currentPage-1}
+										&selectOption=${selectOption}&searchWord=${searchWord}" class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i>
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getCarePlanInStaff?currentPage=${currentPage-1}
+										&selectOption=${selectOption}&searchWord=${searchWord}" class="page-link">${currentPage-1}
+									</a></li>
+								</c:if>
+								<c:if test="${currentPage == 1}">
+									<!-- 이전 페이지 보이지 않음 -->
+								</c:if>
 								
+								<!-- 현재 페이지 setting -->
+								<li class="page-item active"><a href="javascript:void(0);" class="page-link">${currentPage}</a></li>
+									
 								<!-- 다음 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
-								</li>
+								<c:if test="${currentPage < lastPage}"> <!-- currentPage+1 <= lastPage -->
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getCarePlanInStaff?currentPage=${currentPage+1}
+										&selectOption=${selectOption}&searchWord=${searchWord}" class="page-link" aria-label="Next">${currentPage+1}
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getCarePlanInStaff?currentPage=${currentPage+1}
+										&selectOption=${selectOption}&searchWord=${searchWord}" class="page-link" aria-label="Next"><i class="ti-angle-right"></i>
+									</a></li>
+								</c:if>
 							</ul>
 						</nav>
 						<hr>

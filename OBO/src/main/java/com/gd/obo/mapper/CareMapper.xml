@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.CareMapper">
-
+	
 	<!-- care info list 보기 -->
-	<select id="selectCareInfoList" resultType="java.util.Map">
+	<select id="selectCareInfoList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			ci.care_info_id careInfoId,
 			ac.species species,
 			ci.care_sorting careSorting,
 			ci.care_info_content careInfoContent,
-			ci.care_time careTime
+			ci.care_time careTime,
+			COUNT(ci.care_info_id) over() AS totalRow
 		FROM animal_category ac, care_info ci
 		<where>
 			ac.animal_category_id = ci.animal_category_id
@@ -23,7 +24,10 @@
 				AND ci.care_sorting = #{careSorting}
 			</if>
 		</where>
-		ORDER BY ci.care_info_id ASC;
+		ORDER BY ci.care_info_id ASC
+		<if test="beginRow != null and rowPerPage != null">
+		LIMIT #{beginRow}, #{rowPerPage}
+		</if>
 	</select>
 	
 	<!-- care info list : 분류 선택할 때 사용 -->
@@ -70,7 +74,8 @@
 			m.member_name AS memberName,
 			cp.staff_id AS staffId,
 			DATE(cp.create_date) AS createDate,
-			DATE(cp.care_date) AS careDate
+			DATE(cp.care_date) AS careDate,
+			COUNT(cp.care_plan_id) over() AS totalRow
 		FROM care_plan AS cp
 		LEFT JOIN care_info AS ci ON cp.care_info_id = ci.care_info_id
 		LEFT JOIN member AS m ON cp.member_id = m.member_id
@@ -92,7 +97,10 @@
 				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
 			</if>
 		</where>	
-		ORDER BY careDate ASC;
+		ORDER BY careDate ASC
+		<if test="beginRow != null and rowPerPage != null">
+		LIMIT #{beginRow}, #{rowPerPage}
+		</if>
 	</select>
 	
 	<!-- 달력에서 care plan list 보기 : 해당 년/월에 맞는 list만 출력 -->
@@ -151,7 +159,8 @@
 			m.member_name AS memberName,
 			cr.staff_id_check AS staffId,
 			DATE(cr.record_date) AS recordDate,
-			cr.features AS features
+			cr.features AS features,
+			COUNT(cp.care_plan_id) over() AS totalRow
 		FROM care_plan AS cp, care_info AS ci, member AS m, animal AS a,
 			adopt_apply AS aa, adopt AS ad, care_record AS cr
 		<where> 
@@ -170,7 +179,8 @@
 				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
 			</if>
 		</where>
-		ORDER BY recordDate DESC;
+		ORDER BY recordDate DESC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 미작성 record의 care plan one 보기 -->
