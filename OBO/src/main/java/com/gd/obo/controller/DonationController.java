@@ -164,41 +164,48 @@ public class DonationController {
 	public String getDonationItemN(Model model, HttpSession session,
 									@RequestParam(value="searchWord", required = false) String searchWord,
 									@RequestParam(value="searchSelect", required = false) String searchSelect,
-									@RequestParam(value="itemCategoryName", required = false) String itemCategoryName){
-		//세션에서 shelterId 가져오기
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
-		log.debug("●●●●▶searchWord: "+searchWord);
-		log.debug("●●●●▶searchSelect: "+searchSelect);
-		log.debug("●●●●▶itemCategoryName: "+itemCategoryName);
-		
+									@RequestParam(value="itemCategoryName", required = false) String itemCategoryName,
+									@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+									@RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage){
 		//searchWord 공백 -> null 처리
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
 		
 		//searchSelect 미선택 -> null 처리
-		if(searchSelect != null && searchSelect.equals("non")) {
+		if(searchSelect != null && searchSelect.equals("")) {
 			searchSelect = null;
 			log.debug("●●●●▶ null 처리 후 searchSelect: "+searchSelect);
 		}
 		
 		//itemCategoryName 미선택 -> null 처리
-		if(itemCategoryName != null && itemCategoryName.equals("non")) {
+		if(itemCategoryName != null && itemCategoryName.equals("")) {
 			itemCategoryName = null;
 			log.debug("●●●●▶ null 처리 후itemCategoryName: "+itemCategoryName);
 		}
 		
-		//페이징 추가
+		//세션에서 shelterId 가져오기
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+				
+		//디버깅
+		log.debug("●●●●▶shelterId: "+shelterId);
+		log.debug("●●●●▶searchWord: "+searchWord);
+		log.debug("●●●●▶searchSelect: "+searchSelect);
+		log.debug("●●●●▶itemCategoryName: "+itemCategoryName);
+		log.debug("●●●●▶currentPage: "+currentPage);
+		log.debug("●●●●▶rowPerPage: "+rowPerPage);
 		
 		//service 실행
-		Map<String, Object> map = donationService.getDonationItemList(shelterId, searchWord, searchSelect, itemCategoryName);
+		Map<String, Object> map = donationService.getDonationItemList(shelterId, searchWord, searchSelect, itemCategoryName, currentPage, rowPerPage);
 		
 		model.addAttribute("donationItemList", map.get("donationItemList"));
 		model.addAttribute("itemCategoryList", map.get("itemCategoryList"));
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("totalRow", map.get("totalRow"));
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("searchSelect", searchSelect);
 		model.addAttribute("itemCategoryName", itemCategoryName);
+		model.addAttribute("currentPage", currentPage);
 		
 		return "staff/getDonationItemN";
 	}
@@ -206,24 +213,37 @@ public class DonationController {
 	// staff 일반후원내역
 	@GetMapping("/staff/getDonationMoneyN")
 	public String getDonationMoneyN(Model model, HttpSession session,
-									@RequestParam(value="searchWord", required = false) String searchWord){
-		//세션에서 shelterId 가져오기
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
-		log.debug("●●●●▶searchWord: "+searchWord);
-		
+									@RequestParam(value="searchWord", required = false) String searchWord,
+									@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+									@RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage){
 		
 		//searchWord 공백 -> null로 수정
 		if(searchWord != null &&searchWord.equals("")) {
 			searchWord = null;
 		}
-				
-		//페이징 추가
+			
+		//디버깅
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
+		log.debug("●●●●▶searchWord: "+searchWord);
+		log.debug("●●●●▶currentPage: "+currentPage);
+		log.debug("●●●●▶rowPerPage: "+rowPerPage);
 		
-		List<Map<String, Object>> moneyNList = donationService.getDonationMoneyNList(shelterId, searchWord);
-		//Map<String, Object> map = new HashMap<>();
+		List<Map<String, Object>> moneyNList = donationService.getDonationMoneyNList(shelterId, searchWord, currentPage, rowPerPage);
+
+		//lastPage 구하기
+		//long totalRow = ((Map)moneyNList.get("totalRow"));
+		int totalRow = Integer.parseInt(moneyNList.get(0).get("totalRow").toString());
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		
 		model.addAttribute("moneyNList", moneyNList);
 		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("currentPage", currentPage);
 		
 		return "staff/getDonationMoneyN";
 	}
@@ -231,23 +251,35 @@ public class DonationController {
 	// staff 정기후원 페이지
 	@GetMapping("/staff/getDonationMoneyP")
 	public String getDonationMoneyP(Model model, HttpSession session,
-									@RequestParam(value="searchWord", required = false) String searchWord) {
-		//세션에서 shelterId 가져오기
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
-		log.debug("●●●●▶searchWord: "+searchWord);
-		
+									@RequestParam(value="searchWord", required = false) String searchWord,
+									@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+									@RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) {
 		//searchWord 공백 -> null로 수정
 		if(searchWord != null &&searchWord.equals("")) {
 			searchWord = null;
 		}
+			
+		//디버깅
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
+		log.debug("●●●●▶searchWord: "+searchWord);
+		log.debug("●●●●▶currentPage: "+currentPage);
+		log.debug("●●●●▶rowPerPage: "+rowPerPage);
 		
-		//페이징 추가
+		List<Map<String, Object>> moneyPList = donationService.getDonationMoneyPList(shelterId, searchWord, currentPage, rowPerPage);
 		
-		List<Map<String, Object>> moneyPList = donationService.getDonationMoneyPList(shelterId, searchWord);
-		//Map<String, Object> map = new HashMap<>();
+		//lastPage 구하기
+		int totalRow = Integer.parseInt(moneyPList.get(0).get("totalRow").toString());
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		
 		model.addAttribute("moneyPList", moneyPList);
 		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("currentPage", currentPage);
 		
 		return "staff/getDonationMoneyP";
 	}
