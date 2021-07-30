@@ -35,9 +35,30 @@
 
 <script>
 	$(document).ready(function(){
-		$('#btn').click(function(){
-			 console.log("btn click!");
-			 $('#shelterForm').submit();
+		// 검색어 선택 옵션에 따라 비동기 방식으로 인풋창이 다르게 나오도록함. 숨겨진 인풋창의 값은 비우기.
+		$('#sName').show();
+		$('#sAddress').hide().val('');
+		$('#searchBtn').click(function(){
+			console.log('보호소 이름 검색');
+			$('#shelterList').submit();
+		});
+		$('#searchSelect').change(function(){
+			var optionVal = $('#searchSelect option:selected').val();
+			if (optionVal == 'shelterName'){
+				$('#sName').show();
+				$('#sAddress').hide().val('');
+				$('#searchBtn').click(function(){
+					console.log('보호소 이름 검색');
+					$('#shelterList').submit();
+				});
+			} else {
+				$('#sName').hide().val('');
+				$('#sAddress').show();
+				$('#searchBtn').click(function(){
+					console.log('보호소 주소 검색');
+					$('#shelterList').submit();
+				});
+			}
 		});
 	});
 </script>
@@ -87,19 +108,62 @@
                 	</tbody>
                 </table>
             </div>
+    <!-- 페이징 -->
+	<div class="blog_left_sidebar">
+		<nav class="blog-pagination justify-content-center d-flex">
+			<ul class="pagination">
+			<!-- 이전 페이지 -->
+			<c:if test="${currentPage-1 >0}">
+				<li class="page-item"><a href="${pageContext.request.contextPath}/getShelterList?currentPage=${currentPage-1}
+					&shelterName=${shelterName}&searchAddress=${searchAddress}" class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i>
+				</a></li>
+				<li class="page-item"><a href="${pageContext.request.contextPath}/getShelterList?currentPage=${currentPage-1}
+					&shelterName=${shelterName}&searchAddress=${searchAddress}" class="page-link">${currentPage-1}
+				</a></li>
+			</c:if>
+			<c:if test="${currentPage-1 <= 0}">
+			</c:if>
+			<!-- /이전 페이지 -->
+			<!-- 현재 페이지 -->
+				<li class="page-item active"><a href="${pageContext.request.contextPath}/getShelterList?currentPage=${currentPage}
+					&shelterName=${shelterName}&searchAddress=${searchAddress}" class="page-link">${currentPage}
+				</a></li>
+			<!-- /현재 페이지 -->
+			<!-- 다음 페이지 -->
+			<c:if test="${currentPage+1 <= lastPage}">
+				<li class="page-item"><a href="${pageContext.request.contextPath}/getShelterList?currentPage=${currentPage+1}
+					&shelterName=${shelterName}&searchAddress=${searchAddress}" class="page-link" aria-label="Next"> ${currentPage+1}
+				</a></li>
+				<li class="page-item"><a href="${pageContext.request.contextPath}/getShelterList?currentPage=${currentPage+1}
+					&shelterName=${shelterName}&searchAddress=${searchAddress}" class="page-link" aria-label="Next"> <i class="ti-angle-right"></i>
+				</a></li>
+			</c:if>
+			<!-- /다음 페이지 -->
+			</ul>
+		</nav>
+		<hr>
+	</div>
+	<!-- /페이징 -->
+		
+	<!-- 검색 -->
+	<div class="default-select" id="default-select">
+	</div>
+	<form action="${pageContext.request.contextPath}/getShelterList" id="shelterList">
+		<div class="form-group">
+			<div class="input-group mb-4">
+				<select id="searchSelect">
+					<option value="shelterName">이름</option>
+					<option value="searchAddress">주소</option>
+				</select>
+				<input type="text" id="sName" class="form-control" placeholder='Search Name' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Name'" name="shelterName">
+				<input type="text" id="sAddress" class="form-control" placeholder='Search Address' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Address'" name="searchAddress">
+				<button id="searchBtn" class="btn" type="button"><i class="fa fa-search"></i></button>
+			</div>
+		</div>
+	</form>
+	<!-- /검색 -->
         </div>
     </div>
-
-
-			
-	<c:if test="${currentPage > 1}">
-		<li class="previous"><a href="${pageContext.request.contextPath}/getShelterList?currentPage=${currentPage-1}&shelterName=${shelterName}">이전</a></li>
-	</c:if>
-	<c:if test="${currentPage < lastPage}">
-		<li class="next"><a href="${pageContext.request.contextPath}/getShelterList?currentPage=${currentPage+1}&shelterName=${shelterName}">다음</a></li>
-	</c:if>	
-
-
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
