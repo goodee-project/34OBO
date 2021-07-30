@@ -75,10 +75,11 @@ $(document).ready(function(){
 							<!--  달력 설정 -->
 							<h2 style="text-align:center;">
 								<span style="float:center;">
-									<a href="javascript:void(0);" onclick="lastMonthFunc();"><i class="fa fa-arrow-circle-o-left"></i></a>
-									<input id="date" class="form-control" type="month" value="${aboutToday.date}" onchange="chDateFunc();" style="display:inline-block; width:20%">
+									<a href="javascript:void(0);" onclick="changeFunc(Number(document.getElementById('date').value.slice(0,4)), Number(document.getElementById('date').value.slice(5,7))-1);"><i class="fa fa-arrow-circle-o-left"></i></a>
+									<input id="date" class="form-control" type="month" value="${aboutToday.date}" style="display:inline-block; width:20%"
+											onchange="changeFunc(Number(document.getElementById('date').value.slice(0,4)), Number(document.getElementById('date').value.slice(5,7)));">
 									<!-- ${aboutToday.thisYear}년 / ${aboutToday.thisMonth}월 -->
-									<a href="javascript:void(0);" onclick="nextMonthFunc();"><i class="fa fa-arrow-circle-o-right"></i></a>
+									<a href="javascript:void(0);" onclick="changeFunc(Number(document.getElementById('date').value.slice(0,4)), Number(document.getElementById('date').value.slice(5,7))+1);"><i class="fa fa-arrow-circle-o-right"></i></a>
 								</span>
 								
 								<span style="float:right;">
@@ -100,28 +101,35 @@ $(document).ready(function(){
 								</thead>
 								<tbody id="day">
 									<tr style="height:130px;">
-									<c:forEach var="i" begin="1" end="${aboutToday.thisFirstBlank}" step="1">
-										<td>&nbsp;</td>
-									</c:forEach>
-									<c:forEach var="i" begin="1" end="${aboutToday.thisEndDate}" step="1">
-										<td>
-											<div>${i}</div>
-											<c:forEach var="c" items="${carePlanList}">
-												<c:if test="${i == c.day}">
-													<div>
-														<a href="javascript:void(0);" data-parameter="${c.carePlanId}" data-toggle="modal" data-target="#plan-modal" 
-															onclick="planOneFunc(this.getAttribute('data-parameter'));">${c.animalName}</a>
-													</div>
+										<c:forEach var="i" begin="1" end="${aboutToday.totalTd}" step="1">
+										<c:set var="day" value="${i-aboutToday.thisFirstBlank}" />
+											<td>
+												<!-- 1~n일의 달력 -->
+												<c:if test="${i>aboutToday.thisFirstBlank && i<=(aboutToday.thisFirstBlank+aboutToday.thisEndDate)}">
+													<!-- n일 -->
+													<div>${day}</div>
+													<!-- n일에 해당하는 일정 -->
+													<c:forEach var="c" items="${carePlanList}">
+														<c:if test="${day == c.day}">
+															<div>
+																<a href="javascript:void(0);" data-parameter="${c.carePlanId}" data-toggle="modal" data-target="#plan-modal" 
+																	onclick="planOneFunc(this.getAttribute('data-parameter'));">${c.animalName}</a>
+															</div>
+														</c:if>
+													</c:forEach>
 												</c:if>
-											</c:forEach>
-										</td>
-										<c:if test="${(aboutToday.thisFirstBlank+i)%7 == 0}">
-											</tr><tr style="height:130px;">
-										</c:if>
-									</c:forEach>
-									<c:forEach var="i" begin="1" end="${aboutToday.thisEndBlank}" step="1">
-										<td>&nbsp;</td>
-									</c:forEach>
+												
+												<!-- 1~n일 제외한 블랭크 -->
+												<c:if test="${i<=aboutToday.thisFirstBlank || i>(aboutToday.thisFirstBlank+aboutToday.thisEndDate)}">
+													<div>&nbsp;</div>
+												</c:if>
+											</td>
+										
+											<!-- 줄바꾸기 -->
+											<c:if test="${i%7 == 0 && day<aboutToday.thisEndDate}">
+												</tr><tr style="height:130px;">
+											</c:if>
+										</c:forEach>
 									</tr>
 								</tbody>
 							</table>
@@ -182,103 +190,37 @@ $(document).ready(function(){
 	</div>
 	
 	<script>
-	// 이전 달
-	function lastMonthFunc(){
-		console.log('이전 월 클릭');
+	
+	// 이전 월, 다음 월, 원하는 년&월 달력 만드는 함수
+	function changeFunc(y, m){
+		console.log('changeFunction!');
 		console.log('기존 년/월?'+$('#date').val());
-		let year = $('#date').val().slice(0,4);
-		let month = $('#date').val().slice(5,7);
+		console.log('y->'+y	);
+		console.log('m->'+m);
+		let year = y;
+		let month = m;
 		
-		//string to int
-		if(month == 1){
-			year = Number(year)-1;
+		// 1월->12월 변경
+		if(month<1){
+			year -= 1;
 			month = 12;
-		} else{
-			year = Number(year);
-			month = Number(month)-1;
 		}
 		
-		let addTable = "";
-		
-		$.ajax({
-			url: '${pageContext.request.contextPath}/getCalendarAndList',
-			type: 'get',
-			data: {year : year,
-					month : month},
-			success: function(jsonData){
-				console.log('달력&케어 같이 불러오기 ajax');
-				
-				//map안에 -> theDay(단일값), carePlanList(리스트 값) 존재
-				
-				//달력 세팅
-				let cal = jsonData.theDay;
-				//console.log('cal.setYear->'+cal.setYear);
-				let setYear = cal.setYear;
-				let setMonth = cal.setMonth;
-				let firstDate = cal.firstDate;
-				let firstBlank = cal.firstBlank;
-				let endDate = cal.endDate;
-				let endBlank = cal.endBlank;
-				
-				//플랜 세팅
-				let plan = jsonData.carePlanList;
-				//console.log('plan->'+plan);
-				
-				//#date에 값 넣기 위한 설정 ex.2021-9 -> 2021-09
-				if(setMonth<10){	
-					$('#date').val(setYear+'-0'+setMonth);
-				} else{
-					$('#date').val(setYear+'-'+setMonth);
-				}
-				
-				//달력 만들기
-				addTable += '<tr style="height:130px;">';
-				for(let i = 1; i <= firstBlank; i++){
-					addTable += '<td>&nbsp;</td>';
-				}
-				for(let i = 1; i <= endDate; i++){
-					addTable += '<td>';
-					addTable += '<div>'+i+'</div>';
-					$(plan).each(function(index, item){
-						if(i == item.day){
-							addTable += '<div><a href="javascript:void(0);" data-parameter="'+item.carePlanId+'" data-toggle="modal" data-target="#plan-modal" onclick="planOneFunc(this.getAttribute(\'data-parameter\'));">'
-										+item.animalName+'</a></div>';
-						}
-					});
-					addTable += '</td>';
-					if((firstBlank+i)%7 == 0){
-						addTable += '</tr><tr style="height:130px;">';
-					}
-				}
-				for(let i = 1; i <= endBlank; i++){
-					addTable += '<td>&nbsp;</td>';
-				}
-				addTable += '</tr>';
-			
-				$('#day').empty();
-				$('#day').append(addTable);
-			}
-		});//-end;ajax
-		
-	}
-
-	// 다음 달
-	function nextMonthFunc() {
-		console.log('다음 월 클릭');
-		let year = $('#date').val().slice(0,4);
-		let month = $('#date').val().slice(5,7);
-
-		//string to int & 12월-1월 변경
-		if(month == 12){
-			year = Number(year)+1;
+		// 12월->1월 변경
+		if(month>12){
+			year += 1;
 			month = 1;
-		} else{
-			year = Number(year);
-			month = Number(month)+1;
 		}
 		
-		let addTable = "";
-
+		// date에 값 넣어주기 위한 설정
+		if(month<10){	
+			$('#date').val(year+'-0'+month);
+		} else{
+			$('#date').val(year+'-'+month);
+		}
+		
+		console.log('바뀐 년/월?'+$('#date').val());
+		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/getCalendarAndList',
 			type: 'get',
@@ -287,6 +229,7 @@ $(document).ready(function(){
 			success: function(jsonData){
 				console.log('달력&케어 같이 불러오기 ajax');
 				
+				let addTable = "";
 				//map안에 -> theDay(단일값), carePlanList(리스트 값) 존재
 				
 				//달력 세팅
@@ -298,123 +241,52 @@ $(document).ready(function(){
 				let firstBlank = cal.firstBlank;
 				let endDate = cal.endDate;
 				let endBlank = cal.endBlank;
+				let totalCell = cal.firstBlank+cal.endDate+cal.endBlank;
+				let day = 0;
 				
 				//플랜 세팅
 				let plan = jsonData.carePlanList;
 				//console.log('plan->'+plan);
 				
-				//#date에 값 넣기 위한 설정 ex.2021-9 -> 2021-09
-				if(setMonth<10){	
-					$('#date').val(setYear+'-0'+setMonth);
-				} else{
-					$('#date').val(setYear+'-'+setMonth);
-				}
-				
 				//달력 만들기
 				addTable += '<tr style="height:130px;">';
-				for(let i = 1; i <= firstBlank; i++){
-					addTable += '<td>&nbsp;</td>';
-				}
-				for(let i = 1; i <= endDate; i++){
-					addTable += '<td>';
-					addTable += '<div>'+i+'</div>';
-					$(plan).each(function(index, item){
-						if(i == item.day){
-							addTable += '<div><a href="javascript:void(0);" data-parameter="'+item.carePlanId+'" data-toggle="modal" data-target="#plan-modal" onclick="planOneFunc(this.getAttribute(\'data-parameter\'));">'
-										+item.animalName+'</a></div>';
-						}
-					});
+				
+				for(let i = 1; i <= totalCell; i++){
+					day = i-firstBlank;	//blank+1이 1부터 시작하도록!
+					addTable += '<td>'
+				
+					// if-> 1~n일		else-> 앞뒤 블랭크
+					if(i>firstBlank && i<=(firstBlank+endDate)){
+						//n일
+						addTable += '<div>'+day+'</div>';
+						
+						//n일에 해당하는 일정 등록, 그 외에는 일만 뜨도록 함.
+						$(plan).each(function(index, item){
+							if(day == item.day){
+								addTable += '<div><a href="javascript:void(0);" data-parameter="'+item.carePlanId+'" data-toggle="modal" data-target="#plan-modal" onclick="planOneFunc(this.getAttribute(\'data-parameter\'));">'
+											+item.animalName+'</a></div>';
+							}
+						});
+					} else{	//1~n일 제외한 블랭크
+						addTable += '<div>&nbsp;<div>';
+					}
+					
 					addTable += '</td>';
-					if((firstBlank+i)%7 == 0){
+					
+					//줄 바꾸기
+					if(i%7 == 0 && day<endDate){
 						addTable += '</tr><tr style="height:130px;">';
 					}
 				}
-				for(let i = 1; i <= endBlank; i++){
-					addTable += '<td>&nbsp;</td>';
-				}
+				
 				addTable += '</tr>';
-			
+				
 				$('#day').empty();
 				$('#day').append(addTable);
 			}
 		});//-end;ajax
 	}
 	
-	// 년/월 직접 선택
-	function chDateFunc(){
-		console.log('날짜클릭');
-		console.log('클릭한 년/월?'+$('#date').val());
-		let year = $('#date').val().slice(0,4);
-		let month = $('#date').val().slice(5,7);
-		
-		//string to int
-		year = Number(year);
-		month = Number(month);
-		console.log('year->'+year);
-		console.log('month->'+month);
-		
-		let addTable = "";
-		
-		$.ajax({
-			url: '${pageContext.request.contextPath}/getCalendarAndList',
-			type: 'get',
-			data: {year : year,
-					month : month},
-			success: function(jsonData){
-				console.log('달력&케어 같이 불러오기 ajax');
-				
-				//map안에 -> theDay(단일값), carePlanList(리스트 값) 존재
-				
-				//달력 세팅
-				let cal = jsonData.theDay;
-				//console.log('cal.setYear->'+cal.setYear);
-				let setYear = cal.setYear;
-				let setMonth = cal.setMonth;
-				let firstDate = cal.firstDate;
-				let firstBlank = cal.firstBlank;
-				let endDate = cal.endDate;
-				let endBlank = cal.endBlank;
-				
-				//플랜 세팅
-				let plan = jsonData.carePlanList;
-				//console.log('plan->'+plan);
-				
-				//#date에 값 넣기 위한 설정 ex.2021-9 -> 2021-09
-				if(setMonth<10){	
-					$('#date').val(setYear+'-0'+setMonth);
-				} else{
-					$('#date').val(setYear+'-'+setMonth);
-				}
-				
-				//달력 만들기
-				addTable += '<tr style="height:130px;">';
-				for(let i = 1; i <= firstBlank; i++){
-					addTable += '<td>&nbsp;</td>';
-				}
-				for(let i = 1; i <= endDate; i++){
-					addTable += '<td>';
-					addTable += '<div>'+i+'</div>';
-					$(plan).each(function(index, item){
-						if(i == item.day){
-							addTable += '<div><a href="javascript:void(0);" data-parameter="'+item.carePlanId+'" data-toggle="modal" data-target="#plan-modal" onclick="planOneFunc(this.getAttribute(\'data-parameter\'));">'
-										+item.animalName+'</a></div>';
-						}
-					});
-					addTable += '</td>';
-					if((firstBlank+i)%7 == 0){
-						addTable += '</tr><tr style="height:130px;">';
-					}
-				}
-				for(let i = 1; i <= endBlank; i++){
-					addTable += '<td>&nbsp;</td>';
-				}
-				addTable += '</tr>';
-			
-				$('#day').empty();
-				$('#day').append(addTable);
-			}
-		});//-end;ajax
-	}
 
 	function planOneFunc(id){
 		console.log('동물 이름 클릭! -> care plan 정보 자세히보기 모달');
@@ -440,14 +312,12 @@ $(document).ready(function(){
 				
 				$('#features').val('');
 				if(features == null){
-					$('#features').val('care record가 작성되지 않았습니다.');
+					$('#features').val('care record 미작성');
 				} else{
 					$('#features').val(features);
 				}
-				
 			}
-		});
-		
+		});//-end; ajax
 	}
 	</script>
 	
