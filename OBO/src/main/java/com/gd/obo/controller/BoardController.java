@@ -35,7 +35,7 @@ public class BoardController {
 	}
 	
 	//내정보 -> 작성글 보기
-	@GetMapping("/member/getBoardHistory")
+	@GetMapping("/member/getMemberBoard")
 	public String getBoardHistory(Model model, HttpSession session) {
 		
 		model.addAttribute("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());

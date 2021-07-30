@@ -218,7 +218,8 @@
 			DATE(dil.donation_date) AS donationDate,
 			dil.item_name AS itemName,
 			dil.item_quantity AS itemQuantity,
-			dil.item_description AS itemDescription
+			dil.item_description AS itemDescription,
+			COUNT(dil.donation_item_list_id) over() AS totalRow
 		FROM donation_item_list AS dil, member AS m, item_category AS ic
 		<where>
 			dil.member_id = m.member_id AND dil.item_category_id = ic.item_category_id
@@ -233,7 +234,28 @@
 				AND ic.item_category_name = #{itemCategoryName}
 			</if>
 		</where>
-		ORDER BY dil.donation_date DESC;
+		ORDER BY dil.donation_date DESC
+		LIMIT #{beginRow}, #{rowPerPage};
+	</select>
+	
+	<!-- 일반물품 count -->
+	<select id="selectDonationItemListCnt" parameterType="int" resultType="java.util.Map">
+		SELECT
+			COUNT(*)
+		FROM donation_item_list AS dil, member AS m, item_category AS ic
+		<where>
+			dil.member_id = m.member_id AND dil.item_category_id = ic.item_category_id
+			AND dil.shelter_id = #{shelterId}
+			<if test="searchWord != null and searchSelect == 'member'">
+				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
+			</if>
+			<if test="searchWord != null and searchSelect == 'itemName'">
+				AND dil.item_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+			<if test="itemCategoryName != null">
+				AND ic.item_category_name = #{itemCategoryName}
+			</if>
+		</where>	
 	</select>
 	
 	<!-- staff 일반후원 리스트 -->
@@ -245,7 +267,8 @@
 			m.member_nickname AS memberNickname,
 			dml.shelter_id AS shelterId,
 			DATE(dml.donation_date) AS donationDate,
-			dml.amount AS amount
+			dml.amount AS amount,
+			COUNT(dml.donation_money_list_id) over() AS totalRow
 		FROM donation_money_list AS dml, member AS m
 		<where>
 			dml.member_id = m.member_id AND dml.shelter_id = #{shelterId}
@@ -253,7 +276,8 @@
 				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
 			</if>
 		</where>
-		ORDER BY dml.donation_date DESC;
+		ORDER BY dml.donation_date DESC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- staff 정기후원 리스트 -->
@@ -266,7 +290,8 @@
 			pd.shelter_id AS shelterId,
 			DATE(pd.end_date) AS endDate,
 			DATE(pd.apply_date) AS applyDate,
-			pd.amount AS amount
+			pd.amount AS amount,
+			COUNT(pd.periodically_donation_id) over() AS totalRow
 		FROM periodically_donation AS pd, member AS m
 		<where>
 			pd.member_id = m.member_id AND pd.shelter_id = #{shelterId}
@@ -274,7 +299,8 @@
 				AND (m.member_id LIKE CONCAT('%', #{searchWord}, '%') OR m.member_name LIKE CONCAT('%', #{searchWord}, '%'))
 			</if>
 		</where>
-		ORDER BY pd.apply_date DESC;
+		ORDER BY pd.apply_date DESC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 이번달 후원 받은 금액 -->

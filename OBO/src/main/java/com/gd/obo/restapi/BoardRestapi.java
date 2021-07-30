@@ -25,6 +25,14 @@ public class BoardRestapi {
 	@Autowired BoardFileService boardFileService;
 	@Autowired BoardCommentService boardCommentService;
 	
+	@PostMapping("/member/getBoardLikeByMemberId")
+	public Map<String, Object> getBoardLikeByMemberId(HttpSession session,
+										@RequestParam(value="currentPage", defaultValue = "1")int currentPage){
+		String memberId = ((Member) session.getAttribute("loginMember")).getMemberId();
+		log.debug("■■■■■ currentPage getBoardLikeByMemberId param: "+ currentPage);
+		return boardService.getBoardLikeByMemberId(memberId, currentPage, 10);
+	}
+	
 	@GetMapping("/getBoardLikeByMember")
 	public int getBoardLikeByMember(HttpSession session, @RequestParam(value="boardId", required=true) int boardId) {
 		String memberId = ((Member) session.getAttribute("loginMember")).getMemberId();

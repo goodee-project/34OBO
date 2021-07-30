@@ -14,7 +14,7 @@
 				<div class="col-xl-3 col-lg-3">
 					<div class="logo">
 						<a href="${pageContext.request.contextPath}/staff/">
-							<img src="../static/img/logo.png" alt="">
+							<img src="../static/img/obo/oboex.png" alt="">
 						</a>
 					</div>
 				</div>

@@ -89,7 +89,7 @@ $(document).ready(function(){
 								</tr>
 								<c:forEach var="d" items="${moneyPList}">
 									<tr>
-										<td>${d.memberId}(${d.memberName})</td>
+										<td>${d.memberName}(${d.memberId})</td>
 										<td>${d.amount}</td>
 										<td>${d.applyDate}</td>
 										<td>${d.endDate}</td>
@@ -107,16 +107,30 @@ $(document).ready(function(){
 						<nav class="blog-pagination justify-content-center d-flex">
 							<ul class="pagination">
 								<!-- 이전 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
-								</li>
-								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="page-link">1</a></li>
-								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="page-link">2</a></li>
+								<c:if test="${currentPage > 1}">
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationMoneyP?currentPage=${currentPage-1}
+										&searchWord=${searchWord}" class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i>
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationMoneyP?currentPage=${currentPage-1}
+										&searchWord=${searchWord}" class="page-link">${currentPage-1}
+									</a></li>
+								</c:if>
+								<c:if test="${currentPage == 1}">
+									<!-- 이전 페이지 보이지 않음 -->
+								</c:if>
 								
+								<!-- 현재 페이지 setting -->
+								<li class="page-item active"><a href="javascript:void(0);" class="page-link">${currentPage}</a></li>
+									
 								<!-- 다음 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/getDonationMoneyP" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
-								</li>
+								<c:if test="${currentPage < lastPage}"> <!-- currentPage+1 <= lastPage -->
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationMoneyP?currentPage=${currentPage+1}
+										&searchWord=${searchWord}" class="page-link" aria-label="Next">${currentPage+1}
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationMoneyP?currentPage=${currentPage+1}
+										&searchWord=${searchWord}" class="page-link" aria-label="Next"><i class="ti-angle-right"></i>
+									</a></li>
+								</c:if>
 							</ul>
 						</nav>
 						<hr>

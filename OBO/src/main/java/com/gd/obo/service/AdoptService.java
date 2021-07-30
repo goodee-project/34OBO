@@ -116,4 +116,38 @@ public class AdoptService {
 		log.debug("===== row2:"+row2);
 		return row;
 	}
-}
+	
+	//회원별 입양목록
+	public List<Map<String, Object>> getAdoptListByMemberId(String memberId){
+		log.debug("■■■■■■■■ getAdoptListByMemberId memberId :" + memberId);
+		return adoptMapper.selectAdoptListByMemberId(memberId);
+	}
+	
+	//회원별 동물 입양신청목록
+	public Map<String, Object> getAdoptApplyListByMemberId(int currentPage, int rowPerPage, String memberId){
+		log.debug("■■■■■■■ selectAdoptApplyListByMemberId currentPage param : " + currentPage);
+		log.debug("■■■■■■■ selectAdoptApplyListByMemberId rowPerPage param : " + rowPerPage);
+		log.debug("■■■■■■■ selectAdoptApplyListByMemberId memberId param : " + memberId);
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("memberId", memberId);
+		
+		List<Map<String, Object>> list = adoptMapper.selectAdoptApplyListByMemberId(paramMap);
+		long total = (long)((Map<String, Object>)list.get(0)).get("total");
+		
+		log.debug("■■■■■■■ selectAdoptApplyListByMemberId total : " + total);
+		
+		int lastPage = (int)Math.ceil((double)total/rowPerPage);
+		log.debug("■■■■■■■ selectAdoptApplyListByMemberId lastPage : " + lastPage);
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		returnMap.put("lastPage", lastPage);
+		returnMap.put("list", list);
+		
+		return returnMap;
+	}
+ }
