@@ -33,7 +33,10 @@ public class AnimalController {
 	
 	// 폼
 	@GetMapping("/staff/modifyAnimal")
-	public String modifyAnimal(Model model, @RequestParam(value = "animalId", required = true) int animalId) {
+	public String modifyAnimal(Model model, HttpSession session,
+								@RequestParam(value = "animalId", required = true) int animalId) {
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal shelterId: " + shelterId);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> modifyAnimal animalId: " + animalId);
 		
 		List<Map<String, Object>> animalCategoryList = animalService.getAnimalCategoryList();
@@ -46,6 +49,7 @@ public class AnimalController {
 		model.addAttribute("map", map);
 		model.addAttribute("animalMap", map.get("animalMap"));
 		model.addAttribute("animalFileList", map.get("animalFileList"));
+		model.addAttribute("shelterId", shelterId);
 		
 		return "staff/modifyAnimal";
 	}
@@ -65,11 +69,14 @@ public class AnimalController {
 	// 작성자 : 남민정
 	// 폼
 	@GetMapping("/staff/addAnimal")
-	public String addAnimal(Model model) {
+	public String addAnimal(Model model, HttpSession session) {
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal shelterId: " + shelterId);
 		List<Map<String, Object>> animalCategoryList = animalService.getAnimalCategoryList();
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalCategoryList: " + animalCategoryList);
 		
 		model.addAttribute("animalCategoryList", animalCategoryList);
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> addAnimal animalCategoryList: " + animalCategoryList);
+		model.addAttribute("shelterId", shelterId);
 		
 		return "staff/addAnimal";
 	}

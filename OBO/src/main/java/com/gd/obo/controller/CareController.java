@@ -151,10 +151,11 @@ public class CareController {
 		int thisEndDate = today.getActualMaximum(Calendar.DATE);	//date상의 최고 일자
 		int thisEndBlank = 0;	//초기 블랭크는 0으로
 		
-		int total = thisFirstBlank+thisEndDate;
-		if(total%7 != 0) {
-			thisEndBlank = 7-(total%7);
+		if((thisFirstBlank+thisEndDate)%7 != 0) {
+			thisEndBlank = 7-((thisFirstBlank+thisEndDate)%7);
 		}
+		
+		int totalTd = thisFirstBlank+thisEndDate+thisEndBlank;
 		
 		// 해당 년/월을 출력하기 위한 날짜 포맷값
 		String pattern = "yyyy-MM";
@@ -166,7 +167,9 @@ public class CareController {
 		aboutToday.put("thisFirstBlank", thisFirstBlank);
 		aboutToday.put("thisEndDate", thisEndDate);
 		aboutToday.put("thisEndBlank", thisEndBlank);
+		aboutToday.put("totalTd", totalTd);
 		aboutToday.put("date", date);
+		log.debug("●●●●▶aboutToday: "+aboutToday);
 		
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId: "+shelterId);
@@ -179,34 +182,6 @@ public class CareController {
 		
 		model.addAttribute("aboutToday", aboutToday);
 		model.addAttribute("carePlanList", carePlanList);
-		
-		/*
-		//원하는 날의 정보
-		Map<String, Object> theDay = new HashMap<>();
-		Calendar setOne = Calendar.getInstance();
-		int setYear = 2021;	//내가 찾는 연
-		int setMonth = 1;	//내가 찾는 월
-
-		setOne.set(setYear, setMonth-1, 1);
-		int firstDate = setOne.get(Calendar.DAY_OF_WEEK);		//내가 찾는 월의 1일의 요일 -> 1:일, 2:월, 3:화, 4:수, 5:목, 6:금, 7:토
-		int firstBlank = setOne.get(Calendar.DAY_OF_WEEK)-1;	//1일의 DAY_OF_WEEK-1 값이 달력의 앞의 블랭크이다.
-		int endDate = setOne.getActualMaximum(Calendar.DATE);	//월의 마지막 일
-		int endBlank = 0;
-		
-		// endBlank는 firstBlank + endDate를 7로 나눈 나머지 값을 7에서 빼준다. 만약 나머지 0이라면 추가하는 블랭크 없음.
-		if((firstBlank+endDate)%7 != 0) {
-			endBlank = 7-((firstBlank+endDate)%7);
-		}
-		
-		theDay.put("setYear", setYear);
-		theDay.put("setMonth", setMonth);
-		theDay.put("targetMonth", setOne.get(Calendar.MONTH));
-		theDay.put("firstDate", firstDate);
-		theDay.put("firstBlank", firstBlank);
-		theDay.put("endDate", endDate);
-		theDay.put("endBlank", endBlank);
-		model.addAttribute("theDay", theDay);
-		*/
 		
 		return "staff/getCarePlanCalInStaff";
 	}
