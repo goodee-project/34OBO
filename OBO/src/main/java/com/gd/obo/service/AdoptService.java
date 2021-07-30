@@ -22,27 +22,39 @@ public class AdoptService {
 	@Autowired AdoptMapper adoptMapper;
 	
 	// staff - 입양 신청 리스트
-	public List<Map<String, Object>> getAdoptApplyList(int shelterId, String searchWord, String selectOption){
-		// map 변환
+	public List<Map<String, Object>> getAdoptApplyList(int shelterId, String searchWord, String selectOption, int currentPage, int rowPerPage){
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("selectOption", selectOption);
-		log.debug("●●●●▶adoptApply map-> "+map);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
+		log.debug("●●●●▶ getAdoptApplyList map-> "+map);
 		
-		return adoptMapper.selectAdoptApplyList(map);
+		List<Map<String, Object>> list = adoptMapper.selectAdoptApplyList(map);
+		log.debug("●●●●▶ getAdoptApplyList list-> "+list);		
+		
+		return list;
 	}
 	
 	// staff - 승인 완료 리스트 -> 검색 변수 포함
-	public List<Map<String, Object>> getAdoptApprovalList(int shelterId, String searchWord, String selectOption){
-		// map 변환
+	public List<Map<String, Object>> getAdoptApprovalList(int shelterId, String searchWord, String selectOption, int currentPage, int rowPerPage){
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("selectOption", selectOption);
-		log.debug("●●●●▶adoptApproval map-> "+map);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
+		log.debug("●●●●▶ getAdoptApplyList map-> "+map);
 		
-		return adoptMapper.selectAdoptApprovalList(map);
+		List<Map<String, Object>> list = adoptMapper.selectAdoptApprovalList(map);
+		log.debug("●●●●▶ getAdoptApplyList list-> "+list);
+		
+		return list;
 	}
 	
 	// staff - 입양 승인 후 care plan 작성해야 할 list - 보호소의 list만 가져온다
@@ -56,16 +68,20 @@ public class AdoptService {
 	}
 	
 	// staff - 승인 거절 리스트
-	public List<Map<String, Object>> getAdoptRejectList(int shelterId, String searchWord){
-		// map 변환
-		Map<String, Object> map = new HashMap<>();
-		map.put("shelterId", shelterId);
-		map.put("searchWord", searchWord);
-		log.debug("●●●●▶adoptReject map-> "+map);
+	public List<Map<String, Object>> getAdoptRejectList(int shelterId, String searchWord, int currentPage, int rowPerPage){
+		int beginRow = (currentPage - 1)*rowPerPage;
 		
-		return adoptMapper.selectAdoptRejectList(map);
+		Map<String, Object> map = new HashMap<>();
+		map.put("searchWord", searchWord);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
+		log.debug("●●●●▶ getAdoptRejectList map-> "+map);
+		
+		List<Map<String, Object>> list = adoptMapper.selectAdoptRejectList(map);
+		log.debug("●●●●▶ getAdoptRejectList list-> "+list);
+		
+		return list;
 	}
-
 	
 	// staff - 입양 승인 후 care plan 선택한 입양 정보 불러오기
 	public List<Map<String, Object>> getAdoptList(int shelterId, int animalId){
@@ -76,6 +92,13 @@ public class AdoptService {
 		log.debug("●●●●▶careplan 작성할 동물 정보-> "+map);
 		
 		return adoptMapper.selectAdoptList(map);
+	}
+	
+	// staff - 입양 신청 서류
+	public List<Map<String, Object>> getAdoptDocumentOne(int documentId) {
+		List<Map<String, Object>> list = adoptMapper.selectAdoptDocumentOne(documentId);
+		log.debug("●●●●▶ 대기 신청 서류-> "+list);
+		return list;
 	}
 	
 	// staff - 입양 승인

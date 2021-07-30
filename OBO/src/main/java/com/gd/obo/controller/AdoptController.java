@@ -2,7 +2,6 @@
 
 package com.gd.obo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,22 +44,40 @@ public class AdoptController {
 	@GetMapping("/staff/getAdoptApplyInStaff")
 	public String getAdoptApplyInStaff (HttpSession session, Model model,
 										@RequestParam(value = "searchWord", required = false) String searchWord,
-										@RequestParam(value = "selectOption", required = false) String selectOption) {
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId-> "+shelterId);
-		log.debug("●●●●▶searchWord-> "+searchWord);
-		log.debug("●●●●▶selectOption-> "+selectOption);
-		
+										@RequestParam(value = "selectOption", required = false) String selectOption,
+										@RequestParam(value= "currentPage", defaultValue = "1") int currentPage,
+										@RequestParam(value= "rowPerPage", defaultValue = "10") int rowPerPage) {
 		// searchWord null 처리
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
 		
-		List<Map<String, Object>> adoptApplyList = adoptService.getAdoptApplyList(shelterId, searchWord, selectOption);
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶ shelterId-> "+shelterId);
+		log.debug("●●●●▶ searchWord-> "+searchWord);
+		log.debug("●●●●▶ selectOption-> "+selectOption);
+		log.debug("●●●●▶ currentPage-> "+currentPage);
+		
+		List<Map<String, Object>> adoptApplyList = adoptService.getAdoptApplyList(shelterId, searchWord, selectOption, currentPage, rowPerPage);
 		log.debug("●●●●▶ adoptApplyList-> "+adoptApplyList);
+		
+		//lastPage 구하기
+		int totalRow = 0;
+		if(adoptApplyList.size() != 0) {
+			totalRow = Integer.parseInt(adoptApplyList.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶ totalRow-> "+totalRow);
+		log.debug("●●●●▶ lastPage-> "+lastPage);		
 		
 		model.addAttribute("adoptApplyList", adoptApplyList);
 		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("lastPage", lastPage);
 		
 		return "staff/getAdoptApplyInStaff";
 	}
@@ -69,23 +86,41 @@ public class AdoptController {
 	@GetMapping("/staff/getAdoptApprovalInStaff")
 	public String getAdoptApplyApprovalInStaff (HttpSession session, Model model,
 												@RequestParam(value = "searchWord", required = false) String searchWord,
-												@RequestParam(value = "selectOption", required = false) String selectOption) {
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
-		log.debug("●●●●▶searchWord-> "+searchWord);
-		log.debug("●●●●▶selectOption-> "+selectOption);
-		
+												@RequestParam(value = "selectOption", required = false) String selectOption,
+												@RequestParam(value= "currentPage", defaultValue = "1") int currentPage,
+												@RequestParam(value= "rowPerPage", defaultValue = "10") int rowPerPage) {
 		// searchWord null 처리
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
 		
-		List<Map<String, Object>> adoptApprovalList = adoptService.getAdoptApprovalList(shelterId, searchWord, selectOption);
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
+		log.debug("●●●●▶searchWord-> "+searchWord);
+		log.debug("●●●●▶selectOption-> "+selectOption);
+		log.debug("●●●●▶currentPage-> "+currentPage);
+		
+		List<Map<String, Object>> adoptApprovalList = adoptService.getAdoptApprovalList(shelterId, searchWord, selectOption, currentPage, rowPerPage);
 		log.debug("●●●●▶ adoptApprovalList-> "+adoptApprovalList);
+		
+		//lastPage 구하기
+		int totalRow = 0;
+		if(adoptApprovalList.size() != 0) {
+			totalRow = Integer.parseInt(adoptApprovalList.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶ totalRow-> "+totalRow);
+		log.debug("●●●●▶ lastPage-> "+lastPage);		
 		
 		model.addAttribute("adoptApprovalList", adoptApprovalList);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("selectOption", selectOption);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("totalRow", totalRow);
 		
 		return "staff/getAdoptApprovalInStaff";
 	}
@@ -93,19 +128,38 @@ public class AdoptController {
 	// staff - 입양 거절 목록 이동
 	@GetMapping("/staff/getAdoptRejectInStaff")
 	public String getAdoptRejectInStaff (HttpSession session, Model model,
-										@RequestParam(value = "searchWord", required = false) String searchWord) {
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶shelterId: "+shelterId);
-		log.debug("●●●●▶searchWord-> "+searchWord);
-		
+										@RequestParam(value = "searchWord", required = false) String searchWord,
+										@RequestParam(value= "currentPage", defaultValue = "1") int currentPage,
+										@RequestParam(value= "rowPerPage", defaultValue = "10") int rowPerPage) {
 		// searchWord null 처리
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
 		
-		List<Map<String, Object>> adoptRejectList = adoptService.getAdoptRejectList(shelterId, searchWord);
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("●●●●▶shelterId: "+shelterId);
+		log.debug("●●●●▶searchWord-> "+searchWord);
+		log.debug("●●●●▶currentPage-> "+currentPage);
+		
+		List<Map<String, Object>> adoptRejectList = adoptService.getAdoptRejectList(shelterId, searchWord, currentPage, rowPerPage);
+		
+		//lastPage 구하기
+		int totalRow = 0;
+		if(adoptRejectList.size() != 0) {
+			totalRow = Integer.parseInt(adoptRejectList.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶ totalRow-> "+totalRow);
+		log.debug("●●●●▶ lastPage-> "+lastPage);		
+		
 		model.addAttribute("adoptRejectList", adoptRejectList);
 		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("totalRow", totalRow);
 		
 		return "staff/getAdoptRejectInStaff";
 	}

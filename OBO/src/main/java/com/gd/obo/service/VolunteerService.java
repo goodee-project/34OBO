@@ -2,6 +2,7 @@
 package com.gd.obo.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -168,12 +169,6 @@ public class VolunteerService {
 	
 	//회원 내정보 전체 봉사 리스트
 	public Map<String,Object> getFullVolunteerListByMember(int currentPage, int rowPerPage, String memberId) {
-		int total =  volunteerMapper.selectFullVolunteerListByMemberTotal(memberId);
-		
-		int lastPage = (int)Math.ceil((double)total/rowPerPage);
-		log.debug("=====total: "+total);
-		log.debug("=====lastPage:"+lastPage);
-		
 		// 페이징
 		int beginRow = (currentPage-1)*rowPerPage;
 		Map<String, Object> paramMap = new HashMap<>();
@@ -183,11 +178,117 @@ public class VolunteerService {
 		
 		List<Map<String, Object>> list = volunteerMapper.selectFullVolunteerListByMember(paramMap);
 		log.debug("=====list: "+list);
+		
+		long total = 0;
+		if(list.size()==0) {
+			total = 0;
+		} else {
+			total = (long)((Map)list.get(0)).get("cnt");
+		}
+		
+		int lastPage = (int)Math.ceil((double)total/rowPerPage);
+		log.debug("=====전체봉사 total: "+total);
+		log.debug("=====전체봉사 lastPage:"+lastPage);
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("lastPage", lastPage);
 		map.put("list", list);
 		return map;
+	}
+	
+	//회원 내정보 일반 봉사 신청 리스트
+	public Map<String,Object> getVolunteerApplyListByMember(int currentPage, int rowPerPage, String memberId) {
+		// 페이징
+		int beginRow = (currentPage-1)*rowPerPage;
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("memberId", memberId);
+		
+		List<Map<String, Object>> list = volunteerMapper.selectVolunteerApplyListByMember(paramMap);
+		log.debug("=====list: "+list);
+		
+		long total = 0;
+		if(list.size()==0) {
+			total = 0;
+		} else {
+			total = (long)((Map)list.get(0)).get("cnt");
+		}
+		
+		int lastPage = (int)Math.ceil((double)total/rowPerPage);
+		log.debug("=====일반봉사 total: "+total);
+		log.debug("=====일반봉사 lastPage:"+lastPage);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("lastPage", lastPage);
+		map.put("list", list);
+		return map;
+	}
+	
+	//회원 내정보 정기 봉사 전체 리스트
+	public Map<String,Object> getVolunteerPListByMember(int currentPage, int rowPerPage, String memberId) {
+		// 페이징
+		int beginRow = (currentPage-1)*rowPerPage;
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("memberId", memberId);
+		
+		List<Map<String, Object>> list = volunteerMapper.selectVolunteerPListByMember(paramMap);
+		log.debug("=====list: "+list);
+		long total = 0;
+		if(list.size()==0) {
+			total = 0;
+		} else {
+			total = (long)((Map)list.get(0)).get("cnt");
+		}
+		
+		int lastPage = (int)Math.ceil((double)total/rowPerPage);
+		log.debug("=====정기봉사 total: "+total);
+		log.debug("=====정기봉사 lastPage:"+lastPage);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("lastPage", lastPage);
+		map.put("list", list);
+		return map;
+	}
+	
+	//회원 내정보 일반 봉사 취소
+	public int removeVolunteerByMember(String memberId, int applyId) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("applyId", applyId);
+		int row = volunteerMapper.deleteVolunteerApplyByMember(paramMap);
+		log.debug("=====일반봉사 취소: "+row);
+		return row;
+	}
+	
+	//회원 내정보 정기 봉사 취소
+	public int removeVolunteerPByMember(String memberId, int applyId) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("applyId", applyId);
+		int row = volunteerMapper.deleteVolunteerPByMember(paramMap);
+		log.debug("=====정기봉사 취소: "+row);
+		return row;
+	}
+	
+	//회원 내정보 봉사 예정 목록
+	public List<Map<String, Object>> getVolunteerCalByMember(String memberId){
+		List<Map<String, Object>> nList = volunteerMapper.selectVolunteerCalByMember(memberId);
+		log.debug("===== 일반 봉사 예정 리스트 : "+nList);
+
+		return nList;
+	}
+	//회원 내정보 봉사 예정 목록
+	public List<Map<String, Object>> getVolunteerPCalByMember(String memberId){
+		List<Map<String, Object>> pList = volunteerMapper.selectVolunteerPCalByMember(memberId);
+		log.debug("===== 정기 봉사 예정 리스트 : "+pList);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pList", pList);
+
+		return pList;
 	}
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ staff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

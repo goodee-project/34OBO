@@ -60,4 +60,10 @@ public class AdoptRestapi {
 		
 		return adoptService.getAdoptApplyListByMemberId(currentPage, 5, memberId);
 	}
+	
+	// staff 입양 대기 신청 서류보기
+	@GetMapping("/getDocument")
+	public List<Map<String, Object>> getDocument(int documentId){
+		return adoptService.getAdoptDocumentOne(documentId);
+	}
 }

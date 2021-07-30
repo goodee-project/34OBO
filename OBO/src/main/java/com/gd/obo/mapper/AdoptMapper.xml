@@ -8,16 +8,20 @@
 			a.animal_name AS animalName,
 			aa.member_id AS memberId,
 			m.member_name AS memberName,
-			aa.adopt_apply_document_id AS adoptApplyDocumentId
+			aa.adopt_apply_document_id AS adoptApplyDocumentId,
+			aa.apply_date AS applyDate,
+			COUNT(aa.adopt_apply_id) over() AS totalRow
 		FROM adopt_apply AS aa, animal AS a, member AS m
 		<where>
 			aa.animal_id = a.animal_id AND aa.member_id = m.member_id AND a.shelter_id = #{shelterId}
 			AND aa.apply_reject_date IS NULL
 			AND (SELECT aa.adopt_apply_id FROM adopt AS ad WHERE ad.adopt_apply_id = aa.adopt_apply_id) IS NULL
 			<if test="searchWord != null">
-				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
+				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%')
 			</if>
 		</where>
+		ORDER BY applyDate DESC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 입양 완료된 동물 리스트 -->
@@ -32,7 +36,8 @@
 			aa.adopt_apply_document_id AS adoptApplyDocumentId,
 			DATE(aa.apply_date) AS applyDate,
 			DATE(ad.adopt_date) AS adoptDate,
-			ad.staff_id AS staffId
+			ad.staff_id AS staffId,
+			COUNT(aa.adopt_apply_id) over() AS totalRow
 		FROM adopt AS ad, adopt_apply AS aa, animal AS a, member AS m
 		<where>
 			ad.adopt_apply_id = aa.adopt_apply_id 
@@ -41,12 +46,14 @@
 			AND ad.adopt_apply_id IN (SELECT adopt_apply_id FROM adopt)
 			AND a.shelter_id = #{shelterId}
 			<if test="selectOption == 'animal'">
-				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
+				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%')
 			</if>
 			<if test="selectOption == 'member'">
-				AND (m.member_name LIKE CONCAT('%', #{searchWord},'%') OR m.member_id LIKE CONCAT('%', #{searchWord},'%'));
+				AND (m.member_name LIKE CONCAT('%', #{searchWord},'%') OR m.member_id LIKE CONCAT('%', #{searchWord},'%'))
 			</if>
 		</where>
+		ORDER BY adoptDate DESC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 입양 거절된 동물 리스트 -->
@@ -58,15 +65,18 @@
 			m.member_id AS memberId,
 			aa.adopt_apply_document_id AS adoptApplyDocumentId,
 			DATE(aa.apply_date) AS applyDate,
-			DATE(aa.apply_reject_date) AS applyRejectDate
+			DATE(aa.apply_reject_date) AS applyRejectDate,
+			COUNT(aa.adopt_apply_id) over() AS totalRow
 		FROM adopt_apply AS aa, animal AS a, member AS m
 		<where>
 			aa.animal_id = a.animal_id AND aa.member_id = m.member_id 
 			AND aa.apply_reject_date IS NOT NULL AND a.shelter_id = #{shelterId}
 			<if test="searchWord != null">
-				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%');
+				AND a.animal_name LIKE CONCAT('%', #{searchWord},'%')
 			</if>
-		</where>		
+		</where>	
+		ORDER BY applyRejectDate DESC
+		LIMIT #{beginRow}, #{rowPerPage};	
 	</select>
 	
 	<!-- 입양 완료된 동물 목록 & 케어플랜 작성 안 된 동물 -->
@@ -95,6 +105,25 @@
 				AND a.animal_id = #{animalId}
 			</if>
 		</where>
+	</select>
+	
+	<!-- 입양 신청 서류 보기 -->
+	<select id="selectAdoptDocumentOne" parameterType="int" resultType="java.util.Map">
+		SELECT 
+			m.member_id AS memberId,
+			m.member_name AS memberName,
+			a.animal_name AS animalName,
+			aaq.question AS question,
+			aaa.answer AS answer
+		FROM adopt_apply_question AS aaq, adopt_apply_document AS aad, adopt_apply_answer AS aaa,
+			adopt_apply AS aa, animal AS a, member AS m
+		WHERE aaq.adopt_apply_question_id = aaa.adopt_apply_question_id
+			AND aaa.adopt_apply_document_id = aad.adopt_apply_document_id
+			AND aad.adopt_apply_document_id = aa.adopt_apply_document_id
+			AND m.member_id = aa.member_id
+			AND a.animal_id = aa.animal_id
+			AND aad.adopt_apply_document_id = #{documentId}
+		ORDER BY aaq.adopt_apply_question_id ASC;
 	</select>
 	
 	<!-- 입양 승인 -> adopt 테이블에 데이터 추가 -->
