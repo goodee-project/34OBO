@@ -19,4 +19,6 @@ public interface BoardMapper {
 	int deleteBoardFileByBoard(int boardId);
 	List<BoardFile> selectBoardFileByBoard(int boardId);
 	int updateBoard(Board board);
+	int insertBoardLike(Map<String,Object> map);
+	int selectBoardLikeByMember(Map<String,Object> map);
 }

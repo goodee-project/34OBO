@@ -7,8 +7,10 @@
 <meta charset="UTF-8">
 <title>내정보</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 <!-- CSS here -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
@@ -19,6 +21,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+
 <style>
 	th{
 		width: 30%;
@@ -125,7 +128,7 @@
 								</tr>
 							</table>
 
-							<button id="modifyMemberOne" type="button" onclick="modifyMemberOne()" class="genric-btn primary-border radius">내 정보 수정</button>
+							<button id="modifyMemberOne" type="button"  data-toggle="modal" data-target="#login-modal" class="genric-btn primary-border radius">내 정보 수정</button>
 							
 							<a href="${pageContext.request.contextPath}/member/modifyMemberPw"><button type="button" class="genric-btn primary-border radius">비밀번호 수정</button></a>
 						
@@ -137,16 +140,31 @@
 		</div>
 	</section>
 	
-	
+	<!-- 정보 수정 페이지에서 정보 수정을 다시 클릭할 경우 모달을 따로 띄우진 않도록 한다. -->
+	<!-- pw 모달 -->
+	<div class="modal fade" id="login-modal" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h5 class="modal-title">비밀번호를 입력하세요</h5>
+					<br>
+					<input id="pw" class="form-control" type="password"  name="password" placeholder="PW 입력" required="required"> <br />
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">취소</button>
+						<button id="ckBtn" type="button" onclick="modifyMemberOne(pw.value)" class="genric-btn primary-border radius">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	
 	
 <script>
 	//정보수정 페이지로 이동하기 전에 비밀번호 검사
-	function modifyMemberOne(){
-		console.log('click!');
+	function modifyMemberOne(checkPw){
 		
-		let checkPw = prompt("비밀번호를 입력하시오");
+		
 		
 		$.ajax({
 			type: 'post',
@@ -159,6 +177,7 @@
 				//true면 성공, false면 실패
 				if(jsonData == false){
 					alert('비밀번호가 틀렸습니다.');
+					$('#pw').val('');
 				} else {//회원 정보 수정 페이지로 이동하기 
 					window.location.href = '${pageContext.request.contextPath}/member/modifyMemberOne';
 				}

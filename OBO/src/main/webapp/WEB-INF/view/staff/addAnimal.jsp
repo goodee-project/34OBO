@@ -58,34 +58,45 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>보호소</h3>
+					<h3>동물 > 동물등록</h3>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	 <!-- animalList start  -->
-    <div class="team_area">
-        <div class="container">
-            <div class="row justify-content-center ">
-                <div class="col-lg-6 col-md-10">
-                    <div class="section_title text-center mb-95">
-                        <h3>동물 등록</h3>
-                    </div>
-                </div>
-            </div>
-	
-
 
 
 
 
 		<div class="container text-center">
         
-				<form id="addAnimal" action="${pageContext.request.contextPath}/staff/addAnimal" method="post">
-					
+				<form class="form-contact contact_form" id="addAnimal" action="${pageContext.request.contextPath}/staff/addAnimal" method="post" enctype="multipart/form-data" >
+						<input type="hidden" id="animalId" name="animal.animalId" value="${animalId}">
 						<table>
-							
+							<tr>	
+								<td>
+									<div class="col-12">
+                            		<div class="testmonial_area">
+										<div class="row">
+											<c:forEach var="af" items="${animalFileList}">
+											<input hidden="" id="animalFileId" value="${af.animalFileId}">
+												<img src="static/img/animal/${af.animalFileName}" width="300"
+													height="300" alt=""> &nbsp;		
+											</c:forEach>
+										</div>
+									</div>
+								
+								<div class="col-lg-9" style="display: inline;">
+									
+									<label for="imgFileUpload"> <img src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+									</label> <span id="target"></span> <input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);"
+										multiple="multiple" class="imgCheck" />
+									<div id="image_container" style="display: inline;"></div>
+									<!-- 업로드 된 이미지 미리보기 생성 -->
+								</div>
+								</div>
+								</td>	
+							</tr>
 							<tr>
 								<td>동물 종</td>
 								<td>
@@ -105,7 +116,7 @@
 							<tr>
 								<td>보호소 번호</td>
 								<td>
-									<input class="form-control" id="shelterId" type="text" name="shelterId" >
+									<input class="form-control" id="shelterId" type="text" name="shelterId" hidden="hidden" value="${shelterId}">
 								</td>
 							</tr>
 							<tr>
@@ -177,26 +188,12 @@
 										<textarea class="form-control" name="animalIntroduce" id="animalIntroduce" rows="5" cols="50"></textarea>
 									</div>
 								</td>
-							</tr>
-							<tr>
-								<td>동물 사진</td>
-								<td>
-									<div class="col-lg-9" style="display: inline;">
-
-									<label for="imgFileUpload"> <img
-										src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
-									</label> <span id="target"></span> <input id="imgFileUpload"
-										name="animalFile" type="file" style="display: none;"
-										accept="image/*" onchange="setThumbnail(event);"
-										multiple="multiple" class="imgCheck" />
-									<div id="image_container" style="display: inline;"></div>
-									<!-- 업로드 된 이미지 미리보기 생성 -->
-								</div>
-								</td>
-							</tr>
-					</table>
-		
 				
+							</tr>
+							
+					</table>
+				
+				<br>
 				<div>
 					<input id="addBtn" type="button" value="등록">
 					<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button">뒤로가기</button></a>
