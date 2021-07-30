@@ -89,113 +89,188 @@ $(document).ready(function(){
 					    <div id="home" class="container tab-pane active"><br>
 					      <!-- <h3>입양</h3> -->
 					      
-					     <div id="myCarousel" class="carousel slide" data-ride="carousel">
-	
-						  <!-- Indicators -->
-						  <ul class="carousel-indicators">
-						    <c:if test="${!adoptList.isEmpty()}">
-						    	<c:forEach var="i" begin="0" end="${adoptList.size()-1}" step="1">
-							    	 <li data-target="#myCarousel" data-slide-to="${i}" class="${i==0? 'active' : '' }"></li>
-							    </c:forEach>
-						    </c:if>
-						  </ul>
-						  
-						  <!-- The slideshow -->
-						 <div class="carousel-inner">
-						 	<div class="col-lg-12 mb-12 mb-lg-0" >
-								<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
-								<div class="single_service staff_account">
-									<div class="service_content">
-										<h3 class="text-center" style="margin-top: 2%; margin-bottom: 0%;">입양동물</h3>
-									  	<c:if test="${!adoptList.isEmpty()}">
-										  	<c:forEach var="i" begin="0" end="${adoptList.size()-1}" step="1">
-										  			
-										    	 <div class="carousel-item ${i==0? 'active' : '' }" style="margin-top: 0%; margin-bottom: 2%;">
-										    		
-											    	<div class="section-top-border">
-														
-														<div class="row">
-															<div class="col-md-4">									
-																<img src="${pageContext.request.contextPath}/static/img/animal/${adoptList.get(i).animalFileName}" alt="" class="img-fluid img-thumbnail">
-															</div>
-															<div class="col-md-8 mt-sm-20">
-																<h3 class="mb-30" style="margin-top: 2%;">${adoptList.get(i).animalName}</h3>
-																<p>
-																	동물종 : ${adoptList.get(i).species}
-																	<br>
-																	<br>
-																	보호소 : ${adoptList.get(i).shelterName}
-																	<br>
-																	<br>
-																	입양날짜 : ${adoptList.get(i).adoptDate}
-																</p>
+						     <div id="myCarousel" class="carousel slide" data-ride="carousel">
+		
+							  <!-- Indicators -->
+							  <ul class="carousel-indicators">
+							    <c:if test="${!adoptList.isEmpty()}">
+							    	<c:forEach var="i" begin="0" end="${adoptList.size()-1}" step="1">
+								    	 <li data-target="#myCarousel" data-slide-to="${i}" class="${i==0? 'active' : '' }"></li>
+								    </c:forEach>
+							    </c:if>
+							  </ul>
+							  
+							  <!-- The slideshow -->
+							 <div class="carousel-inner">
+							 	<div class="col-lg-12 mb-12 mb-lg-0" >
+									<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+									<div class="single_service staff_account">
+										<div class="service_content">
+											<h3 class="text-center" style="margin-top: 2%; margin-bottom: 0%;">입양동물</h3>
+										  	<c:if test="${!adoptList.isEmpty()}">
+											  	<c:forEach var="i" begin="0" end="${adoptList.size()-1}" step="1">
+											  			
+											    	 <div class="carousel-item ${i==0? 'active' : '' }" style="margin-top: 0%; margin-bottom: 2%;">
+											    		
+												    	<div class="section-top-border">
+															
+															<div class="row">
+																<div class="col-md-4">									
+																	<img src="${pageContext.request.contextPath}/static/img/animal/${adoptList.get(i).animalFileName}" alt="" class="img-fluid img-thumbnail">
+																</div>
+																<div class="col-md-8 mt-sm-20">
+																	<h3 class="mb-30" style="margin-top: 2%;">${adoptList.get(i).animalName}</h3>
+																	<p>
+																		동물종 : ${adoptList.get(i).species}
+																		<br>
+																		<br>
+																		보호소 : ${adoptList.get(i).shelterName}
+																		<br>
+																		<br>
+																		입양날짜 : ${adoptList.get(i).adoptDate}
+																	</p>
+																</div>
 															</div>
 														</div>
-													</div>
-											    </div>
-										    </c:forEach>
-									  	 </c:if>
-									  	 
-									  	<!-- Left and right controls 화살표 색깔 바꾸기.... ㅎㅎ.... -->
-										  <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
-										    <span class="carousel-control-prev-icon"></span>
-										  </a>
-										  <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-										    <span class="carousel-control-next-icon"></span>
-										  </a> 
-									  	 
-						  			 </div>
-						  		 </div>
-						  		 
-						  		 
-						  		 
-						  	 </div>
-						  </div>
-	  
-						  
-						</div>
+												    </div>
+											    </c:forEach>
+										  	 </c:if>
+										  	 
+										  	<!-- Left and right controls 화살표 색깔 바꾸기.... ㅎㅎ.... -->
+											  <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+											    <span class="carousel-control-prev-icon"></span>
+											  </a>
+											  <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+											    <span class="carousel-control-next-icon"></span>
+											  </a> 
+										  	 
+							  			 </div>
+							  		 </div>
+							  		 
+							  		 
+							  		 
+							  	 </div>
+							  </div>
+		  
+							  
+							</div>
 					     
 					      
-					      <!-- 입양 내역: 입양신청목록 -->
-					    <div class="col-lg-12 mb-12 mb-lg-0"  >
-							<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
-							<div class="single_service staff_account" style="height: 90%;">
-								<div class="service_content text-center">
-									<h3 class="text-center" style="margin-top: 2%;">입양신청목록</h3>
-									
-									<table class="table">
-										<thead>
-											<tr>
-												<th>신청날짜</th>
-												<th>신청동물</th>
-												<th>보호소</th>
-												<th>승인여부</th>
-											</tr>
-										</thead>
-										<tbody id="adoptTbody">
-										</tbody>							
-									</table>
-									<!-- 페이징 -->
-									<div class="blog_left_sidebar">
-										<nav class="blog-pagination justify-content-center d-flex">
-											<ul class="pagination" id="adoptPaging">
-												
-												
-											</ul>
-										</nav>
+					    	  <!-- 입양 내역: 입양신청목록 -->
+						   	 <div class="col-lg-12 mb-12 mb-lg-0"  >
+								<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+								<div class="single_service staff_account" style="height: 90%;">
+									<div class="service_content text-center">
+										<h3 class="text-center" style="margin-top: 2%;">입양신청목록</h3>
+										
+										<table class="table">
+											<thead>
+												<tr>
+													<th>신청날짜</th>
+													<th>신청동물</th>
+													<th>보호소</th>
+													<th>승인여부</th>
+												</tr>
+											</thead>
+											<tbody id="adoptTbody">
+											</tbody>							
+										</table>
+										<!-- 페이징 -->
+										<div class="blog_left_sidebar">
+											<nav class="blog-pagination justify-content-center d-flex">
+												<ul class="pagination" id="adoptPaging">
+													
+													
+												</ul>
+											</nav>
+										</div>
+										
 									</div>
-									
 								</div>
 							</div>
-						</div>
 					      
 					      
 					      
 					    </div>
-				    
+				    	
+				    	<!-- 케어 -->
 					    <div id="menu1" class="container tab-pane fade"><br>
-					      <h3>케어</h3>
-					      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+					      <!-- 달력 그리기 -->
+					     	  <!-- 입양 내역: 입양신청목록 -->
+						   	 <div class="col-lg-12 mb-12 mb-lg-0"  >
+								<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+								<div class="single_service staff_account" style="height: 90%;">
+									<div class="service_content">
+										<!-- 고민.... -->
+										<span style="text-align: right;">
+											<a href="javascript:void(0);">오늘</a>
+										</span>
+										<h3 class="text-center" style="margin-top: 2%;">케어달력</h3>
+											
+											<!--  달력 설정 -->
+											<h2 class="text-center">
+												<span>
+													<a href="javascript:void(0);" onclick="changeMonth(-1)"><i class="fa fa-arrow-circle-o-left"></i></a>
+													<input id="date" class="form-control" type="month" style="display:inline-block; width:25%;"
+															onchange="changeCal(Number(document.getElementById('date').value.slice(0,4)), Number(document.getElementById('date').value.slice(5,7)));">
+													<!-- ${aboutToday.thisYear}년 / ${aboutToday.thisMonth}월 -->
+													<a href="javascript:void(0);" onclick="changeMonth(+1)"><i class="fa fa-arrow-circle-o-right"></i></a>
+												</span>	
+											</h2>
+											<br><br>
+											<table class="table" style="table-layout:fixed;">
+												<thead>
+													<tr style="text-align:center;">
+														<th>일</th>
+														<th>월</th>
+														<th>화</th>
+														<th>수</th>
+														<th>목</th>
+														<th>금</th>
+														<th>토</th>
+													</tr>
+												</thead>
+												<tbody id="day">
+													<tr style="height:130px;">
+														<c:forEach var="i" begin="1" end="${aboutToday.totalTd}" step="1">
+														<c:set var="day" value="${i-aboutToday.thisFirstBlank}" />
+															<td>
+																<!-- 1~n일의 달력 -->
+																<c:if test="${i>aboutToday.thisFirstBlank && i<=(aboutToday.thisFirstBlank+aboutToday.thisEndDate)}">
+																	<!-- n일 -->
+																	<div>${day}</div>
+																	<!-- n일에 해당하는 일정 -->
+																	<c:forEach var="c" items="${carePlanList}">
+																		<c:if test="${day == c.day}">
+																			<div>
+																				<a href="javascript:void(0);" data-parameter="${c.carePlanId}" data-toggle="modal" data-target="#plan-modal" 
+																					onclick="planOneFunc(this.getAttribute('data-parameter'));">${c.animalName}</a>
+																			</div>
+																		</c:if>
+																	</c:forEach>
+																</c:if>
+																
+																<!-- 1~n일 제외한 블랭크 -->
+																<c:if test="${i<=aboutToday.thisFirstBlank || i>(aboutToday.thisFirstBlank+aboutToday.thisEndDate)}">
+																	<div>&nbsp;</div>
+																</c:if>
+															</td>
+														
+															<!-- 줄바꾸기 -->
+															<c:if test="${i%7 == 0 && day<aboutToday.thisEndDate}">
+																</tr><tr style="height:130px;">
+															</c:if>
+														</c:forEach>
+													</tr>
+												</tbody>
+											</table>
+									</div>
+								</div>
+							</div>
+					    
+					    
+					    
+					    
 					    </div>
 					  </div>
 				  </div>
@@ -265,6 +340,56 @@ $(document).ready(function(){
 			}
 			
 		})
+	}
+</script>
+
+<script>
+	let now = new Date();	// 현재 날짜 및 시간
+	let year = now.getFullYear();	// 연도
+	console.log('연도 : ', year);
+	
+	let month = now.getMonth() + 1;	// 월
+	console.log('월 : ', month);
+	
+	calendar(year,month);
+	
+	function changeCal(y, m){
+		year = y;
+		month = m;
+		calendar(year,month);
+		
+	}
+	
+	//월 받아서 바꾸기
+	function changeMonth(m){
+		month = month + m
+		calendar(year,month);
+	}
+
+	//달력 다른 달로 바꾸기 y: 년도 , m: 월
+	function calendar(y, m){
+		
+		//1월 -> 12월
+		if(month<1){
+			year -= 1;
+			month = 12;
+		}
+		//12월 -> 1월
+		if(month>12){
+			year += 1;
+			month = 1;
+		}
+		
+		//date에 값 넣어주기 위한 설정
+		if(month<10){	
+			$('#date').val(year+'-0'+month);
+		} else{
+			$('#date').val(year+'-'+month);
+		}
+		
+		console.log('바뀐 년/월?'+$('#date').val());
+		
+		//바뀐 년월 불러오기...
 	}
 </script>
 </body>

@@ -24,7 +24,12 @@ public interface VolunteerMapper {
 	String selectMemberQualification(Map<String, Object> map);
 	List<Map<String, Object>> selectFullVolunteerListByMember(Map<String, Object> map);
 	int selectTotalVolunteerTimeByMember(String memberId);
-	int selectFullVolunteerListByMemberTotal(String memberId);
+	List<Map<String, Object>> selectVolunteerApplyListByMember(Map<String, Object> map);
+	List<Map<String, Object>> selectVolunteerPListByMember(Map<String, Object> map);
+	int deleteVolunteerApplyByMember(Map<String, Object> map);
+	int deleteVolunteerPByMember(Map<String, Object> map);
+	List<Map<String, Object>> selectVolunteerCalByMember(String memberId);
+	List<Map<String, Object>> selectVolunteerPCalByMember(String memberId);
 	
 	List<Map<String, Object>> selectVolunteerRecruitListInStaff(Map<String, Object> map);
 	List<Map<String, Object>> selectVolunteerApplyListInStaff(Map<String, Object> map);

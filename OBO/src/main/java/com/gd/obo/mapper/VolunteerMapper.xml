@@ -106,7 +106,7 @@
 	
 	<!-- 내정보 총 봉사 내역 -->
 	<select id="selectFullVolunteerListByMember" resultType="java.util.Map" parameterType="java.util.Map">
-		SELECT memberId, volunteerDate, shelterName, categoryName, volunteerTime FROM full_volunteer_check_list 
+		SELECT COUNT(*)over() cnt, memberId, volunteerDate, shelterName, categoryName, volunteerTime FROM full_volunteer_check_list 
 		WHERE memberId=#{memberId} ORDER BY volunteerDate DESC LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
@@ -115,11 +115,45 @@
 		SELECT SUM(volunteerTime) FROM full_volunteer_check_list WHERE memberId=#{memberId}
 	</select>
 	
-	<!-- 내정보 총 봉사 수 -->
-	<select id="selectFullVolunteerListByMemberTotal" resultType="int" parameterType="String">
-		SELECT COUNT(*) FROM full_volunteer_check_list WHERE memberId=#{memberId}
+	<!-- 내정보 일반 봉사 신청 내역 -->
+	<select id="selectVolunteerApplyListByMember" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT COUNT(*)over() cnt, applyId, volunteerDate, shelterName, categoryName FROM volunteer_apply_list
+		WHERE memberId=#{memberId} ORDER BY volunteerDate DESC LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
+	<!-- 내정보 정기 봉사 전체 내역(신청, 봉사완료) -->
+	<select id="selectVolunteerPListByMember" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT COUNT(*)over() cnt, applyId, volunteerDate, shelterName, categoryName, state FROM member_periodically_volunteer_list
+		WHERE memberId=#{memberId} ORDER BY state, volunteerDate DESC LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 내정보 일반 봉사 신청 취소 -->
+	<delete id="deleteVolunteerApplyByMember" parameterType="java.util.Map">
+		DELETE FROM volunteer_apply WHERE member_id=#{memberId} AND volunteer_apply_id=#{applyId}
+	</delete>
+	
+	<!-- 내정보 정기 봉사 신청 취소 -->
+	<delete id="deleteVolunteerPByMember" parameterType="java.util.Map">
+		DELETE FROM periodically_volunteer_apply WHERE member_id=#{memberId} AND periodically_volunteer_apply_id=#{applyId}
+	</delete>
+	
+	<!-- 내정보 봉사 달력(이번달만) -->
+	<select id="selectVolunteerCalByMember" resultType="java.util.Map" parameterType="String">
+		SELECT volunteerDate volunteerDate,YEAR(volunteerDate) yyyy, MONTH(volunteerDate)mm, DAY(volunteerDate)dd, shelterName, categoryName
+				FROM volunteer_apply_list
+		WHERE memberId=#{memberId} AND MONTH(volunteerDate)=MONTH(NOW()) AND DATEDIFF(volunteerDate, NOW())>=0
+	</select>
+	<!-- 내정보 봉사 달력 정기용 -->
+	<select id="selectVolunteerPCalByMember" resultType="java.util.Map" parameterType="String">
+		SELECT LEFT(pvr.periodically_volunteer_start_date, 10) startDate, DAY(pvr.periodically_volunteer_start_date) dd, YEAR(pvr.periodically_volunteer_start_date) yyyy,
+			MONTH(pvr.periodically_volunteer_start_date) mm, pva.member_id memberId, pvr.volunteer_cycle volunteerCycle, sh.shelter_name shelterName, vc.volunteer_category_name categoryName 
+			FROM periodically_volunteer_apply pva 
+			JOIN periodically_volunteer_recruit pvr ON pva.periodically_volunteer_recruit_id=pvr.periodically_volunteer_recruit_id
+			JOIN staff s ON s.staff_id = pvr.staff_id
+			JOIN shelter sh ON sh.shelter_id=s.shelter_id
+			JOIN volunteer_category vc ON pvr.volunteer_category_id = vc.volunteer_category_id
+		WHERE member_id=#{memberId} AND MONTH(pvr.periodically_volunteer_start_date)=MONTH(NOW()) AND DATEDIFF(pvr.periodically_volunteer_start_date, NOW())>=0
+	</select>
 	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ staff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	
