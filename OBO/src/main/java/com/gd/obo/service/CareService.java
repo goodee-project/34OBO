@@ -22,8 +22,20 @@ public class CareService {
 	@Autowired CareMapper careMapper;
 	
 	// staff - care info 리스트 보기
-	public List<Map<String, Object>> getCareInfoList(String searchWord, String species, String careSorting){
-		return careMapper.selectCareInfoList(searchWord, species, careSorting);
+	public List<Map<String, Object>> getCareInfoList(String searchWord, String species, String careSorting, int currentPage, int rowPerPage){
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("searchWord", searchWord);
+		map.put("species", species);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
+		log.debug("●●●●▶ getCareInfoList map-> "+map);
+		
+		List<Map<String, Object>> list = careMapper.selectCareInfoList(map);
+		log.debug("●●●●▶ getCareInfoList list-> "+list);
+		
+		return list;
 	}
 	
 	// staff - care plan 날짜 자동 계산
@@ -42,18 +54,30 @@ public class CareService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("limitDate", limitDate);
-		log.debug("●●●●▶map-> "+map);
-		return careMapper.selectCarePlanList(map);
+		log.debug("●●●●▶ getCarePlanDdayList map-> "+map);
+		
+		List<Map<String, Object>> list = careMapper.selectCarePlanList(map);
+		log.debug("●●●●▶ getCarePlanDdayList list-> "+list);
+		
+		return list;
 	}
 	
 	// staff - care plan list 불러오기
-	public List<Map<String, Object>> getCarePlanList(int shelterId, String searchWord, String selectOption){
+	public List<Map<String, Object>> getCarePlanList(int shelterId, String searchWord, String selectOption, int currentPage, int rowPerPage){
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
-		map.put("selectOption", selectOption);
 		map.put("searchWord", searchWord);
-		log.debug("●●●●▶map-> "+map);
-		return careMapper.selectCarePlanList(map);
+		map.put("selectOption", selectOption);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
+		log.debug("●●●●▶ getCarePlanList map-> "+map);
+		
+		List<Map<String, Object>> list = careMapper.selectCarePlanList(map);
+		log.debug("●●●●▶ getCarePlanList-> "+list);
+		
+		return list;
 	}
 	
 	// staff - care plan 달력에서 보여줄 list
@@ -68,18 +92,26 @@ public class CareService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("setDate", setDate);
-		log.debug("●●●●▶map-> "+map);
+		log.debug("●●●●▶ getCarePlanInCal map-> "+map);
 		return careMapper.selectCarePlanInCal(map);
 	}
 	
 	// staff - care record list 불러오기
-	public List<Map<String, Object>> getCareRecordList (int shelterId, String searchWord, String selectOption){
+	public List<Map<String, Object>> getCareRecordList (int shelterId, String searchWord, String selectOption, int currentPage, int rowPerPage){
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
-		map.put("selectOption", selectOption);
 		map.put("searchWord", searchWord);
-		log.debug("●●●●▶ map-> "+map);
-		return careMapper.selectCareRecordList(map);
+		map.put("selectOption", selectOption);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
+		log.debug("●●●●▶ getCareRecordList map-> "+map);
+		
+		List<Map<String, Object>> list = careMapper.selectCareRecordList(map);
+		log.debug("●●●●▶ getCareRecordList list-> "+list);
+		
+		return list;
 	}
 	
 	// staff - 입양간 동물의 작성된 케어 plan 보기
@@ -100,7 +132,7 @@ public class CareService {
 	public List<Map<String, Object>> getCarePlanOneByList(int shelterId){
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
-		log.debug("●●●●▶ map-> "+map);
+		log.debug("●●●●▶ getCarePlanOneByList map-> "+map);
 		return careMapper.selectCarePlanOneByList(map);
 	}
 	
@@ -153,5 +185,17 @@ public class CareService {
 		map.put("features", features);
 		log.debug("●●●●▶ map-> "+map);
 		return careMapper.insertCareRecord(map);
+	}
+	
+	//main memberId로 케어플랜 가져오기
+	public List<Map<String, Object>> getCarePlanListByMemberId(int year, int month, String memberId) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("year", year);
+		paramMap.put("month", month);
+		paramMap.put("memberId", memberId);
+		
+		
+		log.debug("■■■■■■ getCarePlanListByMemberId paramMap : "+ paramMap);
+		return careMapper.selectCarePlanListByMemberId(paramMap);
 	}
 }

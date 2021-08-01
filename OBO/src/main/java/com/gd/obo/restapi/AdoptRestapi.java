@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gd.obo.service.AdoptService;
+import com.gd.obo.vo.Member;
 import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,5 +50,20 @@ public class AdoptRestapi {
 	public int modifyReject(int adoptApplyId) {
 		log.debug("●●●●▶adoptApplyId-> "+adoptApplyId);
 		return adoptService.modifyAdoptReject(adoptApplyId);
+	}
+	
+	//내정보 -> 입양&케어 -> 입양 -> 입양신청내역
+	@GetMapping("/member/getAdoptApplyListByMemberId")
+	public Map<String, Object> getAdoptApplyListByMemberId(HttpSession session,
+									@RequestParam(value = "currentPage", defaultValue = "1")int currentPage){
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		
+		return adoptService.getAdoptApplyListByMemberId(currentPage, 5, memberId);
+	}
+	
+	// staff 입양 대기 신청 서류보기
+	@GetMapping("/getDocument")
+	public List<Map<String, Object>> getDocument(int documentId){
+		return adoptService.getAdoptDocumentOne(documentId);
 	}
 }

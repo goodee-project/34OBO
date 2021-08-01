@@ -7,14 +7,17 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AdoptMapper {
+	List<Map<String, Object>> selectAdoptApplyListByMemberId(Map<String, Object> map);
 	List<Map<String, Object>> selectAdoptApplyList(Map<String, Object> map);
 	List<Map<String, Object>> selectAdoptApprovalList(Map<String, Object> map);
 	List<Map<String, Object>> selectAdoptRejectList(Map<String, Object> map);
 	List<Map<String, Object>> selectAdoptList(Map<String, Object> map);
+	List<Map<String, Object>> selectAdoptDocumentOne(int documentId);
 	int insertAdopt(Map<String, Object> map);
 	int updateAdoptReject(int adoptApplyId);
 	int insertAdoptForm(Map<String, Object> map);
 	int insertAdoptByMember(Map<String, Object> map);
 	Map<String, Object> selectAdoptDocumentByMember(String memberId);
 	int insertAdoptDocument();
+	List<Map<String, Object>> selectAdoptListByMemberId(String memberId);
 }

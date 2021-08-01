@@ -1,4 +1,5 @@
 // 작성자: 김선유
+// 수정자: 손영현
 package com.gd.obo.service;
 
 import java.io.File;
@@ -30,6 +31,35 @@ public class BoardService {
 	@Autowired BoardMapper boardMapper;
 	@Autowired BoardCommentMapper boardCommentMapper;
 	@Autowired BoardFileMapper boardFileMapper;
+	
+	//멤버별 계시판 좋아요 보기
+	public Map<String, Object> getBoardLikeByMemberId(String memberId, int currentPage, int rowPerPage){
+		log.debug("■■■■■■■ getBoardLikeByMemberId memberId param :" + memberId);
+		log.debug("■■■■■■■ getBoardLikeByMemberId currentPage param :" + currentPage);
+		log.debug("■■■■■■■ getBoardLikeByMemberId rowPerPage param :" + rowPerPage);
+		
+		int beginRow = (currentPage-1)*rowPerPage;
+		
+		//리스트
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("beginRow", beginRow);
+		
+		List<Map<String ,Object>> likeList = boardMapper.selectBoardLikeByMemberId(paramMap);
+		log.debug("■■■■■■■ getBoardLikeByMemberId likeList :" + likeList);
+		
+		
+		//마지막 페이지
+		int total = boardMapper.selectBoardLikeTotalByMemberId(memberId);
+		int lastPage = (int)Math.ceil((double)total/rowPerPage);
+		log.debug("■■■■■■■ getBoardLikeByMemberId lastPage :" + lastPage);
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		returnMap.put("likeList", likeList);
+		returnMap.put("lastPage", lastPage);
+		return returnMap;
+	}
 	
 	// 게시판 좋아요
 	public int addBoardLike(int boardId, String memberId) {

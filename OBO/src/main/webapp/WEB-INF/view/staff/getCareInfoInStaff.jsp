@@ -123,6 +123,38 @@ $(document).ready(function(){
 					<div class="search_form">
 					<div class="blog_left_sidebar">
 						
+						<!-- 페이징 -->
+						<nav class="blog-pagination justify-content-center d-flex">
+							<ul class="pagination">
+								<!-- 이전 페이지 setting -->
+								<c:if test="${currentPage > 1}">
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getCareInfoInStaff?currentPage=${currentPage-1}&species=${species}
+										&careSorting=${careSorting}&searchWord=${searchWord}" class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i>
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getCareInfoInStaff?currentPage=${currentPage-1}&species=${species}
+										&careSorting=${careSorting}&searchWord=${searchWord}" class="page-link">${currentPage-1}
+									</a></li>
+								</c:if>
+								<c:if test="${currentPage == 1}">
+									<!-- 이전 페이지 보이지 않음 -->
+								</c:if>
+								
+								<!-- 현재 페이지 setting -->
+								<li class="page-item active"><a href="javascript:void(0);" class="page-link">${currentPage}</a></li>
+									
+								<!-- 다음 페이지 setting -->
+								<c:if test="${currentPage < lastPage}"> <!-- currentPage+1 <= lastPage -->
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getCareInfoInStaff?currentPage=${currentPage+1}&species=${species}
+										&careSorting=${careSorting}&searchWord=${searchWord}" class="page-link" aria-label="Next">${currentPage+1}
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getCareInfoInStaff?currentPage=${currentPage+1}&species=${species}
+										&careSorting=${careSorting}&searchWord=${searchWord}" class="page-link" aria-label="Next"><i class="ti-angle-right"></i>
+									</a></li>
+								</c:if>
+							</ul>
+						</nav>
+						<hr>
+						
 						<!-- 검색 -->
 						<form id="searchForm" action="${pageContext.request.contextPath}/staff/getCareInfoInStaff" method="get">
 							<div class="form-group">

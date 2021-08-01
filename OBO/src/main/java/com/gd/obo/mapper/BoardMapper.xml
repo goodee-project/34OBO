@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.obo.mapper.BoardMapper">
+	<select id="selectBoardLikeTotalByMemberId" resultType="Integer" parameterType="java.lang.String">
+		SELECT 
+			COUNT(*) 
+		FROM board_like
+		WHERE member_id = #{memberId}	
+	</select>
+	<!-- 회원의 게시판 좋아요 내역 -->
+	<select id="selectBoardLikeByMemberId" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			b.board_id boardId, 
+			bc.board_category_name boardCategoryName, 
+			b.board_title boardTitle, 
+			b.member_id memberId, 
+			b.create_date createDate 
+		FROM board b 
+			INNER JOIN board_like bl ON b.board_id=bl.board_id
+			INNER JOIN board_category bc ON b.board_category_id=bc.board_category_id
+		WHERE bl.member_id = #{memberId}
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
 	
 	<!-- 게시판 좋아요 -->
 	<insert id="insertBoardLike" parameterType="java.util.Map">

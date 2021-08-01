@@ -103,7 +103,7 @@ $(document).ready(function(){
 								</tr>
 								<c:forEach var="d" items="${donationItemList}">
 									<tr>
-										<td>${d.memberId}(${d.memberName})</td>
+										<td>${d.memberName}(${d.memberId})</td>
 										<td>${d.itemCategoryName}</td>
 										<td>${d.itemName}</td>
 										<td>${d.itemQuantity}</td>
@@ -127,16 +127,30 @@ $(document).ready(function(){
 						<nav class="blog-pagination justify-content-center d-flex">
 							<ul class="pagination">
 								<!-- 이전 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/getDonationItemN" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
-								</li>
-								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationItemN" class="page-link">1</a></li>
-								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/getDonationItemN" class="page-link">2</a></li>
+								<c:if test="${currentPage > 1}">
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationItemN?currentPage=${currentPage-1}&itemCategoryName=${itemCategoryName}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i>
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationItemN?currentPage=${currentPage-1}&itemCategoryName=${itemCategoryName}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link">${currentPage-1}
+									</a></li>
+								</c:if>
+								<c:if test="${currentPage == 1}">
+									<!-- 이전 페이지 보이지 않음 -->
+								</c:if>
 								
+								<!-- 현재 페이지 setting -->
+								<li class="page-item active"><a href="javascript:void(0);" class="page-link">${currentPage}</a></li>
+									
 								<!-- 다음 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/getDonationItemN" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
-								</li>
+								<c:if test="${currentPage < lastPage}"> <!-- currentPage+1 <= lastPage -->
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationItemN?currentPage=${currentPage+1}&itemCategoryName=${itemCategoryName}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link" aria-label="Next">${currentPage+1}
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getDonationItemN?currentPage=${currentPage+1}&itemCategoryName=${itemCategoryName}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link" aria-label="Next"><i class="ti-angle-right"></i>
+									</a></li>
+								</c:if>
 							</ul>
 						</nav>
 						<hr>
@@ -147,7 +161,7 @@ $(document).ready(function(){
 							<div class="form-group">
 								<div class="input-group mb-4">
 									<select id="itemCategoryName" class="select_box" name="itemCategoryName">
-										<option value="non">카테고리선택</option>
+										<option value="">카테고리선택</option>
 											<c:forEach var="i" items="${itemCategoryList}">
 												<c:if test="${itemCategoryName == i.itemCategoryName}">
 													<option value="${i.itemCategoryName}" selected>${i.itemCategoryName}</option>
@@ -158,7 +172,7 @@ $(document).ready(function(){
 											</c:forEach>
 									</select>
 									<select id="searchSelect" class="select_box" name="searchSelect">
-										<option value="non">==검색명==</option>
+										<option value="">==검색명==</option>
 										
 										<c:if test="${searchSelect == 'member'}">
 											<option value="member" selected>회원정보</option>
@@ -231,9 +245,9 @@ $(document).ready(function(){
 		
 		if($('#itemCategoryName').val() == $('#searchSelect').val() && $('#searchWord').val() == ''){
 			alert('카테고리 혹은 검색어를 선택해주세요');
-		} else if($('#searchSelect').val() != 'non' && $('#searchWord').val() == ''){
+		} else if($('#searchSelect').val() != '' && $('#searchWord').val() == ''){
 			alert('해당 검색어를 입력해주세요!');
-		} else if($('#searchSelect').val() == 'non' && $('#searchWord').val() != ''){
+		} else if($('#searchSelect').val() == '' && $('#searchWord').val() != ''){
 			alert('검색할 내역을 선택해주세요!');
 		} else{
 			$('#searchForm').submit();
@@ -242,7 +256,7 @@ $(document).ready(function(){
 	
 	// 설명 클릭
 	function descriptionFunc(id, name, category, item, quantity, desc){
-		$('#memberOne').text(id+"("+name+")");
+		$('#memberOne').text(name+"("+id+")");
 		$('#categoryOne').text(category);
 		$('#itemOne').text(item);
 		$('#quantityOne').text(quantity);

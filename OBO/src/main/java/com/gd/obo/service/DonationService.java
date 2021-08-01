@@ -403,40 +403,79 @@ public class DonationService {
 	}
 	
 	// staff - 물품 후원 조회
-	public Map<String, Object> getDonationItemList(int shelterId, String searchWord, String searchSelect, String itemCategoryName){
+	public Map<String, Object> getDonationItemList(int shelterId, String searchWord, String searchSelect, String itemCategoryName, int currentPage, int rowPerPage){
+		//페이징 currentPage, rowPerPage, lastPage, beginRow, totalRow
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
+		//list 얻기 위한 map setting
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("searchSelect", searchSelect);
 		map.put("itemCategoryName", itemCategoryName);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
 		log.debug("●●●●▶ 물품 후원 map-> "+map);
+		
 		List<Map<String, Object>> donationItemList = donationMapper.selectDonationItemList(map);
 		List<ItemCategory> itemCategoryList = donationMapper.selectItemCategoryList();
+
+		//lastPage 구하기
+		int totalRow = 0;
+		if(donationItemList.size() != 0) {
+			totalRow = Integer.parseInt(donationItemList.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶ totalRow: "+totalRow);
+		log.debug("●●●●▶ lastPage: "+lastPage);
 		
 		//컨트롤러로 보낼 map
 		Map<String, Object> setMap = new HashMap<>();
 		setMap.put("donationItemList", donationItemList);
 		setMap.put("itemCategoryList", itemCategoryList);
+		setMap.put("lastPage", lastPage);
+		setMap.put("totalRow", totalRow);
 		
 		return setMap;
 	}
 	
 	// staff - 돈 후원 조회
-	public List<Map<String, Object>> getDonationMoneyNList(int shelterId, String searchWord){
+	public List<Map<String, Object>> getDonationMoneyNList(int shelterId, String searchWord, int currentPage, int rowPerPage){
+		//페이징 currentPage, rowPerPage, lastPage, beginRow, totalRow
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
 		log.debug("●●●●▶ 일반 후원 map-> "+map);
-		return donationMapper.selectDonationMoneyNList(map);
+		
+		List<Map<String, Object>> list = donationMapper.selectDonationMoneyNList(map);
+		log.debug("●●●●▶ 일반 후원 list-> "+list);
+		
+		return list;
 	}
 	
 	// staff - 정기 후원 조회
-	public List<Map<String, Object>> getDonationMoneyPList(int shelterId, String searchWord){
+	public List<Map<String, Object>> getDonationMoneyPList(int shelterId, String searchWord, int currentPage, int rowPerPage){
+		//페이징 currentPage, rowPerPage, lastPage, beginRow, totalRow
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
 		log.debug("●●●●▶ 정기 후원 map-> "+map);
-		return donationMapper.selectDonationMoneyPList(map);
+		
+		List<Map<String, Object>> list = donationMapper.selectDonationMoneyPList(map);
+		log.debug("●●●●▶ 정기 후원 list-> "+list);
+		
+		return list;
 	}
 	
 	// staff - 통계 - 이번달 후원 받은 금액
