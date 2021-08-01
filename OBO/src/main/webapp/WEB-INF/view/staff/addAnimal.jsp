@@ -71,7 +71,7 @@
 		<div class="container text-center">
         
 				<form class="form-contact contact_form" id="addAnimal" action="${pageContext.request.contextPath}/staff/addAnimal" method="post" enctype="multipart/form-data" >
-						<input type="hidden" id="animalId" name="animal.animalId" value="${animalId}">
+						
 						<table>
 							<tr>	
 								<td>
@@ -100,7 +100,7 @@
 							<tr>
 								<td>동물 종</td>
 								<td>
-									<select name="animalCategoryId" class="form-control">
+									<select name="animal.animalCategoryId" class="form-control">
 									<option value="">==종 선택==</option>
 										<c:forEach var="a" items="${animalCategoryList}">
 							    			<c:if test="${a.species == species}"> 
@@ -116,20 +116,20 @@
 							<tr>
 								<td>보호소 번호</td>
 								<td>
-									<input class="form-control" id="shelterId" type="text" name="shelterId" hidden="hidden" value="${shelterId}">
+									<input class="form-control" id="shelterId" type="text" name="animal.shelterId" hidden="hidden" value="${shelterId}">
 								</td>
 							</tr>
 							<tr>
 								<td>동물 이름</td>
 								<td>
-									<input class="form-control" id="animalName" type="text" name="animalName">
+									<input class="form-control" id="animalName" type="text" name="animal.animalName">
 								</td>
 							</tr>
 							<tr>
 								<td>동물 나이(개월)</td>
 								<td>
 									<div>
-										<input class="form-control" id="animalAge" type="text" name="animalAge">
+										<input class="form-control" id="animalAge" type="text" name="animal.animalAge">
 									</div>
 									
 								</td>
@@ -137,7 +137,7 @@
 							<tr>
 								<td>동물 성별</td>
 								<td>
-									<select class="form-control" id="animalSex" name="animalSex">
+									<select class="form-control" id="animalSex" name="animal.animalSex">
 										<option value="">==성별 선택==</option>
 					                    <option value="수컷">수컷</option>
 					                    <option value="암컷">암컷</option>
@@ -151,41 +151,41 @@
 								<td>동물 무게</td>
 								<td>
 									<div>
-										<input class="form-control" id="animalWeight" type="text" name="animalWeight">
+										<input class="form-control" id="animalWeight" type="text" name="animal.animalWeight">
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>동물 종류</td>
 								<td>
-									<input class="form-control" id="animalKind" type="text" name="animalKind">
+									<input class="form-control" id="animalKind" type="text" name="animal.animalKind">
 								</td>
 							</tr>
 							<tr>
 								<td>발견한 장소</td>
 								<td>
-									<input class="form-control" id="animalFindPlace" type="text" name="animalFindPlace">
+									<input class="form-control" id="animalFindPlace" type="text" name="animal.animalFindPlace">
 								</td>
 							</tr>
 							<tr>
 								<td>동물 상세정보(회원 보여줄 노트)</td>
 								<td>
 									<div>
-										<textarea class="form-control" name="animalNote" id="animalNote" rows="5" cols="50"></textarea>
+										<textarea class="form-control" name="animal.animalNote" id="animalNote" rows="5" cols="50"></textarea>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>동물 상태</td>
 								<td>
-				                  	<input class="form-control" id="animalState" type="text" name="animalState" value="보호중">
+				                  	<input class="form-control" id="animalState" type="text" name="animal.animalState" value="보호중">
 								</td>
 							</tr>
 							<tr>
 								<td>동물 소개</td>
 								<td>
 									<div>
-										<textarea class="form-control" name="animalIntroduce" id="animalIntroduce" rows="5" cols="50"></textarea>
+										<textarea class="form-control" name="animal.animalIntroduce" id="animalIntroduce" rows="5" cols="50"></textarea>
 									</div>
 								</td>
 				
@@ -257,7 +257,7 @@
    			reader.readAsDataURL(image); 
    		}
    		
-		$('#target').prepend('<input id="imgFileUpload" name="boardFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
+		$('#target').prepend('<input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
    	
    	
    	} 
