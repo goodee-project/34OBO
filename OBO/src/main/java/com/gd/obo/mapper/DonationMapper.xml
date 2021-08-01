@@ -19,7 +19,7 @@
 		GROUP BY YEAR(donation_date), MONTH(donation_date)
 	</select>
 	<!-- 달별 후원금 구하기 -->
-	<select id="selectTotalDonationByMonth" parameterType="int" resultType="long">
+	<select id="selectTotalDonationByMonth" parameterType="int" resultType="java.lang.Long">
 		SELECT SUM(amount) FROM full_money_donation_list WHERE MONTH(donation_date) = #{month}
 	</select>
 	<!-- 내정보 / 후원내역/ 물품후원 목록 / 상세보기 -->
