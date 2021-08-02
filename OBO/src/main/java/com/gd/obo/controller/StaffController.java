@@ -28,25 +28,6 @@ public class StaffController {
 	@Autowired StaffService staffService;
 	@Autowired ShelterService shelterService;
 	
-	// staff 회원가입 창 이동
-	@GetMapping("/addStaff")
-	public String addStaff(Model model){
-		
-		return "staff/addStaff";
-	}
-	
-	// staff 회원가입 action
-	@PostMapping("/addStaff")
-	public String addStaff(Staff staff) {
-		log.debug("●●●●▶회원가입 staff: "+staff);
-		
-		//서비스 실행
-		int addCnt = staffService.addStaff(staff);
-		log.debug("●●●●▶addCnt(완료1, 실패0): " + addCnt);
-		
-		return "redirect:/staff/";
-	}
-	
 	// staff 정보수정 창 이동
 	@GetMapping("/modifyStaff")
 	public String modifyStaff(Model model, HttpSession session) {

@@ -13,7 +13,7 @@
 			<div class="row align-items-center">
 				<div class="col-xl-3 col-lg-3">
 					<div class="logo">
-						<a href="${pageContext.request.contextPath}/staff/">
+						<a href="${pageContext.request.contextPath}/s/">
 							<img src="../static/img/obo/oboex.png" alt="">
 						</a>
 					</div>
@@ -26,14 +26,14 @@
 
 								<!-- 로그인 전 -->
 								<c:if test="${loginStaff == null}">
-									<li><a href="#">홈</a></li>
+									<li><a href="${pageContext.request.contextPath}/s/">홈</a></li>
 									<li><span>로그인이 필요한 기능입니다.</span></li>
 								</c:if>
 							
 								<!-- 로그인 후 -->
 								<c:if test="${loginStaff != null}">
 									<!--staffMenu(inc) 홈, 동물, 보호소, 후원, 봉사, 입양&케어-->
-									<li><a href="${pageContext.request.contextPath}/staff/home">홈</a></li>
+									<li><a href="${pageContext.request.contextPath}/s/">홈</a></li>
 									<li><a href="${pageContext.request.contextPath}/staff/getAnimalInStaff">동물<i class="ti-angle-down"></i></a>
 										<ul class="submenu">
 											<li><a href="${pageContext.request.contextPath}/staff/getAnimalList">동물 목록</a></li>

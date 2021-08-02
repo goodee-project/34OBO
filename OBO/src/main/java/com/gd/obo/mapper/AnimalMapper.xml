@@ -211,7 +211,7 @@
 				AND ac.species = #{species}
 			</if>
 		</where>    
-		ORDER BY expectedDay
+		ORDER BY animalEnterDate DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	

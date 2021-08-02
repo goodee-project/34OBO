@@ -88,7 +88,7 @@ public class AnimalController {
 		
 		animalService.addAnimal(animalForm);								
 		
-		return "redirect:/staff/getAnimalOne?animalId="+animalForm.getAnimal().getAnimalId();
+		return "redirect:/staff/getAnimalList?animalId="+animalForm.getAnimal().getAnimalId();
 	}
 	
 	

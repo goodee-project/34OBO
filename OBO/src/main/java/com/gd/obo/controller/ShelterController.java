@@ -163,10 +163,12 @@ public class ShelterController {
 	
 	// 액션
 	@PostMapping("/staff/modifyShelter")
-	public String modifyShelter(ShelterForm shelterForm) {
+	public String modifyShelter(ShelterForm shelterForm, HttpSession session) {
 		log.debug("%>%>%>%>%>%>%>%>%> ShelterController-> modifyShelter shelterForm: " + shelterForm);
 		
 		shelterService.modifyShelter(shelterForm);
+		// 쉘터 아이디 넣기
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		
 		return "redirect:/staff/shelterIntro?shelterId="+shelterForm.getShelter().getShelterId();
 	}

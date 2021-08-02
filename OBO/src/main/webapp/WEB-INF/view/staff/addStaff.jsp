@@ -220,7 +220,7 @@ $(document).ready(function(){
 	<section class="sample-text-area">
 		<div class="container">
 			<div>
-				<form id="addForm" action="${pageContext.request.contextPath}/staff/addStaff" method="post">
+				<form id="addForm" action="${pageContext.request.contextPath}/s/addStaff" method="post">
 					<table class="table">
 						<tr>
 							<td width="30%">보호소</td>
@@ -281,7 +281,7 @@ $(document).ready(function(){
 					</table>
 					
 					<button id="addBtn" type="button" class="genric-btn primary-border radius">가입</button>
-					<a href="${pageContext.request.contextPath}/staff/home"><button type="button" class="genric-btn primary-border radius">취소</button></a>
+					<a href="${pageContext.request.contextPath}/s/home"><button type="button" class="genric-btn primary-border radius">취소</button></a>
 				</form>
 			</div>
 		</div>

@@ -58,7 +58,7 @@ $(document).ready(function(){
 									<li><span style="color:white">PW</span>&nbsp;</li>
 									<li><input class="form-control" type="password" id="loginStaffPw" name="loginStaffPw" style="width:150px; height:30px" value="1234"></li>&emsp;
 									<li><button type="button" id="loginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
-									<li><a href="${pageContext.request.contextPath}/staff/addStaff">가입</a></li>
+									<li><a href="${pageContext.request.contextPath}/s/addStaff">가입</a></li>
 								</ul>
 							</form>
 						</div>
@@ -78,7 +78,7 @@ $(document).ready(function(){
 						<div class="social_media_links">
 							<form id="logout" action="${pageContext.request.contextPath}/s/logout">
 								<span class="text-white font-weight-bolder">${loginStaff.staffName}님, 반갑습니다!</span>
-								<a href="${pageContext.request.contextPath}/s/getStaffAccount" class="text-white font-weight-bolder">계정</a>
+								<a href="${pageContext.request.contextPath}/staff/getStaffAccount" class="text-white font-weight-bolder">계정</a>
 								<a href="${pageContext.request.contextPath}/s/logout"><button type="button" class="genric-btn primary-border circle arrow medium">LOGOUT</button></a>
 							</form>
 						</div>
