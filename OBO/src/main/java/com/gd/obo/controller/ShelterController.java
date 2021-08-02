@@ -137,9 +137,44 @@ public class ShelterController {
 	
 	// staff 보호소 소개
 	@GetMapping("/staff/shelterIntro")
-	public String shelterIntro() {
+	public String shelterIntro(Model model,
+				@RequestParam(value="shelterId",required= true) int shelterId) {
+		Map<String, Object> map = shelterService.getShelterOne(shelterId);
+		log.debug("@@@@@ map: "+map);
+		
+		
+		String x = (String)map.get("x");
+		String y = (String)map.get("y");
+		
+		if(x != null) {
+		model.addAttribute("x", x);
+		model.addAttribute("y", y);
+		}
+		
+		//보호중인 동물수, 이번달 안락사&입양 동물수 
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH) + 1; //이번달
+		log.debug("■■■■■■ getHome month 이번달 : "+month);
+		
+		Map<String, Object> animalMap = animalService.getAnimalStateCountByMonth(month, shelterId);
+		
+		//이미지 리스트
+		List<String> imgList = shelterService.getShelterFileListByShelterId(shelterId);
+		if(!imgList.isEmpty()) {
+		model.addAttribute("imgList", imgList);
+		}
+		
+		model.addAttribute("protect", animalMap.get("protect"));
+		model.addAttribute("adopt", animalMap.get("adopt"));
+		model.addAttribute("euthanasia", animalMap.get("euthanasia"));
+		
+		//shelter에서 보호중인 동물 리스트
+		model.addAttribute("animalList", animalService.getAnimalListM(shelterId, null, null, 1, 4).get("animalList"));
+		model.addAttribute("shelterMap", map.get("shelterMap"));
+
 		return "staff/shelterIntro";
 	}
+
 	
 	// staff 보호소 내용 수정
 	// 폼

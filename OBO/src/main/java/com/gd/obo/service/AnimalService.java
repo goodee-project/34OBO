@@ -80,7 +80,7 @@ public class AnimalService {
 	// animal 수정
 	public int modifyAnimal(AnimalForm animalForm) {
 		Animal animal = animalForm.getAnimal();
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> modifyAnimal-> animal animalId: " + animal.getAnimalId());
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> modifyAnimal animal: " + animal);
 		
 		animalMapper.updateAnimal(animal);
 		

@@ -45,6 +45,7 @@ public class AnimalController {
 		Map<String, Object> map = animalService.getAnimalOne(animalId);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> modifyAnimal map: " + map);
 		
+		model.addAttribute("animalId", animalId);
 		model.addAttribute("animalCategoryList", animalCategoryList);
 		model.addAttribute("map", map);
 		model.addAttribute("animalMap", map.get("animalMap"));
@@ -56,10 +57,12 @@ public class AnimalController {
 	
 	// 액션
 	@PostMapping("/staff/modifyAnimal")
-	public String modifyAnimal(AnimalForm animalForm) {
+	public String modifyAnimal(AnimalForm animalForm, HttpSession session) {
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> modifyAnimal animalForm: " + animalForm);
 		
 		animalService.modifyAnimal(animalForm);
+		// 쉘터 아이디 넣기
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		
 		return "redirect:/staff/getAnimalOne?animalId="+animalForm.getAnimal().getAnimalId();
 	}

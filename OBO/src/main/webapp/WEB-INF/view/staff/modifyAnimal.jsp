@@ -32,7 +32,55 @@
 <link rel="stylesheet" href="../static/css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
-
+<script>
+$(document).ready(function(){	
+	
+	$('#modifyBtn').click(function(){
+		console.log('addBtn 버튼 클릭!');
+		$('#imgFileUpload').remove();
+	   $('#modifyForm').submit();
+		if($('#animalName').val() == '') {
+			alert('동물 이름을 입력해주세요')
+			$('#animalName').focus();
+		}
+		else if($('#animalAge').val() == '') {
+			alert('동물 나이(개월수)를 입력해주세요')
+			$('#animalAge').focus();
+		}
+		else if($('#animalSex').val() == '') {
+			alert('동물 성별을 입력해주세요')
+			$('#animalSex').focus();
+		}
+		else if($('#animalWeight').val() == '') {
+			alert('동물 무게를 입력해주세요')
+			$('#animalWeight').focus();
+		}
+		else if($('#animalKind').val() == '') {
+			alert('동물의 종류(ex:발바리, 말티즈)를 입력해주세요')
+			$('#animalKind').focus();
+		}
+		else if($('#animalFindPlace').val() == '') {
+			alert('동물 발견 장소를 입력해주세요')
+			$('#animalFindPlace').focus();
+		}
+		else if($('#animalNote').val() == '') {
+			alert('동물 상세정보(회원에게 보여줄 내용)를 입력해주세요')
+			$('#animalNote').focus();
+		}
+		else if($('#animalState').val() == '') {
+			alert('동물 상태를 입력해주세요')
+			$('#animalState').focus();
+		}
+		else if($('#animalIntroduce').val() == '') {
+			alert('동물 소개를 입력해주세요')
+			$('#animalIntroduce').focus();
+		}
+		else{
+			$('#modifyForm').submit();			
+		}		
+	});
+});
+</script>
 
 </head>
 <body>
@@ -51,22 +99,12 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>보호소</h3>
+					<h3>동물 수정</h3>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	 <!-- animalList start  -->
-    <div class="team_area">
-        <div class="container">
-            <div class="row justify-content-center ">
-                <div class="col-lg-6 col-md-10">
-                    <div class="section_title text-center mb-95">
-                        <h3>동물 수정</h3>
-                    </div>
-                </div>
-            </div>
+
             
             
             
@@ -87,9 +125,9 @@
 					<div class="single-post">
 						<div class="blog_details">
 						<div class="col-lg-8">
-                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/modifyShelter" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
+                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/modifyAnimal" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
 
-                         	<input type="hidden" name="animalId" value="${animalId}">
+                         	<input type="hidden" name="animal.animalId" value="${animalId}">
                             	<div class="col-12">
                             	<div class="testmonial_area">
 										<div class="row">
@@ -116,39 +154,35 @@
 								</div>
 								
 								<div class="default-select col-12" id="default-select">
-									<select name="animalCategoryId" >
-											<c:forEach var="a" items="${animalCategoryList}">
-								    			<c:if test="${a.species == species}"> 
-								    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
-								    			</c:if>
-								    			<c:if test="${a.species != species}"> 
-								    				<option value="${a.animalCategoryId}">${a.species}</option>
-								    			</c:if>
-								    		</c:forEach>
-									</select>
+									<select name="animal.animalCategoryId" class="form-control">
+											<option value="">==종 선택==</option>
+												<c:forEach var="a" items="${animalCategoryList}">
+									    			<c:if test="${a.species == species}"> 
+									    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
+									    			</c:if>
+									    			<c:if test="${a.species != species}"> 
+									    				<option value="${a.animalCategoryId}">${a.species}</option>
+									    			</c:if>
+									    		</c:forEach>
+											</select>
 								</div>
 								
-         						<div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="shelterId" id="shelterId" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '보호소 번호'" placeholder="${shelterId}">
-                                    </div>
-                                </div>
                                 
                                 
          						<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="animalName" id="animalName" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 이름'" placeholder="${animalName}">
+                                        <input class="form-control" name="animal.animalName" id="animalName" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 이름'" placeholder="${animalName}">
                                     </div>
                                 </div>
                                 
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="animalAge" id="animalAge" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 나이(개월수)'" placeholder="${animalAge}">
+                                        <input class="form-control" name="animal.animalAge" id="animalAge" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 나이(개월수)'" placeholder="${animalAge}">
                                     </div>
                                 </div>
                              	
                              	<div class="default-select col-12" id="default-select">
-									<select class="form-control" id="animalSex" name="animalSex">
+									<select class="form-control" id="animalSex" name="animal.animalSex">
 										<option value="">==성별 선택==</option>
 					                    <option value="수컷">수컷</option>
 					                    <option value="암컷">암컷</option>
@@ -159,30 +193,30 @@
 								
 								<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="animalWeight" id="animalWeight" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 무게'" placeholder="${animalWeight}">
+                                        <input class="form-control" name="animal.animalWeight" id="animalWeight" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 무게'" placeholder="${animalWeight}">
                                     </div>
                                 </div>
                              	
                              	<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="animalKind" id="animalKind" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 종'" placeholder="${animalKind}">
+                                        <input class="form-control" name="animal.animalKind" id="animalKind" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 종'" placeholder="${animalKind}">
                                     </div>
                                 </div>
                                 
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="animalFindPlace" id="animalFindPlace" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '발견 장소'" placeholder="${animalFindPlace}">
+                                        <input class="form-control" name="animal.animalFindPlace" id="animalFindPlace" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '발견 장소'" placeholder="${animalFindPlace}">
                                     </div>
                                 </div>
                              	
          						<div class="col-12">
                                     <div class="form-group">
-                                        <textarea class="form-control w-100" name="animalNote" id="animalNote" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 상세정보(회원 보여줄 노트)'" placeholder="${animalNote}"></textarea>
+                                        <textarea class="form-control w-100" name="animal.animalNote" id="animalNote" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 상세정보(회원 보여줄 노트)'" placeholder="${animalNote}"></textarea>
                                     </div>
                                 </div>
                                 
                                 <div class="default-select col-12" id="default-select">
-									<select class="form-control" id="animalState" name="animalState">
+									<select class="form-control" id="animalState" name="animal.animalState">
 										<option value="">==상태 선택==</option> 
 					                    <option value="입양">입양</option>
 					                    <option value="보호중">보호중</option>
@@ -191,31 +225,24 @@
 				                  	</select>
 								</div>
                              	
-                             	<div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="animalState" id="animalState" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '번호'" placeholder="${shelterMap.shelterPhone}">
-                                    </div>
-                                </div>
-                                
-                                 	
+     
          						<div class="col-12">
                                     <div class="form-group">
-                                        <textarea class="form-control w-100" name="animalIntroduce" id="animalIntroduce" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 소개'" placeholder="${animalIntroduce}"></textarea>
+                                        <textarea class="form-control w-100" name="animal.animalIntroduce" id="animalIntroduce" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 소개'" placeholder="${animalIntroduce}"></textarea>
                                     </div>
                                 </div>
-                             	
+                                
+                             	<!--  animalExitDate를 널값으로 넣을 수도 있고 시간을 now로도 변경할 수 있게 만들어야함.
                              	<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="shelter.account" id="account" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '계좌'" placeholder="${shelterMap.account}">
+                                        <input class="form-control" name="animal.animalExitDate" id="animalExitDate" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 나간 시간'" placeholder="${shelterMap.account}">
                                     </div>
                                 </div>
-                             	
-                             
+                             	-->
 
-                                
                             </div>
-                            <div>
-								<input id="addBtn" type="button" value="등록">
+                            <div class="form-group mt-3">
+								<button type="button" id="modifyBtn" class="button button-contactForm boxed-btn">등록</button>
 								<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button">뒤로가기</button></a>
 							</div>
                         </form>

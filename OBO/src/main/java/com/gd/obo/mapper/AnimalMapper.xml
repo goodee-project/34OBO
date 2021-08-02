@@ -93,6 +93,7 @@
 	<update id="updateAnimal" parameterType="com.gd.obo.vo.Animal">
 		UPDATE animal
 		SET
+			animal_category_id = #{animalCategoryId},
 			animal_name = #{animalName},
 			animal_age = #{animalAge},
 			animal_sex = #{animalSex},
@@ -100,7 +101,9 @@
 			animal_kind = #{animalKind},
 			animal_find_place = #{animalFindPlace},
 			animal_note = #{animalNote},
-			animal_state = #{animalState}
+			animal_state = #{animalState},
+			animal_introduce = #{animalIntroduce}
+			 <!-- animal_exit_date = #{animalExitDate} animalExitDate를 널값으로 넣을 수도 있고 시간을 now로도 변경할 수 있게 만들어야함. -->
 		WHERE animal_id = #{animalId}
 	</update>
 	
