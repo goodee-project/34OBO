@@ -26,6 +26,33 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+
+<script>
+function loginCkN(loginMember){
+	console.log(loginMember);
+	if(loginMember==null || loginMember==''){
+		alert('로그인 후 이용 가능합니다.');
+	} else {
+		window.location.href='<c:url value="/member/addDonation"/>';
+	}
+}
+function loginCkP(loginMember){
+	console.log(loginMember);
+	if(loginMember==null || loginMember==''){
+		alert('로그인 후 이용 가능합니다.');
+	} else {
+		window.location.href='<c:url value="/member/addPeriodicallyDonation"/>';
+	}
+}
+function loginCkI(loginMember){
+	console.log(loginMember);
+	if(loginMember==null || loginMember==''){
+		alert('로그인 후 이용 가능합니다.');
+	} else {
+		window.location.href='<c:url value="/member/addDonationItem"/>';
+	}
+}
+</script>
 </head>
 <body>
 	<header>
@@ -70,7 +97,8 @@
 								<a class="d-inline-block">일반후원</a>
 							</h3>
 							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/addDonation">후원하러 가기 <i class="fa fa-arrow-right"></i></a>
+								<a class="d-inline-block" data-parameter1="${loginMember.memberId}"
+								onclick="loginCkN(this.getAttribute('data-parameter1'))">후원하러 가기 <i class="fa fa-arrow-right"></i></a>
 							</h4>
 						</div>
 					</div>
@@ -91,7 +119,8 @@
 								<a class="d-inline-block">정기후원</a>
 							</h3>
 							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/addPeriodicallyDonation">후원하러 가기 <i class="fa fa-arrow-right"></i></i></a>
+								<a class="d-inline-block" data-parameter1="${loginMember.memberId}"
+								onclick="loginCkP(this.getAttribute('data-parameter1'))">후원하러 가기 <i class="fa fa-arrow-right"></i></a>
 							</h4>
 						</div>
 					</div>
@@ -112,7 +141,8 @@
 								<a class="d-inline-block">물품후원</a>
 							</h3>
 							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/addDonationItem">후원하러 가기 <i class="fa fa-arrow-right"></i></i></a>
+								<a class="d-inline-block" data-parameter1="${loginMember.memberId}"
+								onclick="loginCkI(this.getAttribute('data-parameter1'))">후원하러 가기 <i class="fa fa-arrow-right"></i></a>
 							</h4>
 						</div>
 					</div>

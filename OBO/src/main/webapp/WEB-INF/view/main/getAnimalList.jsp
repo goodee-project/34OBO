@@ -115,7 +115,7 @@ $(document).ready(function(){
 					<div class="row">
 						<c:forEach var="al" items="${animalList}">
 						<div class="col-xl-3 col-lg-3 card align-items-center" style="margin:30px">
-						<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=${currentPage}&searchWord=${animalName}&species=${species}&shelterId=${shelterId}">
+						<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=${currentPage}&searchWord=${animalName}&species=${species}&shelterId=${al.shelterId}">
 							<img class="card-img-top" src="${pageContext.request.contextPath}/static/img/animal/${al.animalFileName}" alt=""></a>
 							<div class="card-body">
 							    <h4 class="card-title text-center">${al.animalName}</h4>
