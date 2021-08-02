@@ -32,10 +32,22 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 
 <script>
-$(document).ready(function(){	
-	
-	
-});
+function loginCkN(loginMember){
+	console.log(loginMember);
+	if(loginMember==null || loginMember==''){
+		alert('로그인 후 이용 가능합니다.');
+	} else {
+		window.location.href='<c:url value="/member/getVolunteerN"/>';
+	}
+}
+function loginCkP(loginMember){
+	console.log(loginMember);
+	if(loginMember==null || loginMember==''){
+		alert('로그인 후 이용 가능합니다.');
+	} else {
+		window.location.href='<c:url value="/member/getVolunteerP"/>';
+	}
+}
 </script>
 </head>
 <body>
@@ -81,7 +93,8 @@ $(document).ready(function(){
 								<a class="d-inline-block">일반봉사</a>
 							</h3>
 							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/getVolunteerN">지원하러 가기 <i class="fa fa-arrow-right"></i></a>
+								<a class="d-inline-block" data-parameter1="${loginMember.memberId}"
+								onclick="loginCkN(this.getAttribute('data-parameter1'))">지원하러 가기 <i class="fa fa-arrow-right"></i></a>
 							</h4>
 						</div>
 					</div>
@@ -101,7 +114,8 @@ $(document).ready(function(){
 								<a class="d-inline-block">정기봉사</a>
 							</h3>
 							<h4>
-								<a class="d-inline-block" href="${pageContext.request.contextPath}/member/getVolunteerP">지원하러 가기 <i class="fa fa-arrow-right"></i></i></a>
+								<a class="d-inline-block" data-parameter1="${loginMember.memberId}"
+								onclick="loginCkP(this.getAttribute('data-parameter1'))">지원하러 가기 <i class="fa fa-arrow-right"></i></i></a>
 							</h4>
 						</div>
 					</div>

@@ -78,6 +78,7 @@ a:hover,
 .portfolio-cat a:hover,
 .footer -menu li a:hover {
   text-decoration: none;
+  cursor: pointer;
 }
 
 /* line 33, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_reset.scss */
@@ -3775,9 +3776,27 @@ h6 {
   transition: all 0.3s ease 0s;
 }
 
+/* 일반 버튼에서 글자변경!! */
+.genric-text-btn {
+  display: inline-block;
+  outline: none;
+  line-height: 40px;
+  padding: 0 30px;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+}
+
 /* line 166, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .genric-btn:focus {
   outline: none;
+  color: white;
 }
 
 /* line 169, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
@@ -3835,7 +3854,7 @@ h6 {
 
 /* line 203, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .genric-btn.default:hover {
-  border: 1px solid #f9f9ff;
+  border: 2px solid #f9f9ff;
   background: #fff;
 }
 
@@ -3876,8 +3895,8 @@ h6 {
 /* line 231, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */
 .genric-btn.primary-border:hover {
   color: #fff;
+  border: 1px solid #fff;
   background: #222222;
-  border: 1px solid transparent;
 }
 
 /* line 237, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_elements.scss */

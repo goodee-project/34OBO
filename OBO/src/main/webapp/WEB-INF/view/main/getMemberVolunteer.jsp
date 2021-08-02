@@ -371,21 +371,29 @@
 					console.log(data);
 					let pDate = new Date(data.startDate);
 					console.log("========정기날짜"+pDate);
-						if(data.yyyy==year && data.mm==month && data.dd>=now.getDate()){
+						if(data.yyyy==year && data.mm==month && data.dd>=now.getDate()){ //아래 반복문과 관계없이 이번달 실행 정기봉사를 출력 시킴.
 							$('#calTargetP').append('<tr>');
 							$('#calTargetP').append('<td>'+data.dd+'</td>');
 							$('#calTargetP').append('<td>'+data.shelterName+'</td>');
 							$('#calTargetP').append('<td>'+data.categoryName+'</td>');
 							$('#calTargetP').append('</tr>');
-						} else {
-							while(pDate.getMonth()==thisMonth){
-								pDate.setDate(pDate.getDate()+7);
-								console.log("========정기날짜 추가된거!"+pDate);
-								$('#calTargetP').append('<tr>');
-								$('#calTargetP').append('<td>'+pDate+'</td>');
-								$('#calTargetP').append('<td>'+data.shelterName+'</td>');
-								$('#calTargetP').append('<td>'+data.categoryName+'</td>');
-								$('#calTargetP').append('</tr>');
+						}
+						var j = 0;
+						if (data.yyyy==year){
+							console.log("========실행 되니?");
+							while(j<1){ //while문에서는 무한루프 돌리고 if 조건문으로 break 시키기.
+								pDate.setDate(pDate.getDate()+7); //정기 날짜(pDate)에 7일씩 더한다.
+								if(pDate.getMonth()+1==month){
+									console.log("========정기날짜 추가된거!"+pDate);
+									$('#calTargetP').append('<tr>');
+									$('#calTargetP').append('<td>'+pDate.getDate()+'</td>');
+									$('#calTargetP').append('<td>'+data.shelterName+'</td>');
+									$('#calTargetP').append('<td>'+data.categoryName+'</td>');
+									$('#calTargetP').append('</tr>');
+								} else { //pDate에는 계속 7일 더해지고 있고 만약에 그 날짜가 이번달이랑 안 맞으면 break문
+									break;
+								}
+								
 							}
 						}
 					})	
