@@ -13,8 +13,8 @@
         <div class="row align-items-center">
 		   <div class="col-xl-3 col-lg-3">
 		      <div class="logo">
-		          <a href="${pageContext.request.contextPath}/manager/">
-		              <img src="../static/img/logo.png" alt="">
+		          <a href="${pageContext.request.contextPath}/m/">
+		              <img src="../static/img/obo/oboex.png" alt="">
 		          </a>
 		      </div>
 		  </div>
@@ -22,7 +22,7 @@
 		      <div class="main-menu  d-none d-lg-block">
 		          <nav>
 		              <ul id="navigation">
-		                  <li><span><a href="${pageContext.request.contextPath}/manager/">홈</a></span></li>
+		                  <li><span><a href="${pageContext.request.contextPath}/m/">홈</a></span></li>
 		                  <c:if test="${loginManager == null}">
 		                  	<li><span>로그인이 필요한 기능입니다.</span></li>
 		                  </c:if>
