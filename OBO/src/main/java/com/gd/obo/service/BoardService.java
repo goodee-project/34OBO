@@ -223,7 +223,7 @@ public class BoardService {
 	}
 	
 	// board 리스트
-	public Map<String, Object> getBoardList(int currentPage, int rowPerPage, String boardTitle, String species, String memberId){
+	public Map<String, Object> getBoardList(int currentPage, int rowPerPage, String boardTitle, String species, String memberId, int boardCategoryId){
 	
 		Map<String, Object> totalMap = new HashMap<>();	
 		totalMap.put("boardTitle", boardTitle);
@@ -251,6 +251,7 @@ public class BoardService {
 		paramMap.put("boardTitle", boardTitle);
 		paramMap.put("species", species);
 		paramMap.put("memberId", memberId);
+		paramMap.put("boardCategoryId", boardCategoryId);
 		log.debug("@@@@@ paramMap: "+paramMap);
 		
 		List<Map<String, Object>> boardList = boardMapper.selectBoardList(paramMap);

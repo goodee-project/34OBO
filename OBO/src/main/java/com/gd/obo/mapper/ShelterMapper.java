@@ -19,4 +19,5 @@ public interface ShelterMapper {
 	Map<String, Object> selectShelterOne(int shelterId);
 	List<Shelter> selectShelterName(String searchWord);
 	int insertShelter(Shelter shelter);
+	List<String> selectShelterFileListByShelterId(int shelterId);
 }

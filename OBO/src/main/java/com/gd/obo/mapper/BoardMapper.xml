@@ -156,6 +156,9 @@
 			<if test="memberId != null">
 				AND b.member_id = #{memberId}
 			</if>
+			<if test="boardCategoryId != 0">
+				AND b.board_category_id = #{boardCategoryId}
+			</if>
 		</where>
 		ORDER BY b.board_id DESC	
 		LIMIT #{beginRow}, #{rowPerPage}

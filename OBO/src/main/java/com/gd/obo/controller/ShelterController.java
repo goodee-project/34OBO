@@ -113,6 +113,12 @@ public class ShelterController {
 		
 		Map<String, Object> animalMap = animalService.getAnimalStateCountByMonth(month, shelterId);
 		
+		//이미지 리스트
+		List<String> imgList = shelterService.getShelterFileListByShelterId(shelterId);
+		if(!imgList.isEmpty()) {
+			model.addAttribute("imgList", imgList);
+		}
+		
 		model.addAttribute("protect", animalMap.get("protect"));
 		model.addAttribute("adopt", animalMap.get("adopt"));
 		model.addAttribute("euthanasia", animalMap.get("euthanasia"));

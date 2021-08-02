@@ -36,7 +36,14 @@ public class OBOScheduler {
 		
 		for(PeriodicallyDonation p : list) {
 			log.debug("■■■■■■■■■■■■ 확인 :" + p);
-			donationService.addPeriodicallyDonationListByKakaoPay(p);//false면 실패...
+			//카카오 sid가 끊겨서(test사용) 카카오 페이 안되게 사용 안함...
+			////false면 실패...
+			/*
+			if(donationService.addPeriodicallyDonationListByKakaoPay(p) == true) {
+				donationService.addPeriodicallyDonationList(p);
+			}
+			*/
+			donationService.addPeriodicallyDonationList(p);
 		}
 	}
 }
