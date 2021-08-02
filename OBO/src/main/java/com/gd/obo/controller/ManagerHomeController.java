@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Controller
 @Slf4j
-@RequestMapping("/manager")
+@RequestMapping("/m")
 public class ManagerHomeController {
 	@Autowired ManagerService managerService;
 	
@@ -39,13 +39,13 @@ public class ManagerHomeController {
 	    }
 	    model.addAttribute("manager", manager);
 	    
-		return "redirect:/manager/";
+		return "redirect:/m/";
 	}
 	
 	//manager로그아웃
 	@GetMapping("/logout")
 	public String managerLogout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/manager/";
+		return "redirect:/m/";
 	}
 }

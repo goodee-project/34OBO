@@ -22,4 +22,5 @@ public interface CareMapper {
 	Map<String, Object> selectCarePlanOneWithRecord(Map<String, Object> map);
 	int insertCarePlan(CarePlan carePlan);
 	int insertCareRecord(Map<String, Object> map);
+	List<Map<String, Object>> selectCarePlanListByMemberId(Map<String, Object> map);
 }

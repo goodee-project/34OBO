@@ -34,8 +34,8 @@
 				</div>
 				<div class="col-lg-4 col-md-4">
 					<div class="social_media_links">
-						<a href="${pageContext.request.contextPath}/staff/">직원페이지</a>
-						<a href="${pageContext.request.contextPath}/manager/">관리자페이지</a>
+						<a href="${pageContext.request.contextPath}/s/">직원페이지</a>
+						<a href="${pageContext.request.contextPath}/m/">관리자페이지</a>
 					</div>
 				</div>
 			</c:if>

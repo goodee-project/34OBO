@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/staff")	// staff 전용 페이지
+@RequestMapping("/s")	// staff 전용 페이지
 public class StaffHomeController {
 	@Autowired StaffService staffService;
 	
@@ -48,13 +48,13 @@ public class StaffHomeController {
 		
 		if(loginStaff == null) {
 			log.debug("●●●●▶ 로그인 실패!!!! 정보를 다시 확인해주세요!!!!");
-			return "redirect:/staff/";
+			return "redirect:/s/";
 		}
 		
 		int staffLevel = loginStaff.getStaffLevel();
 		if(staffLevel == 0) {
 			log.debug("●●●●▶ 레벨0. 승인 대기중!");
-			return "redirect:/staff/";
+			return "redirect:/s/";
 		}
 			
 		// 세션 세팅
@@ -63,7 +63,7 @@ public class StaffHomeController {
 			log.debug("●●●●▶ 로그인 완료!!!!!");
 		}
 		
-		return "redirect:/staff/";
+		return "redirect:/s/";
 	}
 	
 	// staff 로그아웃 action
@@ -72,7 +72,7 @@ public class StaffHomeController {
 		log.debug("●●●●▶ 로그아웃 완료!!!!!!!");
 		session.invalidate();
 		
-		return "redirect:/staff/";
+		return "redirect:/s/";
 	}
 	
 }

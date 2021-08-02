@@ -56,7 +56,13 @@ public class DonationService {
 	//main home에 달에 들어온 전체 후원금 구하기
 	public long getTotalDonationByMonth(int month) {
 		log.debug("■■■■■ getTotalDonationByMonth month param : " + month);
-		long totalDonation = donationMapper.selectTotalDonationByMonth(month);
+		
+		Long totalDonation = donationMapper.selectTotalDonationByMonth(month);
+		
+		if(totalDonation == null) {
+			totalDonation = 0L;
+		}
+		//이슈 이번달 후원금이 없으니까 null 이므로 error
 		log.debug("■■■■■ getTotalDonationByMonth totalDonation : " + totalDonation);
 		
 		return totalDonation;

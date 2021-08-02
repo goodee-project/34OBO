@@ -186,4 +186,16 @@ public class CareService {
 		log.debug("●●●●▶ map-> "+map);
 		return careMapper.insertCareRecord(map);
 	}
+	
+	//main memberId로 케어플랜 가져오기
+	public List<Map<String, Object>> getCarePlanListByMemberId(int year, int month, String memberId) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("year", year);
+		paramMap.put("month", month);
+		paramMap.put("memberId", memberId);
+		
+		
+		log.debug("■■■■■■ getCarePlanListByMemberId paramMap : "+ paramMap);
+		return careMapper.selectCarePlanListByMemberId(paramMap);
+	}
 }

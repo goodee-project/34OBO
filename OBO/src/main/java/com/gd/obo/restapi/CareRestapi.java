@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gd.obo.service.CareService;
+import com.gd.obo.vo.Member;
 import com.gd.obo.vo.Staff;
 
 import lombok.extern.slf4j.Slf4j;
@@ -117,6 +118,15 @@ public class CareRestapi {
 	public Map<String, Object> getCarePlanOneWithRecord(int carePlanId){
 		log.debug("●●●●▶얻은 carePlanId-> "+carePlanId);
 		return careService.getCarePlanOneWithRecord(carePlanId);
+	}
+	
+	@GetMapping("/member/getCarePlanListByMemberId")
+	public List<Map<String, Object>> getCarePlanListByMemberId(HttpSession session,
+													@RequestParam(value = "year")int year,
+													@RequestParam(value = "month")int month){
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		
+		return careService.getCarePlanListByMemberId(year, month, memberId);
 	}
 	
 }

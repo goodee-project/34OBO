@@ -51,7 +51,7 @@ $(document).ready(function(){
 				<c:if test="${loginStaff == null}">
 					<div class="col-lg-8 col-md-8">
 						<div class="short_contact_list">
-							<form id="loginForm" action="${pageContext.request.contextPath}/staff/login" method="post">
+							<form id="loginForm" action="${pageContext.request.contextPath}/s/login" method="post">
 								<ul>
 									<li><span style="color:white">ID</span>&nbsp;</li>
 									<li><input class="form-control" type="text" id="loginStaffId" name="loginStaffId" style="width:150px; height:30px" value="jeong"></li>&emsp;
@@ -67,7 +67,7 @@ $(document).ready(function(){
 					<div class="col-lg-4 col-md-4">
 						<div class="social_media_links">
 							<a href="${pageContext.request.contextPath}/home">회원페이지</a>
-							<a href="${pageContext.request.contextPath}/manager/">관리자페이지</a>
+							<a href="${pageContext.request.contextPath}/m/">관리자페이지</a>
 						</div>
 					</div>
 				</c:if>
@@ -76,10 +76,10 @@ $(document).ready(function(){
 				<c:if test="${loginStaff != null}">
 					<div class="col-lg-12 col-md-4 ">
 						<div class="social_media_links">
-							<form id="logout" action="${pageContext.request.contextPath}/staff/logout">
+							<form id="logout" action="${pageContext.request.contextPath}/s/logout">
 								<span class="text-white font-weight-bolder">${loginStaff.staffName}님, 반갑습니다!</span>
-								<a href="${pageContext.request.contextPath}/staff/getStaffAccount" class="text-white font-weight-bolder">계정</a>
-								<a href="${pageContext.request.contextPath}/staff/logout"><button type="button" class="genric-btn primary-border circle arrow medium">LOGOUT</button></a>
+								<a href="${pageContext.request.contextPath}/s/getStaffAccount" class="text-white font-weight-bolder">계정</a>
+								<a href="${pageContext.request.contextPath}/s/logout"><button type="button" class="genric-btn primary-border circle arrow medium">LOGOUT</button></a>
 							</form>
 						</div>
 					</div>

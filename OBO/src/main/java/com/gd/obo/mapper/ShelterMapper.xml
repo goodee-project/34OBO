@@ -28,7 +28,7 @@
 			shelter_phone = #{shelterPhone},
 			account = #{account},
 			active = #{active}
-		WHERE shelter_id = {shelterId}	
+		WHERE shelter_id = #{shelterId}	
 	</update>
 	
 	
