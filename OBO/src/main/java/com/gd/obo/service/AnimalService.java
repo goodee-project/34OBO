@@ -136,7 +136,7 @@ public class AnimalService {
 	public void addAnimal(AnimalForm animalForm) {
 		// Animal 불러오기 
 		Animal animal = animalForm.getAnimal();
-		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal-> animal animalId: " + animal.getAnimalId());
+		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal animal : " + animal);
 		
 		animalMapper.insertAnimal(animal);
 	
