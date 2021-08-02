@@ -102,7 +102,7 @@ $(document).ready(function(){
 						<div class="col-lg-8">
                         <form class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/modifyShelter" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
 
-                         	<input type="hidden" name="shelterId" value="${shelterId}">
+                         	<input type="hidden" name="shelter.shelterId" value="${shelterId}">
                             	<div class="col-12">
                             	<div class="testmonial_area">
 										<div class="row">
@@ -158,19 +158,13 @@ $(document).ready(function(){
                                     </div>
                                 </div>
                              	
-                                <div class="default-select col-12" id="default-select">
-									<select name="shelter.active" >
-											<c:forEach var="s" items="${shelterList}">
-								    			<c:if test="${a.species == species}"> 
-								    				<option value="${s.shelterList}" id="shelterList" selected="selected">${s.active}</option>
-								    			</c:if>
-								    			<c:if test="${s.active != active}"> 
-								    				<option value="${s.shelterList}">${s.active}</option>
-								    			</c:if>
-								    		</c:forEach>
-									</select>
+                              	<!-- 1로 해놓고 0을 선택하게 만들기 -->
+`								<div>
+									<select class="form-control" id="active" name="shelter.active" >
+							                    <option value="0">0</option>
+							                    <option value="1" selected="selected">1</option>           					                   
+						            </select>
 								</div>
-
                                 
                             </div>
                             <div class="form-group mt-3">

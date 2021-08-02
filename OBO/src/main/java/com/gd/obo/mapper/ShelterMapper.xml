@@ -23,6 +23,7 @@
 	<update id="updateShelter" parameterType="com.gd.obo.vo.Shelter">
 		UPDATE shelter
 		SET
+			shelter_name
 			introduction = #{introduction},
 			protect_duration = #{protectDuration},
 			shelter_phone = #{shelterPhone},

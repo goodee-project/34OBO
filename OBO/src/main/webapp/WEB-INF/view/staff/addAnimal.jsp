@@ -33,14 +33,7 @@
 <link rel="stylesheet" href="../static/css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
-<script>
-	    $(document).ready(function() {
-	   	 $('#addBtn').click(function() {
-	   		 console.log('btn click...');
-	           $('#addAnimal').submit();   
-	        });  
-	  	 });
- </script>
+
 </head>
 <body>
 	<header>
@@ -86,7 +79,7 @@
 		                            		<div class="testmonial_area">
 												<div class="row">
 													<c:forEach var="af" items="${animalFileList}">
-													<input hidden="" id="animalFileId" value="${af.animalFileId}">
+													
 														<img src="static/img/animal/${af.animalFileName}" width="300"
 															height="300" alt=""> &nbsp;		
 													</c:forEach>
@@ -247,29 +240,36 @@
 
 <script> 
 
-   	function setThumbnail(event){ 
-   		  		
-   		for (var image of event.target.files) {
-   			
-   			var reader = new FileReader(); 
-   			
-   			reader.onload = function(event) {
-   				var img = document.createElement("img"); 
-   				img.setAttribute("src", event.target.result);
-   				img.setAttribute("width", 203);
-   				img.setAttribute("height", 203);
-   				img.setAttribute("style", "margin-right: 4.5px; border: 1px solid rgb(220, 219, 228);");
-   				document.querySelector("div#image_container").appendChild(img); 
-   			};
-   			
-   			console.log(image); 
-   			reader.readAsDataURL(image); 
-   		}
-   		
-		$('#target').prepend('<input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
-   	
-   	
-   	} 
+       function setThumbnail(event){ 
+
+           for (var image of event.target.files) {
+
+               var reader = new FileReader(); 
+
+               reader.onload = function(event) {
+                   var img = document.createElement("img"); 
+                   img.setAttribute("src", event.target.result);
+                   img.setAttribute("width", 203);
+                   img.setAttribute("height", 203);
+                   img.setAttribute("style", "margin-right: 4.5px; border: 1px solid rgb(220, 219, 228);");
+                   document.querySelector("div#image_container").appendChild(img); 
+               };
+
+               console.log(image); 
+               reader.readAsDataURL(image); 
+           }
+
+        $('#target').prepend('<input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
+
+
+       } 
+    $(document).ready(function() {
+            $('#addBtn').click(function() {
+                console.log('btn click...');
+                $('#imgFileUpload').remove();
+               $('#addAnimal').submit();
+            });
+     });
 </script>
 
 
