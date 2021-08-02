@@ -2,7 +2,6 @@
 package com.gd.obo.service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -294,68 +293,122 @@ public class VolunteerService {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ staff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// 일반봉사 모집공고
-	public List<Map<String, Object>> getVolunteerRecruitListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
+	public List<Map<String, Object>> getVolunteerRecruitListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName, int currentPage, int rowPerPage){
+		//페이징 currentPage, rowPerPage, lastPage, beginRow, totalRow
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("searchSelect", searchSelect);
 		map.put("categoryName", categoryName);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
 		log.debug("●●●●▶ 일반봉사 모집공고-> "+map);
-		return volunteerMapper.selectVolunteerRecruitListInStaff(map);
+		
+		List<Map<String, Object>> list = volunteerMapper.selectVolunteerRecruitListInStaff(map);
+		log.debug("●●●●▶ 정기 후원 list-> "+list);
+		
+		return list;
 	}
 	
 	// 일반봉사 신청목록
-	public List<Map<String, Object>> getVolunteerApplyListInStaff(int shelterId, String searchWord, String searchSelect){
+	public List<Map<String, Object>> getVolunteerApplyListInStaff(int shelterId, String searchWord, String searchSelect, int currentPage, int rowPerPage){
+		//페이징 currentPage, rowPerPage, lastPage, beginRow, totalRow
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("searchSelect", searchSelect);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
 		log.debug("●●●●▶ 일반봉사 신청목록-> "+map);
-		return volunteerMapper.selectVolunteerApplyListInStaff(map);
+		
+		List<Map<String, Object>> list = volunteerMapper.selectVolunteerApplyListInStaff(map);
+		log.debug("●●●●▶ 정기 후원 list-> "+list);
+		
+		return list;
 	}
 	
 	// 일반봉사 확인목록
-	public List<Map<String, Object>> getVolunteerCheckListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
+	public List<Map<String, Object>> getVolunteerCheckListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName, int currentPage, int rowPerPage){
+		//페이징 currentPage, rowPerPage, lastPage, beginRow, totalRow
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("searchSelect", searchSelect);
 		map.put("categoryName", categoryName);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
 		log.debug("●●●●▶ 일반봉사 확인목록-> "+map);
-		return volunteerMapper.selectVolunteerCheckListInStaff(map);
+		
+		List<Map<String, Object>> list = volunteerMapper.selectVolunteerCheckListInStaff(map);
+		log.debug("●●●●▶ 정기 후원 list-> "+list);
+		
+		return list;
 	}
 	
 	
 	// 정기봉사 모집공고
-	public List<Map<String, Object>> getPeriodVolunteerRecruitListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
+	public List<Map<String, Object>> getPeriodVolunteerRecruitListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName, int currentPage, int rowPerPage){
+		//페이징 currentPage, rowPerPage, lastPage, beginRow, totalRow
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("searchSelect", searchSelect);
 		map.put("categoryName", categoryName);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
 		log.debug("●●●●▶ 정기봉사 모집공고-> "+map);
-		return volunteerMapper.selectPeriodVolunteerRecruitListInStaff(map);
+		
+		List<Map<String, Object>> list = volunteerMapper.selectPeriodVolunteerRecruitListInStaff(map);
+		log.debug("●●●●▶ 정기 후원 list-> "+list);
+		
+		return list;
 	}
 	
 	// 정기봉사 신청목록
-	public List<Map<String, Object>> getPeriodVolunteerApplyListInStaff(int shelterId, String searchWord, String searchSelect){
+	public List<Map<String, Object>> getPeriodVolunteerApplyListInStaff(int shelterId, String searchWord, String searchSelect, int currentPage, int rowPerPage){
+		//페이징 currentPage, rowPerPage, lastPage, beginRow, totalRow
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("searchSelect", searchSelect);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
 		log.debug("●●●●▶ 정기봉사 신청목록-> "+map);
-		return volunteerMapper.selectPeriodVolunteerApplyListInStaff(map);
+		
+		List<Map<String, Object>> list = volunteerMapper.selectPeriodVolunteerApplyListInStaff(map);
+		log.debug("●●●●▶ 정기 후원 list-> "+list);
+		
+		return list;
 	}
 	
 	// 정기봉사 확인목록
-	public List<Map<String, Object>> getPeriodVolunteerCheckListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName){
+	public List<Map<String, Object>> getPeriodVolunteerCheckListInStaff(int shelterId, String searchWord, String searchSelect, String categoryName, int currentPage, int rowPerPage){
+		//페이징 currentPage, rowPerPage, lastPage, beginRow, totalRow
+		int beginRow = (currentPage - 1)*rowPerPage;
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("searchSelect", searchSelect);
 		map.put("categoryName", categoryName);
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
 		log.debug("●●●●▶ 정기봉사 확인목록-> "+map);
-		return volunteerMapper.selectPeriodVolunteerCheckListInStaff(map);
+		
+		List<Map<String, Object>> list = volunteerMapper.selectPeriodVolunteerCheckListInStaff(map);
+		log.debug("●●●●▶ 정기 후원 list-> "+list);
+		
+		return list;
 	}
 	
 	// 봉사 카테고리 목록

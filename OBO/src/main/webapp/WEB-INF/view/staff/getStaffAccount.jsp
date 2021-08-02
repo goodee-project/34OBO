@@ -49,10 +49,11 @@ $(document).ready(function(){
 					// console.log('계정클릭 ajax 성공!');
 					if(jsonData != 1){
 						alert('PW가 일치하지 않습니다.');
-						return;
+						$('#staffPw').val('');
+					} else{
+						console.log('pw일치 합니다.');
+						location.href='${pageContext.request.contextPath}/staff/modifyStaff';	//일치하면 페이지 이동
 					}
-					console.log('pw일치 합니다.');
-					location.href='${pageContext.request.contextPath}/staff/modifyStaff';	//일치하면 페이지 이동
 				}
 			});	// ajax; pw 일치
 		});	// ckBtn; 모달창 pw 입력 후 확인버튼 클릭
@@ -94,7 +95,7 @@ $(document).ready(function(){
 					<div class="single_service staff_account">
 						<div class="service_content text-center">
 							<a class="d-inline-block" href="${pageContext.request.contextPath}/staff/modifyStaff"
-								id="myAccountClick" data-toggle="modal" data-target="#login-modal">
+								id="myAccountClick" data-toggle="modal" data-target="#login-modal" onclick="clickFunc();">
 								<h3>내 정보</h3>
 							</a>
 							<p>
@@ -181,6 +182,13 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+	
+	<script>
+	function clickFunc(){
+		$('#staffPw').val('');
+	}
+	
+	</script>
 
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>

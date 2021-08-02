@@ -129,7 +129,9 @@ public class VolunteerController {
 	public String getVolunteerRecruitN(HttpSession session, Model model,
 										@RequestParam(value = "searchWord", required = false) String searchWord,
 										@RequestParam(value = "searchSelect", required = false) String searchSelect,
-										@RequestParam(value = "categoryName", required = false) String categoryName) {
+										@RequestParam(value = "categoryName", required = false) String categoryName,
+										@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+										@RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) {
 		
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId-> "+shelterId);
@@ -150,9 +152,23 @@ public class VolunteerController {
 		log.debug("●●●●▶searchWord-> "+searchWord);
 		log.debug("●●●●▶searchSelect-> "+searchSelect);
 		log.debug("●●●●▶categoryName-> "+categoryName);	
+		log.debug("●●●●▶currentPage-> "+currentPage);
+		log.debug("●●●●▶rowPerPage-> "+rowPerPage);
 		
-		List<Map<String, Object>> volunteerRecruitN = volunteerService.getVolunteerRecruitListInStaff(shelterId, searchWord, searchSelect, categoryName);
+		List<Map<String, Object>> volunteerRecruitN = volunteerService.getVolunteerRecruitListInStaff(shelterId, searchWord, searchSelect, categoryName, currentPage, rowPerPage);
 		List<Map<String, Object>> categoryNameList = volunteerService.getVolunteerCategoryList();
+		
+		//lastPage 구하기
+		int totalRow = 0;
+		if(volunteerRecruitN.size() != 0) {
+			totalRow = Integer.parseInt(volunteerRecruitN.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶totalRow-> "+totalRow);
+		log.debug("●●●●▶lastPage-> "+lastPage);
 		
 		log.debug("●●●●▶volunteerRecruitN-> "+volunteerRecruitN);
 		log.debug("●●●●▶categoryNameList-> "+categoryNameList);
@@ -160,6 +176,9 @@ public class VolunteerController {
 		
 		model.addAttribute("categoryNameList", categoryNameList);
 		model.addAttribute("volunteerRecruitN", volunteerRecruitN);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("searchSelect", searchSelect);
 		model.addAttribute("categoryName", categoryName);
@@ -171,7 +190,9 @@ public class VolunteerController {
 	@GetMapping("/staff/getVolunteerApplyN")
 	public String getVolunteerApplyN(HttpSession session, Model model,
 										@RequestParam(value = "searchWord", required = false) String searchWord,
-										@RequestParam(value = "searchSelect", required = false) String searchSelect) {
+										@RequestParam(value = "searchSelect", required = false) String searchSelect,
+										@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+										@RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) {
 		
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId-> "+shelterId);
@@ -183,14 +204,30 @@ public class VolunteerController {
 		
 		log.debug("●●●●▶searchWord-> "+searchWord);
 		log.debug("●●●●▶searchSelect-> "+searchSelect);
+		log.debug("●●●●▶currentPage-> "+currentPage);
+		log.debug("●●●●▶rowPerPage-> "+rowPerPage);
 		
-		List<Map<String, Object>> volunteerApplyN = volunteerService.getVolunteerApplyListInStaff(shelterId, searchWord, searchSelect);
-
+		List<Map<String, Object>> volunteerApplyN = volunteerService.getVolunteerApplyListInStaff(shelterId, searchWord, searchSelect, currentPage, rowPerPage);
+		
+		//lastPage 구하기
+		int totalRow = 0;
+		if(volunteerApplyN.size() != 0) {
+			totalRow = Integer.parseInt(volunteerApplyN.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶totalRow-> "+totalRow);
+		log.debug("●●●●▶lastPage-> "+lastPage);
 		log.debug("●●●●▶volunteerApplyN-> "+volunteerApplyN);
 		
 		model.addAttribute("volunteerApplyN", volunteerApplyN);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("searchSelect", searchSelect);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("currentPage", currentPage);
 		
 		return "staff/getVolunteerApplyN";
 	}
@@ -200,7 +237,9 @@ public class VolunteerController {
 	public String getVolunteerCheckN(HttpSession session, Model model,
 										@RequestParam(value = "searchWord", required = false) String searchWord,
 										@RequestParam(value = "searchSelect", required = false) String searchSelect,
-										@RequestParam(value = "categoryName", required = false) String categoryName) {
+										@RequestParam(value = "categoryName", required = false) String categoryName,
+										@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+										@RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) {
 		
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId-> "+shelterId);
@@ -221,15 +260,32 @@ public class VolunteerController {
 		log.debug("●●●●▶searchWord-> "+searchWord);
 		log.debug("●●●●▶searchSelect-> "+searchSelect);
 		log.debug("●●●●▶categoryName-> "+categoryName);
+		log.debug("●●●●▶currentPage-> "+currentPage);
+		log.debug("●●●●▶rowPerPage-> "+rowPerPage);
 		
-		List<Map<String, Object>> volunteerCheckN = volunteerService.getVolunteerCheckListInStaff(shelterId, searchWord, searchSelect, categoryName);
+		List<Map<String, Object>> volunteerCheckN = volunteerService.getVolunteerCheckListInStaff(shelterId, searchWord, searchSelect, categoryName, currentPage, rowPerPage);
 		List<Map<String, Object>> categoryNameList = volunteerService.getVolunteerCategoryList();
 
+		//lastPage 구하기
+		int totalRow = 0;
+		if(volunteerCheckN.size() != 0) {
+			totalRow = Integer.parseInt(volunteerCheckN.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶totalRow-> "+totalRow);
+		log.debug("●●●●▶lastPage-> "+lastPage);
+		
 		log.debug("●●●●▶volunteerCheckN-> "+volunteerCheckN);
 		log.debug("●●●●▶categoryNameList-> "+categoryNameList);
 		
 		model.addAttribute("volunteerCheckN", volunteerCheckN);
 		model.addAttribute("categoryNameList", categoryNameList);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("searchSelect", searchSelect);
 		model.addAttribute("categoryName", categoryName);
@@ -242,7 +298,9 @@ public class VolunteerController {
 	public String getVolunteerRecruitP(HttpSession session, Model model,
 										@RequestParam(value = "searchWord", required = false) String searchWord,
 										@RequestParam(value = "searchSelect", required = false) String searchSelect,
-										@RequestParam(value = "categoryName", required = false) String categoryName) {
+										@RequestParam(value = "categoryName", required = false) String categoryName,
+										@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+										@RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) {
 		
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId-> "+shelterId);
@@ -263,15 +321,31 @@ public class VolunteerController {
 		log.debug("●●●●▶searchWord-> "+searchWord);
 		log.debug("●●●●▶searchSelect-> "+searchSelect);
 		log.debug("●●●●▶categoryName-> "+categoryName);
+		log.debug("●●●●▶currentPage-> "+currentPage);
+		log.debug("●●●●▶rowPerPage-> "+rowPerPage);
 		
-		List<Map<String, Object>> volunteerRecruitP = volunteerService.getPeriodVolunteerRecruitListInStaff(shelterId, searchWord, searchSelect, categoryName);
+		List<Map<String, Object>> volunteerRecruitP = volunteerService.getPeriodVolunteerRecruitListInStaff(shelterId, searchWord, searchSelect, categoryName, currentPage, rowPerPage);
 		List<Map<String, Object>> categoryNameList = volunteerService.getVolunteerCategoryList();
 
+		//lastPage 구하기
+		int totalRow = 0;
+		if(volunteerRecruitP.size() != 0) {
+			totalRow = Integer.parseInt(volunteerRecruitP.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶totalRow-> "+totalRow);
+		log.debug("●●●●▶lastPage-> "+lastPage);
 		log.debug("●●●●▶volunteerRecruitP-> "+volunteerRecruitP);
 		log.debug("●●●●▶categoryNameList-> "+categoryNameList);
 		
 		model.addAttribute("volunteerRecruitP", volunteerRecruitP);
 		model.addAttribute("categoryNameList", categoryNameList);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("searchSelect", searchSelect);
 		model.addAttribute("categoryName", categoryName);
@@ -283,7 +357,9 @@ public class VolunteerController {
 	@GetMapping("/staff/getVolunteerApplyP")
 	public String getVolunteerApplyP(HttpSession session, Model model,
 										@RequestParam(value = "searchWord", required = false) String searchWord,
-										@RequestParam(value = "searchSelect", required = false) String searchSelect) {
+										@RequestParam(value = "searchSelect", required = false) String searchSelect,
+										@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+										@RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) {
 		
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId-> "+shelterId);
@@ -296,14 +372,30 @@ public class VolunteerController {
 		log.debug("●●●●▶searchWord-> "+searchWord);
 		log.debug("●●●●▶searchSelect-> "+searchSelect);
 		
-		List<Map<String, Object>> volunteerApplyP = volunteerService.getPeriodVolunteerApplyListInStaff(shelterId, searchWord, searchSelect);
+		List<Map<String, Object>> volunteerApplyP = volunteerService.getPeriodVolunteerApplyListInStaff(shelterId, searchWord, searchSelect, currentPage, rowPerPage);
 		List<Map<String, Object>> categoryNameList = volunteerService.getVolunteerCategoryList();
 
+		//lastPage 구하기
+		int totalRow = 0;
+		if(volunteerApplyP.size() != 0) {
+			totalRow = Integer.parseInt(volunteerApplyP.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶totalRow-> "+totalRow);
+		log.debug("●●●●▶lastPage-> "+lastPage);
 		log.debug("●●●●▶volunteerApplyP-> "+volunteerApplyP);
 		log.debug("●●●●▶categoryNameList-> "+categoryNameList);
+		log.debug("●●●●▶currentPage-> "+currentPage);
+		log.debug("●●●●▶rowPerPage-> "+rowPerPage);
 		
 		model.addAttribute("volunteerApplyP", volunteerApplyP);
 		model.addAttribute("categoryNameList", categoryNameList);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("searchSelect", searchSelect);
 		
@@ -315,7 +407,9 @@ public class VolunteerController {
 	public String getVolunteerCheckP(HttpSession session, Model model,
 									@RequestParam(value = "searchWord", required = false) String searchWord,
 									@RequestParam(value = "searchSelect", required = false) String searchSelect,
-									@RequestParam(value = "categoryName", required = false) String categoryName) {
+									@RequestParam(value = "categoryName", required = false) String categoryName,
+									@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+									@RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage) {
 		
 		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		log.debug("●●●●▶shelterId-> "+shelterId);
@@ -336,15 +430,31 @@ public class VolunteerController {
 		log.debug("●●●●▶searchWord-> "+searchWord);
 		log.debug("●●●●▶searchSelect-> "+searchSelect);
 		log.debug("●●●●▶categoryName-> "+categoryName);	
+		log.debug("●●●●▶currentPage-> "+currentPage);
+		log.debug("●●●●▶rowPerPage-> "+rowPerPage);
 		
-		List<Map<String, Object>> volunteerCheckP = volunteerService.getPeriodVolunteerCheckListInStaff(shelterId, searchWord, searchSelect, categoryName);
+		List<Map<String, Object>> volunteerCheckP = volunteerService.getPeriodVolunteerCheckListInStaff(shelterId, searchWord, searchSelect, categoryName, currentPage, rowPerPage);
 		List<Map<String, Object>> categoryNameList = volunteerService.getVolunteerCategoryList();
 
+		//lastPage 구하기
+		int totalRow = 0;
+		if(volunteerCheckP.size() != 0) {
+			totalRow = Integer.parseInt(volunteerCheckP.get(0).get("totalRow").toString());
+		}
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		log.debug("●●●●▶totalRow-> "+totalRow);
+		log.debug("●●●●▶lastPage-> "+lastPage);
 		log.debug("●●●●▶volunteerCheckP-> "+volunteerCheckP);
 		log.debug("●●●●▶categoryNameList-> "+categoryNameList);
 		
 		model.addAttribute("volunteerCheckP", volunteerCheckP);
 		model.addAttribute("categoryNameList", categoryNameList);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("searchSelect", searchSelect);
 		model.addAttribute("categoryName", categoryName);
@@ -409,6 +519,11 @@ public class VolunteerController {
 		String staffId = ((Staff)(session.getAttribute("loginStaff"))).getStaffId();
 		log.debug("●●●●▶staffId-> "+staffId);
 		check.setStaffId(staffId);
+		
+		//봉사 시작/끝시간 -> 봉사일과 함께 더해주기
+		check.setStartTime(check.getVolunteerDate()+" "+check.getStartTime());
+		check.setEndTime(check.getVolunteerDate()+" "+check.getEndTime());
+		
 		log.debug("●●●●▶check-> "+check);
 		
 		int cnt = volunteerService.addPeriodVolunteerCheck(check);

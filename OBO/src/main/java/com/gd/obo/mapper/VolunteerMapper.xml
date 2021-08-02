@@ -168,7 +168,8 @@
 			vr.recruit_count AS recruitCount,
 			COUNT(va.volunteer_recruit_id) AS applyCount,
 			DATE(vr.register_date) AS registerDate,
-			vr.volunteer_title AS volunteerTitle
+			vr.volunteer_title AS volunteerTitle,
+			COUNT(vr.volunteer_recruit_id) over() AS totalRow
 		FROM volunteer_recruit AS vr
 		LEFT JOIN volunteer_category AS vc ON vr.volunteer_category_id = vc.volunteer_category_id
 		LEFT JOIN staff AS s ON vr.staff_id = s.staff_id
@@ -186,7 +187,8 @@
 			</if>
 		</where>
 		GROUP BY vr.volunteer_recruit_id
-		ORDER BY volunteerDate ASC,registerDate DESC
+		ORDER BY volunteerDate ASC, registerDate DESC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 일반봉사 신청목록 volunteer apply 리스트 -->
@@ -199,7 +201,8 @@
 			vr.volunteer_title AS volunteerTitle,
 			vc.volunteer_category_name AS volunteerCategoryName,
 			DATE(va.apply_date) AS applyDate,
-			DATE(vr.volunteer_date) AS volunteerDate
+			DATE(vr.volunteer_date) AS volunteerDate,
+			COUNT(va.volunteer_apply_id) over() AS totalRow
 		FROM volunteer_apply AS va, volunteer_recruit AS vr, volunteer_category AS vc, staff AS s, member AS m
 		<where>
 			vr.volunteer_category_id = vc.volunteer_category_id
@@ -216,6 +219,7 @@
 			</if>
 		</where>
 		ORDER BY volunteerDate ASC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 일반봉사 확인목록 volunteer check 리스트 -->
@@ -226,12 +230,13 @@
 			m.member_id AS memberId,
 			vc.volunteer_category_name AS volunteerCategoryName,
 			vr.volunteer_title AS volunteerTitle,
-			HOUR(vck.end_time-vck.start_time) AS volunteerTime,
 			DATE_FORMAT(vck.start_time, '%H:%i') AS startTime,
-			DATE_FORMAT(vck.start_time, '%H:%i') AS endTime,
+			DATE_FORMAT(vck.end_time, '%H:%i') AS endTime,
+			DATE_FORMAT(vck.end_time,'%H:%i')-DATE_FORMAT(vck.start_time,'%H:%i') AS volunteerTime,
 			DATE(vr.volunteer_date) AS volunteerDate,
 			DATE(vck.check_date) AS checkDate,
-			vck.staff_id_check AS staffId
+			vck.staff_id_check AS staffId,
+			COUNT(va.volunteer_apply_id) over() AS totalRow
 		FROM volunteer_check AS vck, volunteer_apply AS va, volunteer_recruit AS vr, volunteer_category AS vc, staff AS s, member AS m
 		<where>
 			vck.volunteer_apply_id = va.volunteer_apply_id
@@ -247,6 +252,8 @@
 				AND vc.volunteer_category_name = #{categoryName}
 			</if>
 		</where>
+		ORDER BY volunteerDate DESC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 정기봉사 모집공고 period- volunteer recruit리스트 -->
@@ -260,7 +267,8 @@
 			DATE(pvr.periodically_volunteer_start_date) AS startDate,
 			DATE(pvr.register_date) AS registerDate,
 			pvr.volunteer_cycle AS volunteerCycle,
-			pvr.staff_id AS staffId
+			pvr.staff_id AS staffId,
+			COUNT(pvr.periodically_volunteer_recruit_id) over() AS totalRow
 		FROM periodically_volunteer_recruit AS pvr
 		LEFT JOIN volunteer_category AS vc ON pvr.volunteer_category_id = vc.volunteer_category_id
 		LEFT JOIN staff AS s ON pvr.staff_id = s.staff_id
@@ -268,7 +276,7 @@
 		<where>
 			s.shelter_id = #{shelterId}
 			<if test="searchWord != null and searchSelect == 'title'">
-				AND pvr.volunteer_title LIKE CONCAT('%', #{searchWord}, '%')
+				AND pvr.title LIKE CONCAT('%', #{searchWord}, '%')
 			</if>
 			<if test="searchWord != null and searchSelect == 'staffId'">
 				AND pvr.staff_id LIKE CONCAT('%', #{searchWord}, '%')
@@ -278,7 +286,8 @@
 			</if>
 		</where>
 		GROUP BY pvr.periodically_volunteer_recruit_id
-		ORDER BY registerDate DESC	
+		ORDER BY registerDate DESC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 정기봉사 신청목록 period- volunteer apply 리스트 -->
@@ -292,7 +301,8 @@
 			pvr.volunteer_cycle AS volunteerCycle,
 			pva.periodically_volunteer_apply_id AS periodVolunteerApplyId,
 			pva.periodically_volunteer_recruit_id AS periodVolunteerRecruitId,
-			DATE(pva.apply_date) AS applyDate
+			DATE(pva.apply_date) AS applyDate,
+			COUNT(pva.periodically_volunteer_apply_id) over() AS totalRow
 		FROM periodically_volunteer_apply AS pva, periodically_volunteer_recruit AS pvr,
 		volunteer_category AS vc, member AS m, staff AS s
 		<where> 
@@ -302,13 +312,14 @@
 			AND pvr.staff_id = s.staff_id
 			AND s.shelter_id = #{shelterId}
 			<if test="searchWord != null and searchSelect == 'title'">
-				AND pvr.volunteer_title LIKE CONCAT('%', #{searchWord}, '%')
+				AND pvr.title LIKE CONCAT('%', #{searchWord}, '%')
 			</if>
 			<if test="searchWord != null and searchSelect == 'member'">
 				AND (m.member_name LIKE CONCAT('%', #{searchWord}, '%') OR m.member_id LIKE CONCAT('%', #{searchWord}, '%'))
 			</if>
 		</where>
-		ORDER BY applyDate DESC	
+		ORDER BY applyDate DESC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 정기봉사 확인목록 period- volunteer check리스트 -->
@@ -320,8 +331,10 @@
 			pvr.title AS title,
 			DATE(pvc.volunteer_date) AS volunteerDate,
 			DATE(pvc.check_date) AS checkDate,
+			DATE_FORMAT(pvc.end_time,'%H:%i')-DATE_FORMAT(pvc.start_time,'%H:%i') AS volunteerTime,
 			pvc.staff_id_check AS staffId,
-			pvc.periodically_volunteer_apply_id AS periodVolunteerApplyId
+			pvc.periodically_volunteer_apply_id AS periodVolunteerApplyId,
+			COUNT(pva.periodically_volunteer_apply_id) over() AS totalRow
 		FROM periodically_volunteer_check AS pvc, periodically_volunteer_apply AS pva,
 			periodically_volunteer_recruit AS pvr, staff AS s, member AS m, volunteer_category AS vc
 		<where>
@@ -337,7 +350,9 @@
 			<if test="categoryName != null">
 				AND vc.volunteer_category_name = #{categoryName}
 			</if>
-		</where>	
+		</where>
+		ORDER BY volunteerDate DESC
+		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 위에있는건 name만 받아와서 id까지 받는걸로 하나 더 만들었음 -->
@@ -439,11 +454,15 @@
 			periodically_volunteer_apply_id,
 			staff_id_check,
 			volunteer_date,
+			start_time,
+			end_time,
 			check_date
 		) VALUE(
 			#{periodVolunteerApplyId},
 			#{staffId},
 			#{volunteerDate},
+			#{startTime},
+			#{endTime},
 			NOW()
 		)	
 	</insert>

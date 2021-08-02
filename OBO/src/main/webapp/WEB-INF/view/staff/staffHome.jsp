@@ -56,11 +56,10 @@ $(document).ready(function(){
 					<div class="col-lg-5 col-md-6">
 						<div class="slider_text">
 							<h3>
-								We Care <br> <span>한글테스트</span>
+								We Care <br> all <br> <span>Animal</span>
 							</h3>
 							<p>
-								Lorem ipsum dolor sit amet, consectetur <br>
-								한글 테스트
+								<br>
 							</p>
 						</div>
 					</div>
