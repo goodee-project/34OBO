@@ -10,10 +10,10 @@
 <body>
 	<ul class="list cat-list">
 		<li>
-			<a href="${pageContext.request.contextPath}/staff/getAnimalList" class="d-flex"><p>동물목록</p></a>
+			<a href="${pageContext.request.contextPath}/staff/getAnimalList" class="d-flex"><p>동물 목록</p></a>
 		</li>
 		<li>
-			<a href="${pageContext.request.contextPath}/staff/addAnimal" class="d-flex"><p>동물등록</p></a>
+			<a href="${pageContext.request.contextPath}/staff/addAnimal" class="d-flex"><p>동물 등록</p></a>
 		</li>
 	</ul>
 </body>

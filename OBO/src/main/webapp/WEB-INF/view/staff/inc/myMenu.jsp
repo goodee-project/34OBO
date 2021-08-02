@@ -54,9 +54,9 @@ $(document).ready(function(){
 							<form id="loginForm" action="${pageContext.request.contextPath}/staff/login" method="post">
 								<ul>
 									<li><span style="color:white">ID</span>&nbsp;</li>
-									<li><input class="form-control" type="text" id="loginStaffId" name="loginStaffId" style="width:150px; height:30px"></li>&emsp;
+									<li><input class="form-control" type="text" id="loginStaffId" name="loginStaffId" style="width:150px; height:30px" value="jeong"></li>&emsp;
 									<li><span style="color:white">PW</span>&nbsp;</li>
-									<li><input class="form-control" type="password" id="loginStaffPw" name="loginStaffPw" style="width:150px; height:30px"></li>&emsp;
+									<li><input class="form-control" type="password" id="loginStaffPw" name="loginStaffPw" style="width:150px; height:30px" value="1234"></li>&emsp;
 									<li><button type="button" id="loginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
 									<li><a href="${pageContext.request.contextPath}/staff/addStaff">가입</a></li>
 								</ul>

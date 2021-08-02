@@ -115,9 +115,6 @@ $(document).ready(function(){
 											&nbsp;<a href="javascript:void(0);" data-toggle="modal" data-parameter="${a.adoptApplyDocumentId}" data-target="#document-modal" onclick="adoptDocuFunc(this.getAttribute('data-parameter'));">
 												<i class="fa fa-file-text-o"></i>
 											</a>
-											&nbsp;&nbsp;<a href="javascript:void(0);" data-parameter="${a.adoptApplyDocumentId}" onclick="">
-												<i class="fa fa-download"></i>
-											</a>
 										</td>
 										<td>${a.applyDate}</td>
 										<td>${a.adoptDate}</td>

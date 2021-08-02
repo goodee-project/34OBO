@@ -129,10 +129,11 @@ $(document).ready(function(){
 					// console.log('계정클릭 ajax 성공!');
 					if(jsonData != 1){
 						alert('PW가 일치하지 않습니다.');
-						return;
+						$('#staffPw').val('');
+					} else{
+						console.log('pw일치!');
+						location.href='${pageContext.request.contextPath}/staff/modifyStaff';	//일치하면 페이지 이동
 					}
-					console.log('pw일치!');
-					location.href='${pageContext.request.contextPath}/staff/modifyStaff';	//일치하면 페이지 이동
 				}
 			});	// ajax; pw 일치
 		});	// ckBtn; 모달창 pw 입력 후 확인버튼 클릭
@@ -171,7 +172,7 @@ $(document).ready(function(){
 							<ul class="list cat-list">
 								<li>
 									<a href="${pageContext.request.contextPath}/staff/modifyStaff" class="d-flex"
-										id="myAccountClick" data-toggle="modal" data-target="#login-modal"><p>정보 수정</p></a>
+										id="myAccountClick" data-toggle="modal" data-target="#login-modal" onclick="clickFunc();"><p>정보 수정</p></a>
 								</li>
 								<li>
 									<c:if test="${loginStaff.staffLevel == 2}">
@@ -310,24 +311,9 @@ $(document).ready(function(){
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 	
 	<script>
-		$('#datepicker').datepicker({
-			iconsLibrary: 'fontawesome',
-			disableDaysOfWeek: [0, 0],
-			//icons: {
-			//rightIcon: '<span class="fa fa-caret-down"></span>'
-			//}
-		});
-		
-		$('#datepicker2').datepicker({
-			iconsLibrary: 'fontawesome',
-			icons: {
-				rightIcon: '<span class="fa fa-caret-down"></span>'
-			}
-		});
-		
-		var timepicker = $('#timepicker').timepicker({
-			format: 'HH.MM'
-		});
+	function clickFunc(){
+		$('#staffPw').val('');	//value 초기화
+	}
 	</script>
 </body>
 </html>

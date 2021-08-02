@@ -74,11 +74,28 @@ $(document).ready(function(){
 					
 					<div class="single-post">
 						<div class="blog_details">
+							<div>
+								<c:if test="${categoryName != null}">
+									[카테고리 - ${categoryName}] 
+								</c:if>
+								<c:if test="${searchSelect == 'member'}">
+									회원정보 
+								</c:if>
+								<c:if test="${searchSelect != null}">
+									"${searchWord}" 
+								</c:if>
+								<c:if test="${categoryName != null || (searchSelect != null && searchWord != null)}">
+									검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getVolunteerCheckP"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+								</c:if>
+							</div>
+							<br>
+						
 							<table class="table">
 								<tr>
 									<th>회원정보</th> <!-- 이름/아이디 -->
 									<th>카테고리</th>
 									<th>제목</th>
+									<th>봉사시간</th>
 									<th>봉사일</th>
 									<th>확인일</th>
 									<th>확인직원</th>
@@ -88,6 +105,7 @@ $(document).ready(function(){
 										<td>${v.memberName}(${v.memberId})</td>
 										<td>${v.volunteerCategoryName}</td>
 										<td>${v.title}</td>
+										<td>${v.volunteerTime}</td>
 										<td>${v.volunteerDate}</td>
 										<td>${v.checkDate}</td>
 										<td>${v.staffId}</td>
@@ -105,16 +123,30 @@ $(document).ready(function(){
 						<nav class="blog-pagination justify-content-center d-flex">
 							<ul class="pagination">
 								<!-- 이전 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
-								</li>
-								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
-								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
+								<c:if test="${currentPage > 1}">
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getVolunteerCheckP?currentPage=${currentPage-1}&categoryName=${categoryName}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i>
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getVolunteerCheckP?currentPage=${currentPage-1}&categoryName=${categoryName}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link">${currentPage-1}
+									</a></li>
+								</c:if>
+								<c:if test="${currentPage == 1}">
+									<!-- 이전 페이지 보이지 않음 -->
+								</c:if>
 								
+								<!-- 현재 페이지 setting -->
+								<li class="page-item active"><a href="javascript:void(0);" class="page-link">${currentPage}</a></li>
+									
 								<!-- 다음 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
-								</li>
+								<c:if test="${currentPage < lastPage}"> <!-- currentPage+1 <= lastPage -->
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getVolunteerCheckP?currentPage=${currentPage+1}&categoryName=${categoryName}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link" aria-label="Next">${currentPage+1}
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getVolunteerCheckP?currentPage=${currentPage+1}&categoryName=${categoryName}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link" aria-label="Next"><i class="ti-angle-right"></i>
+									</a></li>
+								</c:if>
 							</ul>
 						</nav>
 						<hr>

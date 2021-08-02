@@ -7,5 +7,7 @@ public class PeriodVolunteerCheck {
 	private int periodVolunteerApplyId;
 	private String staffId;
 	private String volunteerDate;
+	private String startTime;
+	private String endTime;
 	private String checkDate;
 }

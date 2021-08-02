@@ -74,6 +74,22 @@ $(document).ready(function(){
 					
 					<div class="single-post">
 						<div class="blog_details">
+							<div>
+								<c:if test="${searchSelect == 'member'}">
+									회원정보 
+								</c:if>
+								<c:if test="${searchSelect == 'title'}">
+									제목 
+								</c:if>
+								<c:if test="${searchSelect != null}">
+									"${searchWord}" 
+								</c:if>
+								<c:if test="${categoryName != null || (searchSelect != null && searchWord != null)}">
+									검색결과 &nbsp;<a href="${pageContext.request.contextPath}/staff/getVolunteerApplyN"><button class="btn" type="reset"><i class="fa fa-refresh"></i></button></a>
+								</c:if>
+							</div>
+							<br>
+						
 							<table class="table">
 								<tr>
 									<th>회원정보</th>
@@ -112,16 +128,30 @@ $(document).ready(function(){
 						<nav class="blog-pagination justify-content-center d-flex">
 							<ul class="pagination">
 								<!-- 이전 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Previous"><i class="ti-angle-left"></i></a>
-								</li>
-								<li class="page-item"><a href="${pageContext.request.contextPath}/staff/" class="page-link">1</a></li>
-								<li class="page-item active"><a href="${pageContext.request.contextPath}/staff/" class="page-link">2</a></li>
+								<c:if test="${currentPage > 1}">
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getVolunteerApplyN?currentPage=${currentPage-1}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i>
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getVolunteerApplyN?currentPage=${currentPage-1}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link">${currentPage-1}
+									</a></li>
+								</c:if>
+								<c:if test="${currentPage == 1}">
+									<!-- 이전 페이지 보이지 않음 -->
+								</c:if>
 								
+								<!-- 현재 페이지 setting -->
+								<li class="page-item active"><a href="javascript:void(0);" class="page-link">${currentPage}</a></li>
+									
 								<!-- 다음 페이지 setting -->
-								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/staff/" class="page-link" aria-label="Next"><i class="ti-angle-right"></i></a>
-								</li>
+								<c:if test="${currentPage < lastPage}"> <!-- currentPage+1 <= lastPage -->
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getVolunteerApplyN?currentPage=${currentPage+1}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link" aria-label="Next">${currentPage+1}
+									</a></li>
+									<li class="page-item"><a href="${pageContext.request.contextPath}/staff/getVolunteerApplyN?currentPage=${currentPage+1}
+										&searchSelect=${searchSelect}&searchWord=${searchWord}" class="page-link" aria-label="Next"><i class="ti-angle-right"></i>
+									</a></li>
+								</c:if>
 							</ul>
 						</nav>
 						<hr>
@@ -297,16 +327,15 @@ $(document).ready(function(){
 		} else if($('#endTime').val() == ''){
 			alert('끝난시간을 선택해주세요');
 			$('#endTime').focus();
+		} else{
+			console.log('volunteerDate->'+$('#volunteerDate').val());
+			console.log('volunteerApplyId->'+$('#volunteerApplyId').val());
+			console.log('startTime->'+$('#startTime').val());
+			console.log('endTime->'+$('#endTime').val());
+			
+			alert('봉사 확인이 완료 되었습니다.');
+			$('#addForm').submit();	//form - volunteerDate, volunteerApplyId, startTime, endTime 넘어가는지 확인
 		}
-		
-		console.log('volunteerDate->'+$('#volunteerDate').val());
-		console.log('volunteerApplyId->'+$('#volunteerApplyId').val());
-		console.log('startTime->'+$('#startTime').val());
-		console.log('endTime->'+$('#endTime').val());
-		
-		alert('봉사 확인이 완료 되었습니다.');
-		$('#addForm').submit();	//form - volunteerDate, volunteerApplyId, startTime, endTime 넘어가는지 확인
-		
 	}
 	
 	//검색어
