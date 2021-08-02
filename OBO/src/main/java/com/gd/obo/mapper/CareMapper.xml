@@ -222,12 +222,14 @@
 			m.member_name AS memberName,
 			CONCAT(ci.care_sorting, '-', ci.care_info_content) AS careInfo,
 			DATE(cp.care_date) AS careDate,
-			cr.features AS features
+			cr.features AS features,
+			s.shelter_name shelterName
 		FROM care_plan AS cp
 		LEFT JOIN care_record AS cr ON cr.care_plan_id = cp.care_plan_id
 		LEFT JOIN animal AS a ON a.animal_id = cp.animal_id
 		LEFT JOIN member AS m ON m.member_id = cp.member_id
 		LEFT JOIN care_info AS ci ON ci.care_info_id = cp.care_info_id
+		LEFT JOIN (SELECT s.shelter_name, s.shelter_id, staff_id  FROM shelter AS s, staff AS st WHERE s.shelter_id=st.shelter_id) AS s ON s.staff_id=cp.staff_id
 		WHERE 
 			cp.care_plan_id = #{carePlanId};
 	</select>
@@ -272,14 +274,37 @@
 			cp.care_plan_id AS carePlanId,
 			a.animal_name AS animalName,
 			DAY(cp.care_date) AS day,
-			ci.care_sorting AS careSorting
+			ci.care_sorting AS careSorting,
+			DATEDIFF(cp.care_date, NOW()) AS dday, 
+			cr.staff_id_check staffIdCheck,
+			DATE(cp.care_date) AS date
 		FROM care_plan AS cp
 			INNER JOIN animal a ON cp.animal_id=a.animal_id
 			INNER JOIN care_info ci ON cp.care_info_id=ci.care_info_id
+			LEFT JOIN care_record cr ON cp.care_plan_id=cr.care_plan_id
 		<where>
-			YEAR(cp.care_date) = #{year}
-			AND MONTH(cp.care_date) = #{month}
-			AND cp.member_id = #{memberId}
+			<if test="year != null">
+				AND YEAR(cp.care_date) = #{year}
+			</if>
+			<if test="month != null">
+				AND MONTH(cp.care_date) = #{month}
+			</if>
+			<if test="memberId != null">
+				AND cp.member_id = #{memberId}
+			</if>
+		</where>
+		ORDER BY dday
+		<if test="beginRow != null">
+			LIMIT #{beginRow}, #{rowPerPage}
+		</if>
+	</select>
+	
+	<select id="selectCarePlanListTotalByMemberId" resultType="int" parameterType="java.lang.String">
+		SELECT
+			COUNT(*)
+		FROM care_plan
+		<where>
+			member_id = #{memberId}			
 		</where>
 	</select>
 </mapper>

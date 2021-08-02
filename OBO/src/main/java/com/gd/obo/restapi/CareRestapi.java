@@ -122,11 +122,22 @@ public class CareRestapi {
 	
 	@GetMapping("/member/getCarePlanListByMemberId")
 	public List<Map<String, Object>> getCarePlanListByMemberId(HttpSession session,
-													@RequestParam(value = "year")int year,
-													@RequestParam(value = "month")int month){
+													@RequestParam(value = "year", defaultValue = "0")int year,
+													@RequestParam(value = "month", defaultValue = "0")int month){
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
 		
 		return careService.getCarePlanListByMemberId(year, month, memberId);
+	}
+	
+	@GetMapping("/member/getCareListByMemberId")
+	public Map<String, Object> getCareListByMemberId(HttpSession session,
+								@RequestParam(value = "currentPage", defaultValue = "1") int currentPage){
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		
+		Map<String, Object> map = careService.getCareListByMemberId(memberId, currentPage, 5);
+		
+		log.debug("■■■■■■■■ map getCareListByMemberId : " + map);
+		return map;
 	}
 	
 }
