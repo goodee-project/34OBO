@@ -113,6 +113,12 @@ public class ShelterController {
 		
 		Map<String, Object> animalMap = animalService.getAnimalStateCountByMonth(month, shelterId);
 		
+		//이미지 리스트
+		List<String> imgList = shelterService.getShelterFileListByShelterId(shelterId);
+		if(!imgList.isEmpty()) {
+			model.addAttribute("imgList", imgList);
+		}
+		
 		model.addAttribute("protect", animalMap.get("protect"));
 		model.addAttribute("adopt", animalMap.get("adopt"));
 		model.addAttribute("euthanasia", animalMap.get("euthanasia"));
@@ -157,10 +163,12 @@ public class ShelterController {
 	
 	// 액션
 	@PostMapping("/staff/modifyShelter")
-	public String modifyShelter(ShelterForm shelterForm) {
+	public String modifyShelter(ShelterForm shelterForm, HttpSession session) {
 		log.debug("%>%>%>%>%>%>%>%>%> ShelterController-> modifyShelter shelterForm: " + shelterForm);
 		
 		shelterService.modifyShelter(shelterForm);
+		// 쉘터 아이디 넣기
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
 		
 		return "redirect:/staff/shelterIntro?shelterId="+shelterForm.getShelter().getShelterId();
 	}

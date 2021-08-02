@@ -1,5 +1,4 @@
 <!-- 작성자 : 김선유, 수정자: 손영현 -->
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -32,10 +31,21 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <meta charset="UTF-8">
 <title>getShelterOne</title>
+<style>
+  /* Make the image fully responsive */
+  .carousel-inner img {
+    width: 100%;
+    height: 100%;
+  }
+  </style>
+
 </head>
 <body>
 	<header>
@@ -59,25 +69,52 @@
 		</div>
 	</div>
 	
+	
 	<div class="section-top-border container">
 		<h3 class="mb-30">${shelterMap.shelterName}</h3>
 			<div class="testmonial_area">
-				<div class="row">
-					<div class="col-lg-5 mb-5 mb-lg-0">
-						<div class="textmonial_active owl-carousel">
-							<div class="testmonial_wrap">
-                            	<div class="single_testmonial d-flex align-items-center ">
-									<img src="static/img/blog/single_blog_1.png" alt="">
-								</div>
-							</div>
-							<div class="testmonial_wrap">
-                            	<div class="single_testmonial d-flex align-items-center">
-									<img src="static/img/elements/d.jpg" alt="">
-								</div>
-							</div>
-						</div>
+				
+				<div class="col-lg-7 mb-7 mb-lg-7" >
+					
+					<div id="demo" class="carousel slide" data-ride="carousel">
+
+					  <!-- Indicators -->
+					  <ul class="carousel-indicators">
+					    <c:set var="i" value="0"></c:set>
+					    <c:forEach items="${imgList}" var="il">
+					    	<li data-target="#demo" data-slide-to="0" class="${i==0? 'active' : '' }"></li>
+					    	 <c:set var="i" value="${i + 1}"/>
+					    </c:forEach>
+					  </ul>
+					  
+					  <!-- The slideshow -->
+					  <div class="carousel-inner">
+					    
+					   
+					   	<c:set var="i" value="0"></c:set>
+					    <c:forEach items="${imgList}" var="il">
+					    	<div class="carousel-item ${i==0? 'active' : '' }">
+						      <img src="${pageContext.request.contextPath}/static/img/shelter/${il}" class="rounded" width="60%;" height="40%;">
+						    </div>
+					    	 <c:set var="i" value="${i + 1}"/>
+					    </c:forEach>
+					  
+					  
+					  
+					  </div>
+					  
+					  <!-- Left and right controls -->
+					  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+					    <span class="carousel-control-prev-icon"></span>
+					  </a>
+					  <a class="carousel-control-next" href="#demo" data-slide="next">
+					    <span class="carousel-control-next-icon"></span>
+					  </a>
 					</div>
-				</div>
+				
+				
+				</div>			
+					
 			</div>
 			<br>
 			<div class="col-md-9 mt-sm-10">
@@ -140,7 +177,7 @@
             	<c:forEach items="${animalList}" var="al">
             		
 	                <div class="col-lg-3 col-md-6">
-	                	<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=1&searchWord=&species=&shelterId=0">  
+	                	<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=1&searchWord=&species=&shelterId=${shelterMap.shelterId}">  
 	                    <div class="single_team">
 	                        <div class="thumb">
 	                        	
@@ -208,12 +245,10 @@
 							<div class="row">
 								<div id="map" style="width:400px;height:300px;"></div>
 								<div>
-									${shelterMap.doro}
+									도로명 주소 : ${shelterMap.doro}
 								</div>
 							</div>
-							
-							
-							
+									
 						</div>
 					</div>
 				</div>

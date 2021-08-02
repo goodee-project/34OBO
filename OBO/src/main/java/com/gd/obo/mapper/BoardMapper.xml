@@ -14,7 +14,7 @@
 			bc.board_category_name boardCategoryName, 
 			b.board_title boardTitle, 
 			b.member_id memberId, 
-			b.create_date createDate 
+			DATE(b.create_date) createDate 
 		FROM board b 
 			INNER JOIN board_like bl ON b.board_id=bl.board_id
 			INNER JOIN board_category bc ON b.board_category_id=bc.board_category_id
@@ -142,7 +142,7 @@
 			ac.species,
 			b.board_title boardTitle,
 			bc.board_category_name boardCategoryName,
-			b.create_date createDate
+			DATE(b.create_date) createDate
 		FROM board b, animal_category ac, board_category bc
 		<where>
 			b.animal_category_id = ac.animal_category_id
@@ -155,6 +155,9 @@
 			</if>
 			<if test="memberId != null">
 				AND b.member_id = #{memberId}
+			</if>
+			<if test="boardCategoryId != 0">
+				AND b.board_category_id = #{boardCategoryId}
 			</if>
 		</where>
 		ORDER BY b.board_id DESC	

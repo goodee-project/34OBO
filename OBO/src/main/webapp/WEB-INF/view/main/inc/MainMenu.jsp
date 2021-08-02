@@ -6,7 +6,9 @@
 			<div class="col-xl-3 col-lg-3">
 				<div class="logo">
 					<a href="${pageContext.request.contextPath}/">
-						<img src="${pageContext.request.contextPath}/static/img/logo.png" alt="">
+						<img src="${pageContext.request.contextPath}/static/img/obo/oboex.png" alt=""
+						onmouseover="this.src='${pageContext.request.contextPath}/static/img/obo/oboex-2.png'"
+		             	onmouseleave="this.src='${pageContext.request.contextPath}/static/img/obo/oboex.png'">
 					</a>
 				</div>
 			</div>
@@ -34,7 +36,8 @@
 								</li>
 								<li><a href="${pageContext.request.contextPath}/getBoardList">자유게시판<i class="ti-angle-down"></i></a>
 									<ul class="submenu">
-										<li><a href="${pageContext.request.contextPath}/#">카테고리 넣을지 말지 고민중...</a></li>
+										<li><a href="${pageContext.request.contextPath}/getBoardList?boardCategoryId=1">보호</a></li>
+										<li><a href="${pageContext.request.contextPath}/getBoardList?boardCategoryId=2">일상</a></li>
 									</ul>
 								</li>
 						</ul>

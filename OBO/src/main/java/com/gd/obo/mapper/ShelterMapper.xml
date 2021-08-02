@@ -23,6 +23,7 @@
 	<update id="updateShelter" parameterType="com.gd.obo.vo.Shelter">
 		UPDATE shelter
 		SET
+			shelter_name
 			introduction = #{introduction},
 			protect_duration = #{protectDuration},
 			shelter_phone = #{shelterPhone},
@@ -45,7 +46,6 @@
 	<select id="selectShelterList" resultType="com.gd.obo.vo.ShelterAddress" parameterType="java.util.Map">
 		SELECT 
 			s.shelter_id shelterId,
-			sf.shelter_file_id shelterFileId,
 			s.shelter_name shelterName, 
 			s.create_date createDate, 
 			s.shelter_phone shelterPhone,
@@ -55,10 +55,9 @@
 			a.doro doro,
 			a.detail_address detailAddress
 		FROM shelter s
-		LEFT JOIN shelter_file sf
-		ON s.shelter_id = sf.shelter_id
 		JOIN address a
 		ON s.address_id = a.address_id
+		GROUP BY s.shelter_id
 		<where>
 			<if test="shelterName != null">
 				AND s.shelter_name LIKE CONCAT('%',#{shelterName},'%')
@@ -116,4 +115,12 @@
 			VALUES(#{addressId}, #{shelterName}, NOW(), #{introduction}, #{protectDuration}, #{shelterPhone}, #{account})
 	</insert>
 	
+	<select id="selectShelterFileListByShelterId" parameterType="Integer" resultType="java.lang.String">
+		SELECT 
+			shelter_file_name shelterFileName
+		FROM 
+			shelter_file 
+		WHERE 
+			shelter_id = #{shelterId}
+	</select>
 </mapper>

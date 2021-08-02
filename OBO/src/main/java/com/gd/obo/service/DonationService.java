@@ -227,6 +227,10 @@ public class DonationService {
 		donationMapper.updatePeriodicallyDonationByEndDate(periodicallyDonationId);
 	}
 	
+	// 정기후원 : 매월 카카오 사용 x
+	public void addPeriodicallyDonationList(PeriodicallyDonation periodicallyDonation) {
+		donationMapper.insertPeriodicallyDonationList(periodicallyDonation.getPeriodicallyDonationId());
+	}
 	
 	// 정기후원 : 매월 카카오 정기결제
 	public boolean addPeriodicallyDonationListByKakaoPay(PeriodicallyDonation periodicallyDonation) {
@@ -273,7 +277,7 @@ public class DonationService {
 			
 			return false;
 		} else {//결제 성공! -> 데이터 베이스에 저장
-			donationMapper.insertPeriodicallyDonationList(periodicallyDonation.getPeriodicallyDonationId());
+			//donationMapper.insertPeriodicallyDonationList(periodicallyDonation.getPeriodicallyDonationId());
 			return true;
 		}
 	}

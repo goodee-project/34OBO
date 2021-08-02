@@ -52,11 +52,10 @@
 					<div class="col-lg-5 col-md-6">
 						<div class="slider_text">
 							<h3>
-								We Care <br> <span>OBO</span>
+								We Care <br> <span>ALL OF ANIMALS</span>
 							</h3>
 							<p>
-								오비오 홈페이지 입니다. <br>
-								obo
+								유기동물 보호 입양 사이트 <br>
 							</p>
 						</div>
 					</div>

@@ -107,7 +107,8 @@ public class BoardController {
 			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,			
 			@RequestParam(name="boardTitle", required=false) String boardTitle,
 			@RequestParam(name="species", required=false) String species,
-			@RequestParam(name="memberId", required=false) String memberId) {
+			@RequestParam(name="memberId", required=false) String memberId,
+			@RequestParam(name="boardCategoryId", required=false, defaultValue = "0") int boardCategoryId) {
 		log.debug("boardTitle: "+boardTitle);
 		if(boardTitle != null && boardTitle.equals("")) {
 			boardTitle=null;
@@ -121,7 +122,7 @@ public class BoardController {
 			memberId=null;
 		}
 		List<Map<String, Object>> animalCategoryList = animalService.getAnimalCategoryList();
-		Map<String, Object> map = boardService.getBoardList(currentPage, rowPerPage, boardTitle, species, memberId);
+		Map<String, Object> map = boardService.getBoardList(currentPage, rowPerPage, boardTitle, species, memberId, boardCategoryId);
 		model.addAttribute("boardList", map.get("boardList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", map.get("lastPage"));

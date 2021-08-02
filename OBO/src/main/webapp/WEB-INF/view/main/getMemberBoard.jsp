@@ -73,7 +73,7 @@
 							<div class="blog_details">
 								<h3 id="target" class="text-center">내 작성글</h3>
 								<!-- 자격승인목록 -->
-								<table class="table">
+								<table class="table text-center">
 									<thead>
 										<tr>
 											<th>No.</th>
@@ -175,7 +175,7 @@
 				tbody += '<tr>';
 				tbody += '<td>'+data.boardId+'</td>';
 				tbody += '<td>'+data.boardCategoryName+'</td>';
-				tbody += '<td><a href="${pageContext.request.contextPath}/getBoardOne?boardId='+data.boardId+'">'+data.boardTitle+'</a></td>';
+				tbody += '<td class="text-left"><a href="${pageContext.request.contextPath}/getBoardOne?boardId='+data.boardId+'">'+data.boardTitle+'</a></td>';
 				tbody += '<td>'+data.memberId+'</td>';
 				tbody += '<td>'+data.createDate+'</td>';
 				tbody += '</tr>';
@@ -228,7 +228,7 @@
 				tbody += '<tr>';
 				tbody += '<td>'+data.boardId+'</td>';
 				tbody += '<td>'+data.boardCategoryName+'</td>';
-				tbody += '<td><a href="${pageContext.request.contextPath}/getBoardOne?boardId='+data.boardId+'">'+data.boardTitle+'</a></td>';
+				tbody += '<td class="text-left"><a href="${pageContext.request.contextPath}/getBoardOne?boardId='+data.boardId+'">'+data.boardTitle+'</a></td>';
 				tbody += '<td>'+data.memberId+'</td>';
 				tbody += '<td>'+data.createDate+'</td>';
 				tbody += '</tr>';

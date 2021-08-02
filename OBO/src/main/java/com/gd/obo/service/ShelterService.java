@@ -235,4 +235,7 @@ public class ShelterService {
 		return row;
 	}
 	
+	public List<String> getShelterFileListByShelterId(int shelterId){
+		return shelterMapper.selectShelterFileListByShelterId(shelterId);
+	}
 }
