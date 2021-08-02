@@ -72,6 +72,7 @@ public class AdoptService {
 		int beginRow = (currentPage - 1)*rowPerPage;
 		
 		Map<String, Object> map = new HashMap<>();
+		map.put("shelterId", shelterId);
 		map.put("searchWord", searchWord);
 		map.put("beginRow", beginRow);
 		map.put("rowPerPage", rowPerPage);

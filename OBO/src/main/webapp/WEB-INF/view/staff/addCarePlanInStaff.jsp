@@ -84,7 +84,7 @@
 														<option value="${a.animalId}">${a.animalName}</option>
 													</c:forEach>
 												</select>
-												&nbsp; * Care Plan 미 작성 목록만 확인 가능합니다.*
+												&nbsp; * Care Plan 미 작성 동물만 확인 가능합니다.*
 											</div>
 										</td>
 									</tr>
