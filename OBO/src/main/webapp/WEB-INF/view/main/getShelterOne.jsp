@@ -177,7 +177,7 @@
             	<c:forEach items="${animalList}" var="al">
             		
 	                <div class="col-lg-3 col-md-6">
-	                	<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=1&searchWord=&species=&shelterId=0">  
+	                	<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${al.animalId}&currentPage=1&searchWord=&species=&shelterId=${shelterMap.shelterId}">  
 	                    <div class="single_team">
 	                        <div class="thumb">
 	                        	

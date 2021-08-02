@@ -62,8 +62,8 @@ $(document).ready(function(){
                 <div class="row">
                     <div class="col-lg-5 col-md-6">
                         <div class="slider_text">
-                            <h3>We Care <br> <span>Your Pets</span></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur <br> adipiscing elit, sed do eiusmod.</p>
+                            <h3>We Care <br> <span>ALL OF ANIMALS</span></h3>
+                            <p></p>
                         </div>
                     </div>
                 </div>

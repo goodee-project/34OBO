@@ -6,7 +6,9 @@
 			<div class="col-xl-3 col-lg-3">
 				<div class="logo">
 					<a href="${pageContext.request.contextPath}/">
-						<img src="${pageContext.request.contextPath}/static/img/obo/oboex.png" alt="">
+						<img src="${pageContext.request.contextPath}/static/img/obo/oboex.png" alt=""
+						onmouseover="this.src='${pageContext.request.contextPath}/static/img/obo/oboex-2.png'"
+		             	onmouseleave="this.src='${pageContext.request.contextPath}/static/img/obo/oboex.png'">
 					</a>
 				</div>
 			</div>
