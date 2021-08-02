@@ -55,6 +55,7 @@
 		
 
 			<script>
+				let idP = /^[a-zA-Z0-9]*$/; //영어와 숫자만 사용
 				//로그인 버튼 클릭
 				$('#memberLoginBtn').click(function(){
 					console.log('click');
@@ -62,6 +63,9 @@
 					if($('#loginMemberId').val() == ''){
 						alert('아이디를 입력해 주세요.');
 						 $('#loginMemberId').focus();
+					} else if(idP.test($('#loginMemberId').val()) == false){
+						alert('아이디는 영어와 숫자만 입력해주세요.');
+						$('#memberId').focus();
 					} else if($('#loginMemberPw').val() == ''){
 						alert('비밀번호를 입력해 주세요.');
 						 $('#loginMemberPw').focus();

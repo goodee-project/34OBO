@@ -57,7 +57,7 @@ public class BoardRestapi {
 		log.debug("■■■■■ memberId param: "+ memberId);
 		log.debug("■■■■■ currentPage param: "+ currentPage);
 		
-		return boardService.getBoardList(currentPage, 10, null, null, memberId);				
+		return boardService.getBoardList(currentPage, 10, null, null, memberId, 0);				
 	}
 	
 	

@@ -37,6 +37,14 @@
 	}
 </style>
 <script>
+//정규표현식
+   // 정규 표현식
+let idPattern = /^[a-zA-Z0-9]*$/; //영어와 숫자만 사용
+let pwPattern = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+let emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+let phonePattern = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/g;
+
+
 
 $(document).ready(function(){
 	$('#addMemberFormBtn').click(function(){
@@ -46,7 +54,12 @@ $(document).ready(function(){
 			alert('아이디를 입력해주세요.');
 			$('#memberId').focus();
 			
+		} else if(idPattern.test($('#memberId').val()) == false){
+			alert('아이디는 영어와 숫자만 입력해주세요.');
+			$('#memberId').focus();
+			
 		} else if($('#target').text() == '' || $('#target').text() == '아이디를 입력해주세요.'){
+	
 			alert('아이디 중복검사를 해주세요');
 			
 		} else if($('#target').text() == '이미 사용중인 아이디입니다.'){			
@@ -67,6 +80,10 @@ $(document).ready(function(){
 			
 		} else if($('#memberEmail').val() ==''){
 			alert('이메일을 입력해주세요.')
+			$('#memberEmail').focus();
+			
+		} else if(emailPattern.test($('#memberEmail').val()) == false){
+			alert('이메일을 형식이 틀렸습니다..')
 			$('#memberEmail').focus();
 			
 		} else if(mailChecked != true){

@@ -202,7 +202,8 @@
 							</div>
 						</div>
 					</c:forEach>
-					<form class="form-contact comment_form" action="${pageContext.request.contextPath}/addBoardComment?boardId=${boardMap.boardId }&memberId=sunyou" id="commentForm" method = "post">
+					<form class="form-contact comment_form" action="${pageContext.request.contextPath}/member/addBoardComment" id="commentForm" method = "post">
+						<input type="hidden" name="boardId" value="${boardMap.boardId}">
 						<div class="row">
 							<div class="col-12">
 								<div class="form-group">
@@ -279,27 +280,6 @@
 	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
-
-<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
-	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>
 
 </body>
 </html>
