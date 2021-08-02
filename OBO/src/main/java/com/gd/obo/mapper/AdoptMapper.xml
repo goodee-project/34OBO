@@ -6,6 +6,7 @@
 		SELECT
 			aa.adopt_apply_id AS adoptApplyId,
 			a.animal_name AS animalName,
+			a.animal_id AS animalId,
 			aa.member_id AS memberId,
 			m.member_name AS memberName,
 			aa.adopt_apply_document_id AS adoptApplyDocumentId,

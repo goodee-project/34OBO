@@ -118,11 +118,16 @@ $(document).ready(function(){
 												    	<div class="section-top-border">
 															
 															<div class="row">
-																<div class="col-md-4">									
-																	<img src="${pageContext.request.contextPath}/static/img/animal/${adoptList.get(i).animalFileName}" alt="" class="img-fluid img-thumbnail">
+																
+																<div class="col-md-4">
+																	<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${adoptList.get(i).animalId}&currentPage=1&searchWord=&species=&shelterId=${adoptList.get(i).shelterId}">  								
+																		<img src="${pageContext.request.contextPath}/static/img/animal/${adoptList.get(i).animalFileName}" alt="" class="img-fluid img-thumbnail">
+																	</a>
 																</div>
 																<div class="col-md-8 mt-sm-20">
-																	<h3 class="mb-30" style="margin-top: 2%;">${adoptList.get(i).animalName}</h3>
+																	<a href="${pageContext.request.contextPath}/getAnimalOne?animalId=${adoptList.get(i).animalId}&currentPage=1&searchWord=&species=&shelterId=${adoptList.get(i).shelterId}">  								
+																		<h3 class="mb-30" style="margin-top: 2%;">${adoptList.get(i).animalName}</h3>
+																	</a>
 																	<p>
 																		동물종 : ${adoptList.get(i).species}
 																		<br>
@@ -133,6 +138,7 @@ $(document).ready(function(){
 																		입양날짜 : ${adoptList.get(i).adoptDate}
 																	</p>
 																</div>
+																
 															</div>
 														</div>
 												    </div>
@@ -200,8 +206,8 @@ $(document).ready(function(){
 					    <div id="menu1" class="container tab-pane fade"><br>
 					      <!-- 달력 그리기 -->
 					     	  <!-- 입양 내역: 입양신청목록 -->
-						   	 <div class="col-lg-12 mb-12 mb-lg-0"  >
-								<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+						   	<div class="col-lg-12 mb-12 mb-lg-0"  >
+									<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
 								<div class="single_service staff_account" style="height: 90%;">
 									<div class="service_content">
 										<!-- 고민.... -->
@@ -237,9 +243,48 @@ $(document).ready(function(){
 													
 												</tbody>
 											</table>
+										</div>
 									</div>
 								</div>
-							</div>
+								
+								  <!-- 케어 목록 가져오기???-->
+						   		<div class="col-lg-12 mb-12 mb-lg-0"  >
+									<!-- staff_account 클래스 새로 추가 -> css height 고정 -->
+									<div class="single_service staff_account" style="height: 90%;">
+										<div class="service_content">
+											
+											
+											<h3 class="text-center" style="margin-top: 2%;"></h3>
+												
+												
+												<br><br>
+												<table class="table text-center">
+													<thead>
+														<tr>
+															<th>날짜</th>
+															<th>케어종류</th>
+															<th>동물</th>
+															<th>dday</th>
+														</tr>
+													</thead>
+													<tbody id="careListTarget">
+													
+													</tbody>
+												</table>
+												
+												<!-- 페이징 -->
+												<div class="blog_left_sidebar">
+													<nav class="blog-pagination justify-content-center d-flex">
+														<ul class="pagination" id="paging">
+															
+															
+														</ul>
+													</nav>
+												</div>
+												
+											</div>
+										</div>
+									</div>
 					    
 					    
 					    
@@ -252,7 +297,50 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</section>
-
+	
+	<!-- care 모달 -->
+	<div class="modal fade" id="plan-modal" role="dialog" aria-labelledby="plan-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title" style="text-align:center;"><span id="animalName"></span>의 Care Plan</h4>
+					<br>
+					<table class="table" style="text-align:center;">
+						<tr>
+							<td width="30%">케어Info</td>
+							<td>
+								<input id="careInfo" class="form-control" name="careInfo" type="text" readonly>
+							</td>
+						</tr>
+						<tr>
+							<td>케어일</td>
+							<td>
+								<input id="careDate" class="form-control" name="careDate" type="date" readonly>
+							</td>
+						</tr>
+						<tr>
+							<td>보호소</td>
+							<td>
+								<input id="shelter" class="form-control" name="shelter" type="text" readonly>
+							</td>
+						</tr>
+						<tr>
+							<td>특이사항</td>
+							<td>
+								<textarea rows="5" cols="80" id="features" class="form-control" name="features" readonly></textarea>
+							</td>
+						</tr>
+					</table>
+					
+					<br>
+					<div style="float:right;">
+						<button type="button" class="genric-btn primary-border radius" data-dismiss="modal">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 <script>
 	let adoptApplyPage = 1;
 	
@@ -287,7 +375,7 @@ $(document).ready(function(){
 				console.log(data);
 				tbody += '<tr>';
 				tbody += '<td>'+data.applyDate+'</td>';
-				tbody += '<td>'+data.animalName+'</td>';
+				tbody += '<td><a href="${pageContext.request.contextPath}/getAnimalOne?animalId='+data.animalId+'&currentPage=1&searchWord=&species=&shelterId='+data.shelterId+'">'+data.animalName+'</a></td>';
 				tbody += '<td>'+data.shelterName+'</td>';
 				tbody += '<td>'+data.checked+'</td>';
 				tbody += '</tr>';
@@ -330,7 +418,7 @@ $(document).ready(function(){
 	let thisYear = now.getFullYear();
 	let thisMonth = now.getMonth()+1;
 	let today = now.getDate();
-	console.log('오늘 : ', thisYear, thisMonth ,toaday);
+	console.log('오늘 : ', thisYear, thisMonth ,today);
 	
 	//이번달로 이동
 	function moveThisMonth(){
@@ -421,7 +509,7 @@ $(document).ready(function(){
 			type: 'get',
 			data: {year: year, month: month}
 		}).done(function(jsonData){
-			console.log(jsonData);
+			//console.log(jsonData);
 			
 			
 			//10월 11월 12월은 나오지 않는 이슈?
@@ -496,6 +584,102 @@ $(document).ready(function(){
 		})
 	}
 	
+	function planOneFunc(id){
+		console.log('동물 이름 클릭! -> care plan 정보 자세히보기 모달');
+		console.log('넘어온 값->'+id);
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getCarePlanOneWithRecord',
+			type: 'get',
+			data: {carePlanId : id},
+			success : function(jsonData){
+				console.log('케어 플랜 상세정보 ajax');
+				let animalName = jsonData.animalName
+				let memberId = jsonData.memberId
+				let memberName = jsonData.memberName
+				let careInfo = jsonData.careInfo
+				let careDate = jsonData.careDate
+				let features = jsonData.features
+				let shelterName = jsonData.shelterName;
+				
+				$('#animalName').text(animalName);
+				$('#shelter').val(shelterName);
+				$('#careInfo').val(careInfo);
+				$('#careDate').val(careDate);
+				
+				$('#features').val('');
+				if(features == null){
+					$('#features').val('care record 미작성');
+				} else{
+					$('#features').val(features);
+				}
+			}
+		});//-end; ajax
+	}
+	
+	//케어 리스트careListTarget paging
+	function careListTbody(page){ 
+		$.ajax({
+			url: '${pageContext.request.contextPath}/member/getCareListByMemberId',
+			type: 'get',
+			data: {'currentPage': page}
+		}).done(function(jsonData){
+			console.log(jsonData);
+			let tbody = '';
+			
+			prePage = page-1;
+			nextPage = page+1;
+			
+			$('#careListTarget').empty();
+			$('#paging').empty();
+			
+			$.each(jsonData.list, function(index,data){
+				console.log(data);
+				tbody += '<tr>';
+				tbody += '<td>'+data.date+'</td>';
+				tbody += '<td>'+data.careSorting+'</td>';
+				tbody += '<td><a href="javascript:void(0);" data-parameter="'+data.carePlanId+'" data-toggle="modal" data-target="#plan-modal" onclick="planOneFunc(this.getAttribute(\'data-parameter\'));">'+data.animalName+'</a></td>';
+				if(data.staffIdCheck != null){
+					tbody += '<td>완료</td>';
+				} else {
+					tbody += '<td>-'+data.dday+'</td>';
+				}
+				
+				tbody += '</tr>';
+			})
+			
+			$('#careListTarget').append(tbody);
+			
+			//페이징
+			
+			//이전
+			if(prePage > 0){
+				$('#paging').append('<li class="page-item"><button type="buttn" class="page-link" onclick="moveCareList(-1)"><i class="ti-angle-left"></i></button></li>');
+				$('#paging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveCareList(-1)">'+prePage+'</button></li>');
+			}
+			
+			//현재
+			$('#paging').append('<li class="page-item active"><button type="button" class="page-link">'+page+'</button></li>');
+			
+			//다음
+			if(nextPage <= jsonData.lastPage){						
+				$('#paging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveCareList(1)">'+nextPage+'</button></li>');
+				$('#paging').append('<li class="page-item"><button type="button" class="page-link" onclick="moveCareList(1)"><i class="ti-angle-right"></i></button></li>');
+			}
+			
+			
+		})
+	}
+	
+	function moveCareList(no){
+		carePage = carePage+no;
+		careListTbody(carePage);
+	}
+	
+	
+	//케어 리스트
+	let carePage = 1;
+	careListTbody(carePage);
 </script>
 </body>
 </html>

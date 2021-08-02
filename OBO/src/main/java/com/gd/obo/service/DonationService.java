@@ -270,6 +270,7 @@ public class DonationService {
 		log.debug("■■■■■ kakaoResponse 정기결제 결과: "+ kakaoResponse);
 		
 		if(kakaoResponse.containsKey("msg")) {//msg를 포함하면 결제 실패 -> 이메일 보내기????
+			
 			return false;
 		} else {//결제 성공! -> 데이터 베이스에 저장
 			donationMapper.insertPeriodicallyDonationList(periodicallyDonation.getPeriodicallyDonationId());

@@ -198,4 +198,35 @@ public class CareService {
 		log.debug("■■■■■■ getCarePlanListByMemberId paramMap : "+ paramMap);
 		return careMapper.selectCarePlanListByMemberId(paramMap);
 	}
+	
+	//main memberId로 케어플랜 리스트 가져오기
+	public Map<String, Object> getCareListByMemberId(String memberId, int currentPage, int rowPerPage){
+		
+		log.debug("■■■■■■■ getCareListByMemberId memberId param :" + memberId);
+		log.debug("■■■■■■■ getCareListByMemberId currentPage param :" + currentPage);
+		log.debug("■■■■■■■ getCareListByMemberId rowPerPage param :" + rowPerPage);
+		
+		int beginRow = (currentPage-1)*rowPerPage;
+		
+		//리스트
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("beginRow", beginRow);
+		
+		List<Map<String, Object>> list = careMapper.selectCarePlanListByMemberId(paramMap);
+		log.debug("■■■■■■■ getCareListByMemberId list :" + list);
+		
+		//마지막 페이지
+		int total = careMapper.selectCarePlanListTotalByMemberId(memberId);
+		int lastPage = (int)Math.ceil((double)total/rowPerPage);
+		log.debug("■■■■■■■ getCareListByMemberId lastPage :" + lastPage);
+		
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		returnMap.put("list", list);
+		returnMap.put("lastPage", lastPage);
+				
+		return returnMap;
+	}
 }
