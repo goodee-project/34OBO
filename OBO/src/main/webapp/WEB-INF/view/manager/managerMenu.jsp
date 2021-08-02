@@ -5,6 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script>
+$(document).ready(function(){	
+	$('#oboLogo').hover(function{
+		<img src="../static/img/obo/oboex-2.png" alt="">
+	});
+});
+</script>
 </head>
 <body>
 
@@ -13,8 +20,10 @@
         <div class="row align-items-center">
 		   <div class="col-xl-3 col-lg-3">
 		      <div class="logo">
-		          <a href="${pageContext.request.contextPath}/m/">
-		              <img src="../static/img/obo/oboex.png" alt="">
+		          <a href="${pageContext.request.contextPath}/m/" id="oboLogo">
+		              <img src="../static/img/obo/oboex.png" alt=""
+		              onmouseover="this.src='${pageContext.request.contextPath}/static/img/obo/oboex-2.png'"
+		              onmouseleave="this.src='${pageContext.request.contextPath}/static/img/obo/oboex.png'">
 		          </a>
 		      </div>
 		  </div>
