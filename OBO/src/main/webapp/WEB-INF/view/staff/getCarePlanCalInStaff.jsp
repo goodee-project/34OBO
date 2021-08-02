@@ -31,7 +31,94 @@
 
 <script>
 $(document).ready(function(){	
+	let thisY = $('#date').val().slice(0,4);
+	let thisM = $('#date').val().slice(5);
+	console.log('y'+thisY);
+	console.log('m'+thisM);
+	//console.log('y'+typeof(thisY));	//string
+	//console.log('m'+typeof(thisM));	//string
 	
+	$.ajax({
+		url: '${pageContext.request.contextPath}/getCalendarWithHoliday',
+		type: 'get',
+		data: {year : thisY,
+				month : thisM},
+		success: function(jsonData){
+			console.log('달력&케어 같이 불러오기 ajax');
+			
+			let addTable = "";
+			//map안에 -> theDay(단일값), carePlanList(리스트 값) 존재
+			
+			//달력 세팅
+			let cal = jsonData.theDay;
+			//console.log('cal.setYear->'+cal.setYear);
+			let setYear = cal.setYear;
+			let setMonth = cal.setMonth;
+			let firstDate = cal.firstDate;
+			let firstBlank = cal.firstBlank;
+			let endDate = cal.endDate;
+			let endBlank = cal.endBlank;
+			let totalCell = cal.firstBlank+cal.endDate+cal.endBlank;
+			let day = 0;
+			
+			//플랜 세팅
+			let plan = jsonData.carePlanList;
+			console.log('plan->'+plan);
+			
+			//공휴일 세팅 - holidayList->response->body->items->item->dateName & locdate
+			let h = JSON.parse(jsonData.holidayList);
+			let holiday = h.response.body.items.item;
+			let dayArr = [];
+			let holiArr = [];
+			
+			$(holiday).each(function(index, item){
+				dayArr.push((item.locdate)%100);
+				holiArr.push(item.dateName);
+			});
+			
+			//달력 만들기
+			addTable += '<tr style="height:130px;">';
+			
+			for(let i = 1; i <= totalCell; i++){
+				day = i-firstBlank;	//blank+1이 1부터 시작하도록!
+				addTable += '<td>'
+			
+				// if-> 1~n일		else-> 앞뒤 블랭크
+				if(i>firstBlank && i<=(firstBlank+endDate)){
+					if(dayArr.includes(day)){
+						addTable += '<div style="color:red;">'+day+'<span style="float:right;">'+holiArr[dayArr.indexOf(day)]+'</span></div>';
+					} else if(i%7==1){
+						addTable += '<div style="color:red;">'+day+'</div>';
+					} else{
+						addTable += '<div>'+day+'</div>';
+					}
+					
+					//n일에 해당하는 일정 등록, 그 외에는 일만 뜨도록 함.
+					$(plan).each(function(index, item){
+						if(day == item.day){
+							addTable += '<div><a href="javascript:void(0);" data-parameter="'+item.carePlanId+'" data-toggle="modal" data-target="#plan-modal" onclick="planOneFunc(this.getAttribute(\'data-parameter\'));">'
+										+item.animalName+'</a></div>';
+						}
+					});
+					
+				} else{	//1~n일 제외한 블랭크
+					addTable += '<div>&nbsp;<div>';
+				}
+				
+				addTable += '</td>';
+				
+				//줄 바꾸기
+				if(i%7 == 0 && day<endDate){
+					addTable += '</tr><tr style="height:130px;">';
+				}
+			}
+			
+			addTable += '</tr>';
+			
+			$('#day').empty();
+			$('#day').append(addTable);
+		}
+	});//-end;ajax
 });
 </script>
 </head>
@@ -76,7 +163,7 @@ $(document).ready(function(){
 							<h2 style="text-align:center;">
 								<span style="float:center;">
 									<a href="javascript:void(0);" onclick="changeFunc(Number(document.getElementById('date').value.slice(0,4)), Number(document.getElementById('date').value.slice(5,7))-1);"><i class="fa fa-arrow-circle-o-left"></i></a>
-									<input id="date" class="form-control" type="month" value="${aboutToday.date}" style="display:inline-block; width:20%"
+									<input id="date" class="form-control" type="month" value="${date}" style="display:inline-block; width:20%"
 											onchange="changeFunc(Number(document.getElementById('date').value.slice(0,4)), Number(document.getElementById('date').value.slice(5,7)));">
 									<!-- ${aboutToday.thisYear}년 / ${aboutToday.thisMonth}월 -->
 									<a href="javascript:void(0);" onclick="changeFunc(Number(document.getElementById('date').value.slice(0,4)), Number(document.getElementById('date').value.slice(5,7))+1);"><i class="fa fa-arrow-circle-o-right"></i></a>
@@ -100,37 +187,7 @@ $(document).ready(function(){
 									</tr>
 								</thead>
 								<tbody id="day">
-									<tr style="height:130px;">
-										<c:forEach var="i" begin="1" end="${aboutToday.totalTd}" step="1">
-										<c:set var="day" value="${i-aboutToday.thisFirstBlank}" />
-											<td>
-												<!-- 1~n일의 달력 -->
-												<c:if test="${i>aboutToday.thisFirstBlank && i<=(aboutToday.thisFirstBlank+aboutToday.thisEndDate)}">
-													<!-- n일 -->
-													<div>${day}</div>
-													<!-- n일에 해당하는 일정 -->
-													<c:forEach var="c" items="${carePlanList}">
-														<c:if test="${day == c.day}">
-															<div>
-																<a href="javascript:void(0);" data-parameter="${c.carePlanId}" data-toggle="modal" data-target="#plan-modal" 
-																	onclick="planOneFunc(this.getAttribute('data-parameter'));">${c.animalName}</a>
-															</div>
-														</c:if>
-													</c:forEach>
-												</c:if>
-												
-												<!-- 1~n일 제외한 블랭크 -->
-												<c:if test="${i<=aboutToday.thisFirstBlank || i>(aboutToday.thisFirstBlank+aboutToday.thisEndDate)}">
-													<div>&nbsp;</div>
-												</c:if>
-											</td>
-										
-											<!-- 줄바꾸기 -->
-											<c:if test="${i%7 == 0 && day<aboutToday.thisEndDate}">
-												</tr><tr style="height:130px;">
-											</c:if>
-										</c:forEach>
-									</tr>
+									
 								</tbody>
 							</table>
 						</div>
@@ -222,7 +279,7 @@ $(document).ready(function(){
 		console.log('바뀐 년/월?'+$('#date').val());
 		
 		$.ajax({
-			url: '${pageContext.request.contextPath}/getCalendarAndList',
+			url: '${pageContext.request.contextPath}/getCalendarWithHoliday',
 			type: 'get',
 			data: {year : year,
 					month : month},
@@ -248,6 +305,25 @@ $(document).ready(function(){
 				let plan = jsonData.carePlanList;
 				//console.log('plan->'+plan);
 				
+				//공휴일 세팅 - holidayList->response->body->items->item->dateName & locdate
+				let h = JSON.parse(jsonData.holidayList);
+				let holiday = h.response.body.items.item;	//JSON.parse() 안 할 경우 body를 읽을 수 없음
+				//console.log('holiday->'+holiday);			//Object object
+				//console.log('theDay->'+theDay);			//Object object
+				//console.log('holiday->'+holiday.response.body.items.item.locdate);
+				let dayArr = [];
+				let holiArr = [];
+				
+				$(holiday).each(function(index, item){
+					//console.log('item->'+item);
+					//console.log('item.locdate->'+item.locdate);	//type = number
+					//console.log('item.locdate->'+(item.locdate)%100);
+					dayArr.push((item.locdate)%100);
+					holiArr.push(item.dateName);
+				});
+				//console.log('dayArr->'+dayArr);
+				//console.log('holiArr->'+holiArr);
+				
 				//달력 만들기
 				addTable += '<tr style="height:130px;">';
 				
@@ -257,8 +333,13 @@ $(document).ready(function(){
 				
 					// if-> 1~n일		else-> 앞뒤 블랭크
 					if(i>firstBlank && i<=(firstBlank+endDate)){
-						//n일
-						addTable += '<div>'+day+'</div>';
+						if(dayArr.includes(day)){
+							addTable += '<div style="color:red;">'+day+'<span style="float:right;">'+holiArr[dayArr.indexOf(day)]+'</span></div>';
+						} else if(i%7==1){
+							addTable += '<div style="color:red;">'+day+'</div>';
+						} else{
+							addTable += '<div>'+day+'</div>';
+						}
 						
 						//n일에 해당하는 일정 등록, 그 외에는 일만 뜨도록 함.
 						$(plan).each(function(index, item){
@@ -320,7 +401,6 @@ $(document).ready(function(){
 		});//-end; ajax
 	}
 	</script>
-	
 	
 	
 	<!-- JS here -->

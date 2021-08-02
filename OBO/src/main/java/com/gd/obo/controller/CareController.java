@@ -3,6 +3,12 @@
 package com.gd.obo.controller;
 
 import java.util.Date;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -182,49 +188,13 @@ public class CareController {
 	
 	// staff - 케어 plan 달력 보기 페이지 이동
 	@GetMapping("/staff/getCarePlanCalInStaff")
-	public String getCarePlanCalInStaff (Model model, HttpSession session) {
-		//오늘의 정보
-		Map<String, Object> aboutToday = new HashMap<>();
-		Calendar today = Calendar.getInstance();
-		int thisYear = today.get(Calendar.YEAR);		//이번년도
-		int thisMonth = today.get(Calendar.MONTH);		//이번달
-		//today.set(Calendar.DAY_OF_WEEK, 1);	//1일로 설정
-		today.set(thisYear, thisMonth, 1);
-		int thisFirstBlank = today.get(Calendar.DAY_OF_WEEK)-1;		//1일의 요일 이전까지가 블랭크이다.
-		int thisEndDate = today.getActualMaximum(Calendar.DATE);	//date상의 최고 일자
-		int thisEndBlank = 0;	//초기 블랭크는 0으로
-		
-		if((thisFirstBlank+thisEndDate)%7 != 0) {
-			thisEndBlank = 7-((thisFirstBlank+thisEndDate)%7);
-		}
-		
-		int totalTd = thisFirstBlank+thisEndDate+thisEndBlank;
-		
+	public String getCarePlanCalInStaff (Model model) {
 		// 해당 년/월을 출력하기 위한 날짜 포맷값
 		String pattern = "yyyy-MM";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		String date = simpleDateFormat.format(new Date());
 		
-		aboutToday.put("thisYear", thisYear);
-		aboutToday.put("thisMonth", thisMonth+1);
-		aboutToday.put("thisFirstBlank", thisFirstBlank);
-		aboutToday.put("thisEndDate", thisEndDate);
-		aboutToday.put("thisEndBlank", thisEndBlank);
-		aboutToday.put("totalTd", totalTd);
-		aboutToday.put("date", date);
-		log.debug("●●●●▶ aboutToday: "+aboutToday);
-		
-		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
-		log.debug("●●●●▶ shelterId: "+shelterId);
-		
-		int setMonth = thisMonth + 1;
-		log.debug("●●●●▶ setMonth: "+setMonth);
-		
-		List<Map<String, Object>> carePlanList = careService.getCarePlanInCal(shelterId, thisYear, setMonth);
-		log.debug("●●●●▶ carePlanList: "+carePlanList);
-		
-		model.addAttribute("aboutToday", aboutToday);		//달력정보
-		model.addAttribute("carePlanList", carePlanList);	//플랜정보
+		model.addAttribute("date", date);	//이번년-월
 		
 		return "staff/getCarePlanCalInStaff";
 	}
