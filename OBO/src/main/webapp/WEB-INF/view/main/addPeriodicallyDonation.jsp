@@ -89,7 +89,7 @@
 										</tr>
 										<tr>
 											<th>금액</th>
-											<th><input id="amount" type="text" name="amount"></th>
+											<th><input id="amount" type="number" name="amount"></th>
 										</tr>
 									
 									</table>
@@ -148,8 +148,11 @@
 			$('#shelter').focus();
 		} else if($('#amount').val() == ''){
 			alert('금액을 입력하시오.');
-			$('#shelter').focus();
-		} else {
+			$('#amount').focus();
+		} else if($('#amount').val() < 4999 ){
+			alert('5000원 이상 후원해주세요.');
+			$('#amount').focus();
+		}else {
 			console.log('비밀번호 검사 시작합니다.');
 			//비밀번호 검사
 			//let checkPw = prompt('비밀번호를 입력하시오.');
