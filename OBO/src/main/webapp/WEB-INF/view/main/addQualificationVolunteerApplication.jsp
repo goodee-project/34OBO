@@ -68,7 +68,7 @@
 							<hr>
 							<div class="col-lg-2" style="float: right; height: 20%;">
 								<!-- Button to Open the Modal -->
-								<button type="button" class="genric-btn btn" data-toggle="modal" data-target="#myModal">
+								<button type="button" class="btn" data-toggle="modal" data-target="#myModal">
 								  자격별 봉사
 								</button>
 							</div>
@@ -96,7 +96,7 @@
 										</select>
 									</div>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<button type="button" class="genric-btn default-border radius"data-toggle="modal" data-target="#addImg">이미지 추가</button>
+									<button type="button" class="btn default-border radius"data-toggle="modal" data-target="#addImg">이미지 추가</button>
 								
 								</div>
 								
