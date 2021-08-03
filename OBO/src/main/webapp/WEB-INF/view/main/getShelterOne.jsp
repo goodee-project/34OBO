@@ -108,7 +108,7 @@
 					   	<c:set var="i" value="0"></c:set>
 					    <c:forEach items="${imgList}" var="il">
 					    	<div class="carousel-item ${i==0? 'active' : '' }">
-						      <img src="${pageContext.request.contextPath}/static/img/shelter/${il}" class="rounded" style="height: 400px;">
+						      <img src="${pageContext.request.contextPath}/static/img/shelter/${il.shelterFileName}" class="rounded" style="height: 400px;">
 						    </div>
 					    	 <c:set var="i" value="${i + 1}"/>
 					    </c:forEach>

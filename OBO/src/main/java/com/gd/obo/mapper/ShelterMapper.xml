@@ -112,10 +112,11 @@
 		INSERT INTO shelter(address_id, shelter_name, create_date, introduction, protect_duration, shelter_phone, account) 
 			VALUES(#{addressId}, #{shelterName}, NOW(), #{introduction}, #{protectDuration}, #{shelterPhone}, #{account})
 	</insert>
-	
-	<select id="selectShelterFileListByShelterId" parameterType="Integer" resultType="java.lang.String">
+	<!-- 보호소별 사진 리스트 가져오기 -->
+	<select id="selectShelterFileListByShelterId" parameterType="Integer" resultType="com.gd.obo.vo.ShelterFile">
 		SELECT 
-			shelter_file_name shelterFileName
+			shelter_file_name shelterFileName,
+			shelter_file_id shelterFileId
 		FROM 
 			shelter_file 
 		WHERE 

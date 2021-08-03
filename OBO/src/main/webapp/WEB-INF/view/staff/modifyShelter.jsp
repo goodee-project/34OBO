@@ -18,6 +18,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
 <!-- Place favicon.ico in the root directory -->
 
+
 <!-- CSS here -->
 <link rel="stylesheet" href="../static/css/bootstrap.min.css">
 <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
@@ -31,6 +32,9 @@
 <link rel="stylesheet" href="../static/css/slicknav.css">
 <link rel="stylesheet" href="../static/css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+
+<!-- 부트스트랩 cdn -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script>
 $(document).ready(function(){	
 	
@@ -102,6 +106,21 @@ $(document).ready(function(){
                          	<table class="table">
 	                         	
 	                         	<input type="hidden" name="shelter.shelterId" value="${shelterId}">
+	                         	<tr>	
+	                				<td style="vertical-align:middle;">등록된 이미지</td>	
+									<td>
+										<div class="row">
+											<c:forEach var="i" items="${imgList}">
+												<div class="col-sm-6" id="${i.shelterFileName}">
+													<a href="javascript:void(0);" onclick="modalImg('${i.shelterFileId}', '${i.shelterFileName}')">
+														<img src="${pageContext.request.contextPath}/static/img/shelter/${i.shelterFileName}" width="300" height="300" alt=""> &nbsp;		
+													</a>
+												</div>
+												
+											</c:forEach>
+										</div>
+									</td>	
+								</tr>
 	                			<tr>	
 	                				<td style="vertical-align:middle;">이미지 등록</td>	
 									<td>
@@ -164,8 +183,8 @@ $(document).ready(function(){
 								</tr>
 								
 								<tr>
-									<td width="40%">활동</td> <!-- 1로 해놓고 0을 선택하게 만들기 -->
-									<td width="60%">
+									<td width="30%">활동</td> <!-- 1로 해놓고 0을 선택하게 만들기 -->
+									<td width="70%">
 										<div>
 											
 											<select class="form-control" id="active" name="shelter.active" >
@@ -195,6 +214,19 @@ $(document).ready(function(){
 		</div>	
 	</section>
 	
+	
+	<!-- 삭제 확인 모달 -->
+	<div class="modal fade" id="login-modal" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h5 class="modal-title">이미지를 삭제 하시겠습니까?</h5>
+					<button id="ckBtn" type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 
 <!-- JS here -->
@@ -251,28 +283,33 @@ $(document).ready(function(){
    	
    	
    	} 
+   	
+   	function modalImg(imgId, imgName){
+   		$('#ckBtn').attr('onclick', 'deleteImg("'+imgId+'","'+imgName+'")');
+   		console.log(imgId);
+   		console.log(imgName);
+   		$('#login-modal').modal();
+   	}
+   	
+   	//db 삭제는 구현했으나 물리파일 삭제는 구현하지 못함....
+   	function deleteImg(imgId, imgName){
+   		console.log(imgId);
+   		$.ajax({
+   			type: 'get',
+   			url:  '${pageContext.request.contextPath}/removeShelterFileOne',
+   			data: {shelterFileId: imgId, shelterFileName: imgName}
+   		}).done(function(jsonData){
+   			console.log('성공')
+   			
+   			console.log(jsonData);
+   			if(jsonData>0){
+   				$('#'+imgName+'').remove();
+   			}
+   			
+   		})
+   	}
 </script>
 
-	<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
-	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>	
 	
 </body>
 </html>
