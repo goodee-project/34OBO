@@ -44,6 +44,19 @@
     width: 100%;
     height: 100%;
   }
+  
+  .list_img {
+    display: inline-block;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 5px;
+}
+	th{
+		width: 20%;
+		text-align: center;
+	}
   </style>
 
 </head>
@@ -121,31 +134,27 @@
 				<div class="row align-items-center">
                <table class="table table-hover">
 					<tr>
-						<td>주소</td>
+						<th>주소</th>
 						<td>${shelterMap.doro}</td>
 					</tr>
 					<tr>
-						<td>설립일</td>
+						<th>설립일</th>
 						<td>${shelterMap.createDate}</td>
 					</tr>
 					<tr>
-						<td>소개글</td>
+						<th>소개글</th>
 						<td>${shelterMap.introduction}</td>
 					</tr>
 					<tr>
-						<td>보호기간</td>
+						<th>보호기간</th>
 						<td>${shelterMap.protectDuration}</td>
 					</tr>
 					<tr>
-						<td>전화번호</td>
+						<th>전화번호</th>
 						<td>${shelterMap.shelterPhone}</td>
 					</tr>
 					<tr>
-						<td>계좌</td>
-						<td>${shelterMap.account}</td>
-					</tr>
-					<tr>
-						<td>활동</td>
+						<th>활동</th>
 						<td>
 							<c:if test="${shelterMap.active==1}">
 								영업중
@@ -181,7 +190,7 @@
 	                    <div class="single_team">
 	                        <div class="thumb">
 	                        	
-	                            <img src="${pageContext.request.contextPath}/static/img/animal/${al.animalFileName}" class="rounded-circle" alt="">
+	                            <img src="${pageContext.request.contextPath}/static/img/animal/${al.animalFileName}" class="rounded-circle list_img"  alt="">
 	                        	
 	                        </div>
 	                        <div class="member_name text-center">
@@ -243,9 +252,12 @@
 						<div class="service_content text-center">
 							<h3>찾아오는 길</h3>
 							<div class="row">
-								<div id="map" style="width:400px;height:300px;"></div>
+								<div id="map" style="width:100%;height:300px;"></div>
+								<br>
+								<br>
+								<br>
 								<div>
-									도로명 주소 : ${shelterMap.doro}
+									도로명 주소 : <strong>${shelterMap.doro}</strong>
 								</div>
 							</div>
 									

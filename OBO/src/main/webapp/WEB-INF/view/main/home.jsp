@@ -32,6 +32,16 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+<style>
+	.list_img {
+    display: inline-block;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 5px;
+}
+</style>
 </head>
 <body>
 	<header>
@@ -76,7 +86,6 @@
                     <div class="section_title text-center mb-95">
                     	<a href="${pageContext.request.contextPath}/getAnimalList">
 	                        <h3>보호중인 동물들</h3>
-	                        <p></p>
                         </a>
                     </div>
                 </div>
@@ -90,7 +99,7 @@
 	                    <div class="single_team">
 	                        <div class="thumb">
 	                        	
-	                            <img src="${pageContext.request.contextPath}/static/img/animal/${al.animalFileName}" class="rounded-circle" alt="">
+	                            <img src="${pageContext.request.contextPath}/static/img/animal/${al.animalFileName}" class="rounded-circle list_img" alt=""">
 	                        	
 	                        </div>
 	                        <div class="member_name text-center">
@@ -148,7 +157,7 @@
                                 <div class="single_adapt text-center">
                                     <img src="${pageContext.request.contextPath}/static/img/adapt_icon/2.png" alt="">
                                     <div class="adapt_content">
-                                        <h3><span class="counter">${euthanasia}</span>+</h3>
+                                        <h3><span class="counter">${euthanasia}</span></h3>
                                         <p>안락사</p>
                                     </div>
                                 </div>

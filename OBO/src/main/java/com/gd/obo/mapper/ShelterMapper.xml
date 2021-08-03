@@ -46,7 +46,7 @@
 		SELECT 
 			s.shelter_id shelterId,
 			s.shelter_name shelterName, 
-			s.create_date createDate, 
+			DATE(s.create_date) createDate, 
 			s.shelter_phone shelterPhone,
 			s.account account,
 			s.protect_duration protectDuration,
