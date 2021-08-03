@@ -509,7 +509,9 @@ $(document).ready(function(){
 			type: 'get',
 			data: {year: year, month: month}
 		}).done(function(jsonData){
-			//console.log(jsonData);
+			//console.log("전체" + jsonData);
+			//console.log("케어 목록" + jsonData.list);
+			//console.log("휴일" + jsonData.holiday);
 			
 			
 			//10월 11월 12월은 나오지 않는 이슈?
@@ -531,6 +533,26 @@ $(document).ready(function(){
 			//전체 칸 수
 			let totalCell = firstDay+end+endB;
 			
+			
+			
+			//공휴일
+			let h = JSON.parse(jsonData.holiday);
+			let holiday = h.response.body.items.item;
+			
+			let dayArr = [];
+			let holiArr = [];
+			
+			$(holiday).each(function(index, item){
+				//console.log('item->'+item);
+				//console.log('item.locdate->'+item.locdate);	//type = number
+				//console.log('item.locdate->'+(item.locdate)%100);
+				dayArr.push((item.locdate)%100);
+				holiArr.push(item.dateName);
+			});
+			
+			console.log('dayArr->'+dayArr);
+			console.log('holiArr->'+holiArr);
+			
 			let addTable = "";
 			
 			addTable += '<tr style="height:130px;">';
@@ -545,7 +567,9 @@ $(document).ready(function(){
 					//n일
 					
 					
-					if(i%7 == 0){//토요일
+					if(dayArr.includes(day)){
+						addTable += '<div style="color:red;">'+day+'<span style="float:right;">'+holiArr[dayArr.indexOf(day)]+'</span></div>';
+					} else if(i%7 == 0){//토요일
 						addTable += '<div style="color: blue;">'+day+'</div>';
 					} else if(i%7 == 1){//일요일
 						addTable += '<div style="color: red;">'+day+'</div>';
@@ -554,10 +578,11 @@ $(document).ready(function(){
 					}
 					
 					if(thisYear == year && thisMonth == month && day == today){
-						addTable += '<span style="color:#92B3B7">오늘</span>';
+						addTable += '<span style="color:#92B3B7 float:right;">오늘</span>';
 					}
 					//n일에 해당하는 일정 등록, 그 외에는 일만 뜨도록 함.
-					$(jsonData).each(function(index, item){
+					$(jsonData.list).each(function(index, item){
+						//console.log(item);
 						if(day == item.day){
 							addTable += '<div><a href="javascript:void(0);" data-parameter="'+item.carePlanId+'" data-toggle="modal" data-target="#plan-modal" onclick="planOneFunc(this.getAttribute(\'data-parameter\'));">'
 										+item.careSorting+'<br>('+item.animalName+')'+'</a></div>';

@@ -38,6 +38,11 @@ $(document).ready(function(){
 	//console.log('y'+typeof(thisY));	//string
 	//console.log('m'+typeof(thisM));	//string
 	
+	let cal = new Date();
+	let today_day = cal.getDate();
+	let today_month = cal.getMonth()+1;
+	let today_year = cal.getFullYear();
+	
 	$.ajax({
 		url: '${pageContext.request.contextPath}/getCalendarWithHoliday',
 		type: 'get',
@@ -91,6 +96,10 @@ $(document).ready(function(){
 						addTable += '<div style="color:red;">'+day+'</div>';
 					} else{
 						addTable += '<div>'+day+'</div>';
+					}
+					
+					if((today_day == day) && (today_month == Number(thisM)) && (today_year == Number(thisY))){
+						addTable += '<span style="color:#92B3B7">오늘</span>';
 					}
 					
 					//n일에 해당하는 일정 등록, 그 외에는 일만 뜨도록 함.
@@ -257,6 +266,11 @@ $(document).ready(function(){
 		let year = y;
 		let month = m;
 		
+		let cal = new Date();
+		let today_day = cal.getDate();
+		let today_month = cal.getMonth()+1;
+		let today_year = cal.getFullYear();
+		
 		// 1월->12월 변경
 		if(month<1){
 			year -= 1;
@@ -339,6 +353,10 @@ $(document).ready(function(){
 							addTable += '<div style="color:red;">'+day+'</div>';
 						} else{
 							addTable += '<div>'+day+'</div>';
+						}
+						
+						if((today_day == day) && (today_month == month) && (today_year == year)){
+							addTable += '<span style="color:#92B3B7">오늘</span>';
 						}
 						
 						//n일에 해당하는 일정 등록, 그 외에는 일만 뜨도록 함.

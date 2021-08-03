@@ -63,6 +63,21 @@
 						<aside class="single_sidebar_widget post_category_widget category_setting">
 							<jsp:include page="/WEB-INF/view/staff/inc/side/animalMenu.jsp"></jsp:include>
 						</aside>
+						
+						<aside class="single_sidebar_widget post_category_widget category_setting">
+							<div class="blog_left_sidebar">
+								<!-- 검색 -->
+								<form id="animalForm" action="${pageContext.request.contextPath}/staff/getAnimalList" method="get">
+									<div class="form-group">
+										<div class="input-group mb-4">
+											<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="동물 이름으로 검색" value="${searchWord}"
+													onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 이름으로 검색'" >
+											<button id="btn" class="btn" type="button"><i class="fa fa-search"></i></button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</aside>
 					</div>
 				</div>
 				<div class="col-lg-9 mb-5 mb-lg-0">
@@ -111,18 +126,6 @@
 										</c:if>
 									</ul>
 								</nav>
-								<hr>
-							
-								<!-- 검색 -->
-								<form id="animalForm" action="${pageContext.request.contextPath}/staff/getAnimalList" method="get">
-									<div class="form-group">
-										<div class="input-group mb-4">
-											<input type="text" id="searchWord" class="form-control" name="searchWord" placeholder="동물 이름을 입력해주세요" value="${searchWord}"
-													onfocus="this.placeholder = ''" onblur="this.placeholder = '동물 이름을 입력해주세요'" >
-											<button id="btn" class="btn" type="button"><i class="fa fa-search"></i></button>
-										</div>
-									</div>
-								</form>
 							</div>
 							</div>
 					</div>

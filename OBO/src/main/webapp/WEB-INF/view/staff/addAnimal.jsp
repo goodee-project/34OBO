@@ -70,132 +70,131 @@
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
-        		
 						<form class="form-contact contact_form" id="addAnimal" action="${pageContext.request.contextPath}/staff/addAnimal" method="post" enctype="multipart/form-data" >
-								
-								<table>
-									<tr>	
-										<td>
-		                            		<div class="testmonial_area">
-												<div class="row">
-													<c:forEach var="af" items="${animalFileList}">
-													
-														<img src="static/img/animal/${af.animalFileName}" width="300"
-															height="300" alt=""> &nbsp;		
-													</c:forEach>
-												</div>
-												<div style="display: inline;">
-													
-													<label for="imgFileUpload"> <img src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
-													</label> <span id="target"></span> <input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);"
-														multiple="multiple" class="imgCheck" />
-													<div id="image_container" style="display: inline;"></div>
-													<!-- 업로드 된 이미지 미리보기 생성 -->
-												</div>
-											</div>
-										</td>	
-									</tr>
-									<tr>
-										<td>동물 종</td>
-										<td>
-											<select name="animal.animalCategoryId" class="form-control">
-											<option value="">==종 선택==</option>
-												<c:forEach var="a" items="${animalCategoryList}">
-									    			<c:if test="${a.species == species}"> 
-									    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
-									    			</c:if>
-									    			<c:if test="${a.species != species}"> 
-									    				<option value="${a.animalCategoryId}">${a.species}</option>
-									    			</c:if>
-									    		</c:forEach>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td>보호소 번호</td>
-										<td>
-											<input class="form-control" id="shelterId" type="text" name="animal.shelterId" hidden="hidden" value="${shelterId}">
-										</td>
-									</tr>
-									<tr>
-										<td>동물 이름</td>
-										<td>
-											<input class="form-control" id="animalName" type="text" name="animal.animalName">
-										</td>
-									</tr>
-									<tr>
-										<td>동물 나이(개월)</td>
-										<td>
-											<div>
-												<input class="form-control" id="animalAge" type="text" name="animal.animalAge">
-											</div>
-											
-										</td>
-									</tr>
-									<tr>
-										<td>동물 성별</td>
-										<td>
-											<select class="form-control" id="animalSex" name="animal.animalSex">
-												<option value="">==성별 선택==</option>
-							                    <option value="수컷">수컷</option>
-							                    <option value="암컷">암컷</option>
-							                    <option value="수컷(중성화)">수컷(중성화)</option>
-							                    <option value="암컷(중성화)">암컷(중성화)</option>
-							                   
-						                  	</select>
-										</td>
-									</tr>
-									<tr>
-										<td>동물 무게</td>
-										<td>
-											<div>
-												<input class="form-control" id="animalWeight" type="text" name="animal.animalWeight">
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>동물 종류</td>
-										<td>
-											<input class="form-control" id="animalKind" type="text" name="animal.animalKind">
-										</td>
-									</tr>
-									<tr>
-										<td>발견한 장소</td>
-										<td>
-											<input class="form-control" id="animalFindPlace" type="text" name="animal.animalFindPlace">
-										</td>
-									</tr>
-									<tr>
-										<td>동물 상세정보(회원 보여줄 노트)</td>
-										<td>
-											<div>
-												<textarea class="form-control" name="animal.animalNote" id="animalNote" rows="5" cols="50"></textarea>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>동물 상태</td>
-										<td>
-						                  	<input class="form-control" id="animalState" type="text" name="animal.animalState" value="보호중">
-										</td>
-									</tr>
-									<tr>
-										<td>동물 소개</td>
-										<td>
-											<div>
-												<textarea class="form-control" name="animal.animalIntroduce" id="animalIntroduce" rows="5" cols="50"></textarea>
-											</div>
-										</td>
-						
-									</tr>
-									
+							<table class="table">
+								<tr>
+									<td style="vertical-align:middle;">이미지 등록</td>	
+									<td>
+										<div class="row">
+											<c:forEach var="af" items="${animalFileList}"> <!-- <-- 이 fileList는 대체 뭔가요...? - 윤정 -->
+												<img src="static/img/animal/${af.animalFileName}" width="300"
+													height="300" alt=""> &nbsp;		
+											</c:forEach>
+										</div>
+										<div style="display: inline;">
+											<label for="imgFileUpload"> <img src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+											</label> <span id="target"></span> <input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);"
+												multiple="multiple" class="imgCheck" />
+											<div id="image_container" style="display: inline;"></div>
+											<!-- 업로드 된 이미지 미리보기 생성 -->
+										</div>
+									</td>	
+								</tr>
+								<tr>
+									<td width="40%">동물 종</td>
+									<td width="60%">
+										<select name="animal.animalCategoryId" class="form-control">
+										<option value="">==종 선택==</option>
+											<c:forEach var="a" items="${animalCategoryList}">
+								    			<c:if test="${a.species == species}"> 
+								    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
+								    			</c:if>
+								    			<c:if test="${a.species != species}"> 
+								    				<option value="${a.animalCategoryId}">${a.species}</option>
+								    			</c:if>
+								    		</c:forEach>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>보호소 번호</td>
+									<td>
+										<input class="form-control" id="shelterId" type="text" name="animal.shelterId" hidden="hidden" value="${shelterId}">
+									</td>
+								</tr>
+								<tr>
+									<td>동물 이름</td>
+									<td>
+										<input class="form-control" id="animalName" type="text" name="animal.animalName">
+									</td>
+								</tr>
+								<tr>
+									<td>동물 나이(개월)</td>
+									<td>
+										<div>
+											<input class="form-control" id="animalAge" type="text" name="animal.animalAge">
+										</div>
+										
+									</td>
+								</tr>
+								<tr>
+									<td>동물 성별</td>
+									<td>
+										<select class="form-control" id="animalSex" name="animal.animalSex">
+											<option value="">==성별 선택==</option>
+						                    <option value="수컷">수컷</option>
+						                    <option value="암컷">암컷</option>
+						                    <option value="수컷(중성화)">수컷(중성화)</option>
+						                    <option value="암컷(중성화)">암컷(중성화)</option>
+						                   
+					                  	</select>
+									</td>
+								</tr>
+								<tr>
+									<td>동물 무게</td>
+									<td>
+										<div>
+											<input class="form-control" id="animalWeight" type="text" name="animal.animalWeight">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>동물 종류</td>
+									<td>
+										<input class="form-control" id="animalKind" type="text" name="animal.animalKind">
+									</td>
+								</tr>
+								<tr>
+									<td>발견한 장소</td>
+									<td>
+										<input class="form-control" id="animalFindPlace" type="text" name="animal.animalFindPlace">
+									</td>
+								</tr>
+								<tr>
+									<td>동물 상세정보<br>(회원 보여줄 노트)</td>
+									<td>
+										<div>
+											<textarea class="form-control" name="animal.animalNote" id="animalNote" rows="5" cols="50"></textarea>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>동물 상태</td>
+									<td>
+					                  	<input class="form-control" id="animalState" type="text" name="animal.animalState" value="보호중">
+									</td>
+								</tr>
+								<tr>
+									<td>동물 소개</td>
+									<td>
+										<div>
+											<textarea class="form-control" name="animal.animalIntroduce" id="animalIntroduce" rows="5" cols="50"></textarea>
+										</div>
+									</td>
+								</tr>
 							</table>
-						
 						<br>
+<<<<<<< HEAD
+					<div style="float:right;">
+						<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button" class="genric-btn primary-border radius">뒤로가기</button></a>
+						<input id="addBtn" type="button" value="등록" class="genric-btn primary-border radius">
+					</div>
+=======
 						<div>
-							<input id="addBtn" type="button" value="등록">
-							<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button">뒤로가기</button></a>
+							<input id="addBtn" type="button" class="button button-contactForm boxed-btn" value="등록">
+							<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button" class="button button-contactForm boxed-btn">뒤로가기</button></a>
 						</div>
+>>>>>>> branch 'master' of https://github.com/goodee-project/34OBO.git
 				</form>
 			</div>
 		</div>
