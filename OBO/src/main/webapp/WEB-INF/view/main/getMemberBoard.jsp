@@ -175,7 +175,7 @@
 				tbody += '<tr>';
 				tbody += '<td>'+data.boardId+'</td>';
 				tbody += '<td>'+data.boardCategoryName+'</td>';
-				tbody += '<td class="text-left"><a href="${pageContext.request.contextPath}/getBoardOne?boardId='+data.boardId+'">'+data.boardTitle+'</a></td>';
+				tbody += '<td class="text-left"><a href="${pageContext.request.contextPath}/member/getBoardOne?boardId='+data.boardId+'">'+data.boardTitle+'</a></td>';
 				tbody += '<td>'+data.memberId+'</td>';
 				tbody += '<td>'+data.createDate+'</td>';
 				tbody += '</tr>';
@@ -208,7 +208,7 @@
 		$('#target').text('관심글');
 		$.ajax({
 			type: 'post',
-			url: '${pageContext.request.contextPath}/member/getBoardLikeByMemberId',
+			url: '${pageContext.request.contextPath}/getBoardLikeByMemberId',
 			data: {'memberId': '${memberId}', 'currentPage': page}
 		}).done(function(jsonData){
 			//console.log(jsonData);
@@ -228,7 +228,7 @@
 				tbody += '<tr>';
 				tbody += '<td>'+data.boardId+'</td>';
 				tbody += '<td>'+data.boardCategoryName+'</td>';
-				tbody += '<td class="text-left"><a href="${pageContext.request.contextPath}/getBoardOne?boardId='+data.boardId+'">'+data.boardTitle+'</a></td>';
+				tbody += '<td class="text-left"><a href="${pageContext.request.contextPath}/member/getBoardOne?boardId='+data.boardId+'">'+data.boardTitle+'</a></td>';
 				tbody += '<td>'+data.memberId+'</td>';
 				tbody += '<td>'+data.createDate+'</td>';
 				tbody += '</tr>';
