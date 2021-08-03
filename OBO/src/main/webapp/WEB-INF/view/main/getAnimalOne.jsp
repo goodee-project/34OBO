@@ -52,6 +52,7 @@
 				console.log(jsonData);
 				if(jsonData==0){
 					window.location.href='${pageContext.request.contextPath}/addAnimalLike?animalId='+animalId+'&currentPage='+currentPage+'&searchWord='+searchWord+'&species='+species+'&shelterId='+shelterId;
+					alert('관심동물에 추가되었습니다!');
 				} else {
 					alert('이미 좋아요한 동물입니다.');
 				}
@@ -118,12 +119,15 @@
 	               <h4>무게 : ${animalMap.animalWeight} Kg </h4><br>
 	               <h4>성별 : ${animalMap.animalSex} </h4><br>
 	               <h4>동물 종 : ${animalMap.species} / ${animalMap.animalKind} </h4><br>
-	               <!-- 동물 좋아요 아직 구현 안 함. -->
-	               <h4><a class="btn" data-parameter1="${animalMap.animalId}" data-parameter2="${currentPage}" data-parameter3="${searchWord}" data-parameter4="${species}" data-parameter5="${shelterId}" data-parameter6="${loginMember.memberId}"
-	               		onclick="addAnimalLike(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'), this.getAttribute('data-parameter3'), this.getAttribute('data-parameter4'), this.getAttribute('data-parameter5'), this.getAttribute('data-parameter6'))">
-	               		<i class="fa fa-heart" style="size:9x"></i></a>&nbsp;&nbsp;
-	               <a class="genric-btn primary-border circle arrow medium" data-parameter1="${loginMember.memberId}" data-parameter2="${animalMap.animalId}"
-	               		onclick="addAdopt(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'))"> &emsp; 입양 &emsp;</a></h4>
+	               <c:if test="${animalMap.animalState ne '보호중'}">
+	               </c:if>
+	               <c:if test="${animalMap.animalState eq '보호중'}">
+	               		<h4><a class="btn" data-parameter1="${animalMap.animalId}" data-parameter2="${currentPage}" data-parameter3="${searchWord}" data-parameter4="${species}" data-parameter5="${shelterId}" data-parameter6="${loginMember.memberId}"
+		               		onclick="addAnimalLike(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'), this.getAttribute('data-parameter3'), this.getAttribute('data-parameter4'), this.getAttribute('data-parameter5'), this.getAttribute('data-parameter6'))">
+		               		<i class="fa fa-heart" style="size:9x"></i></a>&nbsp;&nbsp;
+			               <a class="genric-btn primary-border circle arrow medium" data-parameter1="${loginMember.memberId}" data-parameter2="${animalMap.animalId}"
+			               		onclick="addAdopt(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'))"> &emsp; 입양 &emsp;</a></h4>
+	               </c:if>
 	               </td>
 	           </tr>
 	           <tr>

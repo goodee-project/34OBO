@@ -143,7 +143,7 @@
 		<br>
 		<div class="col-md-12 mt-sm-10">
 			<div class="row align-items-center">
-				<table class="table table-hover">
+				<table class="table">
 					<tr>
 						<td>No.</td>
 						<td><div id="boardId">${boardMap.boardId}</div></td>

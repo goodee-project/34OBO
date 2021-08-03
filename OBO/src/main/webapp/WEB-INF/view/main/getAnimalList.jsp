@@ -39,6 +39,14 @@ $(document).ready(function(){
 	});
 });
 </script>
+<style>
+.card-img-top {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  overflow:hidden;
+  }
+</style>
 </head>
 <body>
 	<header>

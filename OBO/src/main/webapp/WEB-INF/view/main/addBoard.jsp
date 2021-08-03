@@ -73,24 +73,24 @@ $(document).ready(function(){
 	<div class="bradcam_area breadcam_bg">
 		<div class="container">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-lg-12">
 					<h3>자유게시판</h3>
 				</div>
 			</div>
 		</div>
 	</div>
-	   <section class="contact-section">
-            <div class="container text-center">
+	   <section class="blog_area single-post-area section-padding">
+            <div class="container">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="offset-lg-3 col-lg-12">
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <form class="form-contact contact_form" action="${pageContext.request.contextPath}/addBoard" method="post" id="addForm" enctype="multipart/form-data" novalidate="novalidate">
                             <div class="row">
                             	<div class="col-12">
 								<div class="col-lg-3">
 									<h4>
-										사진 추가<span style="color: #7fad39;">*</span>
+										사진 추가
 									</h4>
 								</div>
 								<div class="col-lg-9" style="display: inline;">
@@ -104,9 +104,6 @@ $(document).ready(function(){
 									<div id="image_container" style="display: inline;"></div>
 									<!-- 업로드 된 이미지 미리보기 생성 -->
 								</div>
-								<div class="form-group">
-                                        <input class="form-control" name="board.memberId" id="memberId" value="${memberId}" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="sunyou" readonly="readonly">
-                                    </div>
                                 </div>
 
          						<div class="col-12">
