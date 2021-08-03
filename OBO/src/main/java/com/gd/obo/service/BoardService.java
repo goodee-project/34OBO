@@ -131,7 +131,6 @@ public class BoardService {
 	
 	// board 삭제
 	public int removeBoard(int boardId) {
-
 		// 댓글 삭제
 		int boardCommentRow = boardCommentMapper.deleteBoardCommentByBoard(boardId);
 		log.debug("@@@@@ boardCommentRow: "+boardCommentRow);
@@ -140,13 +139,17 @@ public class BoardService {
 		int boardFileRow = boardMapper.deleteBoardFileByBoard(boardId);
 		log.debug("@@@@@ boardFileRow: "+boardFileRow);
 		
+		// 좋아요 삭제
+		int boardLikeRow = boardMapper.deleteBoardLikeByBoard(boardId);
+		log.debug("★★★☆○○○○★☆○☆★○ boardFileRow: "+boardFileRow);
+		
 		// 게시판 삭제
 		int boardRow = boardMapper.deleteBoard(boardId);
 		if(boardRow == 0) {
 			return 0;
 		}
-		log.debug("@@@@@ boardRow :"+boardRow);
 		
+		log.debug("@@@@@ boardRow :"+boardRow);
 		
 		return boardRow;
 	}
@@ -223,11 +226,12 @@ public class BoardService {
 	}
 	
 	// board 리스트
-	public Map<String, Object> getBoardList(int currentPage, int rowPerPage, String boardTitle, String species, String memberId, int boardCategoryId){
+	public Map<String, Object> getBoardList(int currentPage, int rowPerPage, String searchWord, String searchSelect, String memberId, int boardCategoryId){
 	
 		Map<String, Object> totalMap = new HashMap<>();	
-		totalMap.put("boardTitle", boardTitle);
-		totalMap.put("species", species);
+		totalMap.put("searchWord", searchWord);
+		totalMap.put("searchSelect", searchSelect);
+		totalMap.put("boardCategoryId", boardCategoryId);
 		totalMap.put("memberId", memberId);
 		
 		int boardTotal = boardMapper.selectTotal(totalMap);
@@ -236,20 +240,15 @@ public class BoardService {
 		log.debug("@@@@@lastPage:"+lastPage);
 		
 		// 페이징
-		Page page = new Page();
 		int beginRow = (currentPage-1)*rowPerPage;
-		page.setBeginRow(beginRow);
-		page.setRowPerPage(rowPerPage);
-		log.debug("@@@@@Page: "+page);
 		
 		//리스트
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("paramMap", paramMap);
-		paramMap.put("currentPage", currentPage);
 		paramMap.put("rowPerPage", rowPerPage);
 		paramMap.put("beginRow", beginRow);
-		paramMap.put("boardTitle", boardTitle);
-		paramMap.put("species", species);
+		paramMap.put("searchWord", searchWord);
+		paramMap.put("searchSelect", searchSelect);
 		paramMap.put("memberId", memberId);
 		paramMap.put("boardCategoryId", boardCategoryId);
 		log.debug("@@@@@ paramMap: "+paramMap);
@@ -263,5 +262,30 @@ public class BoardService {
 		log.debug("@@@@@ returnMap: "+returnMap);
 		
 		return returnMap;
+	}
+	
+	// 게시글 좋아요 토탈
+	public int getBoardLikeTotal(int boardId) {
+		return boardMapper.selectBoardLikeTotal(boardId);
+	}
+	
+	// 게시글 좋아요 했는지 안 했는지?
+	public int getBoardLikeNow(String memberId, int boardId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("boardId", boardId);
+		log.debug("@@@@@ map: "+map);
+		
+		return boardMapper.selectBoardLikeNow(map);
+	}
+	
+	// 게시판 좋아요 취소
+	public int removeBoardLike(int boardId, String memberId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("boardId", boardId);
+		log.debug("@@@@@ map: "+map);
+		
+		return boardMapper.deleteBoardLike(map);
 	}
 }

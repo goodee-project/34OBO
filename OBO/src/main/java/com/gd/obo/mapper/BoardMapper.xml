@@ -77,6 +77,32 @@
 		WHERE board_id = #{boardId}
 	</delete>
 	
+	<!-- 게시판 좋아요 삭제 -->
+	<delete id="deleteBoardLikeByBoard" parameterType="java.util.Map">
+		DELETE FROM board_like
+		WHERE board_id = #{boardId} AND member_id = #{memberId}
+	</delete>
+	
+	<!-- 게시판 좋아요 취소 -->
+	<delete id="deleteBoardLike" parameterType="int">
+		DELETE FROM board_like
+		WHERE board_id = #{boardId}
+	</delete>
+	
+	<!-- 좋아요 했는지 안 했는지? -->
+	<select id="selectBoardLikeNow" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*)
+		FROM board_like
+		WHERE board_id = #{boardId} AND member_id = #{memberId}
+	</select>
+	
+	<!-- 좋아요 현황 -->
+	<select id="selectBoardLikeTotal" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM board_like
+		WHERE board_id = #{boardId}
+	</select>
+	
 	<!-- 게시판 카테고리 리스트 -->
 	<select id="selectBoardCategoryList" resultType="java.util.Map">
 		SELECT 
@@ -147,14 +173,14 @@
 		<where>
 			b.animal_category_id = ac.animal_category_id
 			AND b.board_category_id=bc.board_category_id 
-			<if test="boardTitle != null">
-				AND b.board_title LIKE CONCAT('%',#{boardTitle},'%')
+			<if test="searchSelect == 'total'">
+				AND ((b.board_title LIKE CONCAT('%',#{searchWord},'%')) OR (b.member_id LIKE CONCAT('%',#{searchWord},'%')))
 			</if>
-			<if test="species != null">
-				AND ac.species =#{species}
+			<if test="searchSelect == 'title'">
+				AND b.board_title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
-			<if test="memberId != null">
-				AND b.member_id = #{memberId}
+			<if test="searchSelect == 'member'">
+				AND b.member_id LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 			<if test="boardCategoryId != 0">
 				AND b.board_category_id = #{boardCategoryId}
@@ -170,14 +196,17 @@
 		<where>
 			b.animal_category_id = ac.animal_category_id
 			AND b.board_category_id=bc.board_category_id 
-			<if test="boardTitle != null">
-				AND b.board_title LIKE CONCAT('%',#{boardTitle},'%')
+			<if test="searchSelect == 'total'">
+				AND ((b.board_title LIKE CONCAT('%',#{searchWord},'%')) OR (b.member_id LIKE CONCAT('%',#{searchWord},'%')))
 			</if>
-			<if test="species != null">
-				AND ac.species =#{species}
+			<if test="searchSelect == 'title'">
+				AND b.board_title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
-			<if test="memberId != null">
-				AND b.member_id = #{memberId}
+			<if test="searchSelect == 'member'">
+				AND b.member_id LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="boardCategoryId != 0">
+				AND b.board_category_id = #{boardCategoryId}
 			</if>
 		</where>
 	</select>

@@ -1,4 +1,6 @@
 <!-- 작성자 : 김선유 -->
+<!-- 수정자 : 이윤정 -->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -70,95 +72,109 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<h3>자유게시판</h3>
+					<h3>자유게시판 > 수정</h3>
 				</div>
 			</div>
 		</div>
 	</div>
-	   <section class="contact-section">
-            <div class="container text-center">
-                <div class="row">
-                    <div class="col-12">
-                    </div>
-                    <div class="col-lg-8">
-                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/modifyBoard" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
-                         <div class="row">
-                         	<input type="hidden" name="board.boardId" value="${boardMap.boardId}">
-                            	<div class="col-12">
-                            	<div class="testmonial_area">
-										<div class="row">
-											<c:forEach var="bf" items="${boardFileList}">
-											<input hidden="" id="boardFileId" value="${bf.boardFileId}">
-												<img src="static/img/board/${bf.boardFileName}" width="300"
-													height="300" alt=""> &nbsp;
-													<a href="${pageContext.request.contextPath}/removeBoardFile?boardFileId=${bf.boardFileId}&boardId=${bf.boardId}"
-															>삭제</a>
-											</c:forEach>
-										</div>
-									</div>
-								<div class="col-lg-3">
-									<h4>사진 추가<span style="color: #7fad39;">*</span></h4>
+	
+	<section class="blog_area single-post-area section-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-9 mb-5 mb-lg-0" style="float: none; margin:auto;">
+					<div class="single-post">
+						<div class="blog_details">
+							<form class="form-contact contact_form" id="modifyForm" action="${pageContext.request.contextPath}/modifyBoard" method="post" enctype="multipart/form-data" >
+								<input type="hidden" name="board.boardId" value="${boardMap.boardId}">
+								<table class="table">
+									<tr>
+										<td>제목</td>
+										<td>
+											<input class="form-control" id="boardTitle" name="board.boardTitle" type="text" value="${boardMap.boardTitle}">
+										</td>
+									</tr>
+									<tr>
+										<td>작성자</td>
+										<td>
+											<input class="form-control" name="board.memberId" id="memberId" type="text" value="${boardMap.memberId}" readonly>
+										</td>
+									</tr>
+									<tr>
+										<td width="40%">카테고리</td>
+										<td width="60%">
+											<select name="board.boardCategoryId" class="form-control">
+												<c:forEach var="b" items="${boardCategoryList}">
+													<c:if test="${b.boardCategoryName == boardCategoryName}">
+														<option value="${b.boardCategoryId}" id="boardCategoryId"
+															selected="selected">${b.boardCategoryName}</option>
+													</c:if>
+													<c:if test="${b.boardCategoryName != boardCategoryName}">
+														<option value="${b.boardCategoryId}">${b.boardCategoryName}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>종</td>
+										<td>
+											<select name="board.animalCategoryId" class="form-control">
+												<c:forEach var="a" items="${animalCategoryList}">
+													<c:if test="${a.species == species}">
+														<option value="${a.animalCategoryId}" id="animalCategoryId"
+															selected="selected">${a.species}</option>
+													</c:if>
+													<c:if test="${a.species != species}">
+														<option value="${a.animalCategoryId}">${a.species}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>내용</td>
+										<td>
+											<textarea class="form-control w-100" name="board.boardContent" id="boardContent" cols="30" rows="9">${boardMap.boardContent}</textarea>
+										</td>
+									</tr>
+									<tr>
+										<td style="vertical-align:middle;">이미지 등록</td>	
+										<td>
+											<div class="row">
+												<c:forEach var="bf" items="${boardFileList}">
+													<input hidden="" id="boardFileId" value="${bf.boardFileId}">
+													<img src="static/img/board/${bf.boardFileName}" width="300"
+														height="300" alt=""> &nbsp;
+														<a
+														href="${pageContext.request.contextPath}/removeBoardFile?boardFileId=${bf.boardFileId}&boardId=${bf.boardId}">삭제</a>
+												</c:forEach>
+											</div>
+											<div style="display: inline;">
+												<label for="imgFileUpload"> <img
+													src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+												</label> <span id="target"></span> <input id="imgFileUpload"
+													name="boardFile" type="file" style="display: none;"
+													accept="image/*" onchange="setThumbnail(event);"
+													multiple="multiple" class="imgCheck" />
+												<div id="image_container" style="display: inline;"></div>
+												<!-- 업로드 된 이미지 미리보기 생성 -->
+											</div>
+										</td>	
+									</tr>
+								</table>
+								<br>
+								<div style="float:right;">
+									<a href="${pageContext.request.contextPath}/member/getBoardOne?boardId=${boardMap.boardId}"><button type="button" class="genric-btn primary-border radius">취소</button></a>
+									<input id="modifyBtn" type="button" value="등록" class="genric-btn primary-border radius">
 								</div>
-								<div class="col-lg-9" style="display: inline;">
-
-									<label for="imgFileUpload"> <img
-										src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
-									</label> <span id="target"></span> <input id="imgFileUpload"
-										name="boardFile" type="file" style="display: none;"
-										accept="image/*" onchange="setThumbnail(event);"
-										multiple="multiple" class="imgCheck" />
-									<div id="image_container" style="display: inline;"></div>
-									<!-- 업로드 된 이미지 미리보기 생성 -->
-								</div>
-								<div class="form-group">
-                                        <input class="form-control" name="board.memberId" id="memberId" value="sunyou" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="${boardMap.memberId}" readonly="readonly">
-                                    </div>
-                                </div>
-
-         						<div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="board.boardTitle" id="boardTitle" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="${boardMap.boardTitle}">
-                                    </div>
-                                </div>
-                                <div class="default-select col-12" id="default-select">
-									<select name="board.animalCategoryId" >
-											<c:forEach var="a" items="${animalCategoryList}">
-								    			<c:if test="${a.species == species}"> 
-								    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
-								    			</c:if>
-								    			<c:if test="${a.species != species}"> 
-								    				<option value="${a.animalCategoryId}">${a.species}</option>
-								    			</c:if>
-								    		</c:forEach>
-									</select>
-								</div>
-								 <div class="default-select col-12">
-									<select name="board.boardCategoryId">
-											<c:forEach var="b" items="${boardCategoryList}">
-								    			<c:if test="${b.boardCategoryName == boardCategoryName}"> 
-								    				<option value="${b.boardCategoryId}" id="boardCategoryId" selected="selected">${b.boardCategoryName}</option>
-								    			</c:if>
-								    			<c:if test="${b.boardCategoryName != boardCategoryName}"> 
-								    				<option value="${b.boardCategoryId}">${b.boardCategoryName}</option>
-								    			</c:if>
-								    		</c:forEach>
-									</select>
-								</div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control w-100" name="board.boardContent" id="boardContent" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="${boardMap.boardContent}"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mt-3">
-                                <button type="button" id="modifyBtn" class="button button-contactForm boxed-btn">등록</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->

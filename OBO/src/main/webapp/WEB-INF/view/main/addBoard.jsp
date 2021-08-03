@@ -1,4 +1,5 @@
 <!-- 작성자 : 김선유 -->
+<!-- 수정자 : 이윤정 -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -74,88 +75,119 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>자유게시판</h3>
+					<h3>자유게시판 > 글 작성</h3>
 				</div>
 			</div>
 		</div>
 	</div>
-	   <section class="blog_area single-post-area section-padding">
-            <div class="container">
-                <div class="row">
-                    <div class="offset-lg-3 col-lg-12">
-                    </div>
-                    <div class="col-lg-12">
-                        <form class="form-contact contact_form" action="${pageContext.request.contextPath}/addBoard" method="post" id="addForm" enctype="multipart/form-data" novalidate="novalidate">
-                            <div class="row">
-                            	<div class="col-12">
-								<div class="col-lg-3">
-									<h4>
-										사진 추가
-									</h4>
+	
+	<section class="blog_area single-post-area section-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 mb-5 mb-lg-0" style="float: none; margin:auto;">
+					<div class="single-post">
+						<div class="blog_details">
+							<form class="form-contact contact_form" id="addForm" action="${pageContext.request.contextPath}/addBoard" method="post" enctype="multipart/form-data" >
+								<table class="table">
+									<tr>
+										<td>제목</td>
+										<td>
+											<input class="form-control" id="boardTitle" name="board.boardTitle" type="text">
+										</td>
+									</tr>
+									<tr>
+										<td width="40%">카테고리</td>
+										<td width="60%">
+											<select name="board.boardCategoryId" class="form-control">
+												<c:forEach var="b" items="${boardCategoryList}">
+													<c:if test="${b.boardCategoryName == boardCategoryName}">
+														<option value="${b.boardCategoryId}" id="boardCategoryId"
+															selected="selected">${b.boardCategoryName}</option>
+													</c:if>
+													<c:if test="${b.boardCategoryName != boardCategoryName}">
+														<option value="${b.boardCategoryId}">${b.boardCategoryName}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>종</td>
+										<td>
+											<select name="board.animalCategoryId" class="form-control">
+												<c:forEach var="a" items="${animalCategoryList}">
+													<c:if test="${a.species == species}">
+														<option value="${a.animalCategoryId}" id="animalCategoryId"
+															selected="selected">${a.species}</option>
+													</c:if>
+													<c:if test="${a.species != species}">
+														<option value="${a.animalCategoryId}">${a.species}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>내용</td>
+										<td>
+											<textarea class="form-control w-100" name="board.boardContent" id="boardContent" cols="30" rows="9"></textarea>
+										</td>
+									</tr>
+									<tr>
+										<td style="vertical-align:middle;">이미지 등록</td>	
+										<td>
+											<div style="display: inline;">
+												<label for="imgFileUpload"> <img
+													src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+												</label> <span id="target"></span> <input id="imgFileUpload"
+													name="boardFile" type="file" style="display: none;"
+													accept="image/*" onchange="setThumbnail(event);"
+													multiple="multiple" class="imgCheck" />
+												<div id="image_container" style="display: inline;"></div>
+												<!-- 업로드 된 이미지 미리보기 생성 -->
+											</div>
+										</td>	
+									</tr>
+								</table>
+								<br>
+								<div style="float:right;">
+									<a href="${pageContext.request.contextPath}/getBoardList"><button type="button" class="genric-btn primary-border radius">취소</button></a>
+									<button type="button" onclick="addFunc();" class="genric-btn primary-border radius">등록</button>
 								</div>
-								<div class="col-lg-9" style="display: inline;">
-
-									<label for="imgFileUpload"> <img
-										src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
-									</label> <span id="target"></span> <input id="imgFileUpload"
-										name="boardFile" type="file" style="display: none;"
-										accept="image/*" onchange="setThumbnail(event);"
-										multiple="multiple" class="imgCheck" />
-									<div id="image_container" style="display: inline;"></div>
-									<!-- 업로드 된 이미지 미리보기 생성 -->
-								</div>
-                                </div>
-
-         						<div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="board.boardTitle" id="boardTitle" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Title">
-                                    </div>
-                                </div>
-                                <div class="default-select col-12" id="default-select">
-									<select name="board.animalCategoryId" >
-										<option value="">종 선택</option>
-											<c:forEach var="a" items="${animalCategoryList}">
-								    			<c:if test="${a.species == species}"> 
-								    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
-								    			</c:if>
-								    			<c:if test="${a.species != species}"> 
-								    				<option value="${a.animalCategoryId}">${a.species}</option>
-								    			</c:if>
-								    		</c:forEach>
-									</select>
-								</div>
-								 <div class="default-select col-12">
-									<select name="board.boardCategoryId">
-										<option value="">카테고리선택</option>
-											<c:forEach var="b" items="${boardCategoryList}">
-								    			<c:if test="${b.boardCategoryName == boardCategoryName}"> 
-								    				<option value="${b.boardCategoryId}" id="boardCategoryId" selected="selected">${b.boardCategoryName}</option>
-								    			</c:if>
-								    			<c:if test="${b.boardCategoryName != boardCategoryName}"> 
-								    				<option value="${b.boardCategoryId}">${b.boardCategoryName}</option>
-								    			</c:if>
-								    		</c:forEach>
-									</select>
-								</div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control w-100" name="board.boardContent" id="boardContent" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Content"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mt-3">
-                                <button type="button" id="addBtn" class="button button-contactForm boxed-btn">등록</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
 	<!-- footer_end  -->
 
+	<script>
+	function addFunc(){
+		console.log('등록버튼 클릭');
+		
+		$('#imgFileUpload').remove();
+		if($('#boardCategoryId').val() == '') {
+			alert('게시판 카테고리를 선택해주세요')
+			$('#boardCategoryId').focus();
+		}
+		else if($('#boardTitle').val() == '') {
+			alert('제목을 입력해주세요')
+			$('#boardTitle').focus();
+		}
+		else if($('#boardContent').val() == '') {
+			alert('내용을 입력해주세요')
+			$('#boardContent').focus();
+		}
+		else{
+			$('#addForm').submit();			
+		}
+	}
+	</script>
 
 	<!-- JS here -->
 	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>

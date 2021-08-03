@@ -28,13 +28,6 @@ public class BoardController {
 	@Autowired BoardService boardService;
 	@Autowired AnimalService animalService;
 	
-	@GetMapping("/addBoardLike")
-	public String addBoardLike(HttpSession session, @RequestParam(value = "boardId", required = true) int boardId) {
-		String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
-		boardService.addBoardLike(boardId, memberId);
-		return "redirect:/getBoardOne?boardId="+boardId;
-	}
-	
 	//내정보 -> 작성글 보기
 	@GetMapping("/member/getMemberBoard")
 	public String getBoardHistory(Model model, HttpSession session) {
@@ -103,36 +96,43 @@ public class BoardController {
 		return "main/getBoardOne";
 	}	
 	
+	@PostMapping("/removeBoard")
+	public int removeBoard(@RequestParam(value = "boardId", required = true) int boardId) {
+		log.debug("@@@@@ boardId: "+boardId);
+		int row = boardService.removeBoard(boardId);
+		log.debug("@@@@@ row: "+row);
+		return row;
+	}
+	
 	// board 리스트
 	@GetMapping("/getBoardList")
 	public String getBoardList(Model model,
 			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
 			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,			
-			@RequestParam(name="boardTitle", required=false) String boardTitle,
-			@RequestParam(name="species", required=false) String species,
+			@RequestParam(name="searchWord", required=false) String searchWord,
+			@RequestParam(name="searchSelect", required=false) String searchSelect,
 			@RequestParam(name="memberId", required=false) String memberId,
 			@RequestParam(name="boardCategoryId", required=false, defaultValue = "0") int boardCategoryId) {
-		log.debug("boardTitle: "+boardTitle);
-		if(boardTitle != null && boardTitle.equals("")) {
-			boardTitle=null;
+		log.debug("searchWord: "+searchWord);
+		log.debug("searchSelect: "+searchSelect);
+		log.debug("boardCategoryId: "+boardCategoryId);
+		
+		if(searchWord != null && searchWord.equals("")) {
+			searchWord=null;
 		}
-		log.debug("species: "+species);
-		if(species != null && species.equals("")) {
-			species=null;
+		log.debug("species: "+searchSelect);
+		if(searchSelect != null && searchSelect.equals("")) {
+			searchSelect=null;
 		}
-		log.debug("memberId: "+memberId);
-		if(memberId != null && memberId.equals("")) {
-			memberId=null;
-		}
-		List<Map<String, Object>> animalCategoryList = animalService.getAnimalCategoryList();
-		Map<String, Object> map = boardService.getBoardList(currentPage, rowPerPage, boardTitle, species, memberId, boardCategoryId);
+		
+		
+		Map<String, Object> map = boardService.getBoardList(currentPage, rowPerPage, searchWord, searchSelect, memberId, boardCategoryId);
 		model.addAttribute("boardList", map.get("boardList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", map.get("lastPage"));
-		model.addAttribute("boardTitle",boardTitle);
-		model.addAttribute("species",species);
+		model.addAttribute("searchWord",searchWord);
+		model.addAttribute("searchSelect",searchSelect);
 		model.addAttribute("memberId",memberId);
-		model.addAttribute("animalCategoryList",animalCategoryList);
 		log.debug("@@@@@ map: "+map);
 		
 		return "main/getBoardList";

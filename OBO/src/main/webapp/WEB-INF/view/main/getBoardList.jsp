@@ -62,7 +62,6 @@ function getBoardOne(loginMember, boardId){
 			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
 			<!-- 흰색 바탕 : 메인 메뉴 -->
 			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
-					
 		</div>
 	</header>
 
@@ -76,98 +75,130 @@ function getBoardOne(loginMember, boardId){
 			</div>
 		</div>
 	</div>
-	<div class="pet_care_area">
-        <div class="container">
-          <div><a href="${pageContext.request.contextPath}/getBoardList">[전체보기]</a></div>
-            <div class="row align-items-center">           
-               <table class="table table-hover text-center">
-                	<thead>
-						<tr>
-							<th>No.</th>
-							<th>제목</th>
-							<th>동물 종류</th>
-							<th>작성자</th>
-							<th>게시판 카테고리</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="b" items="${boardList}">
-							<tr>
-								<td>${b.boardId}</td>
-								<td><a data-parameter1="${loginMember.memberId}" data-parameter2="${b.boardId}"
-									onclick="getBoardOne(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'))">${b.boardTitle}</a></td>
-								<td>${b.species}</td>
-								<td>${b.memberId}</td>
-								<td>${b.boardCategoryName}</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-                </table>
-                </div>
-                <div class="text-right"><a type="button" class="genric-btn primary-border circle arrow medium"
-                data-parameter1="${loginMember.memberId}" onclick="addBoard(this.getAttribute('data-parameter1'))">글작성</a></div>
-                <!-- 페이징 -->
-				<div class="blog_left_sidebar">
-					<nav class="blog-pagination justify-content-center d-flex">
-						<ul class="pagination">
-						<!-- 이전 페이지 -->
-						<c:if test="${currentPage-1 >0}">
-							<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage-1}&boardName=${boardName}" 
-							class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i></a></li>
-							<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage-1}&boardName=${boardName}" 
-							class="page-link">${currentPage-1}
-							</a></li>
-						</c:if>
-						<c:if test="${currentPage-1 <= 0}">
-						</c:if>
-						<!-- /이전 페이지 -->
-						<!-- 현재 페이지 -->
-							<li class="page-item active"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage}&boardName=${boardName}" 
-							class="page-link">${currentPage}
-							</a></li>
-						<!-- /현재 페이지 -->
-						<!-- 다음 페이지 -->
-						<c:if test="${currentPage+1 <= lastPage}">
-							<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage+1}&boardName=${boardName}" 
-							class="page-link" aria-label="Next"> ${currentPage+1}
-							</a></li>
-							<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage+1}&boardName=${boardName}" 
-							class="page-link" aria-label="Next"> <i class="ti-angle-right"></i>
-							</a></li>
-						</c:if>
-						<!-- /다음 페이지 -->
-						</ul>
-					</nav>
-					<hr>
-				</div>
-				<!-- /페이징 -->
-                <!-- 검색 -->
-				<div class="default-select" id="default-select">
-				</div>
-				<form action="${pageContext.request.contextPath}/getBoardList" id="boardForm">
-				<div class="form-group">
-					<div class="input-group mb-4">
-					    <div class="list">
-							<select name="species">
-								<option value="">종 선택</option>
-								<c:forEach var="a" items="${animalCategoryList}">
-					    			<c:if test="${a.species == species}"> 
-					    				<option value="${a.species}" selected="selected">${a.species}</option>
-					    			</c:if>
-					    			<c:if test="${a.species != species}"> 
-					    				<option value="${a.species}">${a.species}</option>
-					    			</c:if>
-				    			</c:forEach>
-							</select>
-            			</div>
-						<input type="text" id="sName" class="form-control" placeholder=' 제목을 검색하세요.' onfocus="this.placeholder = ''" onblur="this.placeholder = '제목을 검색하세요.'" name="boardTitle">
-						<button id="btn" class="btn" type="button"><i class="fa fa-search"></i></button>
+
+	<section class="blog_area single-post-area section-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="blog_right_sidebar">
+						<aside class="single_sidebar_widget post_category_widget category_setting">
+							<c:if test="${loginMember.memberId != null}">
+								<button type="button" class="genric-btn primary-border radius" data-parameter1="${loginMember.memberId}"
+								onclick="addBoard(this.getAttribute('data-parameter1'))">새 글 작성</button>
+								<br><br><br>
+							</c:if>
+							
+							<!-- 검색 -->
+							<form action="${pageContext.request.contextPath}/getBoardList" id="boardForm">
+								<div class="form-group">
+									<h4 class="widget_title">검색옵션</h4>
+									<hr>
+									<div class="list cat-list">
+										<select name="boardCategoryId" class="select_box">
+											<option value="0">카테고리</option>
+											<option value="1" ${boardCategory == 1 ? '"selected"':''}>보호</option>
+											<option value="2" ${boardCategory == 2 ? '"selected"':''}>일상</option>
+										</select>
+									</div>
+									<br>
+									<div class="list cat-list">
+										<select name="searchSelect" class="select_box">
+											<option value="total"
+												${selectSearch == 'total' ? '"selected"':''}>==전체==</option>
+											<option value="title"
+												${selectSearch == 'title' ? '"selected"':''}>제목</option>
+											<option value="member"
+												${selectSearch == 'member' ? '"selected"':''}>작성자</option>
+										</select> 
+									</div>
+									<br>
+									<div class="list cat-list"></div>
+									<div class="input-group mb-4">
+										<input type="text" id="sName" class="form-control"
+											placeholder='검색어를 입력하세요.' onfocus="this.placeholder = ''"
+											onblur="this.placeholder = '검색어를 입력하세요.'" name="searchWord">
+										
+										<button id="btn" class="btn" type="button">
+											<i class="fa fa-search"></i>
+										</button>
+									</div>
+								</div>
+							</form>
+						</aside>
 					</div>
 				</div>
-				</form>
-			<!-- /검색 -->
+				<div class="col-lg-9 mb-5 mb-lg-0">
+					<div class="single-post">
+						<div class="blog_details">
+
+							<div>
+								<a href="${pageContext.request.contextPath}/getBoardList">[전체보기]</a>
+							</div>
+							<div class="row align-items-center">
+								<table class="table table-hover text-center">
+									<thead>
+										<tr>
+											<th>No.</th>
+											<th>제목</th>
+											<th>동물 종류</th>
+											<th>작성자</th>
+											<th>게시판 카테고리</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="b" items="${boardList}">
+											<tr>
+												<td>${b.boardId}</td>
+												<td><a data-parameter1="${loginMember.memberId}"
+													data-parameter2="${b.boardId}"
+													onclick="getBoardOne(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'))">${b.boardTitle}</a></td>
+												<td>${b.species}</td>
+												<td>${b.memberId}</td>
+												<td>${b.boardCategoryName}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+
+							<!-- 페이징 & 검색 -->
+							<div class="search_form">
+								<div class="blog_left_sidebar">
+									<nav class="blog-pagination justify-content-center d-flex">
+										<ul class="pagination">
+											<!-- 이전 페이지 -->
+											<c:if test="${currentPage-1 >0}">
+												<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage-1}&searchSelect=${searchSelect}
+													&searchWord=${searchWord}&boardCategoryId=${boardCategoryId}" class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i></a></li>
+												<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage-1}&searchSelect=${searchSelect}
+													&searchWord=${searchWord}&boardCategoryId=${boardCategoryId}" class="page-link">${currentPage-1} </a></li>
+											</c:if>
+											<c:if test="${currentPage-1 <= 0}">
+											</c:if>
+											<!-- /이전 페이지 -->
+											
+											<!-- 현재 페이지 -->
+											<li class="page-item active"><a href="javascript:void(0);" class="page-link">${currentPage} </a></li>
+											<!-- /현재 페이지 -->
+											
+											<!-- 다음 페이지 -->
+											<c:if test="${currentPage+1 <= lastPage}">
+												<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage+1}&searchSelect=${searchSelect}
+													&searchWord=${searchWord}&boardCategoryId=${boardCategoryId}" class="page-link" aria-label="Next"> ${currentPage+1} </a></li>
+												<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage+1}&searchSelect=${searchSelect}
+													&searchWord=${searchWord}&boardCategoryId=${boardCategoryId}" class="page-link" aria-label="Next"> <i class="ti-angle-right"></i></a></li>
+											</c:if>
+											<!-- /다음 페이지 -->
+										</ul>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-    </div>
+		</div>
+	</section>
 
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>

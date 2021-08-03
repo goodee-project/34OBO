@@ -19,6 +19,10 @@ public interface BoardMapper {
 	List<Map<String, Object>> selectBoardCategoryList();
 	int deleteBoard(int boardId);
 	int deleteBoardFileByBoard(int boardId);
+	int deleteBoardLikeByBoard(int boardId);
+	int deleteBoardLike(Map<String,Object> map);
+	int selectBoardLikeNow(Map<String,Object> map);
+	int selectBoardLikeTotal(int boardId);
 	List<BoardFile> selectBoardFileByBoard(int boardId);
 	int updateBoard(Board board);
 	int insertBoardLike(Map<String,Object> map);

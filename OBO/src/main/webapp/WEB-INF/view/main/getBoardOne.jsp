@@ -1,4 +1,5 @@
 <!-- 작성자 : 김선유 -->
+<!-- 수정자 : 이윤정 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -6,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>getBoardOne</title>
 
 <!-- JQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -37,7 +39,7 @@
 			console.log(boardId);
 			console.log(jsonData);
 			if(jsonData==0){
-				window.location.href='${pageContext.request.contextPath}/addBoardLike?boardId='+boardId;
+				$('#like').html('<i class="fa fa-heart"></i>');
 			} else {
 				alert('이미 좋아요한 게시판입니다.');
 			}
@@ -45,58 +47,30 @@
 	};
 
 	$(document).ready(function(){
-		$('#btn').click(function(){
-			 console.log("btn click!");
-			 
-			 if($('#boardCommentContent').val() == ''){
-				 alert('댓글을 입력해주세요.')
-				 $('#boardCommentContent').focus();
-			 } else{
-				 $('#commentForm').submit();
-			 }
+		//좋아요 선택 되어있으면 $('#like').html('<i class="fa fa-heart"></i>'); -> 꽉찬 하트로
+		let boardId = $('#getBoardId').val();
+		console.log('boardId?->'+boardId);
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/getBoardLikeNow',
+			data: {boardId : boardId},
+			type: 'get',
+			success: function(jsonData) {
+				console.log('좋아요 확인!!!');
+				if(jsonData == 0) {
+					console.log('좋아요 안 눌렀음');
+					return;
+				}
+				console.log('이미 좋아요한 게시글입니다.');
+				$('#like').html('<i class="fa fa-heart"></i>');
+				$('#likeCk').text('');
+				//location.href='${pageContext.request.contextPath}/member/getBoardOne?boardId='+boardId;
+			}
 		});
 		
-		$('#removeBoardClick').click(function() {
-			console.log('삭제 확인');
-			$('#ckBtn').click(function(){
-				console.log('삭제 확인')
-				$.ajax({
-					url: '${pageContext.request.contextPath}/member/removeBoard?boardId=${boardMap.boardId}',
-					type: 'post',
-					success: function(jsonData){
-						if(jsonData != 1) {
-							alert('삭제 실패');
-							return;
-						}
-						location.href='${pageContext.request.contextPath}/getBoardList';
-					}				
-				});
-			});
-		});
-		
-		$('#removeBoardCommentClick').click(function() {
-			console.log('댓글 삭제 확인')
-			let comment = $("#boardCommentId").val(); 
-			$('#ckBtn2').click(function() {
-				console.log('삭제 확인')
-				$.ajax({
-					url: '${pageContext.request.contextPath}/member/removeBoardComment',
-					data: {'boardCommentId':comment},
-					type: 'post',
-					success: function(jsonData) {
-						if(jsonData != 1) {
-							alert('삭제 실패');
-							return;
-						}
-						location.href='${pageContext.request.contextPath}/getBoardOne?boardId=${boardMap.boardId}';
-					}
-				});
-			});			
-		});
 	});		
 </script>
 <meta charset="UTF-8">
-<title>getBoardOne</title>
 </head>
 <body>
 	<header>
@@ -105,7 +79,6 @@
 			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
 			<!-- 흰색 바탕 : 메인 메뉴 -->
 			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
-					
 		</div>
 	</header>
 
@@ -123,187 +96,95 @@
 	<section class="blog_area single-post-area section-padding">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12 posts-list">
+				<div class="col-lg-9 posts-list" style="float: none; margin:auto;">
+					<!-- 목록 -->
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+						</div>
+						<div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+							<div class="detials">
+								<p>
+									<a href="${pageContext.request.contextPath}/getBoardList">목록</a>&emsp;
+								</p>
+							</div>
+						</div>
+					</div>
+					
 					<div class="single-post">
-						<div class="feature-img">
-							사진위치
-							<img class="img-fluid" src="img/blog/#" alt="">
-						</div>
 						<div class="blog_details">
-							<h2>글제목${boardMap.boardTitle}</h2>
-							<ul class="blog-info-link mt-3 mb-4">
-								<li><i class="fa fa-user"></i> 작성자${boardMap.memberId}</li>
-								<li><a href="#" onclick="clickFunc();"><span id="like"><i class="fa fa-heart-o"></i></span></a></li>
-							</ul>
-							<p>글내용 하... 자유게시판 새로 뜯어 고치는 중 <br>
-							${boardMap.boardContent}</p>
-						</div>
-					</div>
-					<div class="navigation-top">
-						<div class="d-sm-flex justify-content-between text-center">
-							<p class="like-info">
-								<span class="align-middle"><i class="fa fa-heart"></i></span>
-							</p>
-							<div class="col-sm-4 text-center my-2 my-sm-0">
-								<!-- <p class="comment-count"><span class="align-middle"><i class="fa fa-comment"></i></span> 06 Comments</p> -->
-							</div>
-						</div>
-						<div class="navigation-area">
+							<h2>
+								${boardMap.boardTitle} 
+							</h2>
 							<div class="row">
-								<div
-									class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-									<div class="thumb">
-										<a href="#"> <img class="img-fluid" src="img/post/preview.png" alt="">
-										</a>
-									</div>
-									<div class="arrow">
-										<a href="#"> <span class="lnr text-white ti-arrow-left"></span>
-										</a>
-									</div>
-									<div class="detials">
-										<p>이전글</p>
-										<a href="#">
-											<h4>Space The Final Frontier</h4>
-										</a>
-									</div>
-								</div>
-								<div
-									class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
-									<div class="detials">
-										<p>다음글</p>
-										<a href="#">
-											<h4>Telescopes 101</h4>
-										</a>
-									</div>
-									<div class="arrow">
-										<a href="#"> <span class="lnr text-white ti-arrow-right"></span>
-										</a>
-									</div>
-									<div class="thumb">
-										<a href="#"> <img class="img-fluid"
-											src="img/post/next.png" alt="">
-										</a>
-									</div>
-								</div>
+								<ul class="blog-info-link mt-3 mb-4">
+									<li>&emsp;<i class="fa fa-user"></i> ${boardMap.memberId}</li>
+									<c:if test="${loginMember.memberId == boardMap.memberId}">
+										<li><a href="${pageContext.request.contextPath}/member/modifyBoard?boardId=${boardMap.boardId}">수정</a></li>
+										<li><a href="javascript:void(0);" onclick="delBoardFunc();" data-toggle="modal" data-target="#login-modal">삭제</a></li>
+									</c:if>
+									<li><a href="javascript:void(0)" data-parameter1="${boardMap.boardId}" onclick="clickFunc(this.getAttribute('data-parameter1'));"><span id="like"><i class="fa fa-heart-o"></i></span></a><span id="likeCk">클릭!</span></li>
+								</ul>
+								<ul class="blog-info-link mt-3 mb-4" style="margin-left:auto;">
+									<li>작성일 ${boardMap.createDate}</li>
+									<li>최근 수정일 ${boardMap.updateDate}</li>
+								</ul>
 							</div>
+							
+							<!-- 사진 -->
+							<div class="feature-img">
+								<c:forEach var="bf" items="${boardFileList}">
+									<img class="img-fluid" src="${pageContext.request.contextPath}/static/img/board/${bf.boardFileName}" width="300" height="300" alt="">
+								</c:forEach>
+							</div>
+							<br>
+							
+							<!-- 글 내용 -->
+							<p>${boardMap.boardContent}</p>
+							<input type="hidden" id="getBoardId" name="boardId" value="${boardMap.boardId}">
 						</div>
 					</div>
+					
+					<!-- 댓글창 -->
 					<div class="comments-area">
-						<h4>05 Comments</h4>
-						<div class="comment-list">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="thumb">
-										<img src="img/comment/comment_1.png" alt="">
-									</div>
-									<div class="desc">
-										<p class="comment">Multiply sea night grass fourth day sea
-											lesser rule open subdue female fill which them Blessed, give
-											fill lesser bearing multiply sea night grass fourth day sea
-											lesser</p>
-										<div class="d-flex justify-content-between">
-											<div class="d-flex align-items-center">
-												<h5>
-													<a href="#">Emilly Blunt</a>
-												</h5>
-												<p class="date">December 4, 2017 at 3:12 pm</p>
-											</div>
-											<div class="reply-btn">
-												<a href="#" class="btn-reply text-uppercase">reply</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="comment-list">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="thumb">
-										<img src="img/comment/comment_2.png" alt="">
-									</div>
-									<div class="desc">
-										<p class="comment">Multiply sea night grass fourth day sea
-											lesser rule open subdue female fill which them Blessed, give
-											fill lesser bearing multiply sea night grass fourth day sea
-											lesser</p>
-										<div class="d-flex justify-content-between">
-											<div class="d-flex align-items-center">
-												<h5>
-													<a href="#">Emilly Blunt</a>
-												</h5>
-												<p class="date">December 4, 2017 at 3:12 pm</p>
-											</div>
-											<div class="reply-btn">
-												<a href="#" class="btn-reply text-uppercase">reply</a>
+						<h5>댓글</h5>
+						<br>
+						<!-- 댓글 출력 -->
+						<c:forEach var="b" items="${boardCommentList}">
+							<div class="comment-list">
+								<div class="single-comment justify-content-between d-flex">
+									<div class="user justify-content-between d-flex">
+										<div class="desc">
+											<p class="comment">
+												${b.boardCommentContent}
+											</p>
+											<div class="d-flex justify-content-between">
+												<div class="d-flex align-items-center">
+													<h5>${b.memberId}</h5>
+													<p class="date">${b.createDate}</p>
+												</div>
+												<div class="reply-btn">
+													<c:if test="${loginMember.memberId == b.memberId}">
+														<a href="${pageContext.request.contextPath}/removeBoardComment" data-toggle="modal" data-target="#delComment-modal" data-parameter1="${b.boardCommentId}"
+														 class="btn-reply text-uppercase" onclick="delCommentModal(this.getAttribute('data-parameter1'));">삭제</a>
+													</c:if>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="comment-list">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="thumb">
-										<img src="img/comment/comment_3.png" alt="">
-									</div>
-									<div class="desc">
-										<p class="comment">Multiply sea night grass fourth day sea
-											lesser rule open subdue female fill which them Blessed, give
-											fill lesser bearing multiply sea night grass fourth day sea
-											lesser</p>
-										<div class="d-flex justify-content-between">
-											<div class="d-flex align-items-center">
-												<h5>
-													<a href="#">Emilly Blunt</a>
-												</h5>
-												<p class="date">December 4, 2017 at 3:12 pm</p>
-											</div>
-											<div class="reply-btn">
-												<a href="#" class="btn-reply text-uppercase">reply</a>
-											</div>
-										</div>
-										
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="comment-form">
-						<h4>Leave a Reply</h4>
-						<form class="form-contact comment_form" action="#"
-							id="commentForm">
+						</c:forEach>
+						
+						<!-- 댓글 등록 -->
+						<form id="commentForm" class="form-contact comment_form" action="${pageContext.request.contextPath}/member/addBoardComment" method="post">
+							<input type="hidden" id="boardId" name="boardId" value="${boardMap.boardId}">
 							<div class="row">
 								<div class="col-12">
 									<div class="form-group">
-										<textarea class="form-control w-100" name="comment"
-											id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
+										<textarea class="form-control w-100" name="boardCommentContent" id="comment" cols="30" rows="3" placeholder="댓글을 남겨보세요"></textarea>
+										<button type="submit" class="genric-btn primary-border radius" onclick="commentFunc()" style="float:right;">등록</button>
 									</div>
 								</div>
-								<div class="col-sm-6">
-									<div class="form-group">
-										<input class="form-control" name="name" id="name" type="text"
-											placeholder="Name">
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="form-group">
-										<input class="form-control" name="email" id="email"
-											type="email" placeholder="Email">
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="form-group">
-										<input class="form-control" name="website" id="website"
-											type="text" placeholder="Website">
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<button type="submit"
-									class="button button-contactForm btn_1 boxed-btn">Send
-									Message</button>
 							</div>
 						</form>
 					</div>
@@ -313,118 +194,38 @@
 	</section>
 	<!--================ Blog Area end =================-->
 
-
-	<div class="section-top-border container">
-		<h3 class="mb-30">${boardMap.boardTitle}</h3>
-		<div class="text-right">
-		<a href="${pageContext.request.contextPath}/getBoardList">게시판으로</a>
-		<a href="${pageContext.request.contextPath}/modifyBoard?boardId=${boardMap.boardId}">수정</a>
-		<a href="${pageContext.request.contextPath}/removeBoard"
-					id="removeBoardClick" data-toggle="modal" data-target="#login-modal">삭제</a>
-		</div>
-		<div class="text-right">
-			<a class="btn" data-parameter1="${boardMap.boardId}"
-	               		onclick="addBoardLike(this.getAttribute('data-parameter1'))">
-	               		<i class="fa fa-heart" style="size:9x"></i></a>
-		</div>
-		<div class="testmonial_area">
-			<div class="row">
-				<c:forEach var="bf" items="${boardFileList}">
-							<img src="static/img/board/${bf.boardFileName}" width="300" height="300" alt=""> &nbsp;&nbsp;&nbsp;
-				</c:forEach>
-			</div>
-		</div>
-		<br>
-		<div class="col-md-12 mt-sm-10">
-			<div class="row align-items-center">
-				<table class="table">
-					<tr>
-						<td>No.</td>
-						<td><div id="boardId">${boardMap.boardId}</div></td>
-					</tr>
-					<tr>
-						<td>게시판 카테고리</td>
-						<td>${boardMap.boardCN}</td>
-					</tr>
-					<tr>
-						<td>작성 날짜</td>
-						<td>${boardMap.createDate}</td>
-					</tr>
-					<tr>
-						<td>업데이트 날짜</td>
-						<td>${boardMap.updateDate}</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		<section class="blog_area single-post-area section-padding">
-			<div class="container">
-				<div class="row">
-            		<div class="col-lg-8 posts-list">
-				<div class="comments-area">
-					<h4>댓글</h4>
-					<c:forEach var="b" items="${boardCommentList}">
-						<div class="comment-list">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="desc">
-										<input type="hidden" id="boardCommentId" value="${b.boardCommentId}">
-										<p class="comment" >${b.boardCommentContent}</p>
-										<div class="d-flex justify-content-between">
-											<div class="d-flex align-items-center">
-												<h5>${b.memberId}</h5>
-												<p class="date">${b.createDate}</p>
-														<a href="${pageContext.request.contextPath}/removeBoardComment"
-															id="removeBoardCommentClick" data-toggle="modal"
-															data-target="#login-modal2">삭제</a> 
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-					<form class="form-contact comment_form" action="${pageContext.request.contextPath}/member/addBoardComment" id="commentForm" method = "post">
-						<input type="hidden" name="boardId" value="${boardMap.boardId}">
-						<div class="row">
-							<div class="col-12">
-								<div class="form-group">
-									 <textarea class="form-control w-100" name="boardCommentContent" id="boardCommentContent" cols="30" rows="2" placeholder="댓글을 작성해주세요"></textarea>
-								</div>
-							</div>
-							<div class="form-group">
-								<button id="btn" type="button" class="genric-btn primary-border radius small">등록</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	</section>
 	
-	</div>
-		<!-- 삭제 확인 모달 -->
+	<!-- 삭제 확인 모달 -->
 	<div class="modal fade" id="login-modal" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
-					<h5 class="modal-title">게시판을 삭제 하시겠습니까?</h5>
-					<button id="ckBtn" type="button" class="btn btn-primary">확인</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<h5 class="modal-title" style="text-align:center;">게시글을 삭제 하시겠습니까?</h5>
+					<hr>
+					<br>
+					<input type="hidden" id="delBoardId" name="boardId">
+					<div style="float:right;">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-danger" onclick="delBoardFunc(document.getElementById('delBoardId').value);">확인</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-			<!-- 삭제 확인 모달 -->
-	<div class="modal fade" id="login-modal2" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+	<!-- 댓글 삭제 모달 -->
+	<div class="modal fade" id="delComment-modal" role="dialog" aria-labelledby="delComment-modal" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
-					<h5 class="modal-title">댓글을 삭제 하시겠습니까?</h5>
-					<button id="ckBtn2" type="button" class="btn btn-primary">확인</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<h5 class="modal-title" style="text-align:center;">댓글을 삭제 하시겠습니까?</h5>
+					<hr>
+					<br>
+					<input type="hidden" id="boardCommentId" name="boardCommentId">
+					<div style="float:right;">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-danger" onclick="delCommentFunc(document.getElementById('boardCommentId').value);">확인</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -435,10 +236,128 @@
 	<!-- footer_end  -->
 
 	<script>
-	function clickFunc(){
-		console.log('좋아요클릭');
-		$('#like').html('<i class="fa fa-heart"></i>');
+	function clickFunc(id){
+		console.log('좋아요 클릭');
+		console.log('id='+id);
+		let boardId = id;
+		$.ajax({
+			type:'get',
+			url: '${pageContext.request.contextPath}/getBoardLikeNow',
+			data: {boardId : boardId},
+			success: function (jsonData){
+				console.log('좋아요 클릭 후 ajax 불러오기!');
+				
+				if(jsonData==0){	// 좋아요 안 했음
+					console.log('좋아요 안했음->하자!');
+					
+					// 좋아요 해주기
+					$.ajax({
+						type:'get',
+						url: '${pageContext.request.contextPath}/addBoardLike',
+						data: {boardId : boardId},
+						success: function (jsonData){
+							if(jsonData==0){	// 실패
+								console.log('좋아요 안함->하기 실패');
+								return;
+							} 	
+							// 좋아요 하기 성공
+							console.log('좋아요 클릭 성공');
+							$('#like').html('<i class="fa fa-heart"></i>');
+							$('#likeCk').text('');
+							
+						}
+					});
+					
+				} else {	// 좋아요 했음
+					console.log('좋아요 했음->취소');
+				
+					// 좋아요 취소
+					$.ajax({
+						type:'get',
+						url: '${pageContext.request.contextPath}/removeBoardLike',
+						data: {boardId : boardId},
+						success: function (jsonData){
+							if(jsonData==0){	// 좋아요 취소 실패
+								console.log('좋아요 했다가 취소 실패');
+								return;
+							}	
+							// 좋아요 취소 성공
+							console.log('좋아요 취소 성공');
+							$('#like').html('<i class="fa fa-heart-o"></i>');
+							$('#likeCk').text('클릭!');
+						}
+					});
+				}
+			}
+		});
+	}
+	
+	//게시글 삭제 모달
+	function delBoardModal(){
+		console.log('게시글 삭제 모달창!');
+		let boardId = $('#getBoardId').val();
+		$('#delBoardId').val(boardId);
+		console.log('삭제할 id->'+boardId);
+	}
+	
+	//게시판 삭제
+	function delBoardFunc(){
+		console.log('게시글 삭제 클릭');
+		let boardId = $('#delBoardId').val();
+		console.log('삭제할 id->'+boardId);
+		$.ajax({
+			url: '${pageContext.request.contextPath}/member/removeBoard',
+			type: 'post',
+			data: {boardId : boardId},
+			success: function(jsonData){
+				if(jsonData != 1) {
+					alert('게시글 삭제 실패');
+					return;
+				}
+				alert('게시글 삭제 완료');
+				location.href='${pageContext.request.contextPath}/getBoardList';
+			}				
+		});
+	}
+	
+	//댓글 등록
+	function commentFunc(){
+		console.log('댓글 등록 클릭');
+		if($('#comment').val() == ''){
+			 alert('댓글을 입력해주세요.')
+			 $('#comment').focus();
+		 } else{
+			 $('#commentForm').submit();
+		 }
+	}
+	
+	//댓글 삭제 모달
+	function delCommentModal(id){
+		console.log('댓글 삭제 클릭!');
+		console.log('삭제할 코멘트id->'+id);
+		$('#boardCommentId').val(id);
 		
+	}
+
+	//댓글 삭제
+	function delCommentFunc(id){
+		console.log('댓글 삭제 클릭!');
+		console.log('삭제할 코멘트id->'+id);
+		let boardId = $('#boardId').val();
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/member/removeBoardComment',
+			data: {boardCommentId : id},
+			type: 'post',
+			success: function(jsonData) {
+				if(jsonData != 1) {
+					alert('댓글 삭제 실패');
+					return;
+				}
+				alert('댓글 삭제 완료');
+				location.href='${pageContext.request.contextPath}/member/getBoardOne?boardId='+boardId;
+			}
+		});
 	}
 	</script>
 

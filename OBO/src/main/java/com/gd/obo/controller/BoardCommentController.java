@@ -29,6 +29,6 @@ public class BoardCommentController {
 		int row = boardCommentService.insertBoardComment(boardComment);
 		log.debug("@@@@@ row: "+row);
 		
-		return "redirect:/getBoardOne?boardId="+boardComment.getBoardId();
+		return "redirect:/member/getBoardOne?boardId="+boardComment.getBoardId();
 	}
 }

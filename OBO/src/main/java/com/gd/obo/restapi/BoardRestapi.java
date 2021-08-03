@@ -41,6 +41,51 @@ public class BoardRestapi {
 		return ck;
 	}
 	
+	// 좋아요 클릭!
+	@GetMapping("/addBoardLike")
+	public int addBoardLike(HttpSession session, @RequestParam(value="boardId", required=true) int boardId) {
+		log.debug("★★★☆○○○○★☆○☆★○ boardId: "+boardId);
+		String memberId = ((Member) session.getAttribute("loginMember")).getMemberId();
+		
+		int row = boardService.addBoardLike(boardId, memberId);
+		log.debug("★★★☆○○○○★☆○☆★○ 좋아요 클릭!!!!!(실패0) "+row);
+		
+		return row;
+	}
+	
+	// 좋아요 취소
+	@GetMapping("/removeBoardLike")
+	public int removeBoardLike(HttpSession session, @RequestParam(value="boardId", required=true) int boardId) {
+		log.debug("★★★☆○○○○★☆○☆★○ boardId: "+boardId);
+		String memberId = ((Member) session.getAttribute("loginMember")).getMemberId();
+		
+		int row = boardService.removeBoardLike(boardId, memberId);
+		log.debug("★★★☆○○○○★☆○☆★○ 좋아요 취소!!!!(실패0) "+row);
+		
+		return row;
+	}
+	
+	// 좋아요 현황
+	@GetMapping("/getBoardLikeNow")
+	public int getBoardLikeNow(HttpSession session, @RequestParam(value="boardId", required=true) int boardId) {
+		log.debug("★★★☆○○○○★☆○☆★○ boardId: "+boardId);
+		String memberId = ((Member) session.getAttribute("loginMember")).getMemberId();
+		
+		int row = boardService.getBoardLikeNow(memberId, boardId);
+		log.debug("★★★☆○○○○★☆○☆★○ 좋아요했으면 1!! 안했으면 0-> "+row);
+		return row;
+	}
+	
+	// 좋아요 토탈
+	@GetMapping("/getBoardLikeTotal")
+	public int getBoardLikeTotal(int boardId) {
+		log.debug("★★★☆○○○○★☆○☆★○ boardId: "+boardId);
+		
+		int row = boardService.getBoardLikeTotal(boardId);
+		log.debug("★★★☆○○○○★☆○☆★○ 총 좋아요 수!!!-> "+row);
+		return row;
+	}
+	
 	// 댓글 삭제
 	@PostMapping("/member/removeBoardComment")
 	public int removeBoardComment(@RequestParam(value="boardCommentId",required=true) int boardCommentId) {
