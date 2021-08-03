@@ -57,6 +57,7 @@
 		width: 20%;
 		text-align: center;
 	}
+
   </style>
 
 </head>
@@ -107,7 +108,7 @@
 					   	<c:set var="i" value="0"></c:set>
 					    <c:forEach items="${imgList}" var="il">
 					    	<div class="carousel-item ${i==0? 'active' : '' }">
-						      <img src="${pageContext.request.contextPath}/static/img/shelter/${il}" class="rounded" width="60%;" height="40%;">
+						      <img src="${pageContext.request.contextPath}/static/img/shelter/${il.shelterFileName}" class="rounded" style="height: 400px;">
 						    </div>
 					    	 <c:set var="i" value="${i + 1}"/>
 					    </c:forEach>
@@ -171,7 +172,7 @@
 	</div>
 	
 	<!-- team_area_start  -->
-    <div class="team_area">
+    <div class="team_area" style="padding-bottom: 3%; padding-top: 3%;">
         <div class="container">
             <div class="row justify-content-center ">
                 <div class="col-lg-6 col-md-10">
@@ -327,7 +328,7 @@
 			const DATA_COUNT = 5;
 			const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100};
 			*/
-			const color = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(102, 204, 153)', 'rgb(255, 153, 102)', 'rgb(255, 153, 102)']
+			const color = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(102, 204, 153)', 'rgb(255, 153, 102)', 'rgb(153, 153, 204)']
 
 			const data = {
 			  labels: species,
@@ -399,25 +400,5 @@
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 
-<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
-	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>
 </body>
 </html>

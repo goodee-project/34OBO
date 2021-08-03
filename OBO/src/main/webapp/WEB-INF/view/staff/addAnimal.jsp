@@ -72,11 +72,13 @@
 						<div class="blog_details">
 						<form class="form-contact contact_form" id="addAnimal" action="${pageContext.request.contextPath}/staff/addAnimal" method="post" enctype="multipart/form-data" >
 							<table class="table">
+								<input type="hidden" name="animal.shelterId" value="${shelterId}">
+							
 								<tr>
 									<td style="vertical-align:middle;">이미지 등록</td>	
 									<td>
 										<div class="row">
-											<c:forEach var="af" items="${animalFileList}"> <!-- <-- 이 fileList는 대체 뭔가요...? - 윤정 -->
+											<c:forEach var="af" items="${animalFileList}"> <!-- <-- 이 fileList는 대체 뭔가요...? ㅎㅎ  - 윤정 -->
 												<img src="static/img/animal/${af.animalFileName}" width="300"
 													height="300" alt=""> &nbsp;		
 											</c:forEach>
@@ -106,12 +108,7 @@
 										</select>
 									</td>
 								</tr>
-								<tr>
-									<td>보호소 번호</td>
-									<td>
-										<input class="form-control" id="shelterId" type="text" name="animal.shelterId" hidden="hidden" value="${shelterId}">
-									</td>
-								</tr>
+								
 								<tr>
 									<td>동물 이름</td>
 									<td>
@@ -192,8 +189,8 @@
 			</div>
 		</div>
 	</div>
-	</div>
-	</div>
+</div>
+</div>
 		
 </section>	
 

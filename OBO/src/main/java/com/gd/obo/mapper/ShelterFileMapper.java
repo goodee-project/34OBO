@@ -6,5 +6,6 @@ import com.gd.obo.vo.ShelterFile;
 
 @Mapper
 public interface ShelterFileMapper {
+	int deleteShelterFileOne(int shelterFileId);
 	int insertShelterFile(ShelterFile shelterFile);
 }

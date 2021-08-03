@@ -37,28 +37,76 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
     <!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <script>
 	/// ${pageContext.request.contextPath}/addAnimalLike?animalId=${animalMap.animalId}&currentPage=${currentPage}&searchWord=${searchWord}&species=${species}&shelterId=${shelterId}"
-	function addAnimalLike(animalId, currentPage, searchWord, species, shelterId, loginMember){
+	$(document).ready(function(){
+		$('#btn').click(function(){
+			
+		});
+	});
+	var params = new URLSearchParams(location.search);
+	console.log(params.get('animalId'));
+	var animalId = params.get('animalId');
+	
+	function addAnimalLike(animalId, loginMember){
 		if(loginMember==null || loginMember==''){
 			alert('로그인 후 이용 가능합니다.');
 		} else {
 			$.ajax({
 				type:'get',
-				url: '${pageContext.request.contextPath}/getAnimalLikeByMember',
+				url: '<c:url value='/member/getAnimalLikeByMember'/>',
 				data: {'animalId':animalId}
 			}).done(function (jsonData){
 				console.log(animalId);
 				console.log(jsonData);
 				if(jsonData==0){
-					window.location.href='${pageContext.request.contextPath}/addAnimalLike?animalId='+animalId+'&currentPage='+currentPage+'&searchWord='+searchWord+'&species='+species+'&shelterId='+shelterId;
-					alert('관심동물에 추가되었습니다!');
+					$.ajax({
+						type:'get',
+						url: '<c:url value='/member/addAnimalLike'/>',
+						data: {'animalId':animalId},
+						success: function (jsonData){
+						console.log(jsonData);
+						$('#likeTarget').empty();
+						$('#likeTarget').append('<i class="fa fa-heart animate__heartBeat" style="size:9x"></i>');
+						//setTimeout("location.reload()", 800);
+						}
+					})
+					//alert('관심동물에 추가되었습니다!');
 				} else {
-					alert('이미 좋아요한 동물입니다.');
+					$.ajax({
+						type:'get',
+						url: '<c:url value='/member/removeAnimalLike'/>',
+						data: {'animalId':animalId},
+						success: function (jsonData){
+						console.log(jsonData);
+						//setTimeout("location.reload()", 800);
+						$('#likeTarget').empty();
+						$('#likeTarget').append('<i class="fa fa-heart-o animate__heartBeat" style="size:9x"></i>');
+						}
+					})
+					//alert('관심동물에서 삭제되었습니다!');
 				}
 			});
 		}
 	};
+	function animalLike(animalId){
+		$.ajax({
+			type:'get',
+			url: '<c:url value='/member/getAnimalLikeByMember'/>',
+			data: {'animalId':animalId}
+		}).done(function (jsonData){
+			console.log(animalId);
+			console.log(jsonData)
+			$('#likeTarget').empty();
+			if(jsonData==0){
+				$('#likeTarget').append('<i class="fa fa-heart-o" style="size:9x"></i>');
+			} else {
+				$('#likeTarget').append('<i class="fa fa-heart" style="size:9x"></i>');
+			}
+		});
+	}
+	animalLike(animalId);
 	
 	function addAdopt(loginMember, animalId){
 		if(loginMember==null || loginMember==''){
@@ -72,9 +120,6 @@
 			}
 		}
 	}
-			
-	$(document).ready(function(){
-	});
 </script>
 </head>
 <body>
@@ -122,9 +167,9 @@
 	               <c:if test="${animalMap.animalState ne '보호중'}">
 	               </c:if>
 	               <c:if test="${animalMap.animalState eq '보호중'}">
-	               		<h4><a class="btn" data-parameter1="${animalMap.animalId}" data-parameter2="${currentPage}" data-parameter3="${searchWord}" data-parameter4="${species}" data-parameter5="${shelterId}" data-parameter6="${loginMember.memberId}"
-		               		onclick="addAnimalLike(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'), this.getAttribute('data-parameter3'), this.getAttribute('data-parameter4'), this.getAttribute('data-parameter5'), this.getAttribute('data-parameter6'))">
-		               		<i class="fa fa-heart" style="size:9x"></i></a>&nbsp;&nbsp;
+	               		<h4><a class="btn" id="likeTarget" data-parameter1="${animalMap.animalId}" data-parameter6="${loginMember.memberId}"
+		               		onclick="addAnimalLike(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter6'))">
+		               		</a>&nbsp;&nbsp;
 			               <a class="genric-btn primary-border circle arrow medium" data-parameter1="${loginMember.memberId}" data-parameter2="${animalMap.animalId}"
 			               		onclick="addAdopt(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'))"> &emsp; 입양 &emsp;</a></h4>
 	               </c:if>
@@ -162,8 +207,8 @@
 		
 		<div>
 			<a class="float-right"
-			href="${pageContext.request.contextPath}/getAnimalList?currentPage=${currentPage}&searchWord=${searchWord}&species=${species}&shelterId=${shelterId}">
-			<i class="fa fa-undo"></i> 뒤로가기</a>	
+			href="${pageContext.request.contextPath}/getAnimalList">
+			<i class="fa fa-undo"></i> 목록</a>	
 	    </div>
 	</div>
 	</div> 
@@ -232,5 +277,9 @@
 	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+	
+	<script>
+
+	</script>
 </body>
 </html>

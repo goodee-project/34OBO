@@ -98,7 +98,7 @@ public class AnimalService {
 		MultipartFile list = animalForm.getAnimalFile();
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal list: " + list);
 		if(list != null) {
-				
+				int animalFileId = animalForm.getAnimalFileId();
 				AnimalFile animalFile = new AnimalFile();
 				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal animalFile: " + animalFile);
 				animalFile.setAnimalId(animal.getAnimalId());
@@ -111,10 +111,16 @@ public class AnimalService {
 				animalFile.setAnimalId(animal.getAnimalId());
 				animalFile.setAnimalFileSize(list.getSize());
 				animalFile.setAnimalFileExt(list.getContentType());
-				animalFile.setAnimalFileId(animalForm.getAnimalFileId());
+				
 				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal filename: " + filename);
 				
-				animalFileMapper.updateAnimalFile(animalFile);
+				if(animalFileId == 0) {
+					animalFileMapper.insertAnimalFile(animalFile);
+				} else {
+					animalFile.setAnimalFileId(animalFileId);
+					animalFileMapper.updateAnimalFile(animalFile);
+				}
+				
 				
 				try {
 					File temp = new File(""); // 프로젝트 폴더에 빈파일이 만들어진다.
@@ -320,6 +326,17 @@ public class AnimalService {
 		map.put("memberId", memberId);
 		map.put("animalId", animalId);
 		int row = animalMapper.insertAnimalLike(map);
+		log.debug("===== 동물 좋아요 row:"+row);
+		log.debug("===== 동물 좋아요 동물:"+animalId);
+		return row;
+	}
+	
+	//회원 동물 좋아요 취소
+	public int removeAnimalLike(String memberId, int animalId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("animalId", animalId);
+		int row = animalMapper.deleteAnimalLike(map);
 		log.debug("===== 동물 좋아요 row:"+row);
 		log.debug("===== 동물 좋아요 동물:"+animalId);
 		return row;

@@ -152,7 +152,8 @@
 			JOIN staff s ON s.staff_id = pvr.staff_id
 			JOIN shelter sh ON sh.shelter_id=s.shelter_id
 			JOIN volunteer_category vc ON pvr.volunteer_category_id = vc.volunteer_category_id
-		WHERE member_id=#{memberId} AND MONTH(pvr.periodically_volunteer_start_date)=MONTH(NOW()) AND DATEDIFF(pvr.periodically_volunteer_start_date, NOW())>=0
+			LEFT JOIN periodically_volunteer_check pvc ON pvc.periodically_volunteer_apply_id=pva.periodically_volunteer_apply_id
+		WHERE member_id=#{memberId} AND pvc.periodically_volunteer_apply_id IS null
 	</select>
 	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ staff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->

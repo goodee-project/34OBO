@@ -235,7 +235,8 @@ public class ShelterService {
 		return row;
 	}
 	
-	public List<String> getShelterFileListByShelterId(int shelterId){
+	//보호소 파일 리스트 가져오기
+	public List<ShelterFile> getShelterFileListByShelterId(int shelterId){
 		return shelterMapper.selectShelterFileListByShelterId(shelterId);
 	}
 }

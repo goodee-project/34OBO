@@ -26,11 +26,26 @@ public class AnimalRestapi {
 		return animalService.getAnimalSpeciesCount(shelterId);
 	}
 	
-	@GetMapping("/getAnimalLikeByMember")
+	@GetMapping("/member/getAnimalLikeByMember")
 	public int getAnimalLikeByMember(HttpSession session, @RequestParam(value="animalId", required=true) int animalId) {
 		String memberId = ((Member) session.getAttribute("loginMember")).getMemberId();
 		log.debug("===== animalId:"+animalId);
 		int ck = animalService.getAnimalLikeByMember(memberId, animalId);
 		return ck;
 	}
+	
+	//회원 동물 좋아요
+	@GetMapping("/member/addAnimalLike")
+	public int addAnimalLike(HttpSession session, @RequestParam(value = "animalId", required = true) int animalId) {
+		String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+		return animalService.addAnimalLike(memberId, animalId);
+	}
+	
+	//회원 동물 좋아요 취소
+	@GetMapping("/member/removeAnimalLike")
+	public int removeAnimalLike(HttpSession session, @RequestParam(value = "animalId", required = true) int animalId) {
+		String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+		return animalService.removeAnimalLike(memberId, animalId);
+	}
+	
 }

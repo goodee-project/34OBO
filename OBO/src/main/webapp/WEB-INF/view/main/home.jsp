@@ -79,7 +79,7 @@
 	<!-- slider_area_end -->
 	
     <!-- team_area_start  -->
-    <div class="team_area" >
+    <div class="team_area" style="margin-bottom: 3px; padding-bottom: 3%;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-10">
@@ -121,7 +121,7 @@
     
     
     <!-- 보호중 동물, 입양안락사 이번달  --> 
-    <div class="adapt_area">
+    <div class="adapt_area" style="padding-top: 2%;">
         <div class="container">
             <div class="row justify-content-between align-items-center">
                 <div class="col-lg-5">
@@ -233,7 +233,8 @@
 			url: '${pageContext.request.contextPath}/getAnimalSpeciesCount',
 			type: 'get'
 		}).done(function(jsonData){
-			//console.log(jsonData);
+			console.log(jsonData);
+			console.log('되니?');
 			
 			let species = jsonData.map(item => item.species);
 			let cnt = jsonData.map(item => item.cnt);
@@ -247,7 +248,7 @@
 			const DATA_COUNT = 5;
 			const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100};
 			*/
-			const color = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(102, 204, 153)', 'rgb(255, 153, 102)', 'rgb(255, 153, 102)']
+			const color = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(102, 204, 153)', 'rgb(255, 153, 102)', 'rgb(153, 153, 204)']
 
 			const data = {
 			  labels: species,
@@ -287,20 +288,20 @@
 		// 이번년도 달별로 후원금 꺾은선 그래프 그리기
 		var now = new Date();	// 현재 날짜 및 시간
 		var year = now.getFullYear();	// 연도
-		console.log('연도 : ', year);
+		//console.log('연도 : ', year);
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/getFullDonationTotalByMonth',
 			type: 'get',
 			data: {year: year}
 		}).done(function(jsonData){
-			console.log(jsonData);
+			//console.log(jsonData);
 			
 			let month = jsonData.map(item => item.month);
 			let amount = jsonData.map(item => item.amount);
 			
-			console.log(month);
-			console.log(amount);
+			//console.log(month);
+			//console.log(amount);
 			
 			//const DATA_COUNT = 7;
 			//const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};

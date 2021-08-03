@@ -50,6 +50,7 @@ public interface AnimalMapper {
 	
 	List<Map<String,Object>> selectMemberAnimalList(Map<String, Object> map);
 	int insertAnimalLike(Map<String, Object> map);
+	int deleteAnimalLike(Map<String, Object> map);
 	int selectAnimalLikeByMember(Map<String, Object> map);
 	List<Map<String,Object>> selectAnimalLikeListByMember(String memberId);
 }

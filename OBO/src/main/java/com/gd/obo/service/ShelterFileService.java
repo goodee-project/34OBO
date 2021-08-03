@@ -20,6 +20,25 @@ public class ShelterFileService {
 	@Autowired
 	ShelterFileMapper shelterFileMapper;
 	
+	//파일 삭제
+	public int removeShelterFileOne(int shelterFileId, String shelterFileName) {
+		
+		File temp = new File("");
+		String path = temp.getAbsolutePath();
+		File file = new File(path+"\\src\\main\\webapp\\static\\img\\shelter\\"+shelterFileName);
+		
+		if( file.exists() ){
+    		if(file.delete()){
+    			log.debug("■■■■■■■ 파일삭제 성공");
+    		}else{
+    			log.debug("■■■■■■■ 파일삭제 실패");
+    		}
+		}
+		
+		//물리적 파일 삭제
+		return shelterFileMapper.deleteShelterFileOne(shelterFileId);
+	}
+	
 	public int addShelterFile(MultipartFile multipartFile, int shelterId) {
 		// 물리적 파일 저장
 		File temp = new File("");

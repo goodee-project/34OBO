@@ -28,7 +28,15 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+<style>
+  .carousel-inner img {
+    width: 100%;
+    height: 100%;
+  }
 
+
+
+</style>
 <script>
 $(document).ready(function(){	
 	
@@ -59,6 +67,7 @@ $(document).ready(function(){
 	</div>
 
 	<div class="section-top-border container">
+		<p>우리 보호소는</p>
 		<h3 class="mb-30">${shelterMap.shelterName}</h3>
 			<div class="testmonial_area">
 				
@@ -82,7 +91,7 @@ $(document).ready(function(){
 					   	<c:set var="i" value="0"></c:set>
 					    <c:forEach items="${imgList}" var="il">
 					    	<div class="carousel-item ${i==0? 'active' : '' }">
-						      <img src="${pageContext.request.contextPath}/static/img/shelter/${il}" class="rounded" width="60%;" height="40%;">
+						      <img src="${pageContext.request.contextPath}/static/img/shelter/${il.shelterFileName}" class="rounded" style="height: 400px;">
 						    </div>
 					    	 <c:set var="i" value="${i + 1}"/>
 					    </c:forEach>
@@ -144,7 +153,7 @@ $(document).ready(function(){
 						</td>
 					</tr>			                	
                 </table>
-					<a href="${pageContext.request.contextPath}/getShelterList">보호소 리스트</a>
+				
             </div>
 		</div>
 	</div>
@@ -170,7 +179,6 @@ $(document).ready(function(){
                             	<br> 이번달 입양 : ${adopt}
                             	<br> 이번달 안락사 : ${euthanasia}
                             <p>
-                            <a href="${pageContext.request.contextPath}/getAnimalList?shelterId=${shelterMap.shelterId}" class="boxed-btn3">입양하러 가기</a>
                         </div>
                     </div>
                 </div>
@@ -192,9 +200,11 @@ $(document).ready(function(){
 						<div class="service_content text-center">
 							<h3>찾아오는 길</h3>
 							<div class="row">
-								<div id="map" style="width:400px;height:300px;"></div>
+								<div id="map" style="width:100%;height:300px;"></div>
+								<br>
+								<br>
 								<div>
-									도로명 주소 : ${shelterMap.doro}
+									도로명 주소 : <strong>${shelterMap.doro}</strong> 
 								</div>
 							</div>
 									

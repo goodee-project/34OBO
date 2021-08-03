@@ -24,6 +24,7 @@ import com.gd.obo.service.ShelterService;
 import com.gd.obo.service.StaffService;
 import com.gd.obo.vo.Address;
 import com.gd.obo.vo.Shelter;
+import com.gd.obo.vo.ShelterFile;
 import com.gd.obo.vo.ShelterForm;
 import com.gd.obo.vo.Staff;
 
@@ -114,7 +115,7 @@ public class ShelterController {
 		Map<String, Object> animalMap = animalService.getAnimalStateCountByMonth(month, shelterId);
 		
 		//이미지 리스트
-		List<String> imgList = shelterService.getShelterFileListByShelterId(shelterId);
+		List<ShelterFile> imgList = shelterService.getShelterFileListByShelterId(shelterId);
 		if(!imgList.isEmpty()) {
 			model.addAttribute("imgList", imgList);
 		}
@@ -162,7 +163,7 @@ public class ShelterController {
 		Map<String, Object> animalMap = animalService.getAnimalStateCountByMonth(month, shelterId);
 		
 		//이미지 리스트
-		List<String> imgList = shelterService.getShelterFileListByShelterId(shelterId);
+		List<ShelterFile> imgList = shelterService.getShelterFileListByShelterId(shelterId);
 		if(!imgList.isEmpty()) {
 		model.addAttribute("imgList", imgList);
 		}
@@ -191,6 +192,12 @@ public class ShelterController {
 		
 		Map<String, Object> map = shelterService.getShelterOne(shelterId);
 		log.debug("%>%>%>%>%>%>%>%>%> ShelterController-> modifyShelter map: " + map);
+		
+		List<ShelterFile> imgList = shelterService.getShelterFileListByShelterId(shelterId);
+		if(!imgList.isEmpty()) {
+		model.addAttribute("imgList", imgList);
+		}
+		
 		
 		model.addAttribute("shelterId", shelterId);
 		model.addAttribute("map", map);
