@@ -23,7 +23,6 @@
 	<update id="updateShelter" parameterType="com.gd.obo.vo.Shelter">
 		UPDATE shelter
 		SET
-			shelter_name
 			introduction = #{introduction},
 			protect_duration = #{protectDuration},
 			shelter_phone = #{shelterPhone},
@@ -47,7 +46,7 @@
 		SELECT 
 			s.shelter_id shelterId,
 			s.shelter_name shelterName, 
-			s.create_date createDate, 
+			DATE(s.create_date) createDate, 
 			s.shelter_phone shelterPhone,
 			s.account account,
 			s.protect_duration protectDuration,

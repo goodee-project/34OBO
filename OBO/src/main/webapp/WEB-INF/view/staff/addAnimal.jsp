@@ -184,10 +184,17 @@
 								</tr>
 							</table>
 						<br>
+<<<<<<< HEAD
 					<div style="float:right;">
 						<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button" class="genric-btn primary-border radius">뒤로가기</button></a>
 						<input id="addBtn" type="button" value="등록" class="genric-btn primary-border radius">
 					</div>
+=======
+						<div>
+							<input id="addBtn" type="button" class="button button-contactForm boxed-btn" value="등록">
+							<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button" class="button button-contactForm boxed-btn">뒤로가기</button></a>
+						</div>
+>>>>>>> branch 'master' of https://github.com/goodee-project/34OBO.git
 				</form>
 			</div>
 		</div>

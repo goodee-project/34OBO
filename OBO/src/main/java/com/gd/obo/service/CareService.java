@@ -2,6 +2,15 @@
 
 package com.gd.obo.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -228,5 +237,59 @@ public class CareService {
 		returnMap.put("lastPage", lastPage);
 				
 		return returnMap;
+	}
+	
+	public StringBuilder getHoliday(int year, int month){
+		
+		log.debug("■■■■■■■ year-> "+year);	
+		log.debug("■■■■■■■ month-> "+month);
+		
+		// 공휴일 API 가져오기 - 3월은 03월로 넣어줘야 한다.
+		String monthStr = "";
+		if(month<10) {
+			monthStr = "0"+month;
+		} else {
+			monthStr = ""+month;
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		
+		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo"); /*URL*/
+		try {
+			urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=rwG0lK12hHgXoKRTMig2H/GFqq8kEuZkx9/sKQhTJGbLZiBXQjhHa6j24H51978fEcF7zRL/RGngV33o0Ba2sA==");
+			urlBuilder.append("&" + URLEncoder.encode("solYear","UTF-8") + "=" + year); /*연*/
+			urlBuilder.append("&" + URLEncoder.encode("solMonth","UTF-8") + "=" + monthStr); /*월*/
+			urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=json"); /*json*/
+			
+			URL url = new URL(urlBuilder.toString());
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Content-type", "application/json");
+			System.out.println("Response code: " + conn.getResponseCode());
+			BufferedReader rd;
+			if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			} else {
+				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+			}
+			
+			String line;
+			while ((line = rd.readLine()) != null) {
+				sb.append(line);
+			}
+			rd.close();
+			conn.disconnect();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} /*Service Key*/
+		
+		
+	
+		log.debug("●●●●▶ 공휴일-> "+sb);
+		
+
+		return sb;
 	}
 }
