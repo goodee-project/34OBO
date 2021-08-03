@@ -78,12 +78,12 @@
 </head>
 <body>
 	<header>
-		<div class="header-area ">
+		<div class="header-area">		
 			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
-			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>
-
+			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
 			<!-- 흰색 바탕 : 메인 메뉴 -->
 			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
+					
 		</div>
 	</header>
 

@@ -133,7 +133,7 @@ public class AnimalController {
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> getAnimalList map: " + map);
 		model.addAttribute("animalList", map.get("animalList"));
 		model.addAttribute("shelterId", shelterId);
-		model.addAttribute("animalName", searchWord);
+		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("rowPerPage", rowPerPage);
 		model.addAttribute("lastPage", map.get("lastPage"));

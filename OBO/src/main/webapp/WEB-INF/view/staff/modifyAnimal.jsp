@@ -1,6 +1,7 @@
 <!-- 작성자 : 남민정 -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +38,6 @@ $(document).ready(function(){
 	
 	$('#modifyBtn').click(function(){
 		console.log('addBtn 버튼 클릭!');
-		$('#imgFileUpload').remove();
 	   $('#modifyForm').submit();
 		if($('#animalName').val() == '') {
 			alert('동물 이름을 입력해주세요')
@@ -85,12 +85,12 @@ $(document).ready(function(){
 </head>
 <body>
 	<header>
-		<div class="header-area ">
+		<div class="header-area">		
 			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
-			<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
-
+			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
 			<!-- 흰색 바탕 : 메인 메뉴 -->
-			<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
+			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
+					
 		</div>
 	</header>
 
@@ -128,7 +128,9 @@ $(document).ready(function(){
                         <form class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/modifyAnimal" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
 
                          	
-                            	<table>
+                            	<table class="">
+                            		
+                            		<input type="hidden" name="animalFileId" value="${animalMap.animalFileId}">
                             		<input type="hidden" name="animal.animalId" value="${animalId}">
 									<tr>	
 										<td>
@@ -157,10 +159,11 @@ $(document).ready(function(){
 											<select name="animal.animalCategoryId" class="form-control">
 											<option value="">==종 선택==</option>
 												<c:forEach var="a" items="${animalCategoryList}">
-									    			<c:if test="${a.species == species}"> 
+													
+									    			<c:if test="${a.species == animalMap.species}"> 
 									    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
 									    			</c:if>
-									    			<c:if test="${a.species != species}"> 
+									    			<c:if test="${a.species != animalMap.species}"> 
 									    				<option value="${a.animalCategoryId}">${a.species}</option>
 									    			</c:if>
 									    		</c:forEach>
@@ -175,14 +178,14 @@ $(document).ready(function(){
 									<tr>
 										<td>동물 이름</td>
 										<td>
-											<input class="form-control" id="animalName" type="text" name="animal.animalName" placeholder="${animalMap.animalName}">
+											<input class="form-control" id="animalName" type="text" name="animal.animalName" value="${animalMap.animalName}">
 										</td>
 									</tr>
 									<tr>
 										<td>동물 나이(개월)</td>
 										<td>
 											<div>
-												<input class="form-control" id="animalAge" type="text" name="animal.animalAge" placeholder="${animalMap.animalAge}">
+												<input class="form-control" id="animalAge" type="text" name="animal.animalAge" value="${animalMap.animalAge}">
 											</div>
 											
 										</td>
@@ -192,10 +195,10 @@ $(document).ready(function(){
 										<td>
 											<select class="form-control" id="animalSex" name="animal.animalSex">
 												<option value="">==성별 선택==</option>
-							                    <option value="수컷">수컷</option>
-							                    <option value="암컷">암컷</option>
-							                    <option value="수컷(중성화)">수컷(중성화)</option>
-							                    <option value="암컷(중성화)">암컷(중성화)</option>  
+							                    <option value="수컷" ${animalMap.animalSex == "수컷"? 'selected="selected"' : ''}>수컷</option>
+							                    <option value="암컷" ${animalMap.animalSex == "암컷"? 'selected="selected"' : ''}>암컷</option>
+							                    <option value="수컷(중성화)" ${animalMap.animalSex == "수컷(중성화)"? 'selected="selected"' : ''}>수컷(중성화)</option>
+							                    <option value="암컷(중성화)" ${animalMap.animalSex == "암컷(중성화)"? 'selected="selected"' : ''}>암컷(중성화)</option>  
 						                  	</select>
 										</td>
 									</tr>
@@ -203,27 +206,27 @@ $(document).ready(function(){
 										<td>동물 무게</td>
 										<td>
 											<div>
-												<input class="form-control" id="animalWeight" type="text" name="animal.animalWeight" placeholder="${animalMap.animalWeight}">
+												<input class="form-control" id="animalWeight" type="text" name="animal.animalWeight" value="${animalMap.animalWeight}">
 											</div>
 										</td>
 									</tr>
 									<tr>
 										<td>동물 종류</td>
 										<td>
-											<input class="form-control" id="animalKind" type="text" name="animal.animalKind" placeholder="${animalMap.animalKind}">
+											<input class="form-control" id="animalKind" type="text" name="animal.animalKind" value="${animalMap.animalKind}">
 										</td>
 									</tr>
 									<tr>
 										<td>발견한 장소</td>
 										<td>
-											<input class="form-control" id="animalFindPlace" type="text" name="animal.animalFindPlace" placeholder="${animalMap.animalFindPlace}">
+											<input class="form-control" id="animalFindPlace" type="text" name="animal.animalFindPlace" value="${animalMap.animalFindPlace}">
 										</td>
 									</tr>
 									<tr>
 										<td>동물 상세정보(회원 보여줄 노트)</td>
 										<td>
 											<div>
-												<textarea class="form-control" name="animal.animalNote" id="animalNote" rows="5" cols="50" placeholder="${animalMap.animalNote}"></textarea>
+												<textarea class="form-control" name="animal.animalNote" id="animalNote" rows="5" cols="50">${animalMap.animalNote}</textarea>
 											</div>
 										</td>
 									</tr>
@@ -231,11 +234,11 @@ $(document).ready(function(){
 										<td>동물 상태</td>
 										<td>
 						                  	<select class="form-control" id="animalState" name="animal.animalState">
-												<option value="">==상태 선택==</option>
-							                    <option value="보호중">보호중</option>
-							                    <option value="입양">입양</option>
-							                    <option value="안락사">안락사</option>
-							                    <option value="자연사">자연사</option>  
+												<option value="" >==상태 선택==</option>
+							                    <option value="보호중" ${animalMap.animalState == "보호중"? 'selected="selected"' : ''}>보호중</option>
+							                    <option value="입양" ${animalMap.animalState == "입양"? 'selected="selected"' : ''}>입양</option>
+							                    <option value="안락사" ${animalMap.animalState == "안락사"? 'selected="selected"' : ''}>안락사</option>
+							                    <option value="자연사" ${animalMap.animalState == "자연사"? 'selected="selected"' : ''}>자연사</option>  
 						                  	</select>
 										</td>
 									</tr>
@@ -243,7 +246,7 @@ $(document).ready(function(){
 										<td>동물 소개</td>
 										<td>
 											<div>
-												<textarea class="form-control" name="animal.animalIntroduce" id="animalIntroduce" rows="5" cols="50" placeholder="${animalMap.animalIntroduce}"></textarea>
+												<textarea class="form-control" name="animal.animalIntroduce" id="animalIntroduce" rows="5" cols="50">${animalMap.animalIntroduce}</textarea>
 											</div>
 										</td>
 						
@@ -319,7 +322,7 @@ $(document).ready(function(){
    	function setThumbnail(event){ 
    		  		
    		for (var image of event.target.files) {
-   			
+   			$('#image_container').empty();
    			var reader = new FileReader(); 
    			
    			reader.onload = function(event) {
@@ -335,32 +338,12 @@ $(document).ready(function(){
    			reader.readAsDataURL(image); 
    		}
    		
-   		$('#target').prepend('<input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
+   		
    	
    	
    	} 
 </script>
 
-	<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
-	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>
 </body>
 </html>
 </body>
