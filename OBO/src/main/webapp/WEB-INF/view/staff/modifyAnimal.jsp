@@ -85,12 +85,12 @@ $(document).ready(function(){
 </head>
 <body>
 	<header>
-		<div class="header-area">		
+		<div class="header-area ">
 			<!-- 검정 바탕 : 로그인 & 회원 정보 페이지 -->
-			<jsp:include page="/WEB-INF/view/main/inc/myMenu.jsp"></jsp:include>			
+			<jsp:include page="/WEB-INF/view/staff/inc/myMenu.jsp"></jsp:include>
+
 			<!-- 흰색 바탕 : 메인 메뉴 -->
-			<jsp:include page="/WEB-INF/view/main/inc/MainMenu.jsp"></jsp:include>
-					
+			<jsp:include page="/WEB-INF/view/staff/inc/staffMenu.jsp"></jsp:include>
 		</div>
 	</header>
 
@@ -108,61 +108,56 @@ $(document).ready(function(){
             
             
             
-            
-            <!--================Blog Area =================-->
-	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
-	<section class="blog_area single-post-area section-padding">
-		<div class="container">
-			<div class="row">
+   <!-- 내용 -->         
+   <section class="blog_area single-post-area section-padding">
+	<div class="container">
+		<div class="row">
 				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<jsp:include page="/WEB-INF/view/staff/inc/side/shelterMenu.jsp"></jsp:include>
+							<jsp:include page="/WEB-INF/view/staff/inc/side/animalMenu.jsp"></jsp:include>
 						</aside>
 					</div>
 				</div>
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
-						<div class="col-lg-8">
                         <form class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/modifyAnimal" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
 
-                            	<table class="">
+                            	<table class="table">
                             		
                             		<input type="hidden" name="animalFileId" value="${animalMap.animalFileId}">
                             		<input type="hidden" name="animal.animalId" value="${animalId}">
-									<tr>	
+									
+									<table class="table">
+									<tr>
+										<td style="vertical-align:middle;">이미지 등록</td>	
 										<td>
-		                            		<div class="testmonial_area">
-												<div class="row">
-													<c:forEach var="af" items="${animalFileList}">
-													
-														<img src="static/img/animal/${af.animalFileName}" width="300"
-															height="300" alt=""> &nbsp;		
-													</c:forEach>
-												</div>
-												<div style="display: inline;">
-													
-													<label for="imgFileUpload"> <img src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
-													</label> <span id="target"></span> <input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);"
-														multiple="multiple" class="imgCheck" />
-													<div id="image_container" style="display: inline;"></div>
-													<!-- 업로드 된 이미지 미리보기 생성 -->
-												</div>
+											<div class="row">
+												<c:forEach var="af" items="${animalFileList}"> <!-- <-- 이 fileList는 대체 뭔가요...? ㅎㅎ  - 윤정 -->
+													<img src="static/img/animal/${af.animalFileName}" width="300"
+														height="300" alt=""> &nbsp;		
+												</c:forEach>
+											</div>
+											<div style="display: inline;">
+												<label for="imgFileUpload"> <img src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+												</label> <span id="target"></span> <input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);"
+													multiple="multiple" class="imgCheck" />
+												<div id="image_container" style="display: inline;"></div>
+												<!-- 업로드 된 이미지 미리보기 생성 -->
 											</div>
 										</td>	
 									</tr>
 									<tr>
-										<td>동물 종</td>
-										<td>
+										<td width="40%">동물 종</td>
+										<td width="60%">
 											<select name="animal.animalCategoryId" class="form-control">
 											<option value="">==종 선택==</option>
 												<c:forEach var="a" items="${animalCategoryList}">
-													
-									    			<c:if test="${a.species == animalMap.species}"> 
+									    			<c:if test="${a.species == species}"> 
 									    				<option value="${a.animalCategoryId}" id="animalCategoryId" selected="selected">${a.species}</option>
 									    			</c:if>
-									    			<c:if test="${a.species != animalMap.species}"> 
+									    			<c:if test="${a.species != species}"> 
 									    				<option value="${a.animalCategoryId}">${a.species}</option>
 									    			</c:if>
 									    		</c:forEach>
@@ -190,8 +185,8 @@ $(document).ready(function(){
 										</td>
 									</tr>
 									<tr>
-										<td>동물 성별</td>
-										<td>
+										<td width="40%">동물 성별</td>
+										<td width="60%">
 											<select class="form-control" id="animalSex" name="animal.animalSex">
 												<option value="">==성별 선택==</option>
 							                    <option value="수컷" ${animalMap.animalSex == "수컷"? 'selected="selected"' : ''}>수컷</option>
@@ -230,8 +225,8 @@ $(document).ready(function(){
 										</td>
 									</tr>
 									<tr>
-										<td>동물 상태</td>
-										<td>
+										<td width="40%">동물 상태</td>
+										<td width="60%">
 						                  	<select class="form-control" id="animalState" name="animal.animalState">
 												<option value="" >==상태 선택==</option>
 							                    <option value="보호중" ${animalMap.animalState == "보호중"? 'selected="selected"' : ''}>보호중</option>
@@ -265,19 +260,19 @@ $(document).ready(function(){
                                		</tr>	 
                              	-->
 								</table>
-                            </div>
-                            <div class="form-group mt-3">
-								<button type="button" id="modifyBtn" class="button button-contactForm boxed-btn">등록</button>
-								<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button" class="button button-contactForm boxed-btn">뒤로가기</button></a>
+                            
+                            <div style="float:right;">
+								<input id="modifyBtn" type="button" value="등록" class="genric-btn primary-border radius">
+								<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button" class="genric-btn primary-border radius">뒤로가기</button></a>
 							</div>
 								
                         </form>
-                    </div>	
-				
-						</div>
+              			</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		
 	</section>
 
 	

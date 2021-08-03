@@ -76,7 +76,7 @@
 									<td style="vertical-align:middle;">이미지 등록</td>	
 									<td>
 										<div class="row">
-											<c:forEach var="af" items="${animalFileList}"> <!-- <-- 이 fileList는 대체 뭔가요...? - 윤정 -->
+											<c:forEach var="af" items="${animalFileList}"> <!-- <-- 이 fileList는 대체 뭔가요...? ㅎㅎ  - 윤정 -->
 												<img src="static/img/animal/${af.animalFileName}" width="300"
 													height="300" alt=""> &nbsp;		
 											</c:forEach>
@@ -192,8 +192,8 @@
 			</div>
 		</div>
 	</div>
-	</div>
-	</div>
+</div>
+</div>
 		
 </section>	
 

@@ -31,7 +31,6 @@
 <link rel="stylesheet" href="../static/css/slicknav.css">
 <link rel="stylesheet" href="../static/css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
-
 <script>
 $(document).ready(function(){	
 	
@@ -83,65 +82,57 @@ $(document).ready(function(){
 		</div>
 	</div>
 
-	       <!--================Blog Area =================-->
-	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
+	       
+	
 	<section class="blog_area single-post-area section-padding">
-		<div class="container">
-			<div class="row">
+	<div class="container">
+		<div class="row">
 				<div class="col-lg-3">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget post_category_widget category_setting">
-							<jsp:include page="/WEB-INF/view/staff/inc/side/shelterMenu.jsp"></jsp:include>
+							<jsp:include page="/WEB-INF/view/staff/inc/side/animalMenu.jsp"></jsp:include>
 						</aside>
 					</div>
 				</div>
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
-						<div class="col-lg-8">
                         <form class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/modifyShelter" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
                          	
                          	<table class="table">
 	                         	
 	                         	<input type="hidden" name="shelter.shelterId" value="${shelterId}">
 	                			<tr>	
+	                				<td style="vertical-align:middle;">이미지 등록</td>	
 									<td>
-	                            		<div class="testmonial_area">
 											<div class="row">
-												<c:forEach var="af" items="${animalFileList}">
-												
-													<img src="static/img/animal/${af.animalFileName}" width="300"
+												<c:forEach var="af" items="${shelterFileList}">
+													<img src="static/img/shelter/${af.shelterFileName}" width="300"
 														height="300" alt=""> &nbsp;		
 												</c:forEach>
 											</div>
 											<div style="display: inline;">
-												
-												<label for="imgFileUpload"> <img
-													src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
-												</label> <span id="target"></span> <input id="imgFileUpload"
-													name="shelterFile" type="file" style="display: none;"
+												<label for="imgFileUpload"> <img src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+												</label> <span id="target"></span> <input id="imgFileUpload" name="shelterFile" type="file" style="display: none;"
 													accept="image/*" onchange="setThumbnail(event);"
 													multiple="multiple" class="imgCheck" />
 												<div id="image_container" style="display: inline;"></div>
 												<!-- 업로드 된 이미지 미리보기 생성 -->
 											</div>
-										</div>
 									</td>	
 								</tr>
-	                           <tr>
-									<td>보호소 이름</td> <!-- 보호소 이름 수정x -->
-									<td>
+	                          	<tr>
+									<td >보호소 이름</td> <!-- 보호소 이름 수정x -->
+									<td >
 										<input class="form-control" id="shelterName" type="text" name="shelter.shelterName" value="${shelterMap.shelterName}" readonly="readonly">
 									</td>
 								</tr>
 								<tr>
 									<td>보호소 소개</td>
 	         						<td>   	
-		         						<div class="col-12">
-		                                    <div class="form-group">
-		                                        <textarea class="form-control w-100" name="shelter.introduction" id="introduction" cols="30" rows="9">${shelterMap.introduction}</textarea>
-		                                    </div>
-		                                </div>
+	         							<div>
+		                                   	<textarea class="form-control" name="shelter.introduction" id="introduction" rows="5" cols="50">${shelterMap.introduction}</textarea>
+		                              	</div>
 		                            </td>    
 	                            </tr>    
 	                            <tr>
@@ -173,15 +164,15 @@ $(document).ready(function(){
 								</tr>
 								
 								<tr>
-									<td>활동</td> <!-- 1로 해놓고 0을 선택하게 만들기 -->
-									<td>
-										<p>0은 비활성화, 1은 활성화</p>
+									<td width="40%">활동</td> <!-- 1로 해놓고 0을 선택하게 만들기 -->
+									<td width="60%">
 										<div>
 											
 											<select class="form-control" id="active" name="shelter.active" >
 							                    <option value="0">0</option>
 							                    <option value="1" selected="selected">1</option>           					                   
 							            </select>
+							            <p>0은 비활성화, 1은 활성화</p>
 										</div>
 										
 									</td>
@@ -190,10 +181,10 @@ $(document).ready(function(){
 	                                    
 	                      	</table>
 	                
-	                      <div class="form-group mt-3">
-								<button type="button" id="modifyBtn" class="button button-contactForm boxed-btn">등록</button>
-								<a href="${pageContext.request.contextPath}/staff/shelterIntro"><button type="button" class="button button-contactForm boxed-btn">뒤로가기</button></a>
-							</div>
+	                      <div style="float:right;">				
+								<a href="${pageContext.request.contextPath}/staff/shelterIntro"><button type="button" class="genric-btn primary-border radius">뒤로가기</button></a>
+								<input id="modifyBtn" type="button" value="등록" class="genric-btn primary-border radius">
+						  </div>
                         </form>
                     </div>	
 				
@@ -201,42 +192,38 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
+		</div>	
 	</section>
-
-	<!--================Blog Area =================-->
-
-
-	<!-- footer_start  -->
-	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
-	<!-- footer_end  -->	
 	
-	<!-- JS here -->
-	<script src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.12.4.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/vendor/modernizr-3.5.0.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/popper.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/owl.carousel.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/isotope.pkgd.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/ajax-form.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/waypoints.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/jquery.counterup.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/imagesloaded.pkgd.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/scrollIt.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/jquery.scrollUp.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/wow.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/nice-select.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/jquery.slicknav.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/jquery.magnific-popup.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/plugins.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/gijgo.min.js"></script>
 	
-	<!--contact js-->
-	<script src="${pageContext.request.contextPath}/static/js/contact.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/jquery.ajaxchimp.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/jquery.form.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/jquery.validate.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/mail-script.js"></script>
-	<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+
+<!-- JS here -->
+<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="../static/js/popper.min.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/owl.carousel.min.js"></script>
+<script src="../static/js/isotope.pkgd.min.js"></script>
+<script src="../static/js/ajax-form.js"></script>
+<script src="../static/js/waypoints.min.js"></script>
+<script src="../static/js/jquery.counterup.min.js"></script>
+<script src="../static/js/imagesloaded.pkgd.min.js"></script>
+<script src="../static/js/scrollIt.js"></script>
+<script src="../static/js/jquery.scrollUp.min.js"></script>
+<script src="../static/js/wow.min.js"></script>
+<script src="../static/js/nice-select.min.js"></script>
+<script src="../static/js/jquery.slicknav.min.js"></script>
+<script src="../static/js/jquery.magnific-popup.min.js"></script>
+<script src="../static/js/plugins.js"></script>
+<script src="../static/js/gijgo.min.js"></script>
+
+<!--contact js-->
+<script src="../static/js/contact.js"></script>
+<script src="../static/js/jquery.ajaxchimp.min.js"></script>
+<script src="../static/js/jquery.form.js"></script>
+<script src="../static/js/jquery.validate.min.js"></script>
+<script src="../static/js/mail-script.js"></script>
+<script src="../static/js/main.js"></script>
 	
 	
 <script> 
