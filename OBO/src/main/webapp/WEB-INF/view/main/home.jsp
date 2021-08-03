@@ -247,7 +247,7 @@
 			const DATA_COUNT = 5;
 			const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100};
 			*/
-			const color = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(102, 204, 153)', 'rgb(255, 153, 102)', 'rgb(255, 153, 102)']
+			const color = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(102, 204, 153)', 'rgb(255, 153, 102)', 'rgb(153, 153, 204)']
 
 			const data = {
 			  labels: species,
