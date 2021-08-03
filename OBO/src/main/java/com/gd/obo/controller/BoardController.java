@@ -50,7 +50,7 @@ public class BoardController {
 		return "redirect:/getBoardOne?boardId="+boardForm.getBoard().getBoardId();
 	}
 	
-	@GetMapping("/modifyBoard")
+	@GetMapping("/member/modifyBoard")
 	public String modifyBoard(Model model,
 								@RequestParam(value="boardId", required = true) int boardId) {
 		log.debug("@@@@@ boardId :"+boardId);
@@ -74,7 +74,7 @@ public class BoardController {
 		boardForm.getBoard().setMemberId(memberId);
 		log.debug("@@@@@ boardForm: "+boardForm);
 		boardService.addBoard(boardForm);
-		return "redirect:/getBoardOne?boardId="+boardForm.getBoard().getBoardId();
+		return "redirect:/member/getBoardOne?boardId="+boardForm.getBoard().getBoardId();
 	}
 	
 	// board 추가 폼
@@ -91,7 +91,7 @@ public class BoardController {
 	}
 	
 	// board 상세보기
-	@GetMapping("/getBoardOne")
+	@GetMapping("/member/getBoardOne")
 	public String getBoardOne(Model model,
 								@RequestParam(name="boardId", required=true)int boardId) {
 		Map<String, Object> map = boardService.getBoardOne(boardId);
