@@ -164,12 +164,16 @@ public class CareRestapi {
 	}
 	
 	@GetMapping("/member/getCarePlanListByMemberId")
-	public List<Map<String, Object>> getCarePlanListByMemberId(HttpSession session,
+	public Map<String, Object> getCarePlanListByMemberId(HttpSession session,
 													@RequestParam(value = "year", defaultValue = "0")int year,
 													@RequestParam(value = "month", defaultValue = "0")int month){
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+
 		
-		return careService.getCarePlanListByMemberId(year, month, memberId);
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", careService.getCarePlanListByMemberId(year, month, memberId));
+		map.put("holiday", careService.getHoliday(year, month));
+		return map;
 	}
 	
 	@GetMapping("/member/getCareListByMemberId")
