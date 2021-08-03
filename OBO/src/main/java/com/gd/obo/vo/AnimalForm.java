@@ -9,5 +9,6 @@ import lombok.Data;
 @Data
 public class AnimalForm {
 	private Animal animal;
-	private List<MultipartFile> animalFile;
+	private int animalFileId;
+	private MultipartFile animalFile;
 }

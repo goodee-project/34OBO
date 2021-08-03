@@ -95,10 +95,10 @@ public class AnimalService {
 		map.put("animalFileList", animalFileList);
 		
 		// File 불러오기
-		List<MultipartFile> list = animalForm.getAnimalFile();
+		MultipartFile list = animalForm.getAnimalFile();
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal list: " + list);
 		if(list != null) {
-			for(MultipartFile f : list) {
+				
 				AnimalFile animalFile = new AnimalFile();
 				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal animalFile: " + animalFile);
 				animalFile.setAnimalId(animal.getAnimalId());
@@ -109,20 +109,21 @@ public class AnimalService {
 				String filename = prename;
 				animalFile.setAnimalFileName(filename); // 중복으로 인해 덮어쓰기 가능
 				animalFile.setAnimalId(animal.getAnimalId());
-				animalFile.setAnimalFileSize(f.getSize());
-				animalFile.setAnimalFileExt(f.getContentType());
+				animalFile.setAnimalFileSize(list.getSize());
+				animalFile.setAnimalFileExt(list.getContentType());
+				animalFile.setAnimalFileId(animalForm.getAnimalFileId());
 				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal filename: " + filename);
 				
-				animalFileMapper.insertAnimalFile(animalFile);
+				animalFileMapper.updateAnimalFile(animalFile);
 				
 				try {
 					File temp = new File(""); // 프로젝트 폴더에 빈파일이 만들어진다.
 					String path = temp.getAbsolutePath(); // 프로젝트필드
-					f.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\animal\\"+filename));
+					list.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\animal\\"+filename));
 				} catch (Exception e) {
 					throw new RuntimeException();
 				}
-			}			
+						
 		}
 		return animal.getAnimalId();
 	}
@@ -141,10 +142,9 @@ public class AnimalService {
 		animalMapper.insertAnimal(animal);
 	
 		// File 불러오기
-		List<MultipartFile> list = animalForm.getAnimalFile();
+		MultipartFile list = animalForm.getAnimalFile();
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal list: " + list);
 		if(list != null) {
-			for(MultipartFile f : list) {
 				AnimalFile animalFile = new AnimalFile();
 				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal animalFile: " + animalFile);
 				animalFile.setAnimalId(animal.getAnimalId());
@@ -155,8 +155,8 @@ public class AnimalService {
 				String filename = prename;
 				animalFile.setAnimalFileName(filename); // 중복으로 인해 덮어쓰기 가능
 				animalFile.setAnimalId(animal.getAnimalId());
-				animalFile.setAnimalFileSize(f.getSize());
-				animalFile.setAnimalFileExt(f.getContentType());
+				animalFile.setAnimalFileSize(list.getSize());
+				animalFile.setAnimalFileExt(list.getContentType());
 				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal filename: " + filename);
 				
 				animalFileMapper.insertAnimalFile(animalFile);
@@ -164,11 +164,10 @@ public class AnimalService {
 				try {
 					File temp = new File(""); // 프로젝트 폴더에 빈파일이 만들어진다.
 					String path = temp.getAbsolutePath(); // 프로젝트필드
-					f.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\animal\\"+filename));
+					list.transferTo(new File(path+"\\src\\main\\webapp\\static\\img\\animal\\"+filename));
 				} catch (Exception e) {
 					throw new RuntimeException();
-				}
-			}			
+				}			
 		}
 	}
 		

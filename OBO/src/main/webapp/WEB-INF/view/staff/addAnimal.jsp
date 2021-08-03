@@ -184,17 +184,10 @@
 								</tr>
 							</table>
 						<br>
-<<<<<<< HEAD
 					<div style="float:right;">
 						<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button" class="genric-btn primary-border radius">뒤로가기</button></a>
 						<input id="addBtn" type="button" value="등록" class="genric-btn primary-border radius">
 					</div>
-=======
-						<div>
-							<input id="addBtn" type="button" class="button button-contactForm boxed-btn" value="등록">
-							<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button" class="button button-contactForm boxed-btn">뒤로가기</button></a>
-						</div>
->>>>>>> branch 'master' of https://github.com/goodee-project/34OBO.git
 				</form>
 			</div>
 		</div>
@@ -240,9 +233,10 @@
 <script> 
 
        function setThumbnail(event){ 
-
+			$('#image_container').empty();
+    	   
            for (var image of event.target.files) {
-
+				
                var reader = new FileReader(); 
 
                reader.onload = function(event) {
@@ -258,14 +252,11 @@
                reader.readAsDataURL(image); 
            }
 
-        $('#target').prepend('<input id="imgFileUpload" name="animalFile" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
-
 
        } 
     $(document).ready(function() {
             $('#addBtn').click(function() {
                 console.log('btn click...');
-                $('#imgFileUpload').remove();
                $('#addAnimal').submit();
             });
      });
@@ -273,25 +264,5 @@
 
 
 
-<script>
-	$('#datepicker').datepicker({
-		iconsLibrary: 'fontawesome',
-		disableDaysOfWeek: [0, 0],
-		//icons: {
-		//rightIcon: '<span class="fa fa-caret-down"></span>'
-		//}
-	});
-	
-	$('#datepicker2').datepicker({
-		iconsLibrary: 'fontawesome',
-		icons: {
-			rightIcon: '<span class="fa fa-caret-down"></span>'
-		}
-	});
-	
-	var timepicker = $('#timepicker').timepicker({
-		format: 'HH.MM'
-	});
-</script>
 </body>
 </html>

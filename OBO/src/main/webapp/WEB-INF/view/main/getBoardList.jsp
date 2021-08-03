@@ -39,6 +39,20 @@
 			 $('#boardForm').submit();
 		});
 	});
+function addBoard(loginMember){
+	if(loginMember==null || loginMember==''){
+		alert('로그인 후 이용 가능합니다.');
+	} else {
+		window.location.href='<c:url value="/member/addBoard"/>';
+	}
+}
+function getBoardOne(loginMember, boardId){
+	if(loginMember==null || loginMember==''){
+		alert('로그인 후 이용 가능합니다.');
+	} else {
+		window.location.href='<c:url value="/member/getBoardOne?boardId='+boardId+'"/>';
+	}
+}
 </script>
 </head>
 <body>
@@ -80,16 +94,18 @@
 						<c:forEach var="b" items="${boardList}">
 							<tr>
 								<td>${b.boardId}</td>
-								<td><a href="${pageContext.request.contextPath}/getBoardOne?boardId=${b.boardId}">${b.boardTitle}</a></td>
+								<td><a data-parameter1="${loginMember.memberId}" data-parameter2="${b.boardId}"
+									onclick="getBoardOne(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'))">${b.boardTitle}</a></td>
 								<td>${b.species}</td>
 								<td>${b.memberId}</td>
-								<td>${b.boardCategoryName }</td>
+								<td>${b.boardCategoryName}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
                 </table>
                 </div>
-                <div class="text-right"><a href="${pageContext.request.contextPath}/member/addBoard" type="button" class="genric-btn primary-border circle arrow medium">글작성</a></div>
+                <div class="text-right"><a type="button" class="genric-btn primary-border circle arrow medium"
+                data-parameter1="${loginMember.memberId}" onclick="addBoard(this.getAttribute('data-parameter1'))">글작성</a></div>
                 <!-- 페이징 -->
 				<div class="blog_left_sidebar">
 					<nav class="blog-pagination justify-content-center d-flex">
