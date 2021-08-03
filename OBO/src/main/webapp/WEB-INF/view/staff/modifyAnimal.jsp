@@ -128,6 +128,7 @@ $(document).ready(function(){
                             		
                             		<input type="hidden" name="animalFileId" value="${animalMap.animalFileId}">
                             		<input type="hidden" name="animal.animalId" value="${animalId}">
+                            		<input type="hidden" name="animal.shelterId" value="${shelterId}">
 									
 									<table class="table">
 									<tr>
@@ -162,11 +163,6 @@ $(document).ready(function(){
 									    			</c:if>
 									    		</c:forEach>
 											</select>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input class="form-control" id="shelterId" type="text" name="animal.shelterId" hidden="hidden" value="${shelterId}">
 										</td>
 									</tr>
 									<tr>
