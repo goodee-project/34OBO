@@ -56,7 +56,6 @@
 		FROM shelter s
 		JOIN address a
 		ON s.address_id = a.address_id
-		GROUP BY s.shelter_id
 		<where>
 			<if test="shelterName != null">
 				AND s.shelter_name LIKE CONCAT('%',#{shelterName},'%')

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.obo.service.AnimalService;
 import com.gd.obo.service.BoardService;
+import com.gd.obo.vo.Board;
 import com.gd.obo.vo.BoardForm;
 import com.gd.obo.vo.Member;
 
@@ -68,7 +69,9 @@ public class BoardController {
 	
 	// board 추가 액션
 	@PostMapping("/addBoard")
-	public String addBoard(BoardForm boardForm) {
+	public String addBoard(BoardForm boardForm, HttpSession session) {
+		String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+		boardForm.getBoard().setMemberId(memberId);
 		log.debug("@@@@@ boardForm: "+boardForm);
 		boardService.addBoard(boardForm);
 		return "redirect:/getBoardOne?boardId="+boardForm.getBoard().getBoardId();

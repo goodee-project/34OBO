@@ -64,7 +64,7 @@
 	</div>
 	<div class="pet_care_area">
         <div class="container">
-          <div class="text-right"><a href="${pageContext.request.contextPath}/getBoardList">[전체보기]</a></div>
+          <div><a href="${pageContext.request.contextPath}/getBoardList">[전체보기]</a></div>
             <div class="row align-items-center">           
                <table class="table table-hover text-center">
                 	<thead>
@@ -88,37 +88,70 @@
 						</c:forEach>
 					</tbody>
                 </table>
-                <form id="boardForm" action="${pageContext.request.contextPath}/getBoardList" method="get">
-					<label for="species">종(species) : </label>
-					<select name="species">
-						<option value="">종 선택</option>
-							<c:forEach var="a" items="${animalCategoryList}">
-				    			<c:if test="${a.species == species}"> 
-				    				<option value="${a.species}" selected="selected">${a.species}</option>
-				    			</c:if>
-				    			<c:if test="${a.species != species}"> 
-				    				<option value="${a.species}">${a.species}</option>
-				    			</c:if>
-				    		</c:forEach>
-					</select>
-					검색어(board) : <input name="boardTitle" type="text">
-					<button id="btn" type="button">검색</button>
+                </div>
+                <div class="text-right"><a href="${pageContext.request.contextPath}/member/addBoard" type="button" class="genric-btn primary-border circle arrow medium">글작성</a></div>
+                <!-- 페이징 -->
+				<div class="blog_left_sidebar">
+					<nav class="blog-pagination justify-content-center d-flex">
+						<ul class="pagination">
+						<!-- 이전 페이지 -->
+						<c:if test="${currentPage-1 >0}">
+							<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage-1}&boardName=${boardName}" 
+							class="page-link" aria-label="Previous"> <i class="ti-angle-left"></i></a></li>
+							<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage-1}&boardName=${boardName}" 
+							class="page-link">${currentPage-1}
+							</a></li>
+						</c:if>
+						<c:if test="${currentPage-1 <= 0}">
+						</c:if>
+						<!-- /이전 페이지 -->
+						<!-- 현재 페이지 -->
+							<li class="page-item active"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage}&boardName=${boardName}" 
+							class="page-link">${currentPage}
+							</a></li>
+						<!-- /현재 페이지 -->
+						<!-- 다음 페이지 -->
+						<c:if test="${currentPage+1 <= lastPage}">
+							<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage+1}&boardName=${boardName}" 
+							class="page-link" aria-label="Next"> ${currentPage+1}
+							</a></li>
+							<li class="page-item"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage+1}&boardName=${boardName}" 
+							class="page-link" aria-label="Next"> <i class="ti-angle-right"></i>
+							</a></li>
+						</c:if>
+						<!-- /다음 페이지 -->
+						</ul>
+					</nav>
+					<hr>
+				</div>
+				<!-- /페이징 -->
+                <!-- 검색 -->
+				<div class="default-select" id="default-select">
+				</div>
+				<form action="${pageContext.request.contextPath}/getBoardList" id="boardForm">
+				<div class="form-group">
+					<div class="input-group mb-4">
+					    <div class="list">
+							<select name="species">
+								<option value="">종 선택</option>
+								<c:forEach var="a" items="${animalCategoryList}">
+					    			<c:if test="${a.species == species}"> 
+					    				<option value="${a.species}" selected="selected">${a.species}</option>
+					    			</c:if>
+					    			<c:if test="${a.species != species}"> 
+					    				<option value="${a.species}">${a.species}</option>
+					    			</c:if>
+				    			</c:forEach>
+							</select>
+            			</div>
+						<input type="text" id="sName" class="form-control" placeholder=' 제목을 검색하세요.' onfocus="this.placeholder = ''" onblur="this.placeholder = '제목을 검색하세요.'" name="boardTitle">
+						<button id="btn" class="btn" type="button"><i class="fa fa-search"></i></button>
+					</div>
+				</div>
 				</form>
-            </div>
-         <div class="text-right"><a href="${pageContext.request.contextPath}/member/addBoard?memberId=sunyou">게시판추가</a></div>
-        </div>
+			<!-- /검색 -->
+			</div>
     </div>
-    
-
-
-			
-	<c:if test="${currentPage > 1}">
-		<li class="previous"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage-1}&boardName=${boardName}">이전</a></li>
-	</c:if>
-	<c:if test="${currentPage < lastPage}">
-		<li class="next"><a href="${pageContext.request.contextPath}/getBoardList?currentPage=${currentPage+1}&boardName=${boardName}">다음</a></li>
-	</c:if>	
-
 
 	<!-- footer_start  -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"></jsp:include>
