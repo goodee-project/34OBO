@@ -170,6 +170,7 @@
 		    a.animal_exit_date animalExitDate,
 		    a.animal_introduce animalIntroduce,
 		    a.animal_state animalState,
+		    af.animal_file_id animalFileId,
 		    af.animal_file_name animalFileName,
 		    s.shelter_name shelterName,
 		    s.protect_duration duration

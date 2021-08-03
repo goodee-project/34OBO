@@ -116,39 +116,39 @@ $(document).ready(function(){
 
          						<div class="col-12">
                                     <div class="form-group"> <!-- 보호소 이름 수정x -->
-                                        <input class="form-control" name="shelter.shelterName" id="shelterName" type="text" placeholder="${shelterMap.shelterName}" readonly="readonly">
+                                        <input class="form-control" name="shelter.shelterName" id="shelterName" type="text" value="${shelterMap.shelterName}" readonly="readonly"> 
                                     </div>
                                 </div>
                              	
          						<div class="col-12">
                                     <div class="form-group">
-                                        <textarea class="form-control w-100" name="shelter.introduction" id="introduction" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = '소개'" placeholder="${shelterMap.introduction}"></textarea>
+                                        <textarea class="form-control w-100" name="shelter.introduction" id="introduction" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = '소개'">${shelterMap.introduction}</textarea>
                                     </div>
                                 </div>
                                 
          						<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="shelter.protectDuration" id="protectDuration" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '보호기간'" placeholder="${shelterMap.protectDuration}">
+                                        <input class="form-control" name="shelter.protectDuration" id="protectDuration" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '보호기간'" value="${shelterMap.protectDuration}">
                                     </div>
                                 </div>
                              	
                              	<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="shelter.shelterPhone" id="shelterPhone" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '번호'" placeholder="${shelterMap.shelterPhone}">
+                                        <input class="form-control" name="shelter.shelterPhone" id="shelterPhone" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '번호'" value="${shelterMap.shelterPhone}">
                                     </div>
                                 </div>
                              	
                              	<div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="shelter.account" id="account" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '계좌'" placeholder="${shelterMap.account}">
+                                        <input class="form-control" name="shelter.account" id="account" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '계좌'" value="${shelterMap.account}">
                                     </div>
                                 </div>
                              	
                               	<!-- 1로 해놓고 0을 선택하게 만들기 -->
-`								<div>
+								<div>
 									<select class="form-control" id="active" name="shelter.active" >
-							                    <option value="0">0</option>
-							                    <option value="1" selected="selected">1</option>           					                   
+						                    <option value="0">0</option>
+						                    <option value="1" selected="selected">1</option>           					                   
 						            </select>
 								</div>
                                 

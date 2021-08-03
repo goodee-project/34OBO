@@ -22,4 +22,14 @@
 				NOW()
 			)	
 	</insert>
+	
+	<update id="updateAnimalFile" parameterType="com.gd.obo.vo.AnimalFile">
+		UPDATE animal_file
+		SET 
+			animal_file_name = #{animalFileName},
+			animal_file_size = #{animalFileSize},
+			animal_file_ext = #{animalFileExt},
+			animal_file_date = NOW()
+		WHERE animal_file_id = #{animalFileId}
+	</update>
 </mapper>
