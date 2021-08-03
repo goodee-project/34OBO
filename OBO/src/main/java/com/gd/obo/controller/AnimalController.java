@@ -206,18 +206,6 @@ public class AnimalController {
 		return "main/getAnimalOne";
 	}
 	
-	//회원 동물 좋아요
-	@GetMapping("/addAnimalLike")
-	public String addAnimalLike(HttpSession session, @RequestParam(value = "animalId", required = true) int animalId,
-												@RequestParam(value = "searchWord", required =  false) String searchWord,
-												@RequestParam(value = "species", required =  false) String species,
-												@RequestParam(value = "shelterId", required = false) int shelterId,
-												@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-												@RequestParam(value = "rowPerPage", defaultValue = "9") int rowPerPage) {
-		String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
-		animalService.addAnimalLike(memberId, animalId);
-		return "redirect:/getAnimalOne?animalId="+animalId+"&currentPage="+currentPage+"&searchWord="+searchWord+"&species="+species+"&shelterId="+shelterId;
-	}
 	
 	//회원 내정보 동물 좋아요 보여주기
 	@GetMapping("/member/getMemberAnimalLike")

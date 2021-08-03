@@ -331,6 +331,17 @@ public class AnimalService {
 		return row;
 	}
 	
+	//회원 동물 좋아요 취소
+	public int removeAnimalLike(String memberId, int animalId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("animalId", animalId);
+		int row = animalMapper.deleteAnimalLike(map);
+		log.debug("===== 동물 좋아요 row:"+row);
+		log.debug("===== 동물 좋아요 동물:"+animalId);
+		return row;
+	}
+	
 	//동물 좋아요 중복 확인
 	public int getAnimalLikeByMember(String memberId, int animalId) {
 		Map<String, Object> map = new HashMap<>();

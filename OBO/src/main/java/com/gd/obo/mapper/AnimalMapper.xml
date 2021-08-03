@@ -278,6 +278,10 @@
 	<insert id="insertAnimalLike" parameterType="java.util.Map">
 		INSERT INTO animal_like(animal_id, member_id, update_date) VALUES (#{animalId}, #{memberId}, NOW())
 	</insert>
+	<!-- 동물 좋아요 취소 -->
+	<delete id="deleteAnimalLike" parameterType="java.util.Map">
+		DELETE FROM animal_like WHERE animal_id=#{animalId} AND member_id=#{memberId}
+	</delete>
 	
 	<!-- 동물 좋아요 중복조회 -->
 	<select id="selectAnimalLikeByMember" resultType="int" parameterType="java.util.Map">
