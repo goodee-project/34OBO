@@ -12,5 +12,5 @@ public class Shelter {
 	private int protectDuration;
 	private String shelterPhone;
 	private String account;
-	private int active;
+	private String active;
 }
