@@ -137,8 +137,11 @@ public class ShelterController {
 	
 	// staff 보호소 소개
 	@GetMapping("/staff/shelterIntro")
-	public String shelterIntro(Model model,
-				@RequestParam(value="shelterId",required= true) int shelterId) {
+	public String shelterIntro(Model model, HttpSession session) {
+		
+		int shelterId = ((Staff)(session.getAttribute("loginStaff"))).getShelterId();
+		log.debug("%>%>%>%>%>%>%>%>%> ShelterController-> shelterIntro shelterId: " + shelterId);
+		
 		Map<String, Object> map = shelterService.getShelterOne(shelterId);
 		log.debug("@@@@@ map: "+map);
 		
@@ -164,6 +167,7 @@ public class ShelterController {
 		model.addAttribute("imgList", imgList);
 		}
 		
+		model.addAttribute("shelterId", shelterId);
 		model.addAttribute("protect", animalMap.get("protect"));
 		model.addAttribute("adopt", animalMap.get("adopt"));
 		model.addAttribute("euthanasia", animalMap.get("euthanasia"));

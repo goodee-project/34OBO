@@ -193,8 +193,8 @@
 						
 						<br>
 						<div>
-							<input id="addBtn" type="button" value="등록">
-							<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button">뒤로가기</button></a>
+							<input id="addBtn" type="button" class="button button-contactForm boxed-btn" value="등록">
+							<a href="${pageContext.request.contextPath}/staff/getAnimalList"><button type="button" class="button button-contactForm boxed-btn">뒤로가기</button></a>
 						</div>
 				</form>
 			</div>

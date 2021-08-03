@@ -35,11 +35,7 @@ $(document).ready(function(){
 	$('#modifyBtn').click(function(){
 		console.log('addBtn 버튼 클릭!');
 		$('#imgFileUpload').remove();
-		if($('#shelterName').val() == '') {
-			alert('보호소 이름을 작성해주세요.')
-			$('#shelterName').focus();
-		}
-		else if($('#introduction').val() == '') {
+		if($('#introduction').val() == '') {
 			alert('보호소 소개를 입력해주세요')
 			$('#introduction').focus();
 		}
@@ -99,20 +95,10 @@ $(document).ready(function(){
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
-						<div class="col-lg-8">
                         <form class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/modifyShelter" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
-
                          	<input type="hidden" name="shelter.shelterId" value="${shelterId}">
                             	<div class="col-12">
-                            	<div class="testmonial_area">
-										<div class="row">
-											<c:forEach var="bf" items="${shelterFileList}">
-											<input hidden="" id="shelterFileId" value="${sf.shelterFileId}">
-												<img src="static/img/shelter/${sf.shelterFileName}" width="300"
-													height="300" alt=""> &nbsp;		
-											</c:forEach>
-										</div>
-									</div>
+                            	
 								<div class="col-lg-3">
 									<h4>사진 추가<span style="color: #7fad39;">*</span></h4>
 								</div>
@@ -129,8 +115,8 @@ $(document).ready(function(){
 								</div>
 
          						<div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="shelter.shelterName" id="shelterName" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '보호소 이름'" placeholder="${shelterMap.shelterName}">
+                                    <div class="form-group"> <!-- 보호소 이름 수정x -->
+                                        <input class="form-control" name="shelter.shelterName" id="shelterName" type="text" placeholder="${shelterMap.shelterName}" readonly="readonly">
                                     </div>
                                 </div>
                              	
@@ -177,7 +163,6 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
-		</div>
 	</section>
 	<!--================Blog Area =================-->
 
