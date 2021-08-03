@@ -99,7 +99,7 @@ $(document).ready(function(){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3>동물 수정</h3>
+					<h3>동물 > 동물 수정</h3>
 				</div>
 			</div>
 		</div>
@@ -127,7 +127,6 @@ $(document).ready(function(){
 						<div class="col-lg-8">
                         <form class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/modifyAnimal" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
 
-                         	
                             	<table class="">
                             		
                             		<input type="hidden" name="animalFileId" value="${animalMap.animalFileId}">
@@ -279,7 +278,6 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
-		</div>
 	</section>
 
 	

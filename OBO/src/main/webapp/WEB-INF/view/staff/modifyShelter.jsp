@@ -14,20 +14,23 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- 부트스트랩 cdn -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<!-- <link rel="manifest" href="site.webmanifest"> -->
+<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+<!-- Place favicon.ico in the root directory -->
 
 <!-- CSS here -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/owl.carousel.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/magnific-popup.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font-awesome.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/themify-icons.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/nice-select.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/flaticon.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/gijgo.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/animate.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/slicknav.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/css/owl.carousel.min.css">
+<link rel="stylesheet" href="../static/css/magnific-popup.css">
+<link rel="stylesheet" href="../static/css/font-awesome.min.css">
+<link rel="stylesheet" href="../static/css/themify-icons.css">
+<link rel="stylesheet" href="../static/css/nice-select.css">
+<link rel="stylesheet" href="../static/css/flaticon.css">
+<link rel="stylesheet" href="../static/css/gijgo.css">
+<link rel="stylesheet" href="../static/css/animate.css">
+<link rel="stylesheet" href="../static/css/slicknav.css">
+<link rel="stylesheet" href="../static/css/style.css">
+<!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
 <script>
 $(document).ready(function(){	
@@ -80,7 +83,7 @@ $(document).ready(function(){
 		</div>
 	</div>
 
-	<!--================Blog Area =================-->
+	       <!--================Blog Area =================-->
 	<!-- 카드형식 필요할 때 : <section class="blog_area section-padding"> -->
 	<section class="blog_area single-post-area section-padding">
 		<div class="container">
@@ -95,67 +98,102 @@ $(document).ready(function(){
 				<div class="col-lg-9 mb-5 mb-lg-0">
 					<div class="single-post">
 						<div class="blog_details">
+						<div class="col-lg-8">
                         <form class="form-contact contact_form" action="${pageContext.request.contextPath}/staff/modifyShelter" method="post" id="modifyForm" enctype="multipart/form-data" novalidate="novalidate">
-                         	<input type="hidden" name="shelter.shelterId" value="${shelterId}">
-                            	<div class="col-12">
-                            	
-								<div class="col-lg-3">
-									<h4>사진 추가<span style="color: #7fad39;">*</span></h4>
-								</div>
-								<div class="col-lg-9" style="display: inline;">
+                         	
+                         	<table class="table">
+	                         	
+	                         	<input type="hidden" name="shelter.shelterId" value="${shelterId}">
+	                			<tr>	
+									<td>
+	                            		<div class="testmonial_area">
+											<div class="row">
+												<c:forEach var="af" items="${animalFileList}">
+												
+													<img src="static/img/animal/${af.animalFileName}" width="300"
+														height="300" alt=""> &nbsp;		
+												</c:forEach>
+											</div>
+											<div style="display: inline;">
+												
+												<label for="imgFileUpload"> <img
+													src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+												</label> <span id="target"></span> <input id="imgFileUpload"
+													name="shelterFile" type="file" style="display: none;"
+													accept="image/*" onchange="setThumbnail(event);"
+													multiple="multiple" class="imgCheck" />
+												<div id="image_container" style="display: inline;"></div>
+												<!-- 업로드 된 이미지 미리보기 생성 -->
+											</div>
+										</div>
+									</td>	
+								</tr>
+	                           <tr>
+									<td>보호소 이름</td> <!-- 보호소 이름 수정x -->
+									<td>
+										<input class="form-control" id="shelterName" type="text" name="shelter.shelterName" value="${shelterMap.shelterName}" readonly="readonly">
+									</td>
+								</tr>
+								<tr>
+									<td>보호소 소개</td>
+	         						<td>   	
+		         						<div class="col-12">
+		                                    <div class="form-group">
+		                                        <textarea class="form-control w-100" name="shelter.introduction" id="introduction" cols="30" rows="9">${shelterMap.introduction}</textarea>
+		                                    </div>
+		                                </div>
+		                            </td>    
+	                            </tr>    
+	                            <tr>
+									<td>보호 기간</td>
+									<td>
+										<div>
+											<input class="form-control" id="protectDuration" type="text" name="shelter.protectDuration" value="${shelterMap.protectDuration}">
+										</div>
+										
+									</td>
+								</tr>
+								<tr>
+									<td>보호소 번호</td>
+									<td>
+										<div>
+											<input class="form-control" id="shelterPhone" type="text" name="shelter.shelterPhone" value="${shelterMap.shelterPhone}">
+										</div>
+										
+									</td>
+								</tr>
+	         					<tr>
+									<td>계좌</td>
+									<td>
+										<div>
+											<input class="form-control" id="account" type="text" name="shelter.account" value="${shelterMap.account}">
+										</div>
+										
+									</td>
+								</tr>
+								
+								<tr>
+									<td>활동</td> <!-- 1로 해놓고 0을 선택하게 만들기 -->
+									<td>
+										<p>0은 비활성화, 1은 활성화</p>
+										<div>
+											
+											<select class="form-control" id="active" name="shelter.active" >
+							                    <option value="0">0</option>
+							                    <option value="1" selected="selected">1</option>           					                   
+							            </select>
+										</div>
+										
+									</td>
+								</tr>	
 
-									<label for="imgFileUpload"> <img
-										src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
-									</label> <span id="target"></span> <input id="imgFileUpload"
-										name="shelterFile" type="file" style="display: none;"
-										accept="image/*" onchange="setThumbnail(event);"
-										multiple="multiple" class="imgCheck" />
-									<div id="image_container" style="display: inline;"></div>
-									<!-- 업로드 된 이미지 미리보기 생성 -->
-								</div>
-
-         						<div class="col-12">
-                                    <div class="form-group"> <!-- 보호소 이름 수정x -->
-                                        <input class="form-control" name="shelter.shelterName" id="shelterName" type="text" value="${shelterMap.shelterName}" readonly="readonly"> 
-                                    </div>
-                                </div>
-                             	
-         						<div class="col-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control w-100" name="shelter.introduction" id="introduction" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = '소개'">${shelterMap.introduction}</textarea>
-                                    </div>
-                                </div>
-                                
-         						<div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="shelter.protectDuration" id="protectDuration" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '보호기간'" value="${shelterMap.protectDuration}">
-                                    </div>
-                                </div>
-                             	
-                             	<div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="shelter.shelterPhone" id="shelterPhone" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '번호'" value="${shelterMap.shelterPhone}">
-                                    </div>
-                                </div>
-                             	
-                             	<div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="shelter.account" id="account" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = '계좌'" value="${shelterMap.account}">
-                                    </div>
-                                </div>
-                             	
-                              	<!-- 1로 해놓고 0을 선택하게 만들기 -->
-								<div>
-									<select class="form-control" id="active" name="shelter.active" >
-						                    <option value="0">0</option>
-						                    <option value="1" selected="selected">1</option>           					                   
-						            </select>
-								</div>
-                                
-                            </div>
-                            <div class="form-group mt-3">
-                                <button type="button" id="modifyBtn" class="button button-contactForm boxed-btn">등록</button>
-                            </div>
+	                                    
+	                      	</table>
+	                
+	                      <div class="form-group mt-3">
+								<button type="button" id="modifyBtn" class="button button-contactForm boxed-btn">등록</button>
+								<a href="${pageContext.request.contextPath}/staff/shelterIntro"><button type="button" class="button button-contactForm boxed-btn">뒤로가기</button></a>
+							</div>
                         </form>
                     </div>	
 				
@@ -164,6 +202,7 @@ $(document).ready(function(){
 				</div>
 			</div>
 	</section>
+
 	<!--================Blog Area =================-->
 
 
