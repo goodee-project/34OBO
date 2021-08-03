@@ -172,7 +172,7 @@
 	</div>
 	
 	<!-- team_area_start  -->
-    <div class="team_area">
+    <div class="team_area" style="padding-bottom: 3%; padding-top: 3%;">
         <div class="container">
             <div class="row justify-content-center ">
                 <div class="col-lg-6 col-md-10">

@@ -63,6 +63,11 @@ $(document).ready(function(){
 	});
 });
 </script>
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
 </head>
 <body>
 	<header>
@@ -112,32 +117,32 @@ $(document).ready(function(){
 										<div class="row">
 											<c:forEach var="i" items="${imgList}">
 												<div class="col-sm-6" id="${i.shelterFileName}">
-													<a href="javascript:void(0);" onclick="modalImg('${i.shelterFileId}', '${i.shelterFileName}')">
+													<a href="javascript:void(0);" data-toggle="tooltip" title="삭제!" onclick="modalImg('${i.shelterFileId}', '${i.shelterFileName}')">
 														<img src="${pageContext.request.contextPath}/static/img/shelter/${i.shelterFileName}" class="col-sm-12" style="height: 150px;" alt=""> &nbsp;		
 													</a>
 												</div>
 												
 											</c:forEach>
 										</div>
-									</td>	
+									</td>
 								</tr>
 	                			<tr>	
 	                				<td style="vertical-align:middle;">이미지 등록</td>	
 									<td>
-											<div class="row">
-												<c:forEach var="af" items="${shelterFileList}">
-													<img src="static/img/shelter/${af.shelterFileName}" width="300"
-														height="300" alt=""> &nbsp;		
-												</c:forEach>
-											</div>
-											<div style="display: inline;">
-												<label for="imgFileUpload"> <img src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
-												</label> <span id="target"></span> <input id="imgFileUpload" name="shelterFile" type="file" style="display: none;"
-													accept="image/*" onchange="setThumbnail(event);"
-													multiple="multiple" class="imgCheck" />
-												<div id="image_container" style="display: inline;"></div>
-												<!-- 업로드 된 이미지 미리보기 생성 -->
-											</div>
+										<div class="row">
+											<c:forEach var="af" items="${shelterFileList}">
+												<img src="static/img/shelter/${af.shelterFileName}" width="300"
+													height="300" alt=""> &nbsp;		
+											</c:forEach>
+										</div>
+										<div style="display: inline;">
+											<label for="imgFileUpload"> <img src="${pageContext.request.contextPath}/static/img/imgUpload.png" />
+											</label> <span id="target"></span> <input id="imgFileUpload" name="shelterFile" type="file" style="display: none;"
+												accept="image/*" onchange="setThumbnail(event);"
+												multiple="multiple" class="imgCheck" />
+											<div id="image_container" style="display: inline;"></div>
+											<!-- 업로드 된 이미지 미리보기 생성 -->
+										</div>
 									</td>	
 								</tr>
 	                          	<tr>

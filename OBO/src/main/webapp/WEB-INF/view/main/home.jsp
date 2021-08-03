@@ -79,7 +79,7 @@
 	<!-- slider_area_end -->
 	
     <!-- team_area_start  -->
-    <div class="team_area" >
+    <div class="team_area" style="margin-bottom: 3px; padding-bottom: 3%;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-10">
@@ -121,7 +121,7 @@
     
     
     <!-- 보호중 동물, 입양안락사 이번달  --> 
-    <div class="adapt_area">
+    <div class="adapt_area" style="padding-top: 2%;">
         <div class="container">
             <div class="row justify-content-between align-items-center">
                 <div class="col-lg-5">
