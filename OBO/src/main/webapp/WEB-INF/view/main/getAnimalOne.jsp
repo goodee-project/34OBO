@@ -207,8 +207,8 @@
 		
 		<div>
 			<a class="float-right"
-			href="${pageContext.request.contextPath}/getAnimalList?currentPage=${currentPage}&searchWord=${searchWord}&species=${species}&shelterId=${shelterId}">
-			<i class="fa fa-undo"></i> 뒤로가기</a>	
+			href="${pageContext.request.contextPath}/getAnimalList">
+			<i class="fa fa-undo"></i> 목록</a>	
 	    </div>
 	</div>
 	</div> 
