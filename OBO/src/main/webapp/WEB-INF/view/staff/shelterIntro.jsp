@@ -59,6 +59,7 @@ $(document).ready(function(){
 	</div>
 
 	<div class="section-top-border container">
+		<p>우리 보호소는</p>
 		<h3 class="mb-30">${shelterMap.shelterName}</h3>
 			<div class="testmonial_area">
 				
@@ -144,7 +145,7 @@ $(document).ready(function(){
 						</td>
 					</tr>			                	
                 </table>
-					<a href="${pageContext.request.contextPath}/getShelterList">보호소 리스트</a>
+				
             </div>
 		</div>
 	</div>
@@ -170,7 +171,6 @@ $(document).ready(function(){
                             	<br> 이번달 입양 : ${adopt}
                             	<br> 이번달 안락사 : ${euthanasia}
                             <p>
-                            <a href="${pageContext.request.contextPath}/getAnimalList?shelterId=${shelterMap.shelterId}" class="boxed-btn3">입양하러 가기</a>
                         </div>
                     </div>
                 </div>

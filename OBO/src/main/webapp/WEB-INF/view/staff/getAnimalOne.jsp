@@ -68,23 +68,15 @@
             
 	<div class="container">
 	    <table class="table">
+	    	<input type="hidden" name="animalId" value="${animalMap.animalId}">
+			<input type="hidden" name="animalCategoryId" value="${animalMap.animalCategoryId}">
+			<input type="hidden" name="shelterId" value="${animalMap.shelterId}">
 	        <tbody>
 	        	<tr>
 	               <td>사진 :</td>
 	               <td><img src="${pageContext.request.contextPath}/static/img/animal/${animalMap.animalFileName}" height="200px" width="200px"></td>
 	           </tr>
-	            <tr>
-	               <td>동물Id :</td>
-	               <td>${animalMap.animalId}</td>
-	              </tr>
-	           <tr>
-	               <td>동물 카테고리Id :</td>
-	               <td>${animalMap.animalCategoryId}</td>
-	           </tr>
-	           <tr>
-	               <td>보호소Id :</td>
-	               <td>${animalMap.shelterId}</td>
-	           </tr>
+	         
 	           <tr>
 	               <td>동물 이름 :</td>
 	               <td>${animalMap.animalName}</td>
@@ -136,12 +128,13 @@
 	           
 			</tbody>   
 		</table>
-		
-		<div>
-			<a href="${pageContext.request.contextPath}/staff/getAnimalList?currentPage=${currentPage}&searchWord=${searchWord}">뒤로가기</a>	
+	
+	     <div style="float:right;">
+			<a href="${pageContext.request.contextPath}/staff/getAnimalList?currentPage=${currentPage}&searchWord=${searchWord}"><button type="button" class="genric-btn primary-border radius">뒤로가기</button></a>
 			<!-- 전체수정 고유번호는 수정 x -->
-   			<a href="${pageContext.request.contextPath}/staff/modifyAnimal?animalId=${animalMap.animalId}">수정</a>
-	    </div>
+			<a href="${pageContext.request.contextPath}/staff/modifyAnimal?animalId=${animalMap.animalId}"><button type="button" class="genric-btn primary-border radius">수정</button></a>
+		 </div>
+	    
 	</div>        
 
 
