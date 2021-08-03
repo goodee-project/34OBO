@@ -44,11 +44,18 @@ public class AnimalController {
 		
 		Map<String, Object> map = animalService.getAnimalOne(animalId);
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalController-> modifyAnimal map: " + map);
+		Map<String,Object> animalMap = (Map<String, Object>)map.get("animalMap");
 		
+	
+		if(animalMap.get("animalFileId") == null) {
+			animalMap.put("animalFileId", 0);
+		}
+		
+		log.debug("gkdjfl;jasfdkljd화거이ㅏ러나ㅣ얼낭하ㅓㅣ마러아ㅣㄴ러ㅣㅏㄴ엄ㄹ"  + animalMap.get("animalFileId"));
 		model.addAttribute("animalId", animalId);
 		model.addAttribute("animalCategoryList", animalCategoryList);
 		model.addAttribute("map", map);
-		model.addAttribute("animalMap", map.get("animalMap"));
+		model.addAttribute("animalMap", animalMap);
 		model.addAttribute("animalFileList", map.get("animalFileList"));
 		model.addAttribute("shelterId", shelterId);
 		

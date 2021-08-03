@@ -98,7 +98,7 @@ public class AnimalService {
 		MultipartFile list = animalForm.getAnimalFile();
 		log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal list: " + list);
 		if(list != null) {
-				
+				int animalFileId = animalForm.getAnimalFileId();
 				AnimalFile animalFile = new AnimalFile();
 				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal animalFile: " + animalFile);
 				animalFile.setAnimalId(animal.getAnimalId());
@@ -111,10 +111,16 @@ public class AnimalService {
 				animalFile.setAnimalId(animal.getAnimalId());
 				animalFile.setAnimalFileSize(list.getSize());
 				animalFile.setAnimalFileExt(list.getContentType());
-				animalFile.setAnimalFileId(animalForm.getAnimalFileId());
+				
 				log.debug("%>%>%>%>%>%>%>%>%> AnimalService-> addAnimal filename: " + filename);
 				
-				animalFileMapper.updateAnimalFile(animalFile);
+				if(animalFileId == 0) {
+					animalFileMapper.insertAnimalFile(animalFile);
+				} else {
+					animalFile.setAnimalFileId(animalFileId);
+					animalFileMapper.updateAnimalFile(animalFile);
+				}
+				
 				
 				try {
 					File temp = new File(""); // 프로젝트 폴더에 빈파일이 만들어진다.
