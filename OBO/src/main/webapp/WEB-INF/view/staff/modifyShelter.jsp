@@ -113,7 +113,7 @@ $(document).ready(function(){
 											<c:forEach var="i" items="${imgList}">
 												<div class="col-sm-6" id="${i.shelterFileName}">
 													<a href="javascript:void(0);" onclick="modalImg('${i.shelterFileId}', '${i.shelterFileName}')">
-														<img src="${pageContext.request.contextPath}/static/img/shelter/${i.shelterFileName}" width="300" height="300" alt=""> &nbsp;		
+														<img src="${pageContext.request.contextPath}/static/img/shelter/${i.shelterFileName}" class="col-sm-12" style="height: 150px;" alt=""> &nbsp;		
 													</a>
 												</div>
 												

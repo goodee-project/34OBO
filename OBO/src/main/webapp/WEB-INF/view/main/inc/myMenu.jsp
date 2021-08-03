@@ -17,9 +17,9 @@
 						<form id="memberLoginForm" method="post">
 							<ul>
 								<li><span style="color:white">ID</span>&nbsp;</li>
-								<li><input id="loginMemberId" name="memberId" type="text" placeholder="아이디"  class="form-control" style="width:150px; height:30px"></li>&emsp;
+								<li><input id="loginMemberId" name="memberId" type="text" value="test2" placeholder="아이디"  class="form-control" style="width:150px; height:30px"></li>&emsp;
 								<li><span style="color:white">PW</span>&nbsp;</li>
-								<li><input id="loginMemberPw" name="memberPw" type="password" placeholder="비밀번호" class="form-control" style="width:150px; height:30px"></li>&emsp;
+								<li><input id="loginMemberPw" name="memberPw" type="password" value="1234" placeholder="비밀번호" class="form-control" style="width:150px; height:30px"></li>&emsp;
 								<li><button type="button" id="memberLoginBtn" class="genric-btn primary-border circle arrow medium">LOGIN</button></li>&emsp;
 								<li><a href="${pageContext.request.contextPath}/addMember">가입</a></li>
 								<li>

@@ -21,7 +21,7 @@ public class AnimalRestapi {
 	@Autowired AnimalService animalService;
 	
 	//쉘터별 보호중인 동물 종 수
-	@GetMapping("/member/getAnimalSpeciesCount")
+	@GetMapping("/getAnimalSpeciesCount")
 	public List<Map<String, Object>> getAnimalSpeciesCount(@RequestParam(value="shelterId", required = false, defaultValue = "0")int shelterId){
 		return animalService.getAnimalSpeciesCount(shelterId);
 	}

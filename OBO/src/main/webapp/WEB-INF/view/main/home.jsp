@@ -233,7 +233,8 @@
 			url: '${pageContext.request.contextPath}/getAnimalSpeciesCount',
 			type: 'get'
 		}).done(function(jsonData){
-			//console.log(jsonData);
+			console.log(jsonData);
+			console.log('되니?');
 			
 			let species = jsonData.map(item => item.species);
 			let cnt = jsonData.map(item => item.cnt);
@@ -287,20 +288,20 @@
 		// 이번년도 달별로 후원금 꺾은선 그래프 그리기
 		var now = new Date();	// 현재 날짜 및 시간
 		var year = now.getFullYear();	// 연도
-		console.log('연도 : ', year);
+		//console.log('연도 : ', year);
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/getFullDonationTotalByMonth',
 			type: 'get',
 			data: {year: year}
 		}).done(function(jsonData){
-			console.log(jsonData);
+			//console.log(jsonData);
 			
 			let month = jsonData.map(item => item.month);
 			let amount = jsonData.map(item => item.amount);
 			
-			console.log(month);
-			console.log(amount);
+			//console.log(month);
+			//console.log(amount);
 			
 			//const DATA_COUNT = 7;
 			//const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
