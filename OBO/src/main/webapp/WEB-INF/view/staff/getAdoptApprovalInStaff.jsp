@@ -260,6 +260,7 @@ $(document).ready(function(){
 			data: {documentId : id},
 			success: function(jsonData){
 				if(jsonData == 0){
+					$('#document').empty();
 					console.log('신청 서류 없음');
 					return;
 				}
@@ -348,6 +349,11 @@ $(document).ready(function(){
 					success: function(json){
 						console.log('care plan 미작성 불러오기');
 						if(json == 0){
+							// 기존 값들 비우기
+							$('#inputTableNon').empty();
+							$('#inputTextNon').empty();
+							$('#hiddenValue').empty();
+							
 							console.log('care plan 미작성 없음~');
 							$('#inputTextNon').text('미작성 carePlan 없음');
 							$('#whichBtn').html(
@@ -426,8 +432,10 @@ $(document).ready(function(){
 		console.log('careInfoId'+careInfoId);
 		console.log('careDate'+careDate);
 		
+		
+		
 		//값 설정
-		$('#careInfoId').val(careInfoId);
+		$('#careInfoId').val(careInfoId); 
 		$('#careDate').val(careDate);
 		
 		

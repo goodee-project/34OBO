@@ -173,13 +173,13 @@
 		<where>
 			b.animal_category_id = ac.animal_category_id
 			AND b.board_category_id=bc.board_category_id 
-			<if test="searchSelect == 'total'">
+			<if test="searchSelect == 'total' and searchWord != null">
 				AND ((b.board_title LIKE CONCAT('%',#{searchWord},'%')) OR (b.member_id LIKE CONCAT('%',#{searchWord},'%')))
 			</if>
-			<if test="searchSelect == 'title'">
+			<if test="searchSelect == 'title' and searchWord != null">
 				AND b.board_title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
-			<if test="searchSelect == 'member'">
+			<if test="searchSelect == 'member' and searchWord != null">
 				AND b.member_id LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 			<if test="boardCategoryId != 0">
@@ -196,13 +196,13 @@
 		<where>
 			b.animal_category_id = ac.animal_category_id
 			AND b.board_category_id=bc.board_category_id 
-			<if test="searchSelect == 'total'">
+			<if test="searchSelect == 'total' and searchWord != null">
 				AND ((b.board_title LIKE CONCAT('%',#{searchWord},'%')) OR (b.member_id LIKE CONCAT('%',#{searchWord},'%')))
 			</if>
-			<if test="searchSelect == 'title'">
+			<if test="searchSelect == 'title' and searchWord != null">
 				AND b.board_title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
-			<if test="searchSelect == 'member'">
+			<if test="searchSelect == 'member' and searchWord != null">
 				AND b.member_id LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 			<if test="boardCategoryId != 0">
