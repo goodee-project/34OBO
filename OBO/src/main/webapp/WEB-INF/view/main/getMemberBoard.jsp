@@ -208,7 +208,7 @@
 		$('#target').text('관심글');
 		$.ajax({
 			type: 'post',
-			url: '${pageContext.request.contextPath}/getBoardLikeByMemberId',
+			url: '${pageContext.request.contextPath}/member/getBoardLikeByMemberId',
 			data: {'memberId': '${memberId}', 'currentPage': page}
 		}).done(function(jsonData){
 			//console.log(jsonData);

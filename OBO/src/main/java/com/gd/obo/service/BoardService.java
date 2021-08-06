@@ -226,13 +226,12 @@ public class BoardService {
 	}
 	
 	// board 리스트
-	public Map<String, Object> getBoardList(int currentPage, int rowPerPage, String searchWord, String searchSelect, String memberId, int boardCategoryId){
+	public Map<String, Object> getBoardList(int currentPage, int rowPerPage, String searchWord, String searchSelect, int boardCategoryId){
 	
 		Map<String, Object> totalMap = new HashMap<>();	
 		totalMap.put("searchWord", searchWord);
 		totalMap.put("searchSelect", searchSelect);
 		totalMap.put("boardCategoryId", boardCategoryId);
-		totalMap.put("memberId", memberId);
 		
 		int boardTotal = boardMapper.selectTotal(totalMap);
 		int lastPage = (int)Math.ceil((double)boardTotal/rowPerPage);
@@ -249,7 +248,6 @@ public class BoardService {
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("searchWord", searchWord);
 		paramMap.put("searchSelect", searchSelect);
-		paramMap.put("memberId", memberId);
 		paramMap.put("boardCategoryId", boardCategoryId);
 		log.debug("@@@@@ paramMap: "+paramMap);
 		

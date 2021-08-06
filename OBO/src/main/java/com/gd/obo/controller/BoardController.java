@@ -111,7 +111,6 @@ public class BoardController {
 			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,			
 			@RequestParam(name="searchWord", required=false) String searchWord,
 			@RequestParam(name="searchSelect", required=false) String searchSelect,
-			@RequestParam(name="memberId", required=false) String memberId,
 			@RequestParam(name="boardCategoryId", required=false, defaultValue = "0") int boardCategoryId) {
 		log.debug("searchWord: "+searchWord);
 		log.debug("searchSelect: "+searchSelect);
@@ -126,13 +125,12 @@ public class BoardController {
 		}
 		
 		
-		Map<String, Object> map = boardService.getBoardList(currentPage, rowPerPage, searchWord, searchSelect, memberId, boardCategoryId);
+		Map<String, Object> map = boardService.getBoardList(currentPage, rowPerPage, searchWord, searchSelect, boardCategoryId);
 		model.addAttribute("boardList", map.get("boardList"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", map.get("lastPage"));
 		model.addAttribute("searchWord",searchWord);
 		model.addAttribute("searchSelect",searchSelect);
-		model.addAttribute("memberId",memberId);
 		log.debug("@@@@@ map: "+map);
 		
 		return "main/getBoardList";
